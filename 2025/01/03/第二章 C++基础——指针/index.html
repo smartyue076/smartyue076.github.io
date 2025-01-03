@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="第二章 C++基础——指针指针是一个变量，其存储的是值的地址，而不是值本身 使用常规变量时，值是指定的量，而地址是派生量，而指针相反 OOP强调的是在运行阶段（而不是编译阶段）进行决策，提供了灵活性，对于内存管理也更加高效 初始化指针12int* ptr_a;double* ptr_b; 初始化时必须指定所指元素类型，因为对所有指针来说其都是代表一个初始地址，但从该初始地址读多少字节则由指针类型判">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C++基础（一）指针">
+<meta property="og:url" content="https://smartyue076.github.io/2025/01/03/%E7%AC%AC%E4%BA%8C%E7%AB%A0%20C++%E5%9F%BA%E7%A1%80%E2%80%94%E2%80%94%E6%8C%87%E9%92%88/index.html">
+<meta property="og:site_name" content="Martin XU的技术博客">
+<meta property="og:description" content="第二章 C++基础——指针指针是一个变量，其存储的是值的地址，而不是值本身 使用常规变量时，值是指定的量，而地址是派生量，而指针相反 OOP强调的是在运行阶段（而不是编译阶段）进行决策，提供了灵活性，对于内存管理也更加高效 初始化指针12int* ptr_a;double* ptr_b; 初始化时必须指定所指元素类型，因为对所有指针来说其都是代表一个初始地址，但从该初始地址读多少字节则由指针类型判">
+<meta property="og:locale">
+<meta property="og:image" content="https://smartyue076.github.io/images/1.png">
+<meta property="article:published_time" content="2025-01-03T04:10:45.868Z">
+<meta property="article:modified_time" content="2025-01-03T04:10:45.869Z">
+<meta property="article:author" content="Martin XU">
+<meta property="article:tag" content="C++">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://smartyue076.github.io/images/1.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>C++基础（一）指针</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-86660611-1"></script>
+  <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'UA-86660611-1');
+  </script>
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/tags/">Tag</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/smartyue076">Projects</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="Previous post" href="/2025/01/03/%E7%AC%AC%E4%BA%94%E7%AB%A0%20%E6%A8%A1%E7%89%88/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/2025/01/03/%E7%AC%AC%E4%B8%89%E7%AB%A0%20%E5%AD%97%E7%AC%A6%E4%B8%B2%E3%80%81%E5%90%91%E9%87%8F%E5%92%8C%E6%95%B0%E7%BB%84/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://smartyue076.github.io/2025/01/03/%E7%AC%AC%E4%BA%8C%E7%AB%A0%20C++%E5%9F%BA%E7%A1%80%E2%80%94%E2%80%94%E6%8C%87%E9%92%88/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://smartyue076.github.io/2025/01/03/%E7%AC%AC%E4%BA%8C%E7%AB%A0%20C++%E5%9F%BA%E7%A1%80%E2%80%94%E2%80%94%E6%8C%87%E9%92%88/&text=C++基础（一）指针"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://smartyue076.github.io/2025/01/03/%E7%AC%AC%E4%BA%8C%E7%AB%A0%20C++%E5%9F%BA%E7%A1%80%E2%80%94%E2%80%94%E6%8C%87%E9%92%88/&title=C++基础（一）指针"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://smartyue076.github.io/2025/01/03/%E7%AC%AC%E4%BA%8C%E7%AB%A0%20C++%E5%9F%BA%E7%A1%80%E2%80%94%E2%80%94%E6%8C%87%E9%92%88/&is_video=false&description=C++基础（一）指针"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=C++基础（一）指针&body=Check out this article: https://smartyue076.github.io/2025/01/03/%E7%AC%AC%E4%BA%8C%E7%AB%A0%20C++%E5%9F%BA%E7%A1%80%E2%80%94%E2%80%94%E6%8C%87%E9%92%88/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://smartyue076.github.io/2025/01/03/%E7%AC%AC%E4%BA%8C%E7%AB%A0%20C++%E5%9F%BA%E7%A1%80%E2%80%94%E2%80%94%E6%8C%87%E9%92%88/&title=C++基础（一）指针"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://smartyue076.github.io/2025/01/03/%E7%AC%AC%E4%BA%8C%E7%AB%A0%20C++%E5%9F%BA%E7%A1%80%E2%80%94%E2%80%94%E6%8C%87%E9%92%88/&title=C++基础（一）指针"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://smartyue076.github.io/2025/01/03/%E7%AC%AC%E4%BA%8C%E7%AB%A0%20C++%E5%9F%BA%E7%A1%80%E2%80%94%E2%80%94%E6%8C%87%E9%92%88/&title=C++基础（一）指针"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://smartyue076.github.io/2025/01/03/%E7%AC%AC%E4%BA%8C%E7%AB%A0%20C++%E5%9F%BA%E7%A1%80%E2%80%94%E2%80%94%E6%8C%87%E9%92%88/&title=C++基础（一）指针"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://smartyue076.github.io/2025/01/03/%E7%AC%AC%E4%BA%8C%E7%AB%A0%20C++%E5%9F%BA%E7%A1%80%E2%80%94%E2%80%94%E6%8C%87%E9%92%88/&name=C++基础（一）指针&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://smartyue076.github.io/2025/01/03/%E7%AC%AC%E4%BA%8C%E7%AB%A0%20C++%E5%9F%BA%E7%A1%80%E2%80%94%E2%80%94%E6%8C%87%E9%92%88/&t=C++基础（一）指针"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC%E4%BA%8C%E7%AB%A0-C-%E5%9F%BA%E7%A1%80%E2%80%94%E2%80%94%E6%8C%87%E9%92%88"><span class="toc-number">1.</span> <span class="toc-text">第二章 C++基础——指针</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9D%E5%A7%8B%E5%8C%96%E6%8C%87%E9%92%88"><span class="toc-number">1.1.</span> <span class="toc-text">初始化指针</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8C%87%E9%92%88%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9"><span class="toc-number">1.2.</span> <span class="toc-text">指针注意事项</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8C%87%E9%92%88%E5%92%8C%E6%95%B0%E7%BB%84"><span class="toc-number">1.3.</span> <span class="toc-text">指针和数组</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%95%B0%E7%BB%84%E6%8C%87%E9%92%88%E4%B8%8E%E6%8C%87%E9%92%88%E6%95%B0%E7%BB%84"><span class="toc-number">1.3.1.</span> <span class="toc-text">数组指针与指针数组</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%87%AA%E7%94%B1%E5%AD%98%E5%82%A8%E7%A9%BA%E9%97%B4"><span class="toc-number">1.4.</span> <span class="toc-text">自由存储空间</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8new%E6%9D%A5%E5%88%86%E9%85%8D%E5%86%85%E5%AD%98"><span class="toc-number">1.4.1.</span> <span class="toc-text">使用new来分配内存</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8new%E5%88%9B%E5%BB%BA%E5%8A%A8%E6%80%81%E6%95%B0%E7%BB%84"><span class="toc-number">1.4.2.</span> <span class="toc-text">使用new创建动态数组</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%8D%E6%9D%82%E8%A1%A8%E8%BE%BE%E5%BC%8F"><span class="toc-number">1.5.</span> <span class="toc-text">复杂表达式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%95%E7%94%A8"><span class="toc-number">1.6.</span> <span class="toc-text">引用</span></a></li></ol></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        C++基础（一）指针
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">Martin XU</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2025-01-03T04:10:45.868Z" class="dt-published" itemprop="datePublished">2025-01-03</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/C/" rel="tag">C++</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <h2 id="第二章-C-基础——指针"><a href="#第二章-C-基础——指针" class="headerlink" title="第二章 C++基础——指针"></a>第二章 C++基础——指针</h2><p>指针是一个变量，其存储的是值的地址，而不是值本身</p>
+<p>使用常规变量时，值是指定的量，而地址是派生量，而指针相反</p>
+<p><strong>OOP</strong>强调的是在运行阶段（而不是编译阶段）进行决策，提供了灵活性，对于内存管理也更加高效</p>
+<h3 id="初始化指针"><a href="#初始化指针" class="headerlink" title="初始化指针"></a>初始化指针</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span>* ptr_a;</span><br><span class="line"><span class="type">double</span>* ptr_b;</span><br></pre></td></tr></table></figure>
+<p>初始化时必须指定所指元素类型，因为对所有指针来说其都是代表一个初始地址，但从该初始地址读多少字节则由指针类型判断</p>
+<p>指针也是作为变量存储，只不过其内存空间存的是地址。指针p1,p2有各自的地址&amp;p1,&amp;p2。长度为4B（32位）或8B（64位）。p1,p2表示存储的所指向元素的地址。*p1表示指向元素的值。<br><img src="/../../images/1.png" alt="image.png" style="zoom:30%;" /></p>
+<h3 id="指针注意事项"><a href="#指针注意事项" class="headerlink" title="指针注意事项"></a>指针注意事项</h3><p>在C++中创建指针时，计算机将分配用来存储地址的内存，但不会分配用来存储指针所指向的数据的内存（指向不确定）。另外，<strong>一定要在对指针提取（*）之前，将指针初始化为一个确定的、适当的地址。</strong></p>
+<p>一个未指向任何对象的指针，其地址值为0。有时称之为<code>null指针</code>。任何指针都可以被初始化或令其值为0。</p>
+<p>指针不是整型，虽然计算机通常把地址当作整数处理。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span>* pt;</span><br><span class="line">pt = <span class="number">0xB80000000</span>; <span class="comment">//invalid, type mismatch</span></span><br><span class="line">pt = (<span class="type">int</span>*)<span class="number">0xB80000000</span>; <span class="comment">//valid, type match</span></span><br></pre></td></tr></table></figure>
+
+
+<h3 id="指针和数组"><a href="#指针和数组" class="headerlink" title="指针和数组"></a>指针和数组</h3><p>可以修改指针的值，但数组名是常量不能修改</p>
+<p>指针变量加1后，其增加的值等于指向的类型占用的字节数</p>
+<p>将一个指针减去另一个指针，获得两个指针的差（必须类型相同，差为地址实际差&#x2F;变量类型长度），仅在都指向同一数组时有意义</p>
+<p>对数组应用sizeof得到的是数组的长度，而对指针应用sizeof得到的是指针的长度</p>
+<h4 id="数组指针与指针数组"><a href="#数组指针与指针数组" class="headerlink" title="数组指针与指针数组"></a>数组指针与指针数组</h4><p>  tell和&amp;tell数值相同，但tell指向数组第一个元素，tell+1将地址值加2。&amp;tell指向整个数组，&amp;tell+1将地址值加2*10&#x3D;20</p>
+  <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">short</span> tell[<span class="number">10</span>];</span><br><span class="line">cout&lt;&lt; tell &lt;&lt;endl;</span><br><span class="line">cout&lt;&lt; &amp;tell &lt;&lt;endl;</span><br></pre></td></tr></table></figure>
+
+<p>  数组指针指向整个数组，初始化为</p>
+  <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">short</span> (*pas)[<span class="number">10</span>] = &amp;tell;</span><br></pre></td></tr></table></figure>
+
+<p>  指针数组为多个指针变量组成的数组，初始化为</p>
+  <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">short</span> *pas[<span class="number">10</span>];</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="自由存储空间"><a href="#自由存储空间" class="headerlink" title="自由存储空间"></a>自由存储空间</h3><h4 id="使用new来分配内存"><a href="#使用new来分配内存" class="headerlink" title="使用new来分配内存"></a>使用new来分配内存</h4><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//typeName * pointer_name = new typeName</span></span><br><span class="line"><span class="type">int</span>* pn = <span class="keyword">new</span> <span class="type">int</span>;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">```typeName*```指声明什么类型的指针，左右两侧的类型必须相同，否则因为读取的块大小不同而访问错误</span><br><span class="line"></span><br><span class="line">**变量存储在栈（stack）的内存区域中，new从堆（heap）或自由存储（free store）的内存区域分配内存**</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#### 使用delete释放内存</span><br><span class="line"></span><br><span class="line">```c++</span><br><span class="line">int* ps = new int;</span><br><span class="line">delete ps;</span><br></pre></td></tr></table></figure>
+
+<p>这将删除<em>ps</em>所指向的内存，但不会删除<em>ps</em>本身，ps还可指向其他内存空间</p>
+<p>需要注意的是：</p>
+<ul>
+<li>不要使用<code>delete</code>来释放不是<code>new</code>分配的内存</li>
+<li>不要使用<code>delete</code>释放同一个内存两次</li>
+<li>对空指针(<em>null pointer</em>)使用<code>delete</code>是安全的</li>
+</ul>
+<h4 id="使用new创建动态数组"><a href="#使用new创建动态数组" class="headerlink" title="使用new创建动态数组"></a>使用new创建动态数组</h4><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span>* psome = <span class="keyword">new</span> <span class="type">int</span> [<span class="number">10</span>];</span><br><span class="line"><span class="keyword">delete</span> [] psome;</span><br></pre></td></tr></table></figure>
+
+<p>数组直接通过<code>psome[num]</code>访问</p>
+<p>需要注意的是：</p>
+<ul>
+<li>如果使用<code>new [] </code>为数组分配内存，则需要通过<code>delete []</code>来释放</li>
+<li>如果使用<code>new</code>为一个实体分配内存，则应使用<code>delete</code>来释放</li>
+</ul>
+<h3 id="复杂表达式"><a href="#复杂表达式" class="headerlink" title="复杂表达式"></a>复杂表达式</h3><p>对于复杂表达式应从右往左读</p>
+<p><code>int *&amp;r = p</code></p>
+<p>表示r首先是对p的引用，其次r是一个int*型的引用</p>
+<h3 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h3><p> 定义时必须初始化</p>
+<p>不能改变绑定的指向（内部通过顶层const实现，type * const p）</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> a = <span class="number">1</span>;</span><br><span class="line"><span class="type">int</span> &amp;b = a; <span class="comment">//(pointer to b) equal to (pointer to a)</span></span><br></pre></td></tr></table></figure>
+
+<p>引用间不能赋值</p>
+<p>没有引用的引用，没有指针的引用，可以有引用的指针</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> &amp;* p; <span class="comment">//illegal</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">f</span><span class="params">(<span class="type">int</span> *&amp; p)</span></span>; <span class="comment">//ok</span></span><br></pre></td></tr></table></figure>
+
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">Home</a></li>
+        
+          <li><a href="/about/">About</a></li>
+        
+          <li><a href="/archives/">Writing</a></li>
+        
+          <li><a href="/tags/">Tag</a></li>
+        
+          <li><a href="/search/">Search</a></li>
+        
+          <li><a target="_blank" rel="noopener" href="https://github.com/smartyue076">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC%E4%BA%8C%E7%AB%A0-C-%E5%9F%BA%E7%A1%80%E2%80%94%E2%80%94%E6%8C%87%E9%92%88"><span class="toc-number">1.</span> <span class="toc-text">第二章 C++基础——指针</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9D%E5%A7%8B%E5%8C%96%E6%8C%87%E9%92%88"><span class="toc-number">1.1.</span> <span class="toc-text">初始化指针</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8C%87%E9%92%88%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9"><span class="toc-number">1.2.</span> <span class="toc-text">指针注意事项</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8C%87%E9%92%88%E5%92%8C%E6%95%B0%E7%BB%84"><span class="toc-number">1.3.</span> <span class="toc-text">指针和数组</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%95%B0%E7%BB%84%E6%8C%87%E9%92%88%E4%B8%8E%E6%8C%87%E9%92%88%E6%95%B0%E7%BB%84"><span class="toc-number">1.3.1.</span> <span class="toc-text">数组指针与指针数组</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%87%AA%E7%94%B1%E5%AD%98%E5%82%A8%E7%A9%BA%E9%97%B4"><span class="toc-number">1.4.</span> <span class="toc-text">自由存储空间</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8new%E6%9D%A5%E5%88%86%E9%85%8D%E5%86%85%E5%AD%98"><span class="toc-number">1.4.1.</span> <span class="toc-text">使用new来分配内存</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8new%E5%88%9B%E5%BB%BA%E5%8A%A8%E6%80%81%E6%95%B0%E7%BB%84"><span class="toc-number">1.4.2.</span> <span class="toc-text">使用new创建动态数组</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%8D%E6%9D%82%E8%A1%A8%E8%BE%BE%E5%BC%8F"><span class="toc-number">1.5.</span> <span class="toc-text">复杂表达式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%95%E7%94%A8"><span class="toc-number">1.6.</span> <span class="toc-text">引用</span></a></li></ol></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://smartyue076.github.io/2025/01/03/%E7%AC%AC%E4%BA%8C%E7%AB%A0%20C++%E5%9F%BA%E7%A1%80%E2%80%94%E2%80%94%E6%8C%87%E9%92%88/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://smartyue076.github.io/2025/01/03/%E7%AC%AC%E4%BA%8C%E7%AB%A0%20C++%E5%9F%BA%E7%A1%80%E2%80%94%E2%80%94%E6%8C%87%E9%92%88/&text=C++基础（一）指针"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://smartyue076.github.io/2025/01/03/%E7%AC%AC%E4%BA%8C%E7%AB%A0%20C++%E5%9F%BA%E7%A1%80%E2%80%94%E2%80%94%E6%8C%87%E9%92%88/&title=C++基础（一）指针"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://smartyue076.github.io/2025/01/03/%E7%AC%AC%E4%BA%8C%E7%AB%A0%20C++%E5%9F%BA%E7%A1%80%E2%80%94%E2%80%94%E6%8C%87%E9%92%88/&is_video=false&description=C++基础（一）指针"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=C++基础（一）指针&body=Check out this article: https://smartyue076.github.io/2025/01/03/%E7%AC%AC%E4%BA%8C%E7%AB%A0%20C++%E5%9F%BA%E7%A1%80%E2%80%94%E2%80%94%E6%8C%87%E9%92%88/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://smartyue076.github.io/2025/01/03/%E7%AC%AC%E4%BA%8C%E7%AB%A0%20C++%E5%9F%BA%E7%A1%80%E2%80%94%E2%80%94%E6%8C%87%E9%92%88/&title=C++基础（一）指针"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://smartyue076.github.io/2025/01/03/%E7%AC%AC%E4%BA%8C%E7%AB%A0%20C++%E5%9F%BA%E7%A1%80%E2%80%94%E2%80%94%E6%8C%87%E9%92%88/&title=C++基础（一）指针"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://smartyue076.github.io/2025/01/03/%E7%AC%AC%E4%BA%8C%E7%AB%A0%20C++%E5%9F%BA%E7%A1%80%E2%80%94%E2%80%94%E6%8C%87%E9%92%88/&title=C++基础（一）指针"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://smartyue076.github.io/2025/01/03/%E7%AC%AC%E4%BA%8C%E7%AB%A0%20C++%E5%9F%BA%E7%A1%80%E2%80%94%E2%80%94%E6%8C%87%E9%92%88/&title=C++基础（一）指针"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://smartyue076.github.io/2025/01/03/%E7%AC%AC%E4%BA%8C%E7%AB%A0%20C++%E5%9F%BA%E7%A1%80%E2%80%94%E2%80%94%E6%8C%87%E9%92%88/&name=C++基础（一）指针&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://smartyue076.github.io/2025/01/03/%E7%AC%AC%E4%BA%8C%E7%AB%A0%20C++%E5%9F%BA%E7%A1%80%E2%80%94%E2%80%94%E6%8C%87%E9%92%88/&t=C++基础（一）指针"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2020-2025
+    Martin XU
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/tags/">Tag</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/smartyue076">Projects</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+  <script type="text/javascript">
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?2e6da3c375c8a87f5b664cea6d4cb29c";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+        </script>
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

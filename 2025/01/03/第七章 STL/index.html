@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="六大部件  分配器：为容器分配内存 迭代器：算法只能通过迭代器访问容器 容器  Array定长数组_M_instance：指向数组首元素的指针（int a[10]的a）   iterator为指针，traits通过指针特化处理   Vector变长数组start（4B）：指向第一个元素的指针 finish（4B）：指向最后一个元素的下一个指针 end_of_storage（4B）：容器申请的内存空">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C++ STL基础">
+<meta property="og:url" content="https://smartyue076.github.io/2025/01/03/%E7%AC%AC%E4%B8%83%E7%AB%A0%20STL/index.html">
+<meta property="og:site_name" content="Martin XU的技术博客">
+<meta property="og:description" content="六大部件  分配器：为容器分配内存 迭代器：算法只能通过迭代器访问容器 容器  Array定长数组_M_instance：指向数组首元素的指针（int a[10]的a）   iterator为指针，traits通过指针特化处理   Vector变长数组start（4B）：指向第一个元素的指针 finish（4B）：指向最后一个元素的下一个指针 end_of_storage（4B）：容器申请的内存空">
+<meta property="og:locale">
+<meta property="og:image" content="https://smartyue076.github.io/images/stl_items.png">
+<meta property="og:image" content="https://smartyue076.github.io/images/stl.png">
+<meta property="og:image" content="https://smartyue076.github.io/images/array_overview.png">
+<meta property="og:image" content="https://smartyue076.github.io/images/array.png">
+<meta property="og:image" content="https://smartyue076.github.io/images/vector_overview.png">
+<meta property="og:image" content="https://smartyue076.github.io/images/vector_iterator.png">
+<meta property="og:image" content="https://smartyue076.github.io/images/list_overview.png">
+<meta property="og:image" content="https://smartyue076.github.io/images/list_iterator.png">
+<meta property="og:image" content="https://smartyue076.github.io/images/forward_list.png">
+<meta property="og:image" content="https://smartyue076.github.io/images/deque_overview.png">
+<meta property="og:image" content="https://smartyue076.github.io/images/deque_iterator.png">
+<meta property="og:image" content="https://smartyue076.github.io/images/queue.png">
+<meta property="og:image" content="https://smartyue076.github.io/images/stack.png">
+<meta property="og:image" content="https://smartyue076.github.io/images/set.png">
+<meta property="og:image" content="https://smartyue076.github.io/images/map.png">
+<meta property="article:published_time" content="2025-01-03T03:49:05.051Z">
+<meta property="article:modified_time" content="2025-01-03T03:49:05.051Z">
+<meta property="article:author" content="Martin XU">
+<meta property="article:tag" content="C++">
+<meta property="article:tag" content="STL">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://smartyue076.github.io/images/stl_items.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>C++ STL基础</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-86660611-1"></script>
+  <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'UA-86660611-1');
+  </script>
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/tags/">Tag</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/smartyue076">Projects</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="Previous post" href="/2025/01/03/%E7%AC%AC%E4%BA%8C%E7%AB%A0%20C++%E5%9F%BA%E7%A1%80%E2%80%94%E2%80%94%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/2025/01/03/%E7%AC%AC%E5%85%AD%E7%AB%A0%20%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://smartyue076.github.io/2025/01/03/%E7%AC%AC%E4%B8%83%E7%AB%A0%20STL/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://smartyue076.github.io/2025/01/03/%E7%AC%AC%E4%B8%83%E7%AB%A0%20STL/&text=C++ STL基础"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://smartyue076.github.io/2025/01/03/%E7%AC%AC%E4%B8%83%E7%AB%A0%20STL/&title=C++ STL基础"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://smartyue076.github.io/2025/01/03/%E7%AC%AC%E4%B8%83%E7%AB%A0%20STL/&is_video=false&description=C++ STL基础"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=C++ STL基础&body=Check out this article: https://smartyue076.github.io/2025/01/03/%E7%AC%AC%E4%B8%83%E7%AB%A0%20STL/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://smartyue076.github.io/2025/01/03/%E7%AC%AC%E4%B8%83%E7%AB%A0%20STL/&title=C++ STL基础"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://smartyue076.github.io/2025/01/03/%E7%AC%AC%E4%B8%83%E7%AB%A0%20STL/&title=C++ STL基础"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://smartyue076.github.io/2025/01/03/%E7%AC%AC%E4%B8%83%E7%AB%A0%20STL/&title=C++ STL基础"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://smartyue076.github.io/2025/01/03/%E7%AC%AC%E4%B8%83%E7%AB%A0%20STL/&title=C++ STL基础"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://smartyue076.github.io/2025/01/03/%E7%AC%AC%E4%B8%83%E7%AB%A0%20STL/&name=C++ STL基础&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://smartyue076.github.io/2025/01/03/%E7%AC%AC%E4%B8%83%E7%AB%A0%20STL/&t=C++ STL基础"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%AD%E5%A4%A7%E9%83%A8%E4%BB%B6"><span class="toc-number">1.</span> <span class="toc-text">六大部件</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%B9%E5%99%A8"><span class="toc-number">1.1.</span> <span class="toc-text">容器</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Array"><span class="toc-number">2.</span> <span class="toc-text">Array</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%9A%E9%95%BF%E6%95%B0%E7%BB%84"><span class="toc-number">2.1.</span> <span class="toc-text">定长数组</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Vector"><span class="toc-number">3.</span> <span class="toc-text">Vector</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8F%98%E9%95%BF%E6%95%B0%E7%BB%84"><span class="toc-number">3.1.</span> <span class="toc-text">变长数组</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#List"><span class="toc-number">4.</span> <span class="toc-text">List</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8F%8C%E5%90%91%E9%93%BE%E8%A1%A8"><span class="toc-number">4.1.</span> <span class="toc-text">双向链表</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Forward-List"><span class="toc-number">5.</span> <span class="toc-text">Forward List</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8D%95%E5%90%91%E9%93%BE%E8%A1%A8"><span class="toc-number">5.1.</span> <span class="toc-text">单向链表</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Deque"><span class="toc-number">6.</span> <span class="toc-text">Deque</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8F%8C%E7%AB%AF%E9%98%9F%E5%88%97"><span class="toc-number">6.1.</span> <span class="toc-text">双端队列</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Queue"><span class="toc-number">7.</span> <span class="toc-text">Queue</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%98%9F%E5%88%97"><span class="toc-number">7.1.</span> <span class="toc-text">队列</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Stack"><span class="toc-number">7.2.</span> <span class="toc-text">Stack</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A0%88"><span class="toc-number">7.3.</span> <span class="toc-text">栈</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Set"><span class="toc-number">8.</span> <span class="toc-text">Set</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%9B%86%E5%90%88"><span class="toc-number">8.1.</span> <span class="toc-text">集合</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Map"><span class="toc-number">9.</span> <span class="toc-text">Map</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%94%AE%E5%80%BC%E5%AF%B9%E9%9B%86%E5%90%88"><span class="toc-number">9.1.</span> <span class="toc-text">键值对集合</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Functors"><span class="toc-number">10.</span> <span class="toc-text">Functors</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Iterator-Traits"><span class="toc-number">11.</span> <span class="toc-text">Iterator Traits</span></a></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        C++ STL基础
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">Martin XU</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2025-01-03T03:49:05.051Z" class="dt-published" itemprop="datePublished">2025-01-03</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/C/" rel="tag">C++</a>, <a class="p-category" href="/tags/STL/" rel="tag">STL</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <h3 id="六大部件"><a href="#六大部件" class="headerlink" title="六大部件"></a>六大部件</h3><img src="/../../images/stl_items.png" alt="stl_items.png" style="zoom:60%;" />
+
+<p>分配器：为容器分配内存</p>
+<p>迭代器：算法只能通过迭代器访问容器</p>
+<h4 id="容器"><a href="#容器" class="headerlink" title="容器"></a>容器</h4><img src="/../../images/stl.png" alt="stl.png" style="zoom:60%;" />
+
+<h3 id="Array"><a href="#Array" class="headerlink" title="Array"></a>Array</h3><h4 id="定长数组"><a href="#定长数组" class="headerlink" title="定长数组"></a>定长数组</h4><p>_M_instance：指向数组首元素的指针（int a[10]的a）</p>
+<img src="/../../images/array_overview.png" alt="array_overview.png" style="zoom:60%;" />
+
+<p><strong>iterator为指针，traits通过指针特化处理</strong></p>
+<img src="/../../images/array.png" alt="array.png" style="zoom:60%;" />
+
+<h3 id="Vector"><a href="#Vector" class="headerlink" title="Vector"></a>Vector</h3><h4 id="变长数组"><a href="#变长数组" class="headerlink" title="变长数组"></a>变长数组</h4><p>start（4B）：指向第一个元素的指针</p>
+<p>finish（4B）：指向最后一个元素的下一个指针</p>
+<p>end_of_storage（4B）：容器申请的内存空间的最后一个元素的下一个地址</p>
+<p>若内存空间不够则申请当前空间两倍的空间</p>
+<img src="/../../images/vector_overview.png" alt="vector_overview.png" style="zoom:60%;" />
+
+<p><strong>iterator为指针，traits通过指针特化处理</strong></p>
+<img src="/../../images/vector_iterator.png" alt="vector_iterator.png" style="zoom:60%;" />
+
+<h3 id="List"><a href="#List" class="headerlink" title="List"></a>List</h3><h4 id="双向链表"><a href="#双向链表" class="headerlink" title="双向链表"></a>双向链表</h4><p>node（4B）：指向头节点的指针</p>
+<img src="/../../images/list_overview.png" alt="list_overview.png" style="zoom:60%;" />
+
+<p><strong>iterator里的node为指向当前节点的指针</strong></p>
+<img src="/../../images/list_iterator.png" alt="list_iterator.png" style="zoom:60%;" />
+
+<h3 id="Forward-List"><a href="#Forward-List" class="headerlink" title="Forward List"></a>Forward List</h3><h4 id="单向链表"><a href="#单向链表" class="headerlink" title="单向链表"></a>单向链表</h4><img src="/../../images/forward_list.png" alt="forward_list.png" style="zoom:60%;" />
+
+<h3 id="Deque"><a href="#Deque" class="headerlink" title="Deque"></a>Deque</h3><h4 id="双端队列"><a href="#双端队列" class="headerlink" title="双端队列"></a>双端队列</h4><p>queue在内存中每个buffer块离散存储，通过map表记录各buffer块的地址</p>
+<p>start（16B）：指向首元素的iterator</p>
+<p>finish（16B）：指向尾巴元素下一个块的iterator</p>
+<p>map（4B）：指向map首元素的指针</p>
+<p>map_size：map占用内存的大小</p>
+<img src="/../../images/deque_overview.png" alt="deque_overview.png" style="zoom:60%;" />
+
+<p>cur：指向当前元素的指针</p>
+<p>first：指向当前buffer块首元素的指针</p>
+<p>last：指向当前buffer块尾元素下一个块的指针</p>
+<p>node：指向map对应元素的指针</p>
+<img src="/../../images/deque_iterator.png" alt="deque_iterator.png" style="zoom:60%;" />
+
+<h3 id="Queue"><a href="#Queue" class="headerlink" title="Queue"></a>Queue</h3><h4 id="队列"><a href="#队列" class="headerlink" title="队列"></a>队列</h4><p>不允许遍历也不提供iterator</p>
+<p>可选择list或deque作为底层存储</p>
+<p>不可选择vector作为底层存储</p>
+<img src="/../../images/queue.png" alt="queue.png" style="zoom:60%;" />
+
+<h4 id="Stack"><a href="#Stack" class="headerlink" title="Stack"></a>Stack</h4><h4 id="栈"><a href="#栈" class="headerlink" title="栈"></a>栈</h4><p>不允许遍历也不提供iterator</p>
+<p>可选择list或deque或vector作为底层存储</p>
+<img src="/../../images/stack.png" alt="stack.png" style="zoom:60%;" />
+
+<h3 id="Set"><a href="#Set" class="headerlink" title="Set"></a>Set</h3><h4 id="集合"><a href="#集合" class="headerlink" title="集合"></a>集合</h4><p>t：红黑树</p>
+<img src="/../../images/set.png" alt="set.png" style="zoom:60%;" />
+
+<table>
+<thead>
+<tr>
+<th>集合</th>
+<th>底层实现</th>
+<th>是否有序</th>
+<th>数值是否可以重复</th>
+<th>能否更改数值</th>
+<th>查询效率</th>
+<th>增删效率</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>std::set</td>
+<td>红黑树</td>
+<td>有序</td>
+<td>否</td>
+<td>否</td>
+<td>O(log n)</td>
+<td>O(log n)</td>
+</tr>
+<tr>
+<td>std::multiset</td>
+<td>红黑树</td>
+<td>有序</td>
+<td>是</td>
+<td>否</td>
+<td>O(logn)</td>
+<td>O(logn)</td>
+</tr>
+<tr>
+<td>std::unordered_set</td>
+<td>哈希表</td>
+<td>无序</td>
+<td>否</td>
+<td>否</td>
+<td>O(1)</td>
+<td>O(1)</td>
+</tr>
+</tbody></table>
+<p>std::unordered_set底层实现为哈希表，std::set 和std::multiset 的底层实现是红黑树，红黑树是一种平衡二叉搜索树，所以key值是有序的，但key不可以修改，改动key值会导致整棵树的错乱，所以只能删除和增加</p>
+<h3 id="Map"><a href="#Map" class="headerlink" title="Map"></a>Map</h3><h4 id="键值对集合"><a href="#键值对集合" class="headerlink" title="键值对集合"></a>键值对集合</h4><p>t：红黑树</p>
+<img src="/../../images/map.png" alt="map.png" style="zoom:60%;" />
+
+<table>
+<thead>
+<tr>
+<th>映射</th>
+<th>底层实现</th>
+<th>是否有序</th>
+<th>数值是否可以重复</th>
+<th>能否更改数值</th>
+<th>查询效率</th>
+<th>增删效率</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>std::map</td>
+<td>红黑树</td>
+<td>key有序</td>
+<td>key不可重复</td>
+<td>key不可修改</td>
+<td>O(logn)</td>
+<td>O(logn)</td>
+</tr>
+<tr>
+<td>std::multimap</td>
+<td>红黑树</td>
+<td>key有序</td>
+<td>key可重复</td>
+<td>key不可修改</td>
+<td>O(log n)</td>
+<td>O(log n)</td>
+</tr>
+<tr>
+<td>std::unordered_map</td>
+<td>哈希表</td>
+<td>key无序</td>
+<td>key不可重复</td>
+<td>key不可修改</td>
+<td>O(1)</td>
+<td>O(1)</td>
+</tr>
+</tbody></table>
+<p>std::unordered_map 底层实现为哈希表，std::map 和std::multimap 的底层实现是红黑树。同理，std::map 和std::multimap 的key也是有序的</p>
+<h3 id="Functors"><a href="#Functors" class="headerlink" title="Functors"></a>Functors</h3><h3 id="Iterator-Traits"><a href="#Iterator-Traits" class="headerlink" title="Iterator Traits"></a>Iterator Traits</h3><p>由于算法需要得到iterator的某些属性，对于非指针iterator的结构包含属性，但对于指针类型无法获取。通过iterator traits对于iterator处理</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">Home</a></li>
+        
+          <li><a href="/about/">About</a></li>
+        
+          <li><a href="/archives/">Writing</a></li>
+        
+          <li><a href="/tags/">Tag</a></li>
+        
+          <li><a href="/search/">Search</a></li>
+        
+          <li><a target="_blank" rel="noopener" href="https://github.com/smartyue076">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%AD%E5%A4%A7%E9%83%A8%E4%BB%B6"><span class="toc-number">1.</span> <span class="toc-text">六大部件</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%B9%E5%99%A8"><span class="toc-number">1.1.</span> <span class="toc-text">容器</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Array"><span class="toc-number">2.</span> <span class="toc-text">Array</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%9A%E9%95%BF%E6%95%B0%E7%BB%84"><span class="toc-number">2.1.</span> <span class="toc-text">定长数组</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Vector"><span class="toc-number">3.</span> <span class="toc-text">Vector</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8F%98%E9%95%BF%E6%95%B0%E7%BB%84"><span class="toc-number">3.1.</span> <span class="toc-text">变长数组</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#List"><span class="toc-number">4.</span> <span class="toc-text">List</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8F%8C%E5%90%91%E9%93%BE%E8%A1%A8"><span class="toc-number">4.1.</span> <span class="toc-text">双向链表</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Forward-List"><span class="toc-number">5.</span> <span class="toc-text">Forward List</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8D%95%E5%90%91%E9%93%BE%E8%A1%A8"><span class="toc-number">5.1.</span> <span class="toc-text">单向链表</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Deque"><span class="toc-number">6.</span> <span class="toc-text">Deque</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8F%8C%E7%AB%AF%E9%98%9F%E5%88%97"><span class="toc-number">6.1.</span> <span class="toc-text">双端队列</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Queue"><span class="toc-number">7.</span> <span class="toc-text">Queue</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%98%9F%E5%88%97"><span class="toc-number">7.1.</span> <span class="toc-text">队列</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Stack"><span class="toc-number">7.2.</span> <span class="toc-text">Stack</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A0%88"><span class="toc-number">7.3.</span> <span class="toc-text">栈</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Set"><span class="toc-number">8.</span> <span class="toc-text">Set</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%9B%86%E5%90%88"><span class="toc-number">8.1.</span> <span class="toc-text">集合</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Map"><span class="toc-number">9.</span> <span class="toc-text">Map</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%94%AE%E5%80%BC%E5%AF%B9%E9%9B%86%E5%90%88"><span class="toc-number">9.1.</span> <span class="toc-text">键值对集合</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Functors"><span class="toc-number">10.</span> <span class="toc-text">Functors</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Iterator-Traits"><span class="toc-number">11.</span> <span class="toc-text">Iterator Traits</span></a></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://smartyue076.github.io/2025/01/03/%E7%AC%AC%E4%B8%83%E7%AB%A0%20STL/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://smartyue076.github.io/2025/01/03/%E7%AC%AC%E4%B8%83%E7%AB%A0%20STL/&text=C++ STL基础"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://smartyue076.github.io/2025/01/03/%E7%AC%AC%E4%B8%83%E7%AB%A0%20STL/&title=C++ STL基础"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://smartyue076.github.io/2025/01/03/%E7%AC%AC%E4%B8%83%E7%AB%A0%20STL/&is_video=false&description=C++ STL基础"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=C++ STL基础&body=Check out this article: https://smartyue076.github.io/2025/01/03/%E7%AC%AC%E4%B8%83%E7%AB%A0%20STL/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://smartyue076.github.io/2025/01/03/%E7%AC%AC%E4%B8%83%E7%AB%A0%20STL/&title=C++ STL基础"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://smartyue076.github.io/2025/01/03/%E7%AC%AC%E4%B8%83%E7%AB%A0%20STL/&title=C++ STL基础"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://smartyue076.github.io/2025/01/03/%E7%AC%AC%E4%B8%83%E7%AB%A0%20STL/&title=C++ STL基础"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://smartyue076.github.io/2025/01/03/%E7%AC%AC%E4%B8%83%E7%AB%A0%20STL/&title=C++ STL基础"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://smartyue076.github.io/2025/01/03/%E7%AC%AC%E4%B8%83%E7%AB%A0%20STL/&name=C++ STL基础&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://smartyue076.github.io/2025/01/03/%E7%AC%AC%E4%B8%83%E7%AB%A0%20STL/&t=C++ STL基础"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2020-2025
+    Martin XU
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/tags/">Tag</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/smartyue076">Projects</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+  <script type="text/javascript">
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?2e6da3c375c8a87f5b664cea6d4cb29c";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+        </script>
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>
