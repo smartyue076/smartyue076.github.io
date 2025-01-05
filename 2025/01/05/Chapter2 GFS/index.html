@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="摘要GFS是一个可以支持上千个机器和硬盘，上百用户同时访问的文件系统 介绍   问题或现象 解决办法    机器错误 持续监控，错误发现，错误处理，自动恢复   文件过大 设计IO操作和block大小   大部分文件写为append而不是overwrite 只优化append保证性能和原子性   引入GFS特有文件读写方式 复用部分文件系统API   设计概述假设 系统通过廉价机器组成 日常处理G">
+<meta property="og:type" content="article">
+<meta property="og:title" content="GFS">
+<meta property="og:url" content="https://smartyue076.github.io/2025/01/05/Chapter2%20GFS/index.html">
+<meta property="og:site_name" content="Martin XU的技术博客">
+<meta property="og:description" content="摘要GFS是一个可以支持上千个机器和硬盘，上百用户同时访问的文件系统 介绍   问题或现象 解决办法    机器错误 持续监控，错误发现，错误处理，自动恢复   文件过大 设计IO操作和block大小   大部分文件写为append而不是overwrite 只优化append保证性能和原子性   引入GFS特有文件读写方式 复用部分文件系统API   设计概述假设 系统通过廉价机器组成 日常处理G">
+<meta property="og:locale">
+<meta property="og:image" content="https://smartyue076.github.io/images/gfs_architecture.png">
+<meta property="og:image" content="https://smartyue076.github.io/images/gfs_file_region.png">
+<meta property="og:image" content="https://smartyue076.github.io/images/gfs_write.png">
+<meta property="article:published_time" content="2025-01-05T02:42:03.292Z">
+<meta property="article:modified_time" content="2025-01-05T02:42:03.292Z">
+<meta property="article:author" content="Martin XU">
+<meta property="article:tag" content="论文导读">
+<meta property="article:tag" content="分布式系统">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://smartyue076.github.io/images/gfs_architecture.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>GFS</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-86660611-1"></script>
+  <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'UA-86660611-1');
+  </script>
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/tags/">Tag</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/smartyue076">Projects</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="Previous post" href="/2025/01/05/Chapter3%20VMwareFT/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/2025/01/03/%E5%BC%80%E5%8D%B7%E4%BD%95%E5%BF%85%E6%9C%89%E7%9B%8A/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://smartyue076.github.io/2025/01/05/Chapter2%20GFS/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://smartyue076.github.io/2025/01/05/Chapter2%20GFS/&text=GFS"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://smartyue076.github.io/2025/01/05/Chapter2%20GFS/&title=GFS"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://smartyue076.github.io/2025/01/05/Chapter2%20GFS/&is_video=false&description=GFS"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=GFS&body=Check out this article: https://smartyue076.github.io/2025/01/05/Chapter2%20GFS/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://smartyue076.github.io/2025/01/05/Chapter2%20GFS/&title=GFS"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://smartyue076.github.io/2025/01/05/Chapter2%20GFS/&title=GFS"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://smartyue076.github.io/2025/01/05/Chapter2%20GFS/&title=GFS"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://smartyue076.github.io/2025/01/05/Chapter2%20GFS/&title=GFS"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://smartyue076.github.io/2025/01/05/Chapter2%20GFS/&name=GFS&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://smartyue076.github.io/2025/01/05/Chapter2%20GFS/&t=GFS"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%91%98%E8%A6%81"><span class="toc-number">1.</span> <span class="toc-text">摘要</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BB%8B%E7%BB%8D"><span class="toc-number">2.</span> <span class="toc-text">介绍</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%AE%BE%E8%AE%A1%E6%A6%82%E8%BF%B0"><span class="toc-number">3.</span> <span class="toc-text">设计概述</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%81%87%E8%AE%BE"><span class="toc-number">3.1.</span> <span class="toc-text">假设</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%8E%A5%E5%8F%A3"><span class="toc-number">3.2.</span> <span class="toc-text">接口</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9E%B6%E6%9E%84"><span class="toc-number">4.</span> <span class="toc-text">架构</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%80%9A%E4%BF%A1%E6%AD%A5%E9%AA%A4%EF%BC%88%E4%BB%8B%E7%BB%8DGFS%E8%AF%BB%E6%96%B9%E6%B3%95%EF%BC%89"><span class="toc-number">5.</span> <span class="toc-text">通信步骤（介绍GFS读方法）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Chunk%E5%A4%A7%E5%B0%8F"><span class="toc-number">6.</span> <span class="toc-text">Chunk大小</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%85%83%E6%95%B0%E6%8D%AE"><span class="toc-number">7.</span> <span class="toc-text">元数据</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%9C%A8%E5%86%85%E5%AD%98%E4%B8%AD%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="toc-number">7.1.</span> <span class="toc-text">在内存中的数据结构</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#chunk%E4%BD%8D%E7%BD%AE"><span class="toc-number">7.2.</span> <span class="toc-text">chunk位置</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%93%8D%E4%BD%9C%E6%97%A5%E5%BF%97"><span class="toc-number">7.3.</span> <span class="toc-text">操作日志</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%80%E8%87%B4%E6%80%A7%E6%A8%A1%E5%9E%8B"><span class="toc-number">8.</span> <span class="toc-text">一致性模型</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E9%80%9A%E8%BF%87GFS%E4%BF%9D%E8%AF%81"><span class="toc-number">8.1.</span> <span class="toc-text">通过GFS保证</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%AF%B9%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F%E7%9A%84%E5%BD%B1%E5%93%8D"><span class="toc-number">8.2.</span> <span class="toc-text">对应用程序的影响</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%A7%9F%E7%BA%A6%E6%9C%BA%E5%88%B6%E5%92%8C%E4%BF%AE%E6%94%B9%E9%A1%BA%E5%BA%8F"><span class="toc-number">8.3.</span> <span class="toc-text">租约机制和修改顺序</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#GFS%E5%86%99%E6%96%B9%E6%B3%95"><span class="toc-number">9.</span> <span class="toc-text">GFS写方法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#GFS%E7%9A%84%E5%B1%80%E9%99%90"><span class="toc-number">10.</span> <span class="toc-text">GFS的局限</span></a></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        GFS
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">Martin XU</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2025-01-05T02:42:03.292Z" class="dt-published" itemprop="datePublished">2025-01-05</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F/" rel="tag">分布式系统</a>, <a class="p-category" href="/tags/%E8%AE%BA%E6%96%87%E5%AF%BC%E8%AF%BB/" rel="tag">论文导读</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <h4 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h4><p>GFS是一个可以支持上千个机器和硬盘，上百用户同时访问的文件系统</p>
+<h4 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h4><table>
+<thead>
+<tr>
+<th>问题或现象</th>
+<th>解决办法</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>机器错误</td>
+<td>持续监控，错误发现，错误处理，自动恢复</td>
+</tr>
+<tr>
+<td>文件过大</td>
+<td>设计IO操作和block大小</td>
+</tr>
+<tr>
+<td>大部分文件写为append而不是overwrite</td>
+<td>只优化append保证性能和原子性</td>
+</tr>
+<tr>
+<td>引入GFS特有文件读写方式</td>
+<td>复用部分文件系统API</td>
+</tr>
+</tbody></table>
+<h4 id="设计概述"><a href="#设计概述" class="headerlink" title="设计概述"></a>设计概述</h4><h5 id="假设"><a href="#假设" class="headerlink" title="假设"></a>假设</h5><ul>
+<li>系统通过廉价机器组成</li>
+<li>日常处理GB级的文件</li>
+<li>写大部分为append</li>
+<li>多个用户看到的同一个文件必须相同</li>
+<li>保证高频使用的准确性</li>
+</ul>
+<h5 id="接口"><a href="#接口" class="headerlink" title="接口"></a>接口</h5><p>GFS<strong>不使用类似于POSIX的标准API</strong></p>
+<h4 id="架构"><a href="#架构" class="headerlink" title="架构"></a>架构</h4><p><strong>chunk：</strong>文件被分成<strong>固定大小</strong>的chunks。Chunkserver在本地磁盘保存chunks，通过chunk handle读写字节范围的chunk data</p>
+<p><strong>master：</strong>master节点维护所有文件系统的<strong>元数据</strong>，包括namespace，可用的控制信息，文件到chunks的map-ping，当前所有chunks的存储位置。另外还控制系统级别的事件，比如chunk租约管理，孤立chunks的垃圾回收，chunkserver间的chunk迁移。master还会周期性地与chunkserver通信heartbeat信息，给它指令和收集信息</p>
+<p><strong>client：</strong>GFS client节点链接所有应用实现文件系统API，代表应用程序<strong>与master和chunkserver通信</strong>。client只和masrer交换元数据，所有data通过直接与chunkserver通信拿到。client和chunkserver都不缓存文件data</p>
+<img src="/../../images/gfs_architecture.png" width=700px />
+
+<h4 id="通信步骤（介绍GFS读方法）"><a href="#通信步骤（介绍GFS读方法）" class="headerlink" title="通信步骤（介绍GFS读方法）"></a>通信步骤（介绍GFS读方法）</h4><p>client不从master节点读写data，而是询问master哪个chunkserver可以访问，然后在一段时间内<strong>缓存</strong>该信息，之后直接与chunkserver通信</p>
+<p>通信步骤如下：</p>
+<ol>
+<li>client将应用程序给的（file name，byte offset）转化为chunk index（offset&#x2F;chunk_size）</li>
+<li>client将（file name，chunk index）传给master</li>
+<li>master返回（chunk handle，chunk对应的所有备份文件的localtions）</li>
+<li>client缓存这些信息，通过（file name，chunk index）和chunk handle的map记录</li>
+<li>client优先向离自己最近的含有需要chunk的chunkserver请求（chunk handle，byte range），通常是请求所有的包含需要chunk的服务器</li>
+<li>chunkserver返回client（chunk data）</li>
+</ol>
+<p>除非client的缓存信息过期或者文件被其他client打开，client不会访问master</p>
+<p>由于读最近的server，所以<strong>data未必是最新的</strong></p>
+<h4 id="Chunk大小"><a href="#Chunk大小" class="headerlink" title="Chunk大小"></a>Chunk大小</h4><p>chunk大小为64MB，选取这么大的优点是</p>
+<ul>
+<li>减少client和master的通信次数</li>
+<li>减少client和master的TCP通信的overhead</li>
+<li>减少master存储的元数据的大小</li>
+</ul>
+<p>缺点是</p>
+<ul>
+<li>如果原始data很小而且client一直访问它，会造成同一个chunk的高频访问</li>
+</ul>
+<h4 id="元数据"><a href="#元数据" class="headerlink" title="元数据"></a>元数据</h4><p>master保存了三种主要的元数据</p>
+<ul>
+<li>file和chunk的namespace（NV）</li>
+<li>file到chunks的映射（NV）</li>
+<li>每个chunk副本的位置（V）</li>
+</ul>
+<p>所有元数据都存在master的内存中，前两个也存在持久化的log中，而且有远程的备份。对于第三个，master不使用持久化存储，因为master可以在启动后询问所有chunkserver它保存的chunk</p>
+<h5 id="在内存中的数据结构"><a href="#在内存中的数据结构" class="headerlink" title="在内存中的数据结构"></a>在内存中的数据结构</h5><p>对于内存中元数据的周期性扫描可以实现</p>
+<ul>
+<li>chunk垃圾回收</li>
+<li>在chunkserver出错时重新复制</li>
+<li>为了平衡chunkservers中硬盘使用负载而需要的chunk迁移</li>
+</ul>
+<h5 id="chunk位置"><a href="#chunk位置" class="headerlink" title="chunk位置"></a>chunk位置</h5><p>master<strong>从不持久化记录</strong>哪几个chunkserver有特定chunk的副本，而是在启动时询问chunkserver这些信息</p>
+<p>不进行持久化保存<strong>减少了master和chunkserver间的一些同步问题</strong>，比如chunkserver的退出和加入，名字的变化，失败和重启等等</p>
+<h5 id="操作日志"><a href="#操作日志" class="headerlink" title="操作日志"></a>操作日志</h5><p>操作日志记录了每次重要的元数据变化，它不仅是元数据的持久化记录还规定了同步操作的顺序。只有在本地和远程的操作日志都更新后才进行具体操作。</p>
+<p>使用checkpoint可以减少日志的大小，有问题时只需要从最近的checkpoint恢复即可</p>
+<p>master 会在本地磁盘存储 log，而不是存到数据库，原因是：数据库的本质是某种 B 树或者 hash table，而相比之下追加 log 会更加高效；而且，通过在 log 中创建一些 checkpoint 点，重建状态也会更快</p>
+<h4 id="一致性模型"><a href="#一致性模型" class="headerlink" title="一致性模型"></a>一致性模型</h4><h5 id="通过GFS保证"><a href="#通过GFS保证" class="headerlink" title="通过GFS保证"></a>通过GFS保证</h5><p><strong>file namespace</strong>的变化是原子的。通过master里的namespace锁保证</p>
+<p>如果文件状态是consistent，则所有client看到的同个文件多个副本的data都是相同的，文件状态如下图</p>
+<img src="/../../images/gfs_file_region.png" width=500px />
+
+<p>concurrent success表示所有client能看到相同的data但是不代表所有修改都被写入</p>
+<p>应用程序可以区分undefined状态</p>
+<p>GFS通过对于某个chunk及其所有副本以<strong>相同顺序写入</strong>来保证data是准确的，通过<strong>chunk version</strong>来标识写入的情况。过时的副本将不会参加接下来的变化或者被master将位置传给client，它将在之后以高优先级被回收</p>
+<p>由于client缓存chunk位置，所以它<strong>可能会读到过时的chunk</strong>。这种情况无法避免，只能<strong>通过缓存时间失效并重新向master访问减少</strong></p>
+<p>GFS通过<strong>定期向chunkserver握手</strong>，通过<strong>checksumming</strong>来检查问题。一旦有问题，data将尽早通过其他副本恢复。只有当所有副本都有问题时该data才会出错，应用程序会收到明确的错误信息而不是错误的data</p>
+<h5 id="对应用程序的影响"><a href="#对应用程序的影响" class="headerlink" title="对应用程序的影响"></a>对应用程序的影响</h5><p>writer的所有record包含checksum等额外信息，来确保有效性</p>
+<p>reader能够通过checksum来删除额外信息，找到data</p>
+<h5 id="租约机制和修改顺序"><a href="#租约机制和修改顺序" class="headerlink" title="租约机制和修改顺序"></a>租约机制和修改顺序</h5><p>master会将chunk的lease（租约）授权给其中一个副本，称为primary，它可以规定修改的顺序，所有副本必须遵循primary的修改顺序</p>
+<p>lease的timeout默认为60秒。然而只要chunk正在被改变，primary可以通过heartbeat message向master请求延长timeout。另外master也可以提前重新分配primary。</p>
+<p>即使master断开了与primary的通信，只需要等待timeout后重新分配primary即可</p>
+<h4 id="GFS写方法"><a href="#GFS写方法" class="headerlink" title="GFS写方法"></a>GFS写方法</h4><img src="/../../images/gfs_write.png" width=500px />
+
+<ol>
+<li>client向master询问要写部分对应的chunk和chunkserver的信息，并知道其中哪个是primary</li>
+<li>master返回chunk handle，chunkserver，primary chunkserver。client将信息缓存在本地。只有缓存信息过期才会去询问master</li>
+<li>client将信息传给所有拥有副本的chunkserver</li>
+<li>client发写指令给primary</li>
+<li>primary以自己规定的顺序写，secondary和primary写的顺序保持一致</li>
+<li>secondary写完后将信息同步给primary</li>
+<li>primary告知client已写完或某步失败</li>
+</ol>
+<p>对于第一步，master可能不知道谁是primary，它会把version和所有拥有副本的chunkserver比较，过段时间后（使前一个lease过期，防止同时出现两个primary），取最新的version作为primary。master维护的version可能也不是最新的，如果落后也会更新到最新版本</p>
+<h4 id="GFS的局限"><a href="#GFS的局限" class="headerlink" title="GFS的局限"></a>GFS的局限</h4><p>GFS 是<strong>宽松的一致性模型</strong>(relaxed consistency model)，可以理解是弱一致性的，它并<strong>不保证一个 chunk 的所有副本是相同的</strong></p>
+<p><strong>GFS 最严重的局限性就在于它只有一个 master 节点</strong>(这篇文章讨论了这个问题：<a target="_blank" rel="noopener" href="https://queue.acm.org/detail.cfm?id=1594206)%EF%BC%8C">https://queue.acm.org/detail.cfm?id=1594206)，</a> 单个 master 会带来以下问题：</p>
+<ul>
+<li>随着 GFS 的应用越来越多，文件也越来越多，最后 master 会耗尽内存来存储 metadata；你可以增加内存，但单台计算机的内存始终有上限；</li>
+<li>master 节点要承载数千个 client 的请求，master 节点的 CPU 每秒只能处理数百个请求，尤其是还要将部分数据写入磁盘——client 的数量会超过单个 master 的能力；</li>
+<li>弱一致性会导致应用程序很难处理 GFS 奇怪的语义；</li>
+<li>最后一个问题，master 的故障切换不是自动的，需要人工干预来处理已经永久故障的 master 节点，并更换新的服务器，这需要几十分钟甚至更长的时间来处理。对于某些应用程序来说，这个时间太长了。</li>
+</ul>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">Home</a></li>
+        
+          <li><a href="/about/">About</a></li>
+        
+          <li><a href="/archives/">Writing</a></li>
+        
+          <li><a href="/tags/">Tag</a></li>
+        
+          <li><a href="/search/">Search</a></li>
+        
+          <li><a target="_blank" rel="noopener" href="https://github.com/smartyue076">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%91%98%E8%A6%81"><span class="toc-number">1.</span> <span class="toc-text">摘要</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BB%8B%E7%BB%8D"><span class="toc-number">2.</span> <span class="toc-text">介绍</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%AE%BE%E8%AE%A1%E6%A6%82%E8%BF%B0"><span class="toc-number">3.</span> <span class="toc-text">设计概述</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%81%87%E8%AE%BE"><span class="toc-number">3.1.</span> <span class="toc-text">假设</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%8E%A5%E5%8F%A3"><span class="toc-number">3.2.</span> <span class="toc-text">接口</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9E%B6%E6%9E%84"><span class="toc-number">4.</span> <span class="toc-text">架构</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%80%9A%E4%BF%A1%E6%AD%A5%E9%AA%A4%EF%BC%88%E4%BB%8B%E7%BB%8DGFS%E8%AF%BB%E6%96%B9%E6%B3%95%EF%BC%89"><span class="toc-number">5.</span> <span class="toc-text">通信步骤（介绍GFS读方法）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Chunk%E5%A4%A7%E5%B0%8F"><span class="toc-number">6.</span> <span class="toc-text">Chunk大小</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%85%83%E6%95%B0%E6%8D%AE"><span class="toc-number">7.</span> <span class="toc-text">元数据</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%9C%A8%E5%86%85%E5%AD%98%E4%B8%AD%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="toc-number">7.1.</span> <span class="toc-text">在内存中的数据结构</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#chunk%E4%BD%8D%E7%BD%AE"><span class="toc-number">7.2.</span> <span class="toc-text">chunk位置</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%93%8D%E4%BD%9C%E6%97%A5%E5%BF%97"><span class="toc-number">7.3.</span> <span class="toc-text">操作日志</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%80%E8%87%B4%E6%80%A7%E6%A8%A1%E5%9E%8B"><span class="toc-number">8.</span> <span class="toc-text">一致性模型</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E9%80%9A%E8%BF%87GFS%E4%BF%9D%E8%AF%81"><span class="toc-number">8.1.</span> <span class="toc-text">通过GFS保证</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%AF%B9%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F%E7%9A%84%E5%BD%B1%E5%93%8D"><span class="toc-number">8.2.</span> <span class="toc-text">对应用程序的影响</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%A7%9F%E7%BA%A6%E6%9C%BA%E5%88%B6%E5%92%8C%E4%BF%AE%E6%94%B9%E9%A1%BA%E5%BA%8F"><span class="toc-number">8.3.</span> <span class="toc-text">租约机制和修改顺序</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#GFS%E5%86%99%E6%96%B9%E6%B3%95"><span class="toc-number">9.</span> <span class="toc-text">GFS写方法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#GFS%E7%9A%84%E5%B1%80%E9%99%90"><span class="toc-number">10.</span> <span class="toc-text">GFS的局限</span></a></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://smartyue076.github.io/2025/01/05/Chapter2%20GFS/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://smartyue076.github.io/2025/01/05/Chapter2%20GFS/&text=GFS"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://smartyue076.github.io/2025/01/05/Chapter2%20GFS/&title=GFS"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://smartyue076.github.io/2025/01/05/Chapter2%20GFS/&is_video=false&description=GFS"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=GFS&body=Check out this article: https://smartyue076.github.io/2025/01/05/Chapter2%20GFS/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://smartyue076.github.io/2025/01/05/Chapter2%20GFS/&title=GFS"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://smartyue076.github.io/2025/01/05/Chapter2%20GFS/&title=GFS"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://smartyue076.github.io/2025/01/05/Chapter2%20GFS/&title=GFS"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://smartyue076.github.io/2025/01/05/Chapter2%20GFS/&title=GFS"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://smartyue076.github.io/2025/01/05/Chapter2%20GFS/&name=GFS&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://smartyue076.github.io/2025/01/05/Chapter2%20GFS/&t=GFS"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2020-2025
+    Martin XU
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/tags/">Tag</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/smartyue076">Projects</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+  <script type="text/javascript">
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?2e6da3c375c8a87f5b664cea6d4cb29c";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+        </script>
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

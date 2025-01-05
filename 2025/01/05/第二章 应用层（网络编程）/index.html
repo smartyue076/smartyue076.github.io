@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="UDP编程  UdpClient 123456789from socket import *serverName &#x3D; &quot;hostname&quot;severPort &#x3D; 12000clientSocket &#x3D; socket(AF_INET,SOCK_DGRAM) # ipv4,udpmessage &#x3D; &quot;Hello World&quot;clientSocket.sendto">
+<meta property="og:type" content="article">
+<meta property="og:title" content="计算机网络（四）应用层（网络编程）">
+<meta property="og:url" content="https://smartyue076.github.io/2025/01/05/%E7%AC%AC%E4%BA%8C%E7%AB%A0%20%E5%BA%94%E7%94%A8%E5%B1%82%EF%BC%88%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%EF%BC%89/index.html">
+<meta property="og:site_name" content="Martin XU的技术博客">
+<meta property="og:description" content="UDP编程  UdpClient 123456789from socket import *serverName &#x3D; &quot;hostname&quot;severPort &#x3D; 12000clientSocket &#x3D; socket(AF_INET,SOCK_DGRAM) # ipv4,udpmessage &#x3D; &quot;Hello World&quot;clientSocket.sendto">
+<meta property="og:locale">
+<meta property="og:image" content="https://smartyue076.github.io/images/udpprocess.png">
+<meta property="og:image" content="https://smartyue076.github.io/images/tcpprocess.png">
+<meta property="article:published_time" content="2025-01-05T02:53:54.739Z">
+<meta property="article:modified_time" content="2025-01-05T02:53:54.740Z">
+<meta property="article:author" content="Martin XU">
+<meta property="article:tag" content="计算机网络">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://smartyue076.github.io/images/udpprocess.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>计算机网络（四）应用层（网络编程）</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-86660611-1"></script>
+  <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'UA-86660611-1');
+  </script>
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/tags/">Tag</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/smartyue076">Projects</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="Previous post" href="/2025/01/05/%E7%AC%AC%E4%B8%89%E7%AB%A0%20%E4%BC%A0%E8%BE%93%E5%B1%82/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/2025/01/05/%E7%AC%AC%E4%BA%8C%E7%AB%A0%20%E5%BA%94%E7%94%A8%E5%B1%82/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://smartyue076.github.io/2025/01/05/%E7%AC%AC%E4%BA%8C%E7%AB%A0%20%E5%BA%94%E7%94%A8%E5%B1%82%EF%BC%88%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%EF%BC%89/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://smartyue076.github.io/2025/01/05/%E7%AC%AC%E4%BA%8C%E7%AB%A0%20%E5%BA%94%E7%94%A8%E5%B1%82%EF%BC%88%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%EF%BC%89/&text=计算机网络（四）应用层（网络编程）"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://smartyue076.github.io/2025/01/05/%E7%AC%AC%E4%BA%8C%E7%AB%A0%20%E5%BA%94%E7%94%A8%E5%B1%82%EF%BC%88%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%EF%BC%89/&title=计算机网络（四）应用层（网络编程）"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://smartyue076.github.io/2025/01/05/%E7%AC%AC%E4%BA%8C%E7%AB%A0%20%E5%BA%94%E7%94%A8%E5%B1%82%EF%BC%88%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%EF%BC%89/&is_video=false&description=计算机网络（四）应用层（网络编程）"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=计算机网络（四）应用层（网络编程）&body=Check out this article: https://smartyue076.github.io/2025/01/05/%E7%AC%AC%E4%BA%8C%E7%AB%A0%20%E5%BA%94%E7%94%A8%E5%B1%82%EF%BC%88%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%EF%BC%89/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://smartyue076.github.io/2025/01/05/%E7%AC%AC%E4%BA%8C%E7%AB%A0%20%E5%BA%94%E7%94%A8%E5%B1%82%EF%BC%88%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%EF%BC%89/&title=计算机网络（四）应用层（网络编程）"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://smartyue076.github.io/2025/01/05/%E7%AC%AC%E4%BA%8C%E7%AB%A0%20%E5%BA%94%E7%94%A8%E5%B1%82%EF%BC%88%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%EF%BC%89/&title=计算机网络（四）应用层（网络编程）"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://smartyue076.github.io/2025/01/05/%E7%AC%AC%E4%BA%8C%E7%AB%A0%20%E5%BA%94%E7%94%A8%E5%B1%82%EF%BC%88%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%EF%BC%89/&title=计算机网络（四）应用层（网络编程）"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://smartyue076.github.io/2025/01/05/%E7%AC%AC%E4%BA%8C%E7%AB%A0%20%E5%BA%94%E7%94%A8%E5%B1%82%EF%BC%88%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%EF%BC%89/&title=计算机网络（四）应用层（网络编程）"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://smartyue076.github.io/2025/01/05/%E7%AC%AC%E4%BA%8C%E7%AB%A0%20%E5%BA%94%E7%94%A8%E5%B1%82%EF%BC%88%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%EF%BC%89/&name=计算机网络（四）应用层（网络编程）&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://smartyue076.github.io/2025/01/05/%E7%AC%AC%E4%BA%8C%E7%AB%A0%20%E5%BA%94%E7%94%A8%E5%B1%82%EF%BC%88%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%EF%BC%89/&t=计算机网络（四）应用层（网络编程）"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#UDP%E7%BC%96%E7%A8%8B"><span class="toc-number">1.</span> <span class="toc-text">UDP编程</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#TCP%E7%BC%96%E7%A8%8B"><span class="toc-number">1.1.</span> <span class="toc-text">TCP编程</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8C%BA%E5%88%AB"><span class="toc-number">2.</span> <span class="toc-text">区别</span></a></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        计算机网络（四）应用层（网络编程）
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">Martin XU</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2025-01-05T02:53:54.739Z" class="dt-published" itemprop="datePublished">2025-01-05</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" rel="tag">计算机网络</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <h3 id="UDP编程"><a href="#UDP编程" class="headerlink" title="UDP编程"></a>UDP编程</h3><img src="/../../images/udpprocess.png" alt="udpprocess" style="zoom:50%;" />
+
+<p>UdpClient</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> socket <span class="keyword">import</span> *</span><br><span class="line">serverName = <span class="string">&quot;hostname&quot;</span></span><br><span class="line">severPort = <span class="number">12000</span></span><br><span class="line">clientSocket = socket(AF_INET,SOCK_DGRAM) <span class="comment"># ipv4,udp</span></span><br><span class="line">message = <span class="string">&quot;Hello World&quot;</span></span><br><span class="line">clientSocket.sendto(message.encode(),(serverName,severPort))</span><br><span class="line">modifiedMessage,serverAddress = clientSocket.recvfrom(<span class="number">2048</span>)</span><br><span class="line"><span class="built_in">print</span>(modifiedMessage.decode)</span><br><span class="line">clientSocket.close()</span><br></pre></td></tr></table></figure>
+
+<p>Udpserver</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> socket <span class="keyword">import</span> *</span><br><span class="line">serverPort = <span class="number">12000</span></span><br><span class="line">serverSocket = socket(AF_INET, SOCK_DGRAM)  <span class="comment"># ipv4,udp</span></span><br><span class="line">serverSocket.bind((<span class="string">&#x27;&#x27;</span>, serverPort))</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;The server is ready to receive&quot;</span>)</span><br><span class="line"><span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">    message, clientAddress = serverSocket.recvfrom(<span class="number">2048</span>)</span><br><span class="line">    modifiedMssage = message.decode().upper()</span><br><span class="line">    serverSocket.sendto(modifiedMssage.encode(), clientAddress)</span><br></pre></td></tr></table></figure>
+
+<h4 id="TCP编程"><a href="#TCP编程" class="headerlink" title="TCP编程"></a>TCP编程</h4><img src="/../../images/tcpprocess.png" alt="tcpprocess" style="zoom:50%;" />
+
+<p>TcpClient</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> socket <span class="keyword">import</span> *</span><br><span class="line">serverName = <span class="string">&quot;servername&quot;</span></span><br><span class="line">serverPort = <span class="number">12000</span></span><br><span class="line">clientSocket = socket(AF_INET,SOCK_STREAM) <span class="comment">#ipv4,tcp</span></span><br><span class="line">clientSocket.connect((serverName,serverPort))</span><br><span class="line">sentence = <span class="string">&quot;Hello World&quot;</span></span><br><span class="line">clientSocket.send(sentence.encode()) <span class="comment"># tcp three-way handshake to welcomesocket</span></span><br><span class="line">modifiedSentence = clientSocket.recv(<span class="number">1024</span>)</span><br><span class="line">clientSocket.close()</span><br></pre></td></tr></table></figure>
+
+<p>TcpServer</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> socket <span class="keyword">import</span> *</span><br><span class="line">serverPort = <span class="number">12000</span></span><br><span class="line">welcomeSocket = socket(AF_INET,SOCK_STREAM) <span class="comment"># create for client to handshake</span></span><br><span class="line">welcomeSocket.bind((<span class="string">&#x27;&#x27;</span>,serverPort))</span><br><span class="line">welcomeSocket.listen(<span class="number">1</span>) <span class="comment"># accept one connection</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;The server is ready to receive&quot;</span>)</span><br><span class="line"><span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">    connectionSocket,addr = welcomeSocket.accept() <span class="comment"># create socket to connect to client</span></span><br><span class="line">    sentence = connectionSocket.recv(<span class="number">1024</span>).decode()</span><br><span class="line">    modifiedMssage = sentence.decode().upper()</span><br><span class="line">    connectionSocket.send(modifiedMssage.encode())</span><br><span class="line">    connectionSocket.close()</span><br></pre></td></tr></table></figure>
+
+<h3 id="区别"><a href="#区别" class="headerlink" title="区别"></a>区别</h3><p>TCP需要在传输前建立连接，传输后关闭连接</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">Home</a></li>
+        
+          <li><a href="/about/">About</a></li>
+        
+          <li><a href="/archives/">Writing</a></li>
+        
+          <li><a href="/tags/">Tag</a></li>
+        
+          <li><a href="/search/">Search</a></li>
+        
+          <li><a target="_blank" rel="noopener" href="https://github.com/smartyue076">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#UDP%E7%BC%96%E7%A8%8B"><span class="toc-number">1.</span> <span class="toc-text">UDP编程</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#TCP%E7%BC%96%E7%A8%8B"><span class="toc-number">1.1.</span> <span class="toc-text">TCP编程</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8C%BA%E5%88%AB"><span class="toc-number">2.</span> <span class="toc-text">区别</span></a></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://smartyue076.github.io/2025/01/05/%E7%AC%AC%E4%BA%8C%E7%AB%A0%20%E5%BA%94%E7%94%A8%E5%B1%82%EF%BC%88%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%EF%BC%89/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://smartyue076.github.io/2025/01/05/%E7%AC%AC%E4%BA%8C%E7%AB%A0%20%E5%BA%94%E7%94%A8%E5%B1%82%EF%BC%88%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%EF%BC%89/&text=计算机网络（四）应用层（网络编程）"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://smartyue076.github.io/2025/01/05/%E7%AC%AC%E4%BA%8C%E7%AB%A0%20%E5%BA%94%E7%94%A8%E5%B1%82%EF%BC%88%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%EF%BC%89/&title=计算机网络（四）应用层（网络编程）"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://smartyue076.github.io/2025/01/05/%E7%AC%AC%E4%BA%8C%E7%AB%A0%20%E5%BA%94%E7%94%A8%E5%B1%82%EF%BC%88%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%EF%BC%89/&is_video=false&description=计算机网络（四）应用层（网络编程）"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=计算机网络（四）应用层（网络编程）&body=Check out this article: https://smartyue076.github.io/2025/01/05/%E7%AC%AC%E4%BA%8C%E7%AB%A0%20%E5%BA%94%E7%94%A8%E5%B1%82%EF%BC%88%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%EF%BC%89/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://smartyue076.github.io/2025/01/05/%E7%AC%AC%E4%BA%8C%E7%AB%A0%20%E5%BA%94%E7%94%A8%E5%B1%82%EF%BC%88%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%EF%BC%89/&title=计算机网络（四）应用层（网络编程）"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://smartyue076.github.io/2025/01/05/%E7%AC%AC%E4%BA%8C%E7%AB%A0%20%E5%BA%94%E7%94%A8%E5%B1%82%EF%BC%88%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%EF%BC%89/&title=计算机网络（四）应用层（网络编程）"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://smartyue076.github.io/2025/01/05/%E7%AC%AC%E4%BA%8C%E7%AB%A0%20%E5%BA%94%E7%94%A8%E5%B1%82%EF%BC%88%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%EF%BC%89/&title=计算机网络（四）应用层（网络编程）"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://smartyue076.github.io/2025/01/05/%E7%AC%AC%E4%BA%8C%E7%AB%A0%20%E5%BA%94%E7%94%A8%E5%B1%82%EF%BC%88%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%EF%BC%89/&title=计算机网络（四）应用层（网络编程）"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://smartyue076.github.io/2025/01/05/%E7%AC%AC%E4%BA%8C%E7%AB%A0%20%E5%BA%94%E7%94%A8%E5%B1%82%EF%BC%88%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%EF%BC%89/&name=计算机网络（四）应用层（网络编程）&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://smartyue076.github.io/2025/01/05/%E7%AC%AC%E4%BA%8C%E7%AB%A0%20%E5%BA%94%E7%94%A8%E5%B1%82%EF%BC%88%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%EF%BC%89/&t=计算机网络（四）应用层（网络编程）"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2020-2025
+    Martin XU
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/tags/">Tag</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/smartyue076">Projects</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+  <script type="text/javascript">
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?2e6da3c375c8a87f5b664cea6d4cb29c";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+        </script>
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

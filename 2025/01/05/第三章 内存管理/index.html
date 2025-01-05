@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="第三章 内存管理程序重定位在编译形成可执行程序时，用到的地址都是从0开始的相对地址，也被称为逻辑地址。但被加载到内存后可能使用任意一块空闲地址，所以需要将逻辑地址转化成内存中实际的物理地址，即重定位。 有以下几种解决方法：  编译时重定位：需要在编译时确定哪块内存空间空闲，且在装入前不允许使用（用于执行固定任务的计算机系统，如嵌入式系统）  载入时重定位：在程序载入时，根据初始内存地址修改程序里的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="操作系统（四）内存管理">
+<meta property="og:url" content="https://smartyue076.github.io/2025/01/05/%E7%AC%AC%E4%B8%89%E7%AB%A0%20%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/index.html">
+<meta property="og:site_name" content="Martin XU的技术博客">
+<meta property="og:description" content="第三章 内存管理程序重定位在编译形成可执行程序时，用到的地址都是从0开始的相对地址，也被称为逻辑地址。但被加载到内存后可能使用任意一块空闲地址，所以需要将逻辑地址转化成内存中实际的物理地址，即重定位。 有以下几种解决方法：  编译时重定位：需要在编译时确定哪块内存空间空闲，且在装入前不允许使用（用于执行固定任务的计算机系统，如嵌入式系统）  载入时重定位：在程序载入时，根据初始内存地址修改程序里的">
+<meta property="og:locale">
+<meta property="og:image" content="https://smartyue076.github.io/images/mem_base.png">
+<meta property="og:image" content="https://smartyue076.github.io/images/memoryLayoutC.jpg">
+<meta property="og:image" content="https://smartyue076.github.io/images/seg_table.png">
+<meta property="og:image" content="https://smartyue076.github.io/images/page_table.png">
+<meta property="og:image" content="https://smartyue076.github.io/images/multi_page.png">
+<meta property="og:image" content="https://smartyue076.github.io/images/TLB.png">
+<meta property="og:image" content="https://smartyue076.github.io/images/virtual_add.png">
+<meta property="og:image" content="https://smartyue076.github.io/images/address_translate.png">
+<meta property="og:image" content="https://smartyue076.github.io/images/different_view_of_mem.png">
+<meta property="og:image" content="https://smartyue076.github.io/images/LRU.png">
+<meta property="og:image" content="https://smartyue076.github.io/images/clock_algo.png">
+<meta property="og:image" content="https://smartyue076.github.io/images/advanced_clock_algo.png">
+<meta property="article:published_time" content="2025-01-05T03:10:21.826Z">
+<meta property="article:modified_time" content="2025-01-05T03:10:21.827Z">
+<meta property="article:author" content="Martin XU">
+<meta property="article:tag" content="操作系统">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://smartyue076.github.io/images/mem_base.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>操作系统（四）内存管理</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-86660611-1"></script>
+  <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'UA-86660611-1');
+  </script>
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/tags/">Tag</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/smartyue076">Projects</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="Previous post" href="/2025/01/05/%E7%AC%AC%E5%9B%9B%E7%AB%A0%20%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/2025/01/05/%E7%AC%AC%E4%BA%8C%E7%AB%A0%20%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86%EF%BC%88%E8%BF%9B%E7%A8%8B%E5%90%8C%E6%AD%A5%E4%B8%8E%E6%AD%BB%E9%94%81%EF%BC%89/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://smartyue076.github.io/2025/01/05/%E7%AC%AC%E4%B8%89%E7%AB%A0%20%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://smartyue076.github.io/2025/01/05/%E7%AC%AC%E4%B8%89%E7%AB%A0%20%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/&text=操作系统（四）内存管理"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://smartyue076.github.io/2025/01/05/%E7%AC%AC%E4%B8%89%E7%AB%A0%20%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/&title=操作系统（四）内存管理"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://smartyue076.github.io/2025/01/05/%E7%AC%AC%E4%B8%89%E7%AB%A0%20%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/&is_video=false&description=操作系统（四）内存管理"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=操作系统（四）内存管理&body=Check out this article: https://smartyue076.github.io/2025/01/05/%E7%AC%AC%E4%B8%89%E7%AB%A0%20%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://smartyue076.github.io/2025/01/05/%E7%AC%AC%E4%B8%89%E7%AB%A0%20%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/&title=操作系统（四）内存管理"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://smartyue076.github.io/2025/01/05/%E7%AC%AC%E4%B8%89%E7%AB%A0%20%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/&title=操作系统（四）内存管理"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://smartyue076.github.io/2025/01/05/%E7%AC%AC%E4%B8%89%E7%AB%A0%20%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/&title=操作系统（四）内存管理"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://smartyue076.github.io/2025/01/05/%E7%AC%AC%E4%B8%89%E7%AB%A0%20%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/&title=操作系统（四）内存管理"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://smartyue076.github.io/2025/01/05/%E7%AC%AC%E4%B8%89%E7%AB%A0%20%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/&name=操作系统（四）内存管理&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://smartyue076.github.io/2025/01/05/%E7%AC%AC%E4%B8%89%E7%AB%A0%20%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/&t=操作系统（四）内存管理"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC%E4%B8%89%E7%AB%A0-%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86"><span class="toc-number">1.</span> <span class="toc-text">第三章 内存管理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A8%8B%E5%BA%8F%E9%87%8D%E5%AE%9A%E4%BD%8D"><span class="toc-number">1.1.</span> <span class="toc-text">程序重定位</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E6%AE%B5"><span class="toc-number">1.2.</span> <span class="toc-text">分段</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E9%A1%B5"><span class="toc-number">1.3.</span> <span class="toc-text">分页</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%AE%B5%E9%A1%B5%E5%BC%8F%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86"><span class="toc-number">1.4.</span> <span class="toc-text">段页式内存管理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A1%B5%E7%9A%84%E6%8D%A2%E5%85%A5%E5%92%8C%E6%8D%A2%E5%87%BA"><span class="toc-number">1.5.</span> <span class="toc-text">页的换入和换出</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%A1%B5%E9%9D%A2%E7%BD%AE%E6%8D%A2%E7%AE%97%E6%B3%95"><span class="toc-number">1.5.1.</span> <span class="toc-text">页面置换算法</span></a></li></ol></li></ol></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        操作系统（四）内存管理
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">Martin XU</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2025-01-05T03:10:21.826Z" class="dt-published" itemprop="datePublished">2025-01-05</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" rel="tag">操作系统</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <h2 id="第三章-内存管理"><a href="#第三章-内存管理" class="headerlink" title="第三章 内存管理"></a>第三章 内存管理</h2><h3 id="程序重定位"><a href="#程序重定位" class="headerlink" title="程序重定位"></a>程序重定位</h3><p>在编译形成可执行程序时，用到的地址都是从0开始的相对地址，也被称为<strong>逻辑地址</strong>。但被加载到内存后可能使用任意一块空闲地址，所以需要将逻辑地址转化成内存中实际的物理地址，即<strong>重定位</strong>。</p>
+<p>有以下几种解决方法：</p>
+<ol>
+<li><p>编译时重定位：需要在编译时确定哪块内存空间空闲，且在装入前不允许使用（用于执行固定任务的计算机系统，如嵌入式系统）</p>
+</li>
+<li><p>载入时重定位：在程序载入时，根据初始内存地址修改程序里的逻辑地址，但如果进程阻塞换出内存后换入时的地址不一定是之前的地址，造成错误</p>
+</li>
+<li><p><strong>运行时重定位（PC机使用）</strong>：在指令执行时才将逻辑地址转化为物理地址，取出指令—修改地址（<strong>存储管理部件MMU</strong>计算）—执行指令</p>
+<p>基地址存在PCB中，在内存基地址修改时更新，在执行时加载到寄存器中使MMU修改地址</p>
+<img src="/../../images/mem_base.png" width=700px /></li>
+</ol>
+<h3 id="分段"><a href="#分段" class="headerlink" title="分段"></a>分段</h3><p>程序由若干段组成，每段都有各自的用途</p>
+<ul>
+<li>代码段：程序指令形成的段，只读</li>
+<li>数据段：存放程序使用的数据，可读可写</li>
+<li>栈：实现函数调用，通常只能向下（低地址）增长</li>
+<li>函数库：include的函数库，可有可无</li>
+</ul>
+<img src="/../../images/memoryLayoutC.jpg" width=500px />
+
+<p>由于各个段有不同的语义及限制操作，所以需要进行区分。</p>
+<p>因为程序已经分段，故不需要将其整体放入内存的连续空间，可一段段放入不同的内存空间，提高内存使用效率</p>
+<p>在进行重定位时，访问<strong>段表（局部描述符表LDT，PCB中）</strong>中对应段的基地址给MMU运算得到物理地址</p>
+<img src="/../../images/seg_table.png" width=700px />
+
+<p>分段的缺点是由于段较大，经过多次的申请和释放，很容易产生很多细小的无法分配给其他进程的<strong>内存碎片</strong>，故引入基于物理地址的分页机制（区别于基于逻辑地址分段机制）</p>
+<h3 id="分页"><a href="#分页" class="headerlink" title="分页"></a>分页</h3><p>分页机制首先将内存分为大小相等的页框（通常为4B），然后再把请求放入内存的数据切成大小相同的页，最后将所有页映射到页框上。<strong>以解决内存碎片问题造成的空间浪费。</strong></p>
+<p><strong>页表存在内存中</strong></p>
+<img src="/../../images/page_table.png" width=700px />
+
+<p>在32位机上最大的逻辑地址为2^32，每个页面4K，所以有2^20页，每个页表项需要4B存储，故每个进程需要4MB在存储页表（每个进程都有自己的页表），当进程数多时，需要很大的空间存储页表，但实际上页表只是做了索引保存基地址的作用，没有实际作用，这代价不可接受。</p>
+<p>但是由于程序的<strong>局部性原则</strong>，不需要把程序的所有页加载到内存中，可以去除未被使用的逻辑页，<strong>缩小页表</strong>。</p>
+<p>可是这又引发了其他问题，由于删除了未使用项导致页表无法随机访问，需要通过多次查找页表获取页号对应的页框号。<strong>每次访问页表就是访问内存，效率很低。</strong>所以引入了<strong>多级页表</strong>，且保证<strong>页表项连续</strong>，可以随机访问，减少搜索（访存）次数，另外<strong>只在内存中存需要一级页表对应的页表项</strong>，提升内存利用率。</p>
+<img src="/../../images/multi_page.png" width=700px />
+
+<p>由于程序的<strong>局部性原则</strong>，访问的页集中，所以可以将近期使用的页信息放在<strong>快表（TLB，Cache中）</strong>，减少访存次数。</p>
+<p>TLB内页表项无序。</p>
+<img src="/../../images/TLB.png" width=700px />
+
+<h3 id="段页式内存管理"><a href="#段页式内存管理" class="headerlink" title="段页式内存管理"></a>段页式内存管理</h3><p>从程序员角度，程序分为一个个逻辑段，但分段的缺点是由于段较大，在申请和释放时很容易产生内存碎片</p>
+<p>从内存角度，程序分为一个个小的长度均匀的物理页存放到内存中，优点是提高了内存的利用率，但是有违程序员对于程序的理解</p>
+<p>所以引入<strong>段页式内存管理</strong>方式，先将程序分段，再将程序分页，存储到物理内存上</p>
+<img src="/../../images/virtual_add.png" width=500px />
+
+<p>当<strong>磁盘上的一个程序要放入内存</strong>时，会依次完成如下工作：</p>
+<ol>
+<li>在<strong>虚拟内存分割分区，放入各个“段”</strong>，不是真的放入，而是建立映射关系（fork出的子进程和父进程用不同的虚拟内存）</li>
+<li><strong>建立段表</strong>记录<strong>逻辑地址和虚拟地址的映射</strong>关系</li>
+<li>将<strong>虚拟内存分割成页，放入空闲物理内存</strong></li>
+<li>建立页表记录<strong>逻辑地址和物理地址的映射</strong>关系（fork出的子进程拷贝父进程的映射关系，但如果子进程要修改数据区，则申请新内存页，建立映射关系，内核已将父进程的内存空间设为只读，防止了子进程的修改，所以子进程对于数据区的修改不会影响父进程）</li>
+</ol>
+<img src="/../../images/address_translate.png" width=700px />
+
+<p>虚拟地址对用户透明，用户无法获取物理地址</p>
+<img src="/../../images/different_view_of_mem.png" width=700px />
+
+<h3 id="页的换入和换出"><a href="#页的换入和换出" class="headerlink" title="页的换入和换出"></a>页的换入和换出</h3><p>虚拟内存就是操作系统给进程提供的一个规整的、总长度总为4GB（32位操作系统）的地址空间，但实际的物理内存可能少于4GB，所以虚拟内存不可能全部映射到物理内存上，需要物理内存和磁盘存储的<strong>换入&#x2F;换出操作</strong>。</p>
+<p>通过虚拟内存和页表<strong>确认页表项</strong>，看其有效位是否为1（0表示在物理内存中，1表示不在），若为0，则需从磁盘<strong>换入</strong>。换入的系统调用（缺页中断）如下。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Step 0: push variable to stack</span></span><br><span class="line"><span class="type">void</span> <span class="title function_">do_no_page</span><span class="params">(<span class="type">unsigned</span> <span class="type">long</span> error_code, <span class="type">unsigned</span> <span class="type">long</span> address)</span></span><br><span class="line">&#123;</span><br><span class="line">  address &amp;= <span class="number">0xfffff00</span>; <span class="comment">// Step 1: get page numuber</span></span><br><span class="line">  page = get_free_page(); <span class="comment">// Step2: malloc free page on physical memory</span></span><br><span class="line">  bread_page(page,current-&gt;executable-&gt;i_dev, nr); <span class="comment">//Step3: copy block to physical memory</span></span><br><span class="line">  put_page(page, address); <span class="comment">//Step4: update page table</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果物理内存满在<code>Step 2</code>直接分配内存会失败，需要选取页面<strong>换出</strong></p>
+<h4 id="页面置换算法"><a href="#页面置换算法" class="headerlink" title="页面置换算法"></a>页面置换算法</h4><ol>
+<li>LRU（最近最少使用）</li>
+</ol>
+<p>基于页面栈（数据结构采用链表），搜索新页面是否在栈中，若不在则pop栈底元素，新元素入栈。如果在，则将栈顶元素修改为当前元素，其他元素下移</p>
+<img src="/../../images/LRU.png" width=700px />
+
+<p><strong>操作系统不采用，因为每次页面访问都需要维护页面栈，也就是访存，另外还涉及到指针的修改</strong></p>
+<ol start="2">
+<li>clock算法（SCR算法，second-chance-replacement）</li>
+</ol>
+<p><strong>clock算法是对于LRU的近似，LRU为最近最少使用，clock为最近的上次缺页以来不使用</strong></p>
+<p>页面每次访问时R位置1，缺页时扫描当前线性表</p>
+<ul>
+<li>如果R&#x3D;1，置为0，不换出给它一次机会</li>
+<li>如果R&#x3D;0，换出，并将换入页R置为1</li>
+</ul>
+<img src="/../../images/clock_algo.png" width=500px />
+
+<p><strong>存在的问题是实际发生缺页的概率并不大，可能找不出R&#x3D;0的页，所以引入改近clock算法</strong></p>
+<ol start="3">
+<li>改进的clock算法</li>
+</ol>
+<p>需要一个指针定期扫描所有页并将对应R置0，换出页遇到R&#x3D;0换出</p>
+<img src="/../../images/advanced_clock_algo.png" width=700px />
+
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">Home</a></li>
+        
+          <li><a href="/about/">About</a></li>
+        
+          <li><a href="/archives/">Writing</a></li>
+        
+          <li><a href="/tags/">Tag</a></li>
+        
+          <li><a href="/search/">Search</a></li>
+        
+          <li><a target="_blank" rel="noopener" href="https://github.com/smartyue076">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC%E4%B8%89%E7%AB%A0-%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86"><span class="toc-number">1.</span> <span class="toc-text">第三章 内存管理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A8%8B%E5%BA%8F%E9%87%8D%E5%AE%9A%E4%BD%8D"><span class="toc-number">1.1.</span> <span class="toc-text">程序重定位</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E6%AE%B5"><span class="toc-number">1.2.</span> <span class="toc-text">分段</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E9%A1%B5"><span class="toc-number">1.3.</span> <span class="toc-text">分页</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%AE%B5%E9%A1%B5%E5%BC%8F%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86"><span class="toc-number">1.4.</span> <span class="toc-text">段页式内存管理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A1%B5%E7%9A%84%E6%8D%A2%E5%85%A5%E5%92%8C%E6%8D%A2%E5%87%BA"><span class="toc-number">1.5.</span> <span class="toc-text">页的换入和换出</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%A1%B5%E9%9D%A2%E7%BD%AE%E6%8D%A2%E7%AE%97%E6%B3%95"><span class="toc-number">1.5.1.</span> <span class="toc-text">页面置换算法</span></a></li></ol></li></ol></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://smartyue076.github.io/2025/01/05/%E7%AC%AC%E4%B8%89%E7%AB%A0%20%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://smartyue076.github.io/2025/01/05/%E7%AC%AC%E4%B8%89%E7%AB%A0%20%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/&text=操作系统（四）内存管理"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://smartyue076.github.io/2025/01/05/%E7%AC%AC%E4%B8%89%E7%AB%A0%20%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/&title=操作系统（四）内存管理"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://smartyue076.github.io/2025/01/05/%E7%AC%AC%E4%B8%89%E7%AB%A0%20%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/&is_video=false&description=操作系统（四）内存管理"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=操作系统（四）内存管理&body=Check out this article: https://smartyue076.github.io/2025/01/05/%E7%AC%AC%E4%B8%89%E7%AB%A0%20%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://smartyue076.github.io/2025/01/05/%E7%AC%AC%E4%B8%89%E7%AB%A0%20%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/&title=操作系统（四）内存管理"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://smartyue076.github.io/2025/01/05/%E7%AC%AC%E4%B8%89%E7%AB%A0%20%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/&title=操作系统（四）内存管理"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://smartyue076.github.io/2025/01/05/%E7%AC%AC%E4%B8%89%E7%AB%A0%20%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/&title=操作系统（四）内存管理"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://smartyue076.github.io/2025/01/05/%E7%AC%AC%E4%B8%89%E7%AB%A0%20%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/&title=操作系统（四）内存管理"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://smartyue076.github.io/2025/01/05/%E7%AC%AC%E4%B8%89%E7%AB%A0%20%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/&name=操作系统（四）内存管理&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://smartyue076.github.io/2025/01/05/%E7%AC%AC%E4%B8%89%E7%AB%A0%20%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/&t=操作系统（四）内存管理"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2020-2025
+    Martin XU
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/tags/">Tag</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/smartyue076">Projects</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+  <script type="text/javascript">
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?2e6da3c375c8a87f5b664cea6d4cb29c";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+        </script>
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

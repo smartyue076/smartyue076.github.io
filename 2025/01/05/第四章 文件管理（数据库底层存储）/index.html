@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="LSM Tree在内存中维护一个Memtable并排序（AVL，红黑树等），当达到某一阈值后写入到磁盘，写入的结构称为SSTable SSTable会定期进行压缩compaction，将重复的key以最新value压缩。由于数据量较大，所以通过数据大小对SStable分层   读：从Memtable到各级SStable读取，由于SStable有序，可以通过范围判断是否在当前table，然后通过二分">
+<meta property="og:type" content="article">
+<meta property="og:title" content="操作系统（六）文件管理（数据库底层存储）">
+<meta property="og:url" content="https://smartyue076.github.io/2025/01/05/%E7%AC%AC%E5%9B%9B%E7%AB%A0%20%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86%EF%BC%88%E6%95%B0%E6%8D%AE%E5%BA%93%E5%BA%95%E5%B1%82%E5%AD%98%E5%82%A8%EF%BC%89/index.html">
+<meta property="og:site_name" content="Martin XU的技术博客">
+<meta property="og:description" content="LSM Tree在内存中维护一个Memtable并排序（AVL，红黑树等），当达到某一阈值后写入到磁盘，写入的结构称为SSTable SSTable会定期进行压缩compaction，将重复的key以最新value压缩。由于数据量较大，所以通过数据大小对SStable分层   读：从Memtable到各级SStable读取，由于SStable有序，可以通过范围判断是否在当前table，然后通过二分">
+<meta property="og:locale">
+<meta property="og:image" content="https://smartyue076.github.io/images/LSM_tree.png">
+<meta property="article:published_time" content="2025-01-05T03:16:32.840Z">
+<meta property="article:modified_time" content="2025-01-05T03:16:32.840Z">
+<meta property="article:author" content="Martin XU">
+<meta property="article:tag" content="操作系统">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://smartyue076.github.io/images/LSM_tree.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>操作系统（六）文件管理（数据库底层存储）</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-86660611-1"></script>
+  <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'UA-86660611-1');
+  </script>
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/tags/">Tag</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/smartyue076">Projects</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="Previous post" href="/2025/01/05/C++questions/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/2025/01/05/%E7%AC%AC%E5%9B%9B%E7%AB%A0%20%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86%EF%BC%88%E4%BA%8C%EF%BC%89/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://smartyue076.github.io/2025/01/05/%E7%AC%AC%E5%9B%9B%E7%AB%A0%20%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86%EF%BC%88%E6%95%B0%E6%8D%AE%E5%BA%93%E5%BA%95%E5%B1%82%E5%AD%98%E5%82%A8%EF%BC%89/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://smartyue076.github.io/2025/01/05/%E7%AC%AC%E5%9B%9B%E7%AB%A0%20%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86%EF%BC%88%E6%95%B0%E6%8D%AE%E5%BA%93%E5%BA%95%E5%B1%82%E5%AD%98%E5%82%A8%EF%BC%89/&text=操作系统（六）文件管理（数据库底层存储）"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://smartyue076.github.io/2025/01/05/%E7%AC%AC%E5%9B%9B%E7%AB%A0%20%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86%EF%BC%88%E6%95%B0%E6%8D%AE%E5%BA%93%E5%BA%95%E5%B1%82%E5%AD%98%E5%82%A8%EF%BC%89/&title=操作系统（六）文件管理（数据库底层存储）"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://smartyue076.github.io/2025/01/05/%E7%AC%AC%E5%9B%9B%E7%AB%A0%20%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86%EF%BC%88%E6%95%B0%E6%8D%AE%E5%BA%93%E5%BA%95%E5%B1%82%E5%AD%98%E5%82%A8%EF%BC%89/&is_video=false&description=操作系统（六）文件管理（数据库底层存储）"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=操作系统（六）文件管理（数据库底层存储）&body=Check out this article: https://smartyue076.github.io/2025/01/05/%E7%AC%AC%E5%9B%9B%E7%AB%A0%20%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86%EF%BC%88%E6%95%B0%E6%8D%AE%E5%BA%93%E5%BA%95%E5%B1%82%E5%AD%98%E5%82%A8%EF%BC%89/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://smartyue076.github.io/2025/01/05/%E7%AC%AC%E5%9B%9B%E7%AB%A0%20%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86%EF%BC%88%E6%95%B0%E6%8D%AE%E5%BA%93%E5%BA%95%E5%B1%82%E5%AD%98%E5%82%A8%EF%BC%89/&title=操作系统（六）文件管理（数据库底层存储）"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://smartyue076.github.io/2025/01/05/%E7%AC%AC%E5%9B%9B%E7%AB%A0%20%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86%EF%BC%88%E6%95%B0%E6%8D%AE%E5%BA%93%E5%BA%95%E5%B1%82%E5%AD%98%E5%82%A8%EF%BC%89/&title=操作系统（六）文件管理（数据库底层存储）"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://smartyue076.github.io/2025/01/05/%E7%AC%AC%E5%9B%9B%E7%AB%A0%20%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86%EF%BC%88%E6%95%B0%E6%8D%AE%E5%BA%93%E5%BA%95%E5%B1%82%E5%AD%98%E5%82%A8%EF%BC%89/&title=操作系统（六）文件管理（数据库底层存储）"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://smartyue076.github.io/2025/01/05/%E7%AC%AC%E5%9B%9B%E7%AB%A0%20%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86%EF%BC%88%E6%95%B0%E6%8D%AE%E5%BA%93%E5%BA%95%E5%B1%82%E5%AD%98%E5%82%A8%EF%BC%89/&title=操作系统（六）文件管理（数据库底层存储）"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://smartyue076.github.io/2025/01/05/%E7%AC%AC%E5%9B%9B%E7%AB%A0%20%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86%EF%BC%88%E6%95%B0%E6%8D%AE%E5%BA%93%E5%BA%95%E5%B1%82%E5%AD%98%E5%82%A8%EF%BC%89/&name=操作系统（六）文件管理（数据库底层存储）&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://smartyue076.github.io/2025/01/05/%E7%AC%AC%E5%9B%9B%E7%AB%A0%20%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86%EF%BC%88%E6%95%B0%E6%8D%AE%E5%BA%93%E5%BA%95%E5%B1%82%E5%AD%98%E5%82%A8%EF%BC%89/&t=操作系统（六）文件管理（数据库底层存储）"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#LSM-Tree"><span class="toc-number">1.</span> <span class="toc-text">LSM Tree</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#B-Tree"><span class="toc-number">2.</span> <span class="toc-text">B+ Tree</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#B-tree%E5%AF%B9%E6%AF%94LSM-tree"><span class="toc-number">3.</span> <span class="toc-text">B tree对比LSM tree</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B4%A2%E5%BC%95"><span class="toc-number">4.</span> <span class="toc-text">数据库索引</span></a></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        操作系统（六）文件管理（数据库底层存储）
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">Martin XU</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2025-01-05T03:16:32.840Z" class="dt-published" itemprop="datePublished">2025-01-05</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" rel="tag">操作系统</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <h4 id="LSM-Tree"><a href="#LSM-Tree" class="headerlink" title="LSM Tree"></a>LSM Tree</h4><p>在内存中维护一个Memtable并排序（AVL，红黑树等），当达到某一阈值后写入到磁盘，写入的结构称为SSTable</p>
+<p>SSTable会定期进行压缩compaction，将重复的key以最新value压缩。由于数据量较大，所以通过数据大小对SStable分层</p>
+<img src="/../../images/LSM_tree.png" alt="process_state" width=700px />
+
+<p><strong>读：</strong>从Memtable到各级SStable读取，由于SStable有序，可以通过范围判断是否在当前table，然后通过二分查找等方法查找</p>
+<p><strong>写：</strong>直接增加到Memtable</p>
+<p><strong>优化：</strong>布隆过滤器，通过哈希方法计算key是否存在，否表示肯定不存在，是表示可能存在</p>
+<p><strong>优点：</strong>顺序写；写效率高</p>
+<p><strong>缺点：</strong>读效率过低</p>
+<h4 id="B-Tree"><a href="#B-Tree" class="headerlink" title="B+ Tree"></a>B+ Tree</h4><p><strong>B树和B+树的区别</strong></p>
+<ul>
+<li>B树的每个节点都存储了key和data，而B+树的<strong>data存储在叶子节点上</strong>。</li>
+<li>B+树非叶子节点仅存储key不存储data，这样<strong>一个节点就可以存储更多的key</strong>。可以使得B+树相对B树来说更矮（IO次数就是树的高度），所以<strong>与磁盘交换的IO操作次数更少</strong>。</li>
+<li>B+树所有叶子节点构成一个有序链表，按主键排序来遍历全部记录，能<strong>更好支持范围查找</strong>。<br>由于数据顺序排列并且相连，所以便于区间查找和搜索。而B树则需要进行每一层的递归遍历，相邻的元素可能在内存中不相邻，所以缓存命中性没有B+树好。</li>
+<li>B+树所有的查询都要从根节点查找到叶子节点，<strong>查询性能更稳定</strong>；而B树，每个节点都可能查找到数据，需要在叶子节点和内部节点不停的往返移动，所以不稳定。</li>
+</ul>
+<h4 id="B-tree对比LSM-tree"><a href="#B-tree对比LSM-tree" class="headerlink" title="B tree对比LSM tree"></a>B tree对比LSM tree</h4><table>
+<thead>
+<tr>
+<th>存储引擎</th>
+<th>B-Tree</th>
+<th>LSM-Tree</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>优势</td>
+<td>读取更快</td>
+<td>写入更快</td>
+<td></td>
+</tr>
+<tr>
+<td>写放大</td>
+<td>1. 数据和 WAL 2. 更改数据时多次覆盖整个 Page</td>
+<td>1. 数据和 WAL 2. Compaction</td>
+<td>SSD 不能过多擦除。因此 SSD 内部的固件中也多用日志结构来减少随机小写。</td>
+</tr>
+<tr>
+<td>写吞吐</td>
+<td>相对较低： 1. 大量随机写。</td>
+<td>相对较高： 1. 较低的写放大（取决于数据和配置） 2. 顺序写入。 3. 更为紧凑。</td>
+<td></td>
+</tr>
+<tr>
+<td>压缩率</td>
+<td>1. 存在较多内部碎片。</td>
+<td>1. 更加紧凑，没有内部碎片。 2. 压缩潜力更大（共享前缀）。</td>
+<td>但紧缩不及时会造成 LSM-Tree 存在很多垃圾</td>
+</tr>
+<tr>
+<td>后台流量</td>
+<td>1. 更稳定可预测，不会受后台 compaction 突发流量影响。</td>
+<td>1. 写吞吐过高，compaction 跟不上，会进一步加重读放大。 2. 由于外存总带宽有限，compaction 会影响读写吞吐。 3. 随着数据越来越多，compaction 对正常写影响越来越大。</td>
+<td>RocksDB 写入太过快会引起 write stall，即限制写入，以期尽快 compaction 将数据下沉。</td>
+</tr>
+<tr>
+<td>存储放大</td>
+<td>1. 有些 Page 没有用满</td>
+<td>1. 同一个 Key 存多遍</td>
+<td></td>
+</tr>
+<tr>
+<td>并发控制</td>
+<td>1. 同一个 Key 只存在一个地方 2. 树结构容易加范围锁。</td>
+<td>同一个 Key 会存多遍，一般使用 MVCC 进行控制。</td>
+<td></td>
+</tr>
+</tbody></table>
+<h4 id="数据库索引"><a href="#数据库索引" class="headerlink" title="数据库索引"></a>数据库索引</h4><p>优点：</p>
+<ul>
+<li>优化了select速度</li>
+<li>减少磁盘IO</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li><p>对于非聚簇索引，需要额外的磁盘空间</p>
+</li>
+<li><p>增删改需要更新索引</p>
+</li>
+</ul>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">Home</a></li>
+        
+          <li><a href="/about/">About</a></li>
+        
+          <li><a href="/archives/">Writing</a></li>
+        
+          <li><a href="/tags/">Tag</a></li>
+        
+          <li><a href="/search/">Search</a></li>
+        
+          <li><a target="_blank" rel="noopener" href="https://github.com/smartyue076">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#LSM-Tree"><span class="toc-number">1.</span> <span class="toc-text">LSM Tree</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#B-Tree"><span class="toc-number">2.</span> <span class="toc-text">B+ Tree</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#B-tree%E5%AF%B9%E6%AF%94LSM-tree"><span class="toc-number">3.</span> <span class="toc-text">B tree对比LSM tree</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B4%A2%E5%BC%95"><span class="toc-number">4.</span> <span class="toc-text">数据库索引</span></a></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://smartyue076.github.io/2025/01/05/%E7%AC%AC%E5%9B%9B%E7%AB%A0%20%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86%EF%BC%88%E6%95%B0%E6%8D%AE%E5%BA%93%E5%BA%95%E5%B1%82%E5%AD%98%E5%82%A8%EF%BC%89/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://smartyue076.github.io/2025/01/05/%E7%AC%AC%E5%9B%9B%E7%AB%A0%20%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86%EF%BC%88%E6%95%B0%E6%8D%AE%E5%BA%93%E5%BA%95%E5%B1%82%E5%AD%98%E5%82%A8%EF%BC%89/&text=操作系统（六）文件管理（数据库底层存储）"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://smartyue076.github.io/2025/01/05/%E7%AC%AC%E5%9B%9B%E7%AB%A0%20%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86%EF%BC%88%E6%95%B0%E6%8D%AE%E5%BA%93%E5%BA%95%E5%B1%82%E5%AD%98%E5%82%A8%EF%BC%89/&title=操作系统（六）文件管理（数据库底层存储）"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://smartyue076.github.io/2025/01/05/%E7%AC%AC%E5%9B%9B%E7%AB%A0%20%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86%EF%BC%88%E6%95%B0%E6%8D%AE%E5%BA%93%E5%BA%95%E5%B1%82%E5%AD%98%E5%82%A8%EF%BC%89/&is_video=false&description=操作系统（六）文件管理（数据库底层存储）"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=操作系统（六）文件管理（数据库底层存储）&body=Check out this article: https://smartyue076.github.io/2025/01/05/%E7%AC%AC%E5%9B%9B%E7%AB%A0%20%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86%EF%BC%88%E6%95%B0%E6%8D%AE%E5%BA%93%E5%BA%95%E5%B1%82%E5%AD%98%E5%82%A8%EF%BC%89/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://smartyue076.github.io/2025/01/05/%E7%AC%AC%E5%9B%9B%E7%AB%A0%20%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86%EF%BC%88%E6%95%B0%E6%8D%AE%E5%BA%93%E5%BA%95%E5%B1%82%E5%AD%98%E5%82%A8%EF%BC%89/&title=操作系统（六）文件管理（数据库底层存储）"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://smartyue076.github.io/2025/01/05/%E7%AC%AC%E5%9B%9B%E7%AB%A0%20%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86%EF%BC%88%E6%95%B0%E6%8D%AE%E5%BA%93%E5%BA%95%E5%B1%82%E5%AD%98%E5%82%A8%EF%BC%89/&title=操作系统（六）文件管理（数据库底层存储）"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://smartyue076.github.io/2025/01/05/%E7%AC%AC%E5%9B%9B%E7%AB%A0%20%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86%EF%BC%88%E6%95%B0%E6%8D%AE%E5%BA%93%E5%BA%95%E5%B1%82%E5%AD%98%E5%82%A8%EF%BC%89/&title=操作系统（六）文件管理（数据库底层存储）"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://smartyue076.github.io/2025/01/05/%E7%AC%AC%E5%9B%9B%E7%AB%A0%20%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86%EF%BC%88%E6%95%B0%E6%8D%AE%E5%BA%93%E5%BA%95%E5%B1%82%E5%AD%98%E5%82%A8%EF%BC%89/&title=操作系统（六）文件管理（数据库底层存储）"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://smartyue076.github.io/2025/01/05/%E7%AC%AC%E5%9B%9B%E7%AB%A0%20%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86%EF%BC%88%E6%95%B0%E6%8D%AE%E5%BA%93%E5%BA%95%E5%B1%82%E5%AD%98%E5%82%A8%EF%BC%89/&name=操作系统（六）文件管理（数据库底层存储）&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://smartyue076.github.io/2025/01/05/%E7%AC%AC%E5%9B%9B%E7%AB%A0%20%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86%EF%BC%88%E6%95%B0%E6%8D%AE%E5%BA%93%E5%BA%95%E5%B1%82%E5%AD%98%E5%82%A8%EF%BC%89/&t=操作系统（六）文件管理（数据库底层存储）"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2020-2025
+    Martin XU
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/tags/">Tag</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/smartyue076">Projects</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+  <script type="text/javascript">
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?2e6da3c375c8a87f5b664cea6d4cb29c";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+        </script>
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>
