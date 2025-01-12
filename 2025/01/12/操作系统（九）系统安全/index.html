@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="第六章 操作系统安全缓冲区溢出攻击原理缓冲区溢出通常发生在程序使用固定大小的内存缓冲区来存储用户输入时，没有对输入数据的长度进行适当检查。攻击者利用这一点，将过大的输入数据注入缓冲区，导致：  覆盖关键数据：覆盖函数的返回地址、指针或其他重要变量。  注入恶意代码：将攻击代码注入溢出的内存区域，并操纵程序跳转到攻击代码执行。  控制程序执行流：通过覆盖返回地址或函数指针，改变程序的正常执行逻辑。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="操作系统（九）操作系统安全">
+<meta property="og:url" content="https://smartyue076.github.io/2025/01/12/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%EF%BC%88%E4%B9%9D%EF%BC%89%E7%B3%BB%E7%BB%9F%E5%AE%89%E5%85%A8/index.html">
+<meta property="og:site_name" content="Martin XU的技术博客">
+<meta property="og:description" content="第六章 操作系统安全缓冲区溢出攻击原理缓冲区溢出通常发生在程序使用固定大小的内存缓冲区来存储用户输入时，没有对输入数据的长度进行适当检查。攻击者利用这一点，将过大的输入数据注入缓冲区，导致：  覆盖关键数据：覆盖函数的返回地址、指针或其他重要变量。  注入恶意代码：将攻击代码注入溢出的内存区域，并操纵程序跳转到攻击代码执行。  控制程序执行流：通过覆盖返回地址或函数指针，改变程序的正常执行逻辑。">
+<meta property="og:locale">
+<meta property="og:image" content="https://smartyue076.github.io/images/buffer_overflow_attack.png">
+<meta property="article:published_time" content="2025-01-12T06:00:02.106Z">
+<meta property="article:modified_time" content="2025-01-12T06:00:02.106Z">
+<meta property="article:author" content="Martin XU">
+<meta property="article:tag" content="操作系统">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://smartyue076.github.io/images/buffer_overflow_attack.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>操作系统（九）操作系统安全</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-86660611-1"></script>
+  <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'UA-86660611-1');
+  </script>
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/tags/">Tag</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/smartyue076">Projects</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="Previous post" href="/2025/01/12/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%EF%BC%88%E5%8D%81%EF%BC%89%E4%B8%AD%E6%96%AD/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/2025/01/12/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%EF%BC%88%E5%85%AB%EF%BC%89%E6%B5%81%E6%B0%B4%E7%BA%BF/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://smartyue076.github.io/2025/01/12/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%EF%BC%88%E4%B9%9D%EF%BC%89%E7%B3%BB%E7%BB%9F%E5%AE%89%E5%85%A8/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://smartyue076.github.io/2025/01/12/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%EF%BC%88%E4%B9%9D%EF%BC%89%E7%B3%BB%E7%BB%9F%E5%AE%89%E5%85%A8/&text=操作系统（九）操作系统安全"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://smartyue076.github.io/2025/01/12/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%EF%BC%88%E4%B9%9D%EF%BC%89%E7%B3%BB%E7%BB%9F%E5%AE%89%E5%85%A8/&title=操作系统（九）操作系统安全"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://smartyue076.github.io/2025/01/12/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%EF%BC%88%E4%B9%9D%EF%BC%89%E7%B3%BB%E7%BB%9F%E5%AE%89%E5%85%A8/&is_video=false&description=操作系统（九）操作系统安全"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=操作系统（九）操作系统安全&body=Check out this article: https://smartyue076.github.io/2025/01/12/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%EF%BC%88%E4%B9%9D%EF%BC%89%E7%B3%BB%E7%BB%9F%E5%AE%89%E5%85%A8/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://smartyue076.github.io/2025/01/12/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%EF%BC%88%E4%B9%9D%EF%BC%89%E7%B3%BB%E7%BB%9F%E5%AE%89%E5%85%A8/&title=操作系统（九）操作系统安全"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://smartyue076.github.io/2025/01/12/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%EF%BC%88%E4%B9%9D%EF%BC%89%E7%B3%BB%E7%BB%9F%E5%AE%89%E5%85%A8/&title=操作系统（九）操作系统安全"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://smartyue076.github.io/2025/01/12/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%EF%BC%88%E4%B9%9D%EF%BC%89%E7%B3%BB%E7%BB%9F%E5%AE%89%E5%85%A8/&title=操作系统（九）操作系统安全"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://smartyue076.github.io/2025/01/12/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%EF%BC%88%E4%B9%9D%EF%BC%89%E7%B3%BB%E7%BB%9F%E5%AE%89%E5%85%A8/&title=操作系统（九）操作系统安全"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://smartyue076.github.io/2025/01/12/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%EF%BC%88%E4%B9%9D%EF%BC%89%E7%B3%BB%E7%BB%9F%E5%AE%89%E5%85%A8/&name=操作系统（九）操作系统安全&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://smartyue076.github.io/2025/01/12/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%EF%BC%88%E4%B9%9D%EF%BC%89%E7%B3%BB%E7%BB%9F%E5%AE%89%E5%85%A8/&t=操作系统（九）操作系统安全"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC%E5%85%AD%E7%AB%A0-%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%AE%89%E5%85%A8"><span class="toc-number">1.</span> <span class="toc-text">第六章 操作系统安全</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BC%93%E5%86%B2%E5%8C%BA%E6%BA%A2%E5%87%BA%E6%94%BB%E5%87%BB"><span class="toc-number">1.1.</span> <span class="toc-text">缓冲区溢出攻击</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8E%9F%E7%90%86"><span class="toc-number">1.1.1.</span> <span class="toc-text">原理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95"><span class="toc-number">1.1.2.</span> <span class="toc-text">解决办法</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%AE%89%E5%85%A8%E7%AE%97%E6%B3%95"><span class="toc-number">1.2.</span> <span class="toc-text">操作系统安全算法</span></a></li></ol></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        操作系统（九）操作系统安全
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">Martin XU</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2025-01-12T06:00:02.106Z" class="dt-published" itemprop="datePublished">2025-01-12</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" rel="tag">操作系统</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <h2 id="第六章-操作系统安全"><a href="#第六章-操作系统安全" class="headerlink" title="第六章 操作系统安全"></a>第六章 操作系统安全</h2><h3 id="缓冲区溢出攻击"><a href="#缓冲区溢出攻击" class="headerlink" title="缓冲区溢出攻击"></a>缓冲区溢出攻击</h3><h4 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h4><p>缓冲区溢出通常发生在程序使用固定大小的内存缓冲区来存储用户输入时，<strong>没有对输入数据的长度进行适当检查</strong>。攻击者利用这一点，<strong>将过大的输入数据注入缓冲区</strong>，导致：</p>
+<ul>
+<li><p><strong>覆盖关键数据</strong>：覆盖函数的返回地址、指针或其他重要变量。</p>
+</li>
+<li><p><strong>注入恶意代码</strong>：将攻击代码注入溢出的内存区域，并操纵程序跳转到攻击代码执行。</p>
+</li>
+<li><p><strong>控制程序执行流</strong>：通过覆盖返回地址或函数指针，改变程序的正常执行逻辑。</p>
+</li>
+</ul>
+<h4 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h4><ul>
+<li><p><strong>栈随机化</strong></p>
+</li>
+<li><p><strong>栈破坏检测</strong></p>
+</li>
+<li><p><strong>限制可执行代码区域</strong></p>
+</li>
+</ul>
+<img src="/../../images/buffer_overflow_attack.png" alt="image.png" style="zoom:20%;" />
+
+
+
+<h3 id="操作系统安全算法"><a href="#操作系统安全算法" class="headerlink" title="操作系统安全算法"></a>操作系统安全算法</h3><p><strong>1. 用户身份验证：散列算法</strong></p>
+<p><strong>算法：SHA-256（Secure Hash Algorithm 256-bit）</strong></p>
+<p><strong>应用场景</strong>：</p>
+<p>用户登录时，操作系统会使用散列算法对密码进行加密存储。</p>
+<p>登录时，用户输入的密码经过相同的散列计算，与存储的散列值比较以验证身份。</p>
+<p><strong>工作原理</strong>：</p>
+<ol>
+<li>用户密码通过 SHA-256 生成一个固定长度（256 位）的散列值。</li>
+<li>系统仅存储散列值，不保存明文密码。</li>
+<li>具有抗碰撞性，难以通过逆向推算原始密码。</li>
+</ol>
+<p><strong>2. 访问控制：基于访问矩阵的权限管理</strong></p>
+<p><strong>算法：访问控制矩阵</strong></p>
+<p><strong>应用场景</strong>：</p>
+<p>管理操作系统中的资源访问权限，如文件和设备的读写权限。</p>
+<p><strong>工作原理</strong>：</p>
+<ol>
+<li>访问矩阵的行表示用户或进程，列表示资源（如文件、设备等）。</li>
+<li>矩阵中的每个单元表示用户对资源的权限（读、写、执行等）。</li>
+</ol>
+
+  </div>
+</article>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>Please enable JavaScript to view the comments.</noscript>
+        </div>
+    </div>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">Home</a></li>
+        
+          <li><a href="/about/">About</a></li>
+        
+          <li><a href="/archives/">Writing</a></li>
+        
+          <li><a href="/tags/">Tag</a></li>
+        
+          <li><a href="/search/">Search</a></li>
+        
+          <li><a target="_blank" rel="noopener" href="https://github.com/smartyue076">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC%E5%85%AD%E7%AB%A0-%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%AE%89%E5%85%A8"><span class="toc-number">1.</span> <span class="toc-text">第六章 操作系统安全</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BC%93%E5%86%B2%E5%8C%BA%E6%BA%A2%E5%87%BA%E6%94%BB%E5%87%BB"><span class="toc-number">1.1.</span> <span class="toc-text">缓冲区溢出攻击</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8E%9F%E7%90%86"><span class="toc-number">1.1.1.</span> <span class="toc-text">原理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95"><span class="toc-number">1.1.2.</span> <span class="toc-text">解决办法</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%AE%89%E5%85%A8%E7%AE%97%E6%B3%95"><span class="toc-number">1.2.</span> <span class="toc-text">操作系统安全算法</span></a></li></ol></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://smartyue076.github.io/2025/01/12/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%EF%BC%88%E4%B9%9D%EF%BC%89%E7%B3%BB%E7%BB%9F%E5%AE%89%E5%85%A8/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://smartyue076.github.io/2025/01/12/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%EF%BC%88%E4%B9%9D%EF%BC%89%E7%B3%BB%E7%BB%9F%E5%AE%89%E5%85%A8/&text=操作系统（九）操作系统安全"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://smartyue076.github.io/2025/01/12/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%EF%BC%88%E4%B9%9D%EF%BC%89%E7%B3%BB%E7%BB%9F%E5%AE%89%E5%85%A8/&title=操作系统（九）操作系统安全"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://smartyue076.github.io/2025/01/12/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%EF%BC%88%E4%B9%9D%EF%BC%89%E7%B3%BB%E7%BB%9F%E5%AE%89%E5%85%A8/&is_video=false&description=操作系统（九）操作系统安全"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=操作系统（九）操作系统安全&body=Check out this article: https://smartyue076.github.io/2025/01/12/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%EF%BC%88%E4%B9%9D%EF%BC%89%E7%B3%BB%E7%BB%9F%E5%AE%89%E5%85%A8/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://smartyue076.github.io/2025/01/12/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%EF%BC%88%E4%B9%9D%EF%BC%89%E7%B3%BB%E7%BB%9F%E5%AE%89%E5%85%A8/&title=操作系统（九）操作系统安全"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://smartyue076.github.io/2025/01/12/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%EF%BC%88%E4%B9%9D%EF%BC%89%E7%B3%BB%E7%BB%9F%E5%AE%89%E5%85%A8/&title=操作系统（九）操作系统安全"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://smartyue076.github.io/2025/01/12/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%EF%BC%88%E4%B9%9D%EF%BC%89%E7%B3%BB%E7%BB%9F%E5%AE%89%E5%85%A8/&title=操作系统（九）操作系统安全"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://smartyue076.github.io/2025/01/12/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%EF%BC%88%E4%B9%9D%EF%BC%89%E7%B3%BB%E7%BB%9F%E5%AE%89%E5%85%A8/&title=操作系统（九）操作系统安全"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://smartyue076.github.io/2025/01/12/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%EF%BC%88%E4%B9%9D%EF%BC%89%E7%B3%BB%E7%BB%9F%E5%AE%89%E5%85%A8/&name=操作系统（九）操作系统安全&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://smartyue076.github.io/2025/01/12/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%EF%BC%88%E4%B9%9D%EF%BC%89%E7%B3%BB%E7%BB%9F%E5%AE%89%E5%85%A8/&t=操作系统（九）操作系统安全"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2020-2025
+    Martin XU
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/tags/">Tag</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/smartyue076">Projects</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+  <script type="text/javascript">
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?2e6da3c375c8a87f5b664cea6d4cb29c";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+        </script>
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'cactus-1';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+<!-- utterances Comments -->
+
+</body>
+</html>

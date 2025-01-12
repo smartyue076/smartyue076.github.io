@@ -4,6 +4,103 @@
   
     
     <entry>
+      <title>操作系统（十一）IO</title>
+      <link href="/2025/01/12/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%EF%BC%88%E5%8D%81%E4%B8%80%EF%BC%89IO/"/>
+      <url>/2025/01/12/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%EF%BC%88%E5%8D%81%E4%B8%80%EF%BC%89IO/</url>
+      
+        <content type="html"><![CDATA[<h2 id="第八章-IO"><a href="#第八章-IO" class="headerlink" title="第八章 IO"></a>第八章 IO</h2><h4 id="传统IO"><a href="#传统IO" class="headerlink" title="传统IO"></a>传统IO</h4><h5 id="传统IO过程"><a href="#传统IO过程" class="headerlink" title="传统IO过程"></a>传统IO过程</h5><ol><li>CPU发起IO请求，每次只能请求一个字</li><li>磁盘数据写入缓冲区后，通过IO中断通知CPU</li><li>CPU将缓冲区数据通过寄存器写入内存</li></ol><h5 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h5><ol><li>CPU效率低下：CPU需要频繁得处理IO请求</li><li>传输效率低下：数据先从磁盘缓冲区拷贝到寄存器后才到拷贝到内存</li></ol><img src="/../../images/no_dma.png" alt="image.png" style="zoom:100%;" /><h4 id="引入DMA后的IO"><a href="#引入DMA后的IO" class="headerlink" title="引入DMA后的IO"></a>引入DMA后的IO</h4><p>将数据搬运的工作全部交给DMA控制器，CPU不需要参与</p><h5 id="引入DMA后的IO过程"><a href="#引入DMA后的IO过程" class="headerlink" title="引入DMA后的IO过程"></a>引入DMA后的IO过程</h5><ol><li>CPU发送IO请求到DMA</li><li>DMA拷贝磁盘数据到内存</li><li>DMA拷贝完后向CPU发送IO中断请求</li></ol><img src="/../../images/dma.png" alt="image.png" style="zoom:100%;" />]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> 操作系统 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>操作系统（十）中断</title>
+      <link href="/2025/01/12/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%EF%BC%88%E5%8D%81%EF%BC%89%E4%B8%AD%E6%96%AD/"/>
+      <url>/2025/01/12/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%EF%BC%88%E5%8D%81%EF%BC%89%E4%B8%AD%E6%96%AD/</url>
+      
+        <content type="html"><![CDATA[<h2 id="第七章-中断"><a href="#第七章-中断" class="headerlink" title="第七章 中断"></a>第七章 中断</h2><h3 id="中断与异常"><a href="#中断与异常" class="headerlink" title="中断与异常"></a>中断与异常</h3><img src="/../../images/interrupt_1.png" alt="image.png" style="zoom:35%;" /><h3 id="中断执行过程"><a href="#中断执行过程" class="headerlink" title="中断执行过程"></a>中断执行过程</h3><img src="/../../images/interrupt_2.png" alt="image.png" style="zoom:35%;" /><h3 id="当通过键盘给当前进程输入参数时的流程（IO中断）"><a href="#当通过键盘给当前进程输入参数时的流程（IO中断）" class="headerlink" title="当通过键盘给当前进程输入参数时的流程（IO中断）"></a>当通过键盘给当前进程输入参数时的流程（IO中断）</h3><p>中断流程</p><ol><li>用户键盘输入</li><li>键盘控制器生成扫描码并触发中断 (IRQ1)</li><li>CPU 暂停当前进程，响应中断</li><li>CPU执行中断处理程序，获取键盘输入</li><li>恢复被中断的任务</li><li>用户进程读取缓冲区输入（系统调用，使用“陷阱”内中断）</li></ol><h3 id="用户如何使用系统其他资源（系统调用）"><a href="#用户如何使用系统其他资源（系统调用）" class="headerlink" title="用户如何使用系统其他资源（系统调用）"></a>用户如何使用系统其他资源（系统调用）</h3><p>用户态的程序只能使用内存中用户段，不能使用内核段。内核态可以访问任何内存数据。</p><p><strong>中断是用户态进入内核态的唯一方法</strong></p><p>系统调用的核心：</p><ol><li>用户程序中包含<code>int 0x80</code>指令（中断）的代码</li><li>操作系统写中断处理，获取想调程序的编号(系统调用号)</li><li>操作系统根据编号执行相应代码</li></ol>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> 操作系统 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>操作系统（九）操作系统安全</title>
+      <link href="/2025/01/12/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%EF%BC%88%E4%B9%9D%EF%BC%89%E7%B3%BB%E7%BB%9F%E5%AE%89%E5%85%A8/"/>
+      <url>/2025/01/12/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%EF%BC%88%E4%B9%9D%EF%BC%89%E7%B3%BB%E7%BB%9F%E5%AE%89%E5%85%A8/</url>
+      
+        <content type="html"><![CDATA[<h2 id="第六章-操作系统安全"><a href="#第六章-操作系统安全" class="headerlink" title="第六章 操作系统安全"></a>第六章 操作系统安全</h2><h3 id="缓冲区溢出攻击"><a href="#缓冲区溢出攻击" class="headerlink" title="缓冲区溢出攻击"></a>缓冲区溢出攻击</h3><h4 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h4><p>缓冲区溢出通常发生在程序使用固定大小的内存缓冲区来存储用户输入时，<strong>没有对输入数据的长度进行适当检查</strong>。攻击者利用这一点，<strong>将过大的输入数据注入缓冲区</strong>，导致：</p><ul><li><p><strong>覆盖关键数据</strong>：覆盖函数的返回地址、指针或其他重要变量。</p></li><li><p><strong>注入恶意代码</strong>：将攻击代码注入溢出的内存区域，并操纵程序跳转到攻击代码执行。</p></li><li><p><strong>控制程序执行流</strong>：通过覆盖返回地址或函数指针，改变程序的正常执行逻辑。</p></li></ul><h4 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h4><ul><li><p><strong>栈随机化</strong></p></li><li><p><strong>栈破坏检测</strong></p></li><li><p><strong>限制可执行代码区域</strong></p></li></ul><img src="/../../images/buffer_overflow_attack.png" alt="image.png" style="zoom:20%;" /><h3 id="操作系统安全算法"><a href="#操作系统安全算法" class="headerlink" title="操作系统安全算法"></a>操作系统安全算法</h3><p><strong>1. 用户身份验证：散列算法</strong></p><p><strong>算法：SHA-256（Secure Hash Algorithm 256-bit）</strong></p><p><strong>应用场景</strong>：</p><p>用户登录时，操作系统会使用散列算法对密码进行加密存储。</p><p>登录时，用户输入的密码经过相同的散列计算，与存储的散列值比较以验证身份。</p><p><strong>工作原理</strong>：</p><ol><li>用户密码通过 SHA-256 生成一个固定长度（256 位）的散列值。</li><li>系统仅存储散列值，不保存明文密码。</li><li>具有抗碰撞性，难以通过逆向推算原始密码。</li></ol><p><strong>2. 访问控制：基于访问矩阵的权限管理</strong></p><p><strong>算法：访问控制矩阵</strong></p><p><strong>应用场景</strong>：</p><p>管理操作系统中的资源访问权限，如文件和设备的读写权限。</p><p><strong>工作原理</strong>：</p><ol><li>访问矩阵的行表示用户或进程，列表示资源（如文件、设备等）。</li><li>矩阵中的每个单元表示用户对资源的权限（读、写、执行等）。</li></ol>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> 操作系统 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>操作系统（八）指令系统结构</title>
+      <link href="/2025/01/12/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%EF%BC%88%E5%85%AB%EF%BC%89%E6%B5%81%E6%B0%B4%E7%BA%BF/"/>
+      <url>/2025/01/12/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%EF%BC%88%E5%85%AB%EF%BC%89%E6%B5%81%E6%B0%B4%E7%BA%BF/</url>
+      
+        <content type="html"><![CDATA[<h2 id="第五章-指令系统结构"><a href="#第五章-指令系统结构" class="headerlink" title="第五章 指令系统结构"></a>第五章 指令系统结构</h2><h3 id="指令"><a href="#指令" class="headerlink" title="指令"></a>指令</h3><h4 id="执行流程"><a href="#执行流程" class="headerlink" title="执行流程"></a>执行流程</h4><ol><li>取指阶段：以PC作为第一个字节的地址，从内存中读出10个字节</li><li>译码阶段：指令字段译码，将操作数的值写到ALU读取的寄存器位置</li><li>执行阶段：ALU根据操作数和操作码计算值</li><li>访存阶段：读写内存位置</li><li>写回阶段：将结果值写入寄存器</li><li>更新PC：更新PC指向下一条指令的地址</li></ol><img src="/../../images/organize_program_into_process.png" alt="image.png" style="zoom:20%;" /><h4 id="指令示例"><a href="#指令示例" class="headerlink" title="指令示例"></a>指令示例</h4><p><strong>irmovq</strong></p><p>将一个 64 位的立即数（常数）加载到目标寄存器中</p><img src="/../../images/irmovq.png" alt="image.png" style="zoom:20%;" /><p><strong>pushq</strong></p><p>将一个 64 位的值从寄存器存储到栈上，并更新栈指针（%rsp）</p><img src="/../../images/pushq.png" alt="image.png" style="zoom:20%;" /><p><strong>rmmovq</strong></p><p>将一个寄存器的值存储到内存的某个地址中，该地址由一个基地址和一个偏移量计算得到</p><img src="/../../images/rmmovq.png" alt="image.png" style="zoom:20%;" /><h3 id="流水线"><a href="#流水线" class="headerlink" title="流水线"></a>流水线</h3><h4 id="基本形式"><a href="#基本形式" class="headerlink" title="基本形式"></a>基本形式</h4><p>通过将多个指令分解为一系列子任务，并将这些子任务分阶段并行执行来实现指令并行处理</p><img src="/../../images/pipeline.png" alt="image.png" style="zoom:20%;" /><h4 id="数据冒险"><a href="#数据冒险" class="headerlink" title="数据冒险"></a>数据冒险</h4><h5 id="原因"><a href="#原因" class="headerlink" title="原因"></a>原因</h5><p>指令乱序执行时，可能会发生读取数据与写入数据之间的时序与空间的相关性，成为数据冒险。如果不加以处理，可能会导致竞态条件，即读的不是想要的值或写的不是正确位置</p><img src="/../../images/data_hazard_1.png" alt="image.png" style="zoom:20%;" /><h5 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h5><ul><li><strong>延迟执行</strong>：硬件上阻止指令执行，增加流水线气泡</li></ul><img src="/../../images/data_hazard_2.png" alt="image.png" style="zoom:20%;" /><ul><li><strong>插入无关指令</strong>：软件上插入无关指令</li></ul><img src="/../../images/data_hazard_3.png" alt="image.png" style="zoom:35%;" /><ul><li><strong>数据旁路</strong>：使用最新计算结果，不等待寄存器写回结果</li></ul><img src="/../../images/data_hazard_4.png" alt="image.png" style="zoom:35%;" /><h4 id="控制冒险"><a href="#控制冒险" class="headerlink" title="控制冒险"></a>控制冒险</h4><h5 id="原因-1"><a href="#原因-1" class="headerlink" title="原因"></a>原因</h5><p>处理器遇到分支指令，不能在流水开始阶段就判断出分支结果</p><h5 id="解决办法-1"><a href="#解决办法-1" class="headerlink" title="解决办法"></a>解决办法</h5><ul><li><p><strong>延迟执行</strong>：增加流水线气泡</p></li><li><p><strong>分支预测</strong>：使用分支预测，然后投机执行。如果分支预测失败，则要有能力恢复到分支指令执行完毕时刻的寄存器状态，进入正确的分支继续执行</p></li></ul><img src="/../../images/control_hazard.png" alt="image.png" style="zoom:20%;" />]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> 操作系统 </tag>
+            
+            <tag> 计算机组成原理 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>操作系统（一）绪论</title>
+      <link href="/2025/01/12/%E7%AC%AC%E4%B8%80%E7%AB%A0%20%E7%BB%AA%E8%AE%BA/"/>
+      <url>/2025/01/12/%E7%AC%AC%E4%B8%80%E7%AB%A0%20%E7%BB%AA%E8%AE%BA/</url>
+      
+        <content type="html"><![CDATA[<h2 id="第一章-绪论"><a href="#第一章-绪论" class="headerlink" title="第一章 绪论"></a>第一章 绪论</h2><h3 id="计算机体系结构"><a href="#计算机体系结构" class="headerlink" title="计算机体系结构"></a>计算机体系结构</h3><img src="/../../images/computer_architecture.png" alt="image.png" style="zoom:20%;" /><h3 id="计算机启动后发生了什么"><a href="#计算机启动后发生了什么" class="headerlink" title="计算机启动后发生了什么"></a>计算机启动后发生了什么</h3><img src="/../../images/boot.png" alt="image.png" style="zoom:130%;" /><ol><li><p><strong>上电自检</strong></p><p>主板的固件（BIOS 或 UEFI）执行<strong>硬件检测</strong>，检查 CPU、内存、显卡、键盘等设备是否正常</p></li><li><p><strong>加载 BIOS 或 UEFI</strong></p><ol><li><p>CPU 开始执行 <code>0xFFFFFFF0</code> 地址处的指令，该地址处是一条 <code>JUMP</code> 指令，这条指令清空了基址寄存器的值，并让指令跳回到 BIOS 开始处（物理地址为 <code>0xF0000</code>，参考上图 <code>0xF0000</code> 处的标识）以执行 BIOS</p></li><li><p>BIOS 或 UEFI 固件初始化计算机硬件，完成底层配置。</p></li><li><p>确认引导顺序（启动顺序），如硬盘、USB 设备或网络启动。</p></li><li><p>加载引导程序（Bootloader）的第一部分，通常位于启动设备的引导扇区。</p></li></ol></li><li><p><strong>主引导记录（Master Boot Record, MBR）</strong></p><p>BIOS 从指定的启动设备中读取主引导记录</p></li><li><p><strong>启动加载器（Bootloader）</strong></p><p>启动加载器是一个小型程序，负责加载操作系统内核（常用：<strong>GRUB</strong>多操作系统支持，配置灵活；<strong>Windows Boot Manager</strong>用于加载 Windows 操作系统）</p></li><li><p><strong>内核初始化</strong></p><p>操作系统内核接管硬件的控制。执行真正的根文件系统中的 <code>/sbin/init</code> 进程，即系统的 1 号进程。此后，系统的控制权就全权交给 <code>/sbin/init</code> 进程了</p></li><li><p><strong>系统初始化</strong></p><p><code>/sbin/init</code> 进程是系统其它所有进程的父进程，当它接管了系统控制权后，它会根据 <code>/etc/inittab</code> 文件来执行相应的脚本，从而完成一系列的系统初始化操作</p></li><li><p><strong>用户登陆</strong></p></li></ol><h3 id="程序是如何运行的"><a href="#程序是如何运行的" class="headerlink" title="程序是如何运行的"></a>程序是如何运行的</h3><p>准备阶段：</p><ol><li>通过shell获取可执行程序地址，参数和环境变量</li><li>通过<strong>fork创建子进程</strong></li><li>通过<strong>execve替换当前进程的地址空间，使用加载器将程序加载到内存中</strong></li><li>shell调用wait 或 waitpid 系统调用等待子进程执行结束</li></ol><p>运行阶段：</p><ol><li>读取二进制程序ELF header中的元数据</li><li><strong>从_start段开始运行</strong></li><li>初始化运行时环境（如设置全局变量、构造全局对象）</li><li>准备参数并<strong>调用 main 函数</strong></li></ol><p>结束阶段：</p><ol><li>程序调用exit系统调用退出或异常终止</li></ol><h3 id="用户如何使用系统其他资源（系统调用）"><a href="#用户如何使用系统其他资源（系统调用）" class="headerlink" title="用户如何使用系统其他资源（系统调用）"></a>用户如何使用系统其他资源（系统调用）</h3><p>用户态的程序只能使用内存中用户段，不能使用内核段。内核态可以访问任何内存数据。</p><p>中断是用户态进入内核态的唯一方法</p><p>系统调用的核心：</p><ol><li>用户程序中包含<code>int 0x80</code>指令（中断）的代码</li><li>操作系统写中断处理，获取想调程序的编号(系统调用号)</li><li>操作系统根据编号执行相应代码</li></ol><h3 id="函数库的不同加载方式（静态链接和动态链接）"><a href="#函数库的不同加载方式（静态链接和动态链接）" class="headerlink" title="函数库的不同加载方式（静态链接和动态链接）"></a>函数库的不同加载方式（静态链接和动态链接）</h3><h4 id="静态链接"><a href="#静态链接" class="headerlink" title="静态链接"></a>静态链接</h4><p><strong>在编译时将所有需要的库代码直接打包到可执行文件中</strong></p><img src="/../../images/static_linking.png" alt="image.png" style="zoom:20%;" /><h4 id="动态链接"><a href="#动态链接" class="headerlink" title="动态链接"></a>动态链接</h4><p><strong>在程序运行时（加载时或执行过程中）将库文件动态加载到内存中</strong>，与程序进行绑定。程序只保存对库的引用，而库本身作为共享资源存储在外部文件中（如 .so 或 .dll）。</p><img src="/../../images/dynamic_linking.png" alt="image.png" style="zoom:20%;" /><h4 id="对比"><a href="#对比" class="headerlink" title="对比"></a>对比</h4><table><thead><tr><th>特性</th><th>静态链接</th><th>动态链接</th></tr></thead><tbody><tr><td><strong>链接时间</strong></td><td>编译时</td><td>程序运行时</td></tr><tr><td><strong>可执行文件大小</strong></td><td>较大（包含库代码）</td><td>较小（引用外部库）</td></tr><tr><td><strong>内存占用</strong></td><td>每个程序独立加载库代码，内存占用多</td><td>多个程序共享库，节省内存</td></tr><tr><td><strong>运行时效率</strong></td><td>无需加载外部库，效率高</td><td>首次加载外部库稍慢</td></tr><tr><td><strong>更新与维护</strong></td><td>库更新需要重新编译相关程序</td><td>库更新无需修改程序</td></tr><tr><td><strong>独立性</strong></td><td>无需依赖外部库</td><td>依赖外部共享库</td></tr><tr><td><strong>灵活性</strong></td><td>固定，无法动态更换库</td><td>灵活，可在运行时加载或替换库</td></tr></tbody></table><h3 id="如何创建子进程（fork）"><a href="#如何创建子进程（fork）" class="headerlink" title="如何创建子进程（fork）"></a>如何创建子进程（fork）</h3><p><strong>fork 的拷贝特点</strong></p><ol><li><strong>写时复制 (COW)</strong></li></ol><ul><li>fork 的内存部分在最初是浅拷贝形式：</li><li>父子进程共享相同的物理内存页面（例如代码段、数据段、堆、栈）。</li><li>只要父子进程不修改内存，所有页面保持共享。</li><li>当父进程或子进程尝试写入某个页面时，操作系统会触发<strong>页面级复制</strong>：</li><li>把要修改的页面复制到新的内存区域，使父子进程各自持有独立的副本。</li><li>这种机制避免了创建子进程时立即复制所有内存的高昂成本。</li></ul><ol start="2"><li><strong>文件描述符</strong>：</li></ol><ul><li>子进程复制父进程的文件描述符表。</li><li>文件描述符指向同一内核文件表项，因此父子进程共享文件偏移量。</li><li>这是一种<strong>浅拷贝</strong>。</li></ul><ol start="3"><li><strong>信号处理设置、环境变量、当前工作目录等</strong>：</li></ol><ul><li>这些是简单的值拷贝（深拷贝），因为它们不涉及共享资源。</li></ul>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> 操作系统 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>二叉树算法（回溯，动态规划，迭代）</title>
       <link href="/2025/01/08/%E4%BA%8C%E5%8F%89%E6%A0%91%E7%AE%97%E6%B3%95%EF%BC%88%E5%9B%9E%E6%BA%AF%EF%BC%8C%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%EF%BC%8C%E8%BF%AD%E4%BB%A3%EF%BC%89/"/>
       <url>/2025/01/08/%E4%BA%8C%E5%8F%89%E6%A0%91%E7%AE%97%E6%B3%95%EF%BC%88%E5%9B%9E%E6%BA%AF%EF%BC%8C%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%EF%BC%8C%E8%BF%AD%E4%BB%A3%EF%BC%89/</url>
@@ -220,25 +317,6 @@
       <url>/2025/01/05/%E7%AC%AC%E4%BA%8C%E7%AB%A0%20%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86%EF%BC%88%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E5%A4%9A%E8%BF%9B%E7%A8%8B%EF%BC%89/</url>
       
         <content type="html"><![CDATA[<h3 id="进程"><a href="#进程" class="headerlink" title="进程"></a>进程</h3><p>运行中的程序（区别于未运行的静态程序），需要有数据结构保存当前运行的信息（PCB），便于切换不同进程</p><h4 id="进程的状态"><a href="#进程的状态" class="headerlink" title="进程的状态"></a>进程的状态</h4><img src="/../../images/process_state.png" alt="process_state" width=700px /><h4 id="进程的切换"><a href="#进程的切换" class="headerlink" title="进程的切换"></a>进程的切换</h4><p>操作系统切换进程（宏观）</p><p>例子为进程运行到磁盘读写操作后与其他进程的切换</p><img src="/../../images/process.png" alt="process" width=500px/><p>操作系统切换进程的PCB（微观）</p><img src="/../../images/PCB_use.png" alt="PCB_use" width=500px/><h5 id="PCB"><a href="#PCB" class="headerlink" title="PCB"></a>PCB</h5><p>PCB的结构</p><ul><li><strong>Process scheduling state</strong> – The state of the process in terms of “ready”, “suspended”, etc., and other scheduling information as well, such as priority value, the amount of time elapsed since the process gained control of the CPU or since it was suspended. Also, in case of a suspended process, event identification data must be recorded for the event the process is waiting for;</li><li><strong>Process structuring information</strong> – the process’s children id’s, or the id’s of other processes related to the current one in some functional way, which may be represented as a queue, a ring or other data structures;</li><li><strong>Interprocess communication information</strong> – flags, signals and messages associated with the communication among independent processes;</li><li><strong>Process Privileges</strong> – allowed&#x2F;disallowed access to system resources;</li><li><strong>Process State</strong> – new, ready, running, waiting, dead;</li><li><strong>Process Number (PID)</strong> – unique identification number for each process (also known as Process ID);</li><li><strong>Program Counter (PC)</strong> – a pointer to the address of the next instruction to be executed for this process;</li><li><strong>CPU Registers</strong> – register set where process needs to be stored for execution for running state;</li><li><strong>CPU Scheduling Information</strong> – information scheduling CPU time;</li><li><strong>Memory Management Information</strong> – page table, memory limits, segment table;</li><li><strong>Accounting Information</strong> – amount of CPU used for process execution, time limits, execution ID etc.;</li><li><strong>I&#x2F;O Status Information</strong> – list of I&#x2F;O devices allocated to the process.</li></ul><h3 id="线程"><a href="#线程" class="headerlink" title="线程"></a>线程</h3><p>将资源和指令执行分开，进程为资源+指令执行序列。</p><p><strong>线程几乎不拥有资源（通过共享进程的资源），只实现指令的切换（切换PC指针，寄存器等）</strong>，保留了并发的优点，避免了进程切换的代价（保留现场，切换PCB）</p><p><strong>当需要并发而且共享相同资源（内存）时使用多线程编程</strong>，进程间资源相互独立</p><h4 id="用户级线程"><a href="#用户级线程" class="headerlink" title="用户级线程"></a>用户级线程</h4><p><strong>只有用户级线程没有用户级进程，因为进程拥有内存资源，需要到内核态执行</strong></p><p>如果对于多线程使用同一个栈，则在return访问栈时会跳转到其他线程，所以应对于不同的线程使用不同的栈</p><p>yield：当前线程会尽量让出CPU资源来给其他线程执行</p><img src="/../../images/user_thread_one_stack.png" alt="user_thread_one_stack" width=700px /><p>每个线程使用不同栈，通过不同的栈顶指针区分，yield更新当前线程TCB的栈顶指针，切换到下个线程的TCB，取栈顶指针</p><img src="/../../images/user_thread_multi_stack.png" alt="user_thread_multi_stack" width=700px /><img src="/../../images/user_multi_process.png" alt="user_multi_process" width=700px /><p>操作系统无法看到用户级线程，进而无法分配硬件多核处理，只有通过内核级线程调用多核</p><h4 id="内核级线程"><a href="#内核级线程" class="headerlink" title="内核级线程"></a>内核级线程</h4><p>有几个内核级线程就要有几套栈（每套包括用户态执行函数调用的栈，内核态执行函数调用的栈）</p><img src="/../../images/kernal_thread_stack.png" alt="kernal_thread_stack" width=700px /><img src="/../../images/kernal_thread_stack_exp.png" alt="kernal_thread_stack_exp" width=700px /><p>内核级线程切换步骤</p><img src="/../../images/kernal_thread_switch.png" alt="kernal_thread_switch" width=700px /><h3 id="CPU调度策略"><a href="#CPU调度策略" class="headerlink" title="CPU调度策略"></a>CPU调度策略</h3><h4 id="任务调度策略的三个基本准则"><a href="#任务调度策略的三个基本准则" class="headerlink" title="任务调度策略的三个基本准则"></a>任务调度策略的三个基本准则</h4><ul><li>任务周转时间：从新建到完成的时间</li><li>任务响应时间：从交互操作到任务响应的时间（前台任务关心）</li><li>系统吞吐量：一段时间内系统能完成的任务数</li></ul><h4 id="调度算法"><a href="#调度算法" class="headerlink" title="调度算法"></a>调度算法</h4><ol><li>先来先服务</li><li>短作业优先调度：可抢占，平均周转时间短（作业运行时间只能近似给出）</li><li>轮转调度：保证响应时间</li><li>多级队列调度：两个任务队列，一个是采用轮转调度的前台任务，一个是采用短作业优先的后台任务</li><li>多级反馈队列调度：动态调整任务类型（近期多IO可能为前台任务，无IO时间片结束未完成可能为后台大任务）</li></ol><h3 id="补充知识"><a href="#补充知识" class="headerlink" title="补充知识"></a>补充知识</h3><h4 id="多处理器和多核"><a href="#多处理器和多核" class="headerlink" title="多处理器和多核"></a>多处理器和多核</h4><p>多处理器：多套CPU，Cache，MMU（内存映射表）资源</p><p>多核：多个CPU，共用Cache和MMU</p>]]></content>
-      
-      
-      
-        <tags>
-            
-            <tag> 操作系统 </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>操作系统（一）绪论</title>
-      <link href="/2025/01/05/%E7%AC%AC%E4%B8%80%E7%AB%A0%20%E7%BB%AA%E8%AE%BA/"/>
-      <url>/2025/01/05/%E7%AC%AC%E4%B8%80%E7%AB%A0%20%E7%BB%AA%E8%AE%BA/</url>
-      
-        <content type="html"><![CDATA[<p>操作系统启动完后运行shell（shell也是一段程序，即&#x2F;bin&#x2F;sh） </p><p>鼠标点击，键盘按下后：</p><ol><li>硬件输入到系统消息队列</li><li>应用程序从内核应用消息队列取消息（GetMessage），做相应处理（执行函数）</li></ol><h3 id="用户态和内核态"><a href="#用户态和内核态" class="headerlink" title="用户态和内核态"></a>用户态和内核态</h3><p>用户态的程序只能使用内存中用户段，不能使用内核段。内核态可以访问任何内存数据。</p><p>中断是用户态进入内核态的唯一方法</p><p>系统调用的核心：</p><ol><li>用户程序中包含<code>int 0x80</code>指令（中断）的代码</li><li>操作系统写中断处理，获取想调程序的编号(系统调用号)</li><li>操作系统根据编号执行相应代码</li></ol>]]></content>
       
       
       
