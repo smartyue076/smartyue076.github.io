@@ -6,20 +6,20 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
-    <meta name="description" content="第八章 IO传统IO传统IO过程 CPU发起IO请求，每次只能请求一个字 磁盘数据写入缓冲区后，通过IO中断通知CPU CPU将缓冲区数据通过寄存器写入内核缓冲区（内存中） CPU将内核缓冲区（内存中）的数据拷贝到用户缓冲区（内存中）  缺点 CPU效率低下：CPU需要频繁得处理IO请求 传输效率低下：数据先从磁盘缓冲区拷贝到寄存器后才到拷贝到内存    引入DMA后的IO将数据搬运的工作全部交给">
+    <meta name="description" content="传统IO传统IO过程 CPU发起IO请求，每次只能请求一个字 磁盘数据写入缓冲区后，通过IO中断通知CPU CPU将缓冲区数据通过寄存器写入内核缓冲区（内存中） CPU将内核缓冲区（内存中）的数据拷贝到用户缓冲区（内存中）  缺点 CPU效率低下：CPU需要频繁得处理IO请求 传输效率低下：数据先从磁盘缓冲区拷贝到寄存器后才到拷贝到内存    引入DMA后的IO将数据搬运的工作全部交给DMA控制器">
 <meta property="og:type" content="article">
 <meta property="og:title" content="操作系统（十一）IO">
 <meta property="og:url" content="https://smartyue076.github.io/2025/01/15/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%EF%BC%88%E5%8D%81%E4%B8%80%EF%BC%89IO/index.html">
 <meta property="og:site_name" content="Martin XU的技术博客">
-<meta property="og:description" content="第八章 IO传统IO传统IO过程 CPU发起IO请求，每次只能请求一个字 磁盘数据写入缓冲区后，通过IO中断通知CPU CPU将缓冲区数据通过寄存器写入内核缓冲区（内存中） CPU将内核缓冲区（内存中）的数据拷贝到用户缓冲区（内存中）  缺点 CPU效率低下：CPU需要频繁得处理IO请求 传输效率低下：数据先从磁盘缓冲区拷贝到寄存器后才到拷贝到内存    引入DMA后的IO将数据搬运的工作全部交给">
+<meta property="og:description" content="传统IO传统IO过程 CPU发起IO请求，每次只能请求一个字 磁盘数据写入缓冲区后，通过IO中断通知CPU CPU将缓冲区数据通过寄存器写入内核缓冲区（内存中） CPU将内核缓冲区（内存中）的数据拷贝到用户缓冲区（内存中）  缺点 CPU效率低下：CPU需要频繁得处理IO请求 传输效率低下：数据先从磁盘缓冲区拷贝到寄存器后才到拷贝到内存    引入DMA后的IO将数据搬运的工作全部交给DMA控制器">
 <meta property="og:locale">
 <meta property="og:image" content="https://smartyue076.github.io/images/no_dma.png">
 <meta property="og:image" content="https://smartyue076.github.io/images/dma.png">
 <meta property="og:image" content="https://smartyue076.github.io/images/socket_send_file.png">
 <meta property="og:image" content="https://smartyue076.github.io/images/mmap.png">
 <meta property="og:image" content="https://smartyue076.github.io/images/sendfile.png">
-<meta property="article:published_time" content="2025-01-15T06:46:54.430Z">
-<meta property="article:modified_time" content="2025-01-15T06:46:54.430Z">
+<meta property="article:published_time" content="2025-01-15T06:52:28.731Z">
+<meta property="article:modified_time" content="2025-01-15T06:52:28.731Z">
 <meta property="article:author" content="Martin XU">
 <meta property="article:tag" content="操作系统">
 <meta name="twitter:card" content="summary">
@@ -133,7 +133,7 @@
     
     
       <div id="toc">
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC%E5%85%AB%E7%AB%A0-IO"><span class="toc-number">1.</span> <span class="toc-text">第八章 IO</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BC%A0%E7%BB%9FIO"><span class="toc-number">1.0.1.</span> <span class="toc-text">传统IO</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%BC%A0%E7%BB%9FIO%E8%BF%87%E7%A8%8B"><span class="toc-number">1.0.1.1.</span> <span class="toc-text">传统IO过程</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%BC%BA%E7%82%B9"><span class="toc-number">1.0.1.2.</span> <span class="toc-text">缺点</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BC%95%E5%85%A5DMA%E5%90%8E%E7%9A%84IO"><span class="toc-number">1.0.2.</span> <span class="toc-text">引入DMA后的IO</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%BC%95%E5%85%A5DMA%E5%90%8E%E7%9A%84IO%E8%BF%87%E7%A8%8B"><span class="toc-number">1.0.2.1.</span> <span class="toc-text">引入DMA后的IO过程</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9B%B6%E6%8B%B7%E8%B4%9D"><span class="toc-number">1.1.</span> <span class="toc-text">零拷贝</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%BC%A0%E7%BB%9F%E7%9A%84%E6%96%87%E4%BB%B6%E4%BC%A0%E8%BE%93%E6%96%B9%E5%BC%8F"><span class="toc-number">1.1.0.1.</span> <span class="toc-text">传统的文件传输方式</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#mmap-write"><span class="toc-number">1.1.0.2.</span> <span class="toc-text">mmap + write</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#sendfile%EF%BC%88%E9%9B%B6%E6%8B%B7%E8%B4%9D%EF%BC%89"><span class="toc-number">1.1.0.3.</span> <span class="toc-text">sendfile（零拷贝）</span></a></li></ol></li></ol></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BC%A0%E7%BB%9FIO"><span class="toc-number">1.</span> <span class="toc-text">传统IO</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%BC%A0%E7%BB%9FIO%E8%BF%87%E7%A8%8B"><span class="toc-number">1.1.</span> <span class="toc-text">传统IO过程</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%BC%BA%E7%82%B9"><span class="toc-number">1.2.</span> <span class="toc-text">缺点</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BC%95%E5%85%A5DMA%E5%90%8E%E7%9A%84IO"><span class="toc-number">2.</span> <span class="toc-text">引入DMA后的IO</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%BC%95%E5%85%A5DMA%E5%90%8E%E7%9A%84IO%E8%BF%87%E7%A8%8B"><span class="toc-number">2.1.</span> <span class="toc-text">引入DMA后的IO过程</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9B%B6%E6%8B%B7%E8%B4%9D"><span class="toc-number"></span> <span class="toc-text">零拷贝</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%BC%A0%E7%BB%9F%E7%9A%84%E6%96%87%E4%BB%B6%E4%BC%A0%E8%BE%93%E6%96%B9%E5%BC%8F"><span class="toc-number">0.1.</span> <span class="toc-text">传统的文件传输方式</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#mmap-write"><span class="toc-number">0.2.</span> <span class="toc-text">mmap + write</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#sendfile%EF%BC%88%E9%9B%B6%E6%8B%B7%E8%B4%9D%EF%BC%89"><span class="toc-number">0.3.</span> <span class="toc-text">sendfile（零拷贝）</span></a></li></ol></li></ol>
       </div>
     
   </span>
@@ -158,7 +158,7 @@
       
     <div class="postdate">
       
-        <time datetime="2025-01-15T06:46:54.430Z" class="dt-published" itemprop="datePublished">2025-01-15</time>
+        <time datetime="2025-01-15T06:52:28.731Z" class="dt-published" itemprop="datePublished">2025-01-15</time>
         
       
     </div>
@@ -178,7 +178,7 @@
   
 
   <div class="content e-content" itemprop="articleBody">
-    <h2 id="第八章-IO"><a href="#第八章-IO" class="headerlink" title="第八章 IO"></a>第八章 IO</h2><h4 id="传统IO"><a href="#传统IO" class="headerlink" title="传统IO"></a>传统IO</h4><h5 id="传统IO过程"><a href="#传统IO过程" class="headerlink" title="传统IO过程"></a>传统IO过程</h5><ol>
+    <h4 id="传统IO"><a href="#传统IO" class="headerlink" title="传统IO"></a>传统IO</h4><h5 id="传统IO过程"><a href="#传统IO过程" class="headerlink" title="传统IO过程"></a>传统IO过程</h5><ol>
 <li>CPU发起IO请求，每次只能请求一个字</li>
 <li>磁盘数据写入缓冲区后，通过IO中断通知CPU</li>
 <li>CPU将缓冲区数据通过寄存器写入内核缓冲区（内存中）</li>
@@ -256,7 +256,7 @@
     
     
       <div id="toc-footer" style="display: none">
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC%E5%85%AB%E7%AB%A0-IO"><span class="toc-number">1.</span> <span class="toc-text">第八章 IO</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BC%A0%E7%BB%9FIO"><span class="toc-number">1.0.1.</span> <span class="toc-text">传统IO</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%BC%A0%E7%BB%9FIO%E8%BF%87%E7%A8%8B"><span class="toc-number">1.0.1.1.</span> <span class="toc-text">传统IO过程</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%BC%BA%E7%82%B9"><span class="toc-number">1.0.1.2.</span> <span class="toc-text">缺点</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BC%95%E5%85%A5DMA%E5%90%8E%E7%9A%84IO"><span class="toc-number">1.0.2.</span> <span class="toc-text">引入DMA后的IO</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%BC%95%E5%85%A5DMA%E5%90%8E%E7%9A%84IO%E8%BF%87%E7%A8%8B"><span class="toc-number">1.0.2.1.</span> <span class="toc-text">引入DMA后的IO过程</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9B%B6%E6%8B%B7%E8%B4%9D"><span class="toc-number">1.1.</span> <span class="toc-text">零拷贝</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%BC%A0%E7%BB%9F%E7%9A%84%E6%96%87%E4%BB%B6%E4%BC%A0%E8%BE%93%E6%96%B9%E5%BC%8F"><span class="toc-number">1.1.0.1.</span> <span class="toc-text">传统的文件传输方式</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#mmap-write"><span class="toc-number">1.1.0.2.</span> <span class="toc-text">mmap + write</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#sendfile%EF%BC%88%E9%9B%B6%E6%8B%B7%E8%B4%9D%EF%BC%89"><span class="toc-number">1.1.0.3.</span> <span class="toc-text">sendfile（零拷贝）</span></a></li></ol></li></ol></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BC%A0%E7%BB%9FIO"><span class="toc-number">1.</span> <span class="toc-text">传统IO</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%BC%A0%E7%BB%9FIO%E8%BF%87%E7%A8%8B"><span class="toc-number">1.1.</span> <span class="toc-text">传统IO过程</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%BC%BA%E7%82%B9"><span class="toc-number">1.2.</span> <span class="toc-text">缺点</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BC%95%E5%85%A5DMA%E5%90%8E%E7%9A%84IO"><span class="toc-number">2.</span> <span class="toc-text">引入DMA后的IO</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%BC%95%E5%85%A5DMA%E5%90%8E%E7%9A%84IO%E8%BF%87%E7%A8%8B"><span class="toc-number">2.1.</span> <span class="toc-text">引入DMA后的IO过程</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9B%B6%E6%8B%B7%E8%B4%9D"><span class="toc-number"></span> <span class="toc-text">零拷贝</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%BC%A0%E7%BB%9F%E7%9A%84%E6%96%87%E4%BB%B6%E4%BC%A0%E8%BE%93%E6%96%B9%E5%BC%8F"><span class="toc-number">0.1.</span> <span class="toc-text">传统的文件传输方式</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#mmap-write"><span class="toc-number">0.2.</span> <span class="toc-text">mmap + write</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#sendfile%EF%BC%88%E9%9B%B6%E6%8B%B7%E8%B4%9D%EF%BC%89"><span class="toc-number">0.3.</span> <span class="toc-text">sendfile（零拷贝）</span></a></li></ol></li></ol>
       </div>
     
 
