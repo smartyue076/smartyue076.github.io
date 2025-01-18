@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="回溯框架回溯算法求解时要考虑三个问题 路径：已经做出的选择 选择列表：当前可以做的选择，即孩子结点的情况（剪枝做的就是精简孩子结点，避免重复讨论，反映到代码里就是对于某些情况直接continue调过） 结束条件：何时到达决策树的底层，返回结果  求解的关键在于画出决策树，并运用合理的剪枝条件。不要跳出此框架自己去想新写法，很容易漏解或者多解 12345678910result &#x3D; []def ba">
+<meta property="og:type" content="article">
+<meta property="og:title" content="回溯算法">
+<meta property="og:url" content="https://smartyue076.github.io/2025/01/18/%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95/index.html">
+<meta property="og:site_name" content="Martin XU的技术博客">
+<meta property="og:description" content="回溯框架回溯算法求解时要考虑三个问题 路径：已经做出的选择 选择列表：当前可以做的选择，即孩子结点的情况（剪枝做的就是精简孩子结点，避免重复讨论，反映到代码里就是对于某些情况直接continue调过） 结束条件：何时到达决策树的底层，返回结果  求解的关键在于画出决策树，并运用合理的剪枝条件。不要跳出此框架自己去想新写法，很容易漏解或者多解 12345678910result &#x3D; []def ba">
+<meta property="og:locale">
+<meta property="og:image" content="https://smartyue076.github.io/images/P.png">
+<meta property="og:image" content="https://smartyue076.github.io/images/C.png">
+<meta property="og:image" content="https://smartyue076.github.io/images/P_mul.png">
+<meta property="og:image" content="https://smartyue076.github.io/images/C_mul.png">
+<meta property="og:image" content="https://smartyue076.github.io/images/C_more_choice.png">
+<meta property="og:image" content="https://smartyue076.github.io/images/island_problem.png">
+<meta property="og:image" content="https://smartyue076.github.io/images/P.png">
+<meta property="og:image" content="https://smartyue076.github.io/images/C.png">
+<meta property="og:image" content="https://smartyue076.github.io/images/sub_string.png">
+<meta property="og:image" content="https://smartyue076.github.io/images/P.png">
+<meta property="article:published_time" content="2025-01-18T05:30:38.294Z">
+<meta property="article:modified_time" content="2025-01-18T05:30:38.294Z">
+<meta property="article:author" content="Martin XU">
+<meta property="article:tag" content="算法">
+<meta property="article:tag" content="回溯">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://smartyue076.github.io/images/P.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>回溯算法</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-86660611-1"></script>
+  <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'UA-86660611-1');
+  </script>
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/tags/">Tag</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/smartyue076">Projects</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/2025/01/18/%E4%BA%8C%E5%8F%89%E6%A0%91%E7%AE%97%E6%B3%95%EF%BC%88%E5%9B%9E%E6%BA%AF%EF%BC%8C%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%EF%BC%8C%E8%BF%AD%E4%BB%A3%EF%BC%89/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://smartyue076.github.io/2025/01/18/%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://smartyue076.github.io/2025/01/18/%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95/&text=回溯算法"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://smartyue076.github.io/2025/01/18/%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95/&title=回溯算法"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://smartyue076.github.io/2025/01/18/%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95/&is_video=false&description=回溯算法"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=回溯算法&body=Check out this article: https://smartyue076.github.io/2025/01/18/%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://smartyue076.github.io/2025/01/18/%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95/&title=回溯算法"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://smartyue076.github.io/2025/01/18/%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95/&title=回溯算法"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://smartyue076.github.io/2025/01/18/%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95/&title=回溯算法"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://smartyue076.github.io/2025/01/18/%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95/&title=回溯算法"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://smartyue076.github.io/2025/01/18/%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95/&name=回溯算法&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://smartyue076.github.io/2025/01/18/%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95/&t=回溯算法"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9E%E6%BA%AF%E6%A1%86%E6%9E%B6"><span class="toc-number">1.</span> <span class="toc-text">回溯框架</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95%E6%B1%82%E8%A7%A3%E6%97%B6%E8%A6%81%E8%80%83%E8%99%91%E4%B8%89%E4%B8%AA%E9%97%AE%E9%A2%98"><span class="toc-number">1.1.</span> <span class="toc-text">回溯算法求解时要考虑三个问题</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%A8%E6%8E%92%E5%88%97%E9%97%AE%E9%A2%98"><span class="toc-number">2.</span> <span class="toc-text">全排列问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8E%92%E5%88%97%E9%97%AE%E9%A2%98%EF%BC%88%E5%85%83%E7%B4%A0%E4%B8%8D%E9%87%8D%E5%A4%8D%E4%B8%8D%E5%8F%AF%E5%A4%8D%E9%80%89%EF%BC%89"><span class="toc-number">2.1.</span> <span class="toc-text">排列问题（元素不重复不可复选）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%84%E5%90%88%E9%97%AE%E9%A2%98%EF%BC%88%E5%85%83%E7%B4%A0%E4%B8%8D%E9%87%8D%E5%A4%8D%E4%B8%8D%E5%8F%AF%E5%A4%8D%E9%80%89%EF%BC%89"><span class="toc-number">2.2.</span> <span class="toc-text">组合问题（元素不重复不可复选）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8E%92%E5%88%97%EF%BC%88%E5%85%83%E7%B4%A0%E5%8F%AF%E9%87%8D%E4%B8%8D%E5%8F%AF%E5%A4%8D%E9%80%89%EF%BC%89"><span class="toc-number">2.3.</span> <span class="toc-text">排列（元素可重不可复选）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%84%E5%90%88%EF%BC%88%E5%85%83%E7%B4%A0%E5%8F%AF%E9%87%8D%E4%B8%8D%E5%8F%AF%E5%A4%8D%E9%80%89%EF%BC%89"><span class="toc-number">2.4.</span> <span class="toc-text">组合（元素可重不可复选）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8E%92%E5%88%97%EF%BC%88%E5%85%83%E7%B4%A0%E4%B8%8D%E9%87%8D%E5%A4%8D%E4%B8%8D%E5%8F%AF%E5%A4%8D%E9%80%89%EF%BC%89"><span class="toc-number">2.5.</span> <span class="toc-text">排列（元素不重复不可复选）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%84%E5%90%88%EF%BC%88%E5%85%83%E7%B4%A0%E4%B8%8D%E9%87%8D%E5%A4%8D%E4%B8%8D%E5%8F%AF%E5%A4%8D%E9%80%89%EF%BC%89"><span class="toc-number">2.6.</span> <span class="toc-text">组合（元素不重复不可复选）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B2%9B%E5%B1%BF%E9%97%AE%E9%A2%98"><span class="toc-number">3.</span> <span class="toc-text">岛屿问题</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%AE%A1%E7%AE%97%E5%B2%9B%E5%B1%BF%E7%9A%84%E6%95%B0%E9%87%8F"><span class="toc-number">3.0.1.</span> <span class="toc-text">计算岛屿的数量</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%B9%E6%B3%95%E6%80%BB%E7%BB%93"><span class="toc-number">4.</span> <span class="toc-text">方法总结</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%92%E5%BD%92%E6%A0%91%E7%94%BB%E6%B3%95"><span class="toc-number">4.1.</span> <span class="toc-text">递归树画法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8E%92%E5%88%97"><span class="toc-number">4.1.1.</span> <span class="toc-text">排列</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BB%84%E5%90%88"><span class="toc-number">4.1.2.</span> <span class="toc-text">组合</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AD%97%E4%B8%B2%E5%A4%A7%E5%B0%8F%EF%BC%88%E7%BB%84%E5%90%88%E6%A0%91%EF%BC%8C131-%E5%88%86%E5%89%B2%E5%9B%9E%E6%96%87%E4%B8%B2%EF%BC%89"><span class="toc-number">4.1.3.</span> <span class="toc-text">字串大小（组合树，131.分割回文串）</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%89%AA%E6%9E%9D%E6%96%B9%E6%B3%95"><span class="toc-number">4.2.</span> <span class="toc-text">剪枝方法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B7%A5%E5%85%B7"><span class="toc-number">4.2.1.</span> <span class="toc-text">工具</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%85%B7%E4%BD%93%E9%97%AE%E9%A2%98"><span class="toc-number">4.2.2.</span> <span class="toc-text">具体问题</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%8E%92%E5%88%97%E9%97%AE%E9%A2%98%E4%B8%8E%E7%BB%84%E5%90%88%E9%97%AE%E9%A2%98"><span class="toc-number">4.2.2.1.</span> <span class="toc-text">排列问题与组合问题</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%90%8C%E5%B1%82%E5%87%BA%E7%8E%B0%E7%9B%B8%E5%90%8C%E5%85%83%E7%B4%A0"><span class="toc-number">4.2.2.2.</span> <span class="toc-text">同层出现相同元素</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9E%E6%BA%AF%E4%B8%8EDFS%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-number">5.</span> <span class="toc-text">回溯与DFS的区别</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%93%E8%AE%BA"><span class="toc-number">5.1.</span> <span class="toc-text">结论</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%A8%E6%8E%92%E5%88%97%E9%97%AE%E9%A2%98%E4%B8%BA%E4%BE%8B"><span class="toc-number">5.2.</span> <span class="toc-text">全排列问题为例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B2%9B%E5%B1%BF%E9%97%AE%E9%A2%98%E4%B8%BA%E4%BE%8B"><span class="toc-number">5.3.</span> <span class="toc-text">岛屿问题为例</span></a></li></ol></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        回溯算法
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">Martin XU</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2025-01-18T05:30:38.294Z" class="dt-published" itemprop="datePublished">2025-01-18</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/%E5%9B%9E%E6%BA%AF/" rel="tag">回溯</a>, <a class="p-category" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <h2 id="回溯框架"><a href="#回溯框架" class="headerlink" title="回溯框架"></a>回溯框架</h2><h3 id="回溯算法求解时要考虑三个问题"><a href="#回溯算法求解时要考虑三个问题" class="headerlink" title="回溯算法求解时要考虑三个问题"></a>回溯算法求解时要考虑三个问题</h3><ol>
+<li><strong>路径</strong>：已经做出的选择</li>
+<li><strong>选择列表</strong>：当前可以做的选择，即<strong>孩子结点的情况</strong>（<strong>剪枝</strong>做的就是精简孩子结点，避免重复讨论，反映到代码里就是<strong>对于某些情况直接continue调过</strong>）</li>
+<li><strong>结束条件</strong>：何时到达决策树的底层，返回结果</li>
+</ol>
+<p><strong>求解的关键在于画出决策树，并运用合理的剪枝条件。不要跳出此框架自己去想新写法，很容易漏解或者多解</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">result = []</span><br><span class="line"><span class="keyword">def</span> <span class="title function_">backtrack</span>(<span class="params">路径, 选择列表</span>):</span><br><span class="line">    <span class="keyword">if</span> 满足结束条件:</span><br><span class="line">        result.add(路径)</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span> 选择 <span class="keyword">in</span> 选择列表:</span><br><span class="line">        做选择</span><br><span class="line">        backtrack(路径, 选择列表)</span><br><span class="line">        撤销选择</span><br></pre></td></tr></table></figure>
+
+<h2 id="全排列问题"><a href="#全排列问题" class="headerlink" title="全排列问题"></a>全排列问题</h2><h3 id="排列问题（元素不重复不可复选）"><a href="#排列问题（元素不重复不可复选）" class="headerlink" title="排列问题（元素不重复不可复选）"></a>排列问题（元素不重复不可复选）</h3><p><strong>选择列表</strong>：避免选当前路径上已经选择过的数字</p>
+<p><strong>解决方法</strong>：引入used数组，记录从根结点到当前结点的路径信息，判断数字是否被使用</p>
+<img src="/../../images/P.png"  style="zoom:40%;" />
+
+<p><strong>代码实现</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">backtrack</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// base case，到达叶子节点</span></span><br><span class="line">    <span class="keyword">if</span> (track.<span class="built_in">size</span>() == nums.<span class="built_in">size</span>()) &#123;</span><br><span class="line">        <span class="comment">// 收集叶子节点上的值</span></span><br><span class="line">        res.<span class="built_in">push_back</span>(<span class="built_in">vector</span>&lt;<span class="type">int</span>&gt;(track.<span class="built_in">begin</span>(), track.<span class="built_in">end</span>()));</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 回溯算法标准框架</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; nums.<span class="built_in">size</span>(); i++) &#123;</span><br><span class="line">        <span class="comment">// 已经存在 track 中的元素，不能重复选择</span></span><br><span class="line">        <span class="keyword">if</span> (used[i]) &#123;</span><br><span class="line">            <span class="keyword">continue</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 做选择</span></span><br><span class="line">        used[i] = <span class="literal">true</span>;</span><br><span class="line">        track.<span class="built_in">push_back</span>(nums[i]);</span><br><span class="line">        <span class="comment">// 进入下一层回溯树</span></span><br><span class="line">        <span class="built_in">backtrack</span>(nums);</span><br><span class="line">        <span class="comment">// 取消选择</span></span><br><span class="line">        track.<span class="built_in">pop_back</span>();</span><br><span class="line">        used[i] = <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="组合问题（元素不重复不可复选）"><a href="#组合问题（元素不重复不可复选）" class="headerlink" title="组合问题（元素不重复不可复选）"></a>组合问题（元素不重复不可复选）</h3><p><strong>选择列表</strong>：避免选只是顺序不同的相同元素序列</p>
+<p><strong>解决方案</strong>：通过保证元素之间的相对顺序不变来防止出现重复的子集</p>
+<img src="/../../images/C.png"  style="zoom:40%;" />
+
+<p><strong>代码实现</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// C(n,k)</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">backtrack</span><span class="params">(<span class="type">int</span> start, <span class="type">int</span> n, <span class="type">int</span> k)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// base case</span></span><br><span class="line">    <span class="keyword">if</span> (k == track.<span class="built_in">size</span>()) &#123;</span><br><span class="line">        <span class="comment">// 遍历到了第 k 层，收集当前节点的值</span></span><br><span class="line">        res.<span class="built_in">push_back</span>(<span class="built_in">vector</span>&lt;<span class="type">int</span>&gt;(track.<span class="built_in">begin</span>(), track.<span class="built_in">end</span>()));</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 回溯算法标准框架</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = start; i &lt;= n; i++) &#123;</span><br><span class="line">        <span class="comment">// 选择</span></span><br><span class="line">        track.<span class="built_in">push_back</span>(i);</span><br><span class="line">        <span class="comment">// 通过 start 参数控制树枝的遍历，避免产生重复的子集</span></span><br><span class="line">        <span class="built_in">backtrack</span>(i + <span class="number">1</span>, n, k);</span><br><span class="line">        <span class="comment">// 撤销选择</span></span><br><span class="line">        track.<span class="built_in">pop_back</span>();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>扩展：</strong></p>
+<ol>
+<li><strong>子集问题与组合问题</strong>：子集问题与组合问题一样，<strong>只是结束条件不同</strong>，子集不需要<code>if (k == track.size()) </code>，每次都要收集中间结果</li>
+<li><strong>排列问题与组合问题</strong>；排列问题要求路径上没有重复元素；组合问题除了排列的要求外，<strong>还要求元素间的相对位置不同时只取其中一种情况</strong></li>
+</ol>
+<h3 id="排列（元素可重不可复选）"><a href="#排列（元素可重不可复选）" class="headerlink" title="排列（元素可重不可复选）"></a>排列（元素可重不可复选）</h3><p><strong>选择列表</strong>：与基础的排列问题相同，也需要used数组来记录路径上的值。不同的是要将同值元素由于相对位置不同而造成的多余情况要排除掉</p>
+<p><strong>解决方法</strong>：通过确保同值元素的相对位置不变来剪枝。首先对数组<strong>排序</strong>，对于同值元素，若其之前的同值元素未选取则不选择该元素</p>
+<img src="/../../images/P_mul.png"  style="zoom:40%;" />
+
+<p><strong>代码实现</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="type">int</span> i = start; i &lt; nums.<span class="built_in">size</span>(); i++) &#123;</span><br><span class="line">      <span class="keyword">if</span> (used[i]) &#123;</span><br><span class="line">          <span class="keyword">continue</span>;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="comment">// 新添加的剪枝逻辑，固定相同的元素在排列中的相对位置</span></span><br><span class="line">      <span class="keyword">if</span> (i &gt; <span class="number">0</span> &amp;&amp; nums[i] == nums[i - <span class="number">1</span>] &amp;&amp; !used[i - <span class="number">1</span>]) &#123;</span><br><span class="line">          <span class="keyword">continue</span>;</span><br><span class="line">      &#125;</span><br><span class="line">  		<span class="comment">// ...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="组合（元素可重不可复选）"><a href="#组合（元素可重不可复选）" class="headerlink" title="组合（元素可重不可复选）"></a>组合（元素可重不可复选）</h3><p><strong>选择列表</strong>：与基础的组合问题相同，也需要规定元素的相对位置不变。不同的是要将同一层出现同值元素而造成的多余情况要排除掉</p>
+<p><strong>解决方法</strong>：通过确保同值元素在每层只处理一次来剪枝。首先对数组<strong>排序</strong>，对于同值元素，若其不是同值的第一个则不处理</p>
+<img src="/../../images/C_mul.png"  style="zoom:40%;" />
+
+<p><strong>代码实现</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="type">int</span> i = start; i &lt; nums.<span class="built_in">size</span>(); i++) &#123;</span><br><span class="line">    <span class="comment">// 剪枝逻辑，值相同的相邻树枝，只遍历第一条</span></span><br><span class="line">    <span class="keyword">if</span> (i &gt; start &amp;&amp; nums[i] == nums[i - <span class="number">1</span>]) &#123;</span><br><span class="line">        <span class="keyword">continue</span>;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="排列（元素不重复不可复选）"><a href="#排列（元素不重复不可复选）" class="headerlink" title="排列（元素不重复不可复选）"></a>排列（元素不重复不可复选）</h3><p><strong>选择列表</strong>：无限制</p>
+<h3 id="组合（元素不重复不可复选）"><a href="#组合（元素不重复不可复选）" class="headerlink" title="组合（元素不重复不可复选）"></a>组合（元素不重复不可复选）</h3><p><strong>选择列表</strong>：增加可选当前元素的选择</p>
+<p><strong>解决方法</strong>：下一次递归的<code>start</code>从当前元素起</p>
+<img src="/../../images/C_more_choice.png"  style="zoom:40%;" />
+
+<p><strong>代码实现</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="type">int</span> i = start; i &lt; nums.<span class="built_in">size</span>(); i++) &#123;</span><br><span class="line">    <span class="comment">// 选择 nums[i]</span></span><br><span class="line">    trackSum += nums[i];</span><br><span class="line">    track.<span class="built_in">push_back</span>(nums[i]);</span><br><span class="line">    <span class="comment">// 递归遍历下一层回溯树</span></span><br><span class="line">    <span class="comment">// 同一元素可重复使用，注意参数</span></span><br><span class="line">    <span class="built_in">backtrack</span>(nums, i, target);</span><br><span class="line">    <span class="comment">// 撤销选择 nums[i]</span></span><br><span class="line">    trackSum -= nums[i];</span><br><span class="line">    track.<span class="built_in">pop_back</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="岛屿问题"><a href="#岛屿问题" class="headerlink" title="岛屿问题"></a>岛屿问题</h2><h4 id="计算岛屿的数量"><a href="#计算岛屿的数量" class="headerlink" title="计算岛屿的数量"></a>计算岛屿的数量</h4><p>题目会输入一个二维数组 <code>grid</code>，其中只包含 <code>0</code> 或者 <code>1</code>，<code>0</code> 代表海水，<code>1</code> 代表陆地，且假设该矩阵四周都是被海水包围着的。</p>
+<img src="/../../images/island_problem.png"  style="zoom:50%;" />
+
+<p><strong>选择列表</strong>：上下左右四个方向</p>
+<p><strong>代码实现</strong>：遍历后对已访问的元素直接置0（海水），以免维护visited数组。对四个方向递归，对于超出边界或值为0（已经访问或为海水的）直接返回。</p>
+<p><strong>Tips</strong>：<strong>对于DFS倾向于把剪枝操作写在最前面，对于回溯倾向于把剪枝操作写在做选择前</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">numIslands</span><span class="params">(vector&lt;vector&lt;<span class="type">char</span>&gt;&gt;&amp; grid)</span> </span>&#123;</span><br><span class="line">    <span class="type">int</span> res = <span class="number">0</span>;</span><br><span class="line">    <span class="type">int</span> m = grid.<span class="built_in">size</span>(), n = grid[<span class="number">0</span>].<span class="built_in">size</span>();</span><br><span class="line">    <span class="comment">// 遍历 grid</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; m; i++) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">0</span>; j &lt; n; j++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (grid[i][j] == <span class="string">&#x27;1&#x27;</span>) &#123;</span><br><span class="line">                <span class="comment">// 每发现一个岛屿，岛屿数量加一</span></span><br><span class="line">                res++;</span><br><span class="line">                <span class="comment">// 然后使用 DFS 将岛屿淹了</span></span><br><span class="line">                <span class="built_in">dfs</span>(grid, i, j);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 从 (i, j) 开始，将与之相邻的陆地都变成海水</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">dfs</span><span class="params">(vector&lt;vector&lt;<span class="type">char</span>&gt;&gt;&amp; grid, <span class="type">int</span> i, <span class="type">int</span> j)</span> </span>&#123;</span><br><span class="line">    <span class="type">int</span> m = grid.<span class="built_in">size</span>(), n = grid[<span class="number">0</span>].<span class="built_in">size</span>();</span><br><span class="line">    <span class="keyword">if</span> (i &lt; <span class="number">0</span> || j &lt; <span class="number">0</span> || i &gt;= m || j &gt;= n) &#123;</span><br><span class="line">        <span class="comment">// 超出索引边界</span></span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (grid[i][j] == <span class="string">&#x27;0&#x27;</span>) &#123;</span><br><span class="line">        <span class="comment">// 已经是海水了</span></span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 将 (i, j) 变成海水</span></span><br><span class="line">    grid[i][j] = <span class="string">&#x27;0&#x27;</span>;</span><br><span class="line">    <span class="comment">// 淹没上下左右的陆地</span></span><br><span class="line">    <span class="built_in">dfs</span>(grid, i + <span class="number">1</span>, j);</span><br><span class="line">    <span class="built_in">dfs</span>(grid, i, j + <span class="number">1</span>);</span><br><span class="line">    <span class="built_in">dfs</span>(grid, i - <span class="number">1</span>, j);</span><br><span class="line">    <span class="built_in">dfs</span>(grid, i, j - <span class="number">1</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="方法总结"><a href="#方法总结" class="headerlink" title="方法总结"></a>方法总结</h2><h3 id="递归树画法"><a href="#递归树画法" class="headerlink" title="递归树画法"></a>递归树画法</h3><p><strong>先判断路径的顺序是否是不同的结果</strong>，如果不同则为排列树，否则为组合树。以此为基础再讨论后续的条件</p>
+<h4 id="排列"><a href="#排列" class="headerlink" title="排列"></a>排列</h4><img src="/../../images/P.png"  style="zoom:40%;" />
+
+<h4 id="组合"><a href="#组合" class="headerlink" title="组合"></a>组合</h4><img src="/../../images/C.png"  style="zoom:40%;" />
+
+<h4 id="字串大小（组合树，131-分割回文串）"><a href="#字串大小（组合树，131-分割回文串）" class="headerlink" title="字串大小（组合树，131.分割回文串）"></a>字串大小（组合树，131.分割回文串）</h4><p>以字串作为路径</p>
+<img src="/../../images/sub_string.png"  style="zoom:20%;" />
+
+<h3 id="剪枝方法"><a href="#剪枝方法" class="headerlink" title="剪枝方法"></a>剪枝方法</h3><h4 id="工具"><a href="#工具" class="headerlink" title="工具"></a>工具</h4><p><strong>visited数组</strong>：判断路径上的值是否有被使用过（纵向）</p>
+<p><strong>start索引</strong>：通过规定<strong>当前层的路径</strong>访问顺序来确保值<strong>只被使用一次</strong>（横向）</p>
+<p><strong>path数组大小是否为0</strong>：有些情况下确保第二层路径访问不受影响</p>
+<h4 id="具体问题"><a href="#具体问题" class="headerlink" title="具体问题"></a>具体问题</h4><h5 id="排列问题与组合问题"><a href="#排列问题与组合问题" class="headerlink" title="排列问题与组合问题"></a>排列问题与组合问题</h5><p><strong>排列</strong>：visited数组</p>
+<p><strong>组合</strong>：start索引</p>
+<h5 id="同层出现相同元素"><a href="#同层出现相同元素" class="headerlink" title="同层出现相同元素"></a>同层出现相同元素</h5><p>若<strong>可先排序</strong>，</p>
+<p>​	<strong>排列</strong>：visited数组</p>
+<p>​	<strong>组合</strong>：start索引</p>
+<p><strong>不可先排序</strong></p>
+<p>​	<strong>使用集合去重</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">unordered_set&lt;<span class="type">int</span>&gt; used;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="回溯与DFS的区别"><a href="#回溯与DFS的区别" class="headerlink" title="回溯与DFS的区别"></a>回溯与DFS的区别</h2><h3 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h3><p><strong>从代码角度看</strong>，<strong>回溯</strong>把做选择与撤销选择<strong>放在了遍历逻辑（for循环）里</strong>，而<strong>DFS</strong>把其<strong>放在了遍历逻辑外</strong></p>
+<p><strong>从语意角度看</strong>，<strong>回溯更关心路径的信息；DFS更关心结点的信息</strong></p>
+<p>❗️<strong>区分何时用回溯，何时用DFS的关键是看根结点是否有含义</strong>，有则用DFS，否则用回溯</p>
+<h3 id="全排列问题为例"><a href="#全排列问题为例" class="headerlink" title="全排列问题为例"></a>全排列问题为例</h3><p>对于<strong>全排列问题</strong>，<strong>从递归树角度看其根结点是没有含义的</strong>。如果使用<strong>DFS</strong>，即把选择列表看作是结点，则其如下图所示</p>
+<p>如果把其看作<strong>回溯</strong>，则如下图所示</p>
+<img src="/../../images/P.png"  style="zoom:30%;" />
+
+<p>可见根结点是没有定义的。其只是串联第一层选择列表的作用。</p>
+<p>此外，<strong>从代码角度看</strong>，使用<strong>DFS</strong>则对于<strong>第二层结点需要放到递归外用迭代的方式讨论（原因在于根结点无含义）</strong>，而且<strong>达到终止条件时的回溯需要额外讨论</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// DFS</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">traverse</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; nums, vector&lt;<span class="type">bool</span>&gt;&amp; is_used_list ,<span class="type">int</span> cur)</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">  <span class="keyword">if</span> (is_used_list[cur] == <span class="literal">true</span>)</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 前序位置</span></span><br><span class="line">    path.<span class="built_in">push_back</span>(nums[cur]);</span><br><span class="line">    is_used_list[cur]=<span class="literal">true</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> (path.<span class="built_in">size</span>() == nums.<span class="built_in">size</span>()) &#123;</span><br><span class="line">        results.<span class="built_in">push_back</span>(path);</span><br><span class="line">        path.<span class="built_in">pop_back</span>();</span><br><span class="line">        is_used_list[cur]=<span class="literal">false</span>;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; nums.<span class="built_in">size</span>(); i++)</span><br><span class="line">        <span class="built_in">traverse</span>(nums, is_used_list,i);</span><br><span class="line">  </span><br><span class="line">    <span class="comment">// 后序位置</span></span><br><span class="line">    path.<span class="built_in">pop_back</span>();</span><br><span class="line">    is_used_list[cur]=<span class="literal">false</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">vector&lt;vector&lt;<span class="type">int</span>&gt;&gt; <span class="built_in">permute</span>(vector&lt;<span class="type">int</span>&gt;&amp; nums) &#123;</span><br><span class="line">    <span class="function">vector&lt;<span class="type">bool</span>&gt; <span class="title">is_used_list</span><span class="params">(nums.size(), <span class="literal">false</span>)</span></span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i=<span class="number">0</span>;i&lt;nums.<span class="built_in">size</span>();i++)</span><br><span class="line">        <span class="built_in">traverse</span>(nums, is_used_list,i);</span><br><span class="line">    <span class="keyword">return</span> results;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>对于<strong>回溯</strong>算法，由于其<strong>结点表示的是当前路径的结果</strong>，选择列表里是路径的信息，所以其不会用到根结点，这样就<strong>避免了根结点无含义带来的额外处理</strong>（对比DFS时对第二层结点的处理）</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">backtrack</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (track.<span class="built_in">size</span>() == nums.<span class="built_in">size</span>()) &#123;</span><br><span class="line">        res.<span class="built_in">push_back</span>(<span class="built_in">vector</span>&lt;<span class="type">int</span>&gt;(track.<span class="built_in">begin</span>(), track.<span class="built_in">end</span>()));</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; nums.<span class="built_in">size</span>(); i++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (used[i]) <span class="keyword">continue</span>;</span><br><span class="line">        used[i] = <span class="literal">true</span>;</span><br><span class="line">        track.<span class="built_in">push_back</span>(nums[i]);</span><br><span class="line">        <span class="built_in">backtrack</span>(nums);</span><br><span class="line">        track.<span class="built_in">pop_back</span>();</span><br><span class="line">        used[i] = <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="岛屿问题为例"><a href="#岛屿问题为例" class="headerlink" title="岛屿问题为例"></a>岛屿问题为例</h3><p>对于<strong>岛屿问题</strong>，若使用<strong>回溯</strong>，则需要<strong>额外处理第1层的路径</strong>，递归处理的是第2到n层的路径。两者语意上是不同的</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">bool</span> <span class="title">exist</span><span class="params">(vector&lt;vector&lt;<span class="type">char</span>&gt;&gt;&amp; board, string word)</span></span></span><br><span class="line"><span class="function"></span>&#123; <span class="comment">//...</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> j=<span class="number">0</span>;j&lt;board[<span class="number">0</span>].<span class="built_in">size</span>();j++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (board[i][j] == word[<span class="number">0</span>])</span><br><span class="line">        &#123;</span><br><span class="line">            is_visited[i][j] =<span class="literal">true</span>;</span><br><span class="line">            path.<span class="built_in">push_back</span>(word[<span class="number">0</span>]);</span><br><span class="line">            <span class="built_in">backtrack</span>(board, word,<span class="number">0</span>,i,j);</span><br><span class="line">            path.<span class="built_in">pop_back</span>();</span><br><span class="line">            is_visited[i][j] =<span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (is_found)</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">backtrack</span><span class="params">(vector&lt;vector&lt;<span class="type">char</span>&gt;&gt;&amp; board, string &amp;word,<span class="type">int</span> start,<span class="type">int</span> i,<span class="type">int</span> j)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">		<span class="comment">// 上</span></span><br><span class="line">      path.<span class="built_in">push_back</span>(word[start]);</span><br><span class="line">      is_visited[i<span class="number">-1</span>][j] =<span class="literal">true</span>;</span><br><span class="line">      <span class="built_in">backtrack</span>(board,word,start<span class="number">+1</span>,i<span class="number">-1</span>,j);</span><br><span class="line">      path.<span class="built_in">pop_back</span>();</span><br><span class="line">      is_visited[i<span class="number">-1</span>][j] =<span class="literal">false</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 下</span></span><br><span class="line">      path.<span class="built_in">push_back</span>(word[start]);</span><br><span class="line">      is_visited[i<span class="number">+1</span>][j] =<span class="literal">true</span>;</span><br><span class="line">      <span class="built_in">backtrack</span>(board,word,start<span class="number">+1</span>,i<span class="number">+1</span>,j);</span><br><span class="line">      path.<span class="built_in">pop_back</span>();</span><br><span class="line">      is_visited[i<span class="number">+1</span>][j] =<span class="literal">false</span>;</span><br><span class="line"><span class="comment">//...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>而对于<strong>DFS</strong>，则<strong>不需要对根结点做额外讨论</strong>，因为根结点本身就是有含义的</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">bool</span> <span class="title">exist</span><span class="params">(vector&lt;vector&lt;<span class="type">char</span>&gt;&gt;&amp; board, string word)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="comment">//...</span></span><br><span class="line">  <span class="keyword">for</span> (<span class="type">int</span> j=<span class="number">0</span>;j&lt;board[<span class="number">0</span>].<span class="built_in">size</span>();j++)</span><br><span class="line">  &#123;</span><br><span class="line">      <span class="keyword">if</span> (board[i][j] == word[<span class="number">0</span>])</span><br><span class="line">          <span class="built_in">backtrack</span>(board, word,<span class="number">0</span>,i,j);</span><br><span class="line">      <span class="keyword">if</span> (is_found)</span><br><span class="line">          <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">backtrack</span><span class="params">(vector&lt;vector&lt;<span class="type">char</span>&gt;&gt;&amp; board, string &amp;word,<span class="type">int</span> start,<span class="type">int</span> i,<span class="type">int</span> j)</span></span></span><br><span class="line"><span class="function"></span>&#123; <span class="comment">//...</span></span><br><span class="line">        is_visited[i][j] = <span class="literal">true</span>;</span><br><span class="line">        <span class="built_in">backtrack</span>(board, word,start<span class="number">+1</span>,i<span class="number">-1</span>,j);</span><br><span class="line">        <span class="built_in">backtrack</span>(board, word,start<span class="number">+1</span>,i<span class="number">+1</span>,j);</span><br><span class="line">        <span class="built_in">backtrack</span>(board, word,start<span class="number">+1</span>,i,j<span class="number">-1</span>);</span><br><span class="line">        <span class="built_in">backtrack</span>(board, word,start<span class="number">+1</span>,i,j<span class="number">+1</span>);</span><br><span class="line">        is_visited[i][j] = <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+  </div>
+</article>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>Please enable JavaScript to view the comments.</noscript>
+        </div>
+    </div>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">Home</a></li>
+        
+          <li><a href="/about/">About</a></li>
+        
+          <li><a href="/archives/">Writing</a></li>
+        
+          <li><a href="/tags/">Tag</a></li>
+        
+          <li><a href="/search/">Search</a></li>
+        
+          <li><a target="_blank" rel="noopener" href="https://github.com/smartyue076">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9E%E6%BA%AF%E6%A1%86%E6%9E%B6"><span class="toc-number">1.</span> <span class="toc-text">回溯框架</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95%E6%B1%82%E8%A7%A3%E6%97%B6%E8%A6%81%E8%80%83%E8%99%91%E4%B8%89%E4%B8%AA%E9%97%AE%E9%A2%98"><span class="toc-number">1.1.</span> <span class="toc-text">回溯算法求解时要考虑三个问题</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%A8%E6%8E%92%E5%88%97%E9%97%AE%E9%A2%98"><span class="toc-number">2.</span> <span class="toc-text">全排列问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8E%92%E5%88%97%E9%97%AE%E9%A2%98%EF%BC%88%E5%85%83%E7%B4%A0%E4%B8%8D%E9%87%8D%E5%A4%8D%E4%B8%8D%E5%8F%AF%E5%A4%8D%E9%80%89%EF%BC%89"><span class="toc-number">2.1.</span> <span class="toc-text">排列问题（元素不重复不可复选）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%84%E5%90%88%E9%97%AE%E9%A2%98%EF%BC%88%E5%85%83%E7%B4%A0%E4%B8%8D%E9%87%8D%E5%A4%8D%E4%B8%8D%E5%8F%AF%E5%A4%8D%E9%80%89%EF%BC%89"><span class="toc-number">2.2.</span> <span class="toc-text">组合问题（元素不重复不可复选）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8E%92%E5%88%97%EF%BC%88%E5%85%83%E7%B4%A0%E5%8F%AF%E9%87%8D%E4%B8%8D%E5%8F%AF%E5%A4%8D%E9%80%89%EF%BC%89"><span class="toc-number">2.3.</span> <span class="toc-text">排列（元素可重不可复选）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%84%E5%90%88%EF%BC%88%E5%85%83%E7%B4%A0%E5%8F%AF%E9%87%8D%E4%B8%8D%E5%8F%AF%E5%A4%8D%E9%80%89%EF%BC%89"><span class="toc-number">2.4.</span> <span class="toc-text">组合（元素可重不可复选）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8E%92%E5%88%97%EF%BC%88%E5%85%83%E7%B4%A0%E4%B8%8D%E9%87%8D%E5%A4%8D%E4%B8%8D%E5%8F%AF%E5%A4%8D%E9%80%89%EF%BC%89"><span class="toc-number">2.5.</span> <span class="toc-text">排列（元素不重复不可复选）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%84%E5%90%88%EF%BC%88%E5%85%83%E7%B4%A0%E4%B8%8D%E9%87%8D%E5%A4%8D%E4%B8%8D%E5%8F%AF%E5%A4%8D%E9%80%89%EF%BC%89"><span class="toc-number">2.6.</span> <span class="toc-text">组合（元素不重复不可复选）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B2%9B%E5%B1%BF%E9%97%AE%E9%A2%98"><span class="toc-number">3.</span> <span class="toc-text">岛屿问题</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%AE%A1%E7%AE%97%E5%B2%9B%E5%B1%BF%E7%9A%84%E6%95%B0%E9%87%8F"><span class="toc-number">3.0.1.</span> <span class="toc-text">计算岛屿的数量</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%B9%E6%B3%95%E6%80%BB%E7%BB%93"><span class="toc-number">4.</span> <span class="toc-text">方法总结</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%92%E5%BD%92%E6%A0%91%E7%94%BB%E6%B3%95"><span class="toc-number">4.1.</span> <span class="toc-text">递归树画法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8E%92%E5%88%97"><span class="toc-number">4.1.1.</span> <span class="toc-text">排列</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BB%84%E5%90%88"><span class="toc-number">4.1.2.</span> <span class="toc-text">组合</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AD%97%E4%B8%B2%E5%A4%A7%E5%B0%8F%EF%BC%88%E7%BB%84%E5%90%88%E6%A0%91%EF%BC%8C131-%E5%88%86%E5%89%B2%E5%9B%9E%E6%96%87%E4%B8%B2%EF%BC%89"><span class="toc-number">4.1.3.</span> <span class="toc-text">字串大小（组合树，131.分割回文串）</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%89%AA%E6%9E%9D%E6%96%B9%E6%B3%95"><span class="toc-number">4.2.</span> <span class="toc-text">剪枝方法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B7%A5%E5%85%B7"><span class="toc-number">4.2.1.</span> <span class="toc-text">工具</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%85%B7%E4%BD%93%E9%97%AE%E9%A2%98"><span class="toc-number">4.2.2.</span> <span class="toc-text">具体问题</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%8E%92%E5%88%97%E9%97%AE%E9%A2%98%E4%B8%8E%E7%BB%84%E5%90%88%E9%97%AE%E9%A2%98"><span class="toc-number">4.2.2.1.</span> <span class="toc-text">排列问题与组合问题</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%90%8C%E5%B1%82%E5%87%BA%E7%8E%B0%E7%9B%B8%E5%90%8C%E5%85%83%E7%B4%A0"><span class="toc-number">4.2.2.2.</span> <span class="toc-text">同层出现相同元素</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9E%E6%BA%AF%E4%B8%8EDFS%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-number">5.</span> <span class="toc-text">回溯与DFS的区别</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%93%E8%AE%BA"><span class="toc-number">5.1.</span> <span class="toc-text">结论</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%A8%E6%8E%92%E5%88%97%E9%97%AE%E9%A2%98%E4%B8%BA%E4%BE%8B"><span class="toc-number">5.2.</span> <span class="toc-text">全排列问题为例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B2%9B%E5%B1%BF%E9%97%AE%E9%A2%98%E4%B8%BA%E4%BE%8B"><span class="toc-number">5.3.</span> <span class="toc-text">岛屿问题为例</span></a></li></ol></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://smartyue076.github.io/2025/01/18/%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://smartyue076.github.io/2025/01/18/%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95/&text=回溯算法"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://smartyue076.github.io/2025/01/18/%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95/&title=回溯算法"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://smartyue076.github.io/2025/01/18/%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95/&is_video=false&description=回溯算法"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=回溯算法&body=Check out this article: https://smartyue076.github.io/2025/01/18/%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://smartyue076.github.io/2025/01/18/%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95/&title=回溯算法"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://smartyue076.github.io/2025/01/18/%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95/&title=回溯算法"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://smartyue076.github.io/2025/01/18/%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95/&title=回溯算法"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://smartyue076.github.io/2025/01/18/%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95/&title=回溯算法"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://smartyue076.github.io/2025/01/18/%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95/&name=回溯算法&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://smartyue076.github.io/2025/01/18/%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95/&t=回溯算法"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2020-2025
+    Martin XU
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/tags/">Tag</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/smartyue076">Projects</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+  <script type="text/javascript">
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?2e6da3c375c8a87f5b664cea6d4cb29c";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+        </script>
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'cactus-1';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+<!-- utterances Comments -->
+
+</body>
+</html>
