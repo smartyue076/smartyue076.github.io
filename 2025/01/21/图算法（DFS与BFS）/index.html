@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="图的建立邻接表1234567vector&lt;vector&lt;int&gt;&gt; build_tree_with_table(int node_count,vector&lt;vector&lt;int&gt;&gt; prerequisites)&#123;    vector&lt;vector&lt;int&gt;&gt; graph(node_count);    for (in">
+<meta property="og:type" content="article">
+<meta property="og:title" content="图算法（DFS与BFS）">
+<meta property="og:url" content="https://smartyue076.github.io/2025/01/21/%E5%9B%BE%E7%AE%97%E6%B3%95%EF%BC%88DFS%E4%B8%8EBFS%EF%BC%89/index.html">
+<meta property="og:site_name" content="Martin XU的技术博客">
+<meta property="og:description" content="图的建立邻接表1234567vector&lt;vector&lt;int&gt;&gt; build_tree_with_table(int node_count,vector&lt;vector&lt;int&gt;&gt; prerequisites)&#123;    vector&lt;vector&lt;int&gt;&gt; graph(node_count);    for (in">
+<meta property="og:locale">
+<meta property="og:image" content="https://smartyue076.github.io/images/topu.jpeg">
+<meta property="og:image" content="https://smartyue076.github.io/images/topu_2.jpeg">
+<meta property="article:published_time" content="2025-01-21T10:45:37.405Z">
+<meta property="article:modified_time" content="2025-01-21T10:45:37.406Z">
+<meta property="article:author" content="Martin XU">
+<meta property="article:tag" content="算法">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://smartyue076.github.io/images/topu.jpeg">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>图算法（DFS与BFS）</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-86660611-1"></script>
+  <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'UA-86660611-1');
+  </script>
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/tags/">Tag</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/smartyue076">Projects</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="Previous post" href="/2025/01/21/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E7%A1%80/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/2025/01/21/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E7%A1%80%EF%BC%88%E4%BA%8C%EF%BC%89%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://smartyue076.github.io/2025/01/21/%E5%9B%BE%E7%AE%97%E6%B3%95%EF%BC%88DFS%E4%B8%8EBFS%EF%BC%89/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://smartyue076.github.io/2025/01/21/%E5%9B%BE%E7%AE%97%E6%B3%95%EF%BC%88DFS%E4%B8%8EBFS%EF%BC%89/&text=图算法（DFS与BFS）"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://smartyue076.github.io/2025/01/21/%E5%9B%BE%E7%AE%97%E6%B3%95%EF%BC%88DFS%E4%B8%8EBFS%EF%BC%89/&title=图算法（DFS与BFS）"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://smartyue076.github.io/2025/01/21/%E5%9B%BE%E7%AE%97%E6%B3%95%EF%BC%88DFS%E4%B8%8EBFS%EF%BC%89/&is_video=false&description=图算法（DFS与BFS）"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=图算法（DFS与BFS）&body=Check out this article: https://smartyue076.github.io/2025/01/21/%E5%9B%BE%E7%AE%97%E6%B3%95%EF%BC%88DFS%E4%B8%8EBFS%EF%BC%89/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://smartyue076.github.io/2025/01/21/%E5%9B%BE%E7%AE%97%E6%B3%95%EF%BC%88DFS%E4%B8%8EBFS%EF%BC%89/&title=图算法（DFS与BFS）"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://smartyue076.github.io/2025/01/21/%E5%9B%BE%E7%AE%97%E6%B3%95%EF%BC%88DFS%E4%B8%8EBFS%EF%BC%89/&title=图算法（DFS与BFS）"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://smartyue076.github.io/2025/01/21/%E5%9B%BE%E7%AE%97%E6%B3%95%EF%BC%88DFS%E4%B8%8EBFS%EF%BC%89/&title=图算法（DFS与BFS）"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://smartyue076.github.io/2025/01/21/%E5%9B%BE%E7%AE%97%E6%B3%95%EF%BC%88DFS%E4%B8%8EBFS%EF%BC%89/&title=图算法（DFS与BFS）"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://smartyue076.github.io/2025/01/21/%E5%9B%BE%E7%AE%97%E6%B3%95%EF%BC%88DFS%E4%B8%8EBFS%EF%BC%89/&name=图算法（DFS与BFS）&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://smartyue076.github.io/2025/01/21/%E5%9B%BE%E7%AE%97%E6%B3%95%EF%BC%88DFS%E4%B8%8EBFS%EF%BC%89/&t=图算法（DFS与BFS）"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%BE%E7%9A%84%E5%BB%BA%E7%AB%8B"><span class="toc-number">1.</span> <span class="toc-text">图的建立</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%82%BB%E6%8E%A5%E8%A1%A8"><span class="toc-number">1.1.</span> <span class="toc-text">邻接表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%82%BB%E6%8E%A5%E7%9F%A9%E9%98%B5"><span class="toc-number">1.2.</span> <span class="toc-text">邻接矩阵</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%BE%E7%9A%84%E9%81%8D%E5%8E%86%EF%BC%88%E8%8E%B7%E5%8F%96%E6%89%80%E6%9C%89%E8%B7%AF%E5%BE%84%EF%BC%89"><span class="toc-number">2.</span> <span class="toc-text">图的遍历（获取所有路径）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#DFS"><span class="toc-number">2.1.</span> <span class="toc-text">DFS</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%A4%E6%96%AD%E5%9B%BE%E6%98%AF%E5%90%A6%E6%9C%89%E7%8E%AF"><span class="toc-number">3.</span> <span class="toc-text">判断图是否有环</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#DFS-1"><span class="toc-number">3.1.</span> <span class="toc-text">DFS</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#BFS"><span class="toc-number">3.2.</span> <span class="toc-text">BFS</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8B%93%E6%89%91%E6%8E%92%E5%BA%8F"><span class="toc-number">4.</span> <span class="toc-text">拓扑排序</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#DFS-2"><span class="toc-number">4.1.</span> <span class="toc-text">DFS</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#BFS-1"><span class="toc-number">4.2.</span> <span class="toc-text">BFS</span></a></li></ol></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        图算法（DFS与BFS）
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">Martin XU</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2025-01-21T10:45:37.405Z" class="dt-published" itemprop="datePublished">2025-01-21</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <h2 id="图的建立"><a href="#图的建立" class="headerlink" title="图的建立"></a>图的建立</h2><h3 id="邻接表"><a href="#邻接表" class="headerlink" title="邻接表"></a>邻接表</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">vector&lt;vector&lt;<span class="type">int</span>&gt;&gt; <span class="built_in">build_tree_with_table</span>(<span class="type">int</span> node_count,vector&lt;vector&lt;<span class="type">int</span>&gt;&gt; prerequisites)</span><br><span class="line">&#123;</span><br><span class="line">    vector&lt;vector&lt;<span class="type">int</span>&gt;&gt; <span class="built_in">graph</span>(node_count);</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i=<span class="number">0</span>;i&lt;prerequisites.<span class="built_in">size</span>();i++)</span><br><span class="line">        graph[prerequisites[i][<span class="number">0</span>]].<span class="built_in">push_back</span>(prerequisites[i][<span class="number">1</span>]);</span><br><span class="line">    <span class="keyword">return</span> graph;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="邻接矩阵"><a href="#邻接矩阵" class="headerlink" title="邻接矩阵"></a>邻接矩阵</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">vector&lt;vector&lt;<span class="type">int</span>&gt;&gt; <span class="built_in">build_tree_with_martix</span>(<span class="type">int</span> node_count,vector&lt;vector&lt;<span class="type">int</span>&gt;&gt; prerequisites)</span><br><span class="line">&#123;</span><br><span class="line">    vector&lt;vector&lt;<span class="type">int</span>&gt;&gt; <span class="built_in">graph</span>(node_count,<span class="built_in">vector</span>&lt;<span class="type">int</span>&gt;(node_count,<span class="number">0</span>));</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i=<span class="number">0</span>;i&lt;prerequisites.<span class="built_in">size</span>();i++)</span><br><span class="line">        graph[prerequisites[i][<span class="number">0</span>]][prerequisites[i][<span class="number">1</span>]] = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">return</span> graph;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="图的遍历（获取所有路径）"><a href="#图的遍历（获取所有路径）" class="headerlink" title="图的遍历（获取所有路径）"></a>图的遍历（获取所有路径）</h2><h3 id="DFS"><a href="#DFS" class="headerlink" title="DFS"></a>DFS</h3><p>使用<code>on_path</code><strong>判断当前访问的结点是否在当前访问列表中</strong>，如果在则表示<strong>有环</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">vector&lt;vector&lt;<span class="type">int</span>&gt;&gt; path_lists;</span><br><span class="line">vector&lt;<span class="type">int</span>&gt; path;</span><br><span class="line">vector&lt;<span class="type">bool</span>&gt; on_path;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">traverse_dfs</span><span class="params">(vector&lt;vector&lt;<span class="type">int</span>&gt;&gt; graph,<span class="type">int</span> start)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"><span class="keyword">if</span> (src &lt; <span class="number">0</span> || src &gt;= graph.<span class="built_in">size</span>()) <span class="keyword">return</span>;</span><br><span class="line">    <span class="keyword">if</span> (on_path[start] == <span class="literal">true</span>)</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    path.<span class="built_in">push_back</span>(start);</span><br><span class="line">    on_path[start] = <span class="literal">true</span>;</span><br><span class="line">    path_lists.<span class="built_in">push_back</span>(path);</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i=<span class="number">0</span>;i&lt;graph[start].<span class="built_in">size</span>();i++)</span><br><span class="line">        <span class="built_in">traverse_dfs</span>(graph, graph[start][i]);</span><br><span class="line">    path.<span class="built_in">pop_back</span>();</span><br><span class="line">    on_path[start] = <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="判断图是否有环"><a href="#判断图是否有环" class="headerlink" title="判断图是否有环"></a>判断图是否有环</h2><h3 id="DFS-1"><a href="#DFS-1" class="headerlink" title="DFS"></a>DFS</h3><p>使用图的遍历DFS算法，<code>if (on_path[start] == true)</code>时给<code>has_circle</code>赋True</p>
+<p>另外，使用了<strong>is_visited_list</strong>。假设现在以节点 <code>2</code> 为起点遍历所有可达的路径，最终发现没有环。</p>
+<p>假设另一个节点 <code>5</code> 有一条指向 <code>2</code> 的边，你在以 <code>5</code> 为起点遍历所有可达的路径时，肯定还会走到 <code>2</code>，此时是否还需要继续遍历 <code>2</code> 的所有可达路径呢？答案是不需要了，因为<strong>第一次没找到环，那么这次也不可能找到环</strong></p>
+<p>所以，<strong>如果发现一个节点之前被遍历过，就可以直接跳过，不用再重复遍历了</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">bool</span> has_circle;</span><br><span class="line">vector&lt;<span class="type">bool</span>&gt; is_visited_list;</span><br><span class="line">vector&lt;<span class="type">bool</span>&gt; on_path;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">traverse</span><span class="params">(vector&lt;vector&lt;<span class="type">int</span>&gt;&gt; &amp;graph, <span class="type">int</span> start)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (start &lt; <span class="number">0</span> || start &gt;= graph.<span class="built_in">size</span>())</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    <span class="keyword">if</span> (has_circle)</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// on_path的判断与is_visited_list的判断不能颠倒</span></span><br><span class="line">    <span class="comment">// 因为组成环的结点一定是之前访问过的，即is_visited_list中的结点，所以会直接返回而不判断是否成环</span></span><br><span class="line">    <span class="keyword">if</span> (on_path[start] == <span class="literal">true</span>) &#123;</span><br><span class="line">        has_circle = <span class="literal">true</span>;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (is_visited_list[start] == <span class="literal">true</span>)</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    on_path[start] = <span class="literal">true</span>;</span><br><span class="line">    is_visited_list[start] = <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; graph[start].<span class="built_in">size</span>(); i++)</span><br><span class="line">        <span class="built_in">traverse</span>(graph, graph[start][i]);</span><br><span class="line">    on_path[start] = <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">bool</span> <span class="title">canFinish</span><span class="params">(<span class="type">int</span> numCourses, vector&lt;vector&lt;<span class="type">int</span>&gt;&gt;&amp; prerequisites)</span> </span>&#123;</span><br><span class="line">    is_visited_list.<span class="built_in">resize</span>(numCourses, <span class="literal">false</span>);</span><br><span class="line">    on_path.<span class="built_in">resize</span>(numCourses, <span class="literal">false</span>);</span><br><span class="line">    has_circle = <span class="literal">false</span>;</span><br><span class="line"></span><br><span class="line">    vector&lt;vector&lt;<span class="type">int</span>&gt;&gt; graph =</span><br><span class="line">        <span class="built_in">build_tree_with_table</span>(numCourses, prerequisites);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; graph.<span class="built_in">size</span>(); i++)</span><br><span class="line">        <span class="built_in">traverse</span>(graph, i);</span><br><span class="line">    <span class="keyword">return</span> !has_circle;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="BFS"><a href="#BFS" class="headerlink" title="BFS"></a>BFS</h3><p>使用<strong>拓扑排序</strong>，遍历序列即为<strong>拓扑排序序列</strong>。如果完成遍历后<strong>还有结点没有被遍历则存在环</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">bool</span> <span class="title">canFinish</span><span class="params">(<span class="type">int</span> numCourses, vector&lt;vector&lt;<span class="type">int</span>&gt;&gt;&amp; prerequisites)</span> </span>&#123;</span><br><span class="line">    vector&lt;vector&lt;<span class="type">int</span>&gt;&gt; graph = <span class="built_in">build_tree_with_table</span>(numCourses,prerequisites);</span><br><span class="line">    <span class="function">vector&lt;<span class="type">int</span>&gt; <span class="title">indegree</span><span class="params">(graph.size(), <span class="number">0</span>)</span></span>;</span><br><span class="line">    <span class="function">vector&lt;<span class="type">bool</span>&gt; <span class="title">is_visited_list</span><span class="params">(graph.size(), <span class="literal">false</span>)</span></span>;</span><br><span class="line">    <span class="comment">// get indegree</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; graph.<span class="built_in">size</span>(); i++) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">0</span>; j &lt; graph[i].<span class="built_in">size</span>(); j++)</span><br><span class="line">            indegree[graph[i][j]]++;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    queue&lt;<span class="type">int</span>&gt; q;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; indegree.<span class="built_in">size</span>(); i++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (indegree[i] == <span class="number">0</span>)</span><br><span class="line">            q.<span class="built_in">push</span>(i);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> traverse_node_count = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (!q.<span class="built_in">empty</span>()) &#123;</span><br><span class="line">        <span class="type">int</span> top = q.<span class="built_in">front</span>();</span><br><span class="line">        is_visited_list[top] = <span class="literal">true</span>;</span><br><span class="line">        q.<span class="built_in">pop</span>();</span><br><span class="line">        traverse_node_count++;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; graph[top].<span class="built_in">size</span>(); i++) &#123;</span><br><span class="line">            indegree[graph[top][i]]--;</span><br><span class="line">            <span class="keyword">if</span> (indegree[graph[top][i]] == <span class="number">0</span>)</span><br><span class="line">                q.<span class="built_in">push</span>(graph[top][i]);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (traverse_node_count != graph.<span class="built_in">size</span>())</span><br><span class="line">        <span class="keyword">return</span> !<span class="literal">true</span>;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        <span class="keyword">return</span> !<span class="literal">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="拓扑排序"><a href="#拓扑排序" class="headerlink" title="拓扑排序"></a>拓扑排序</h2><h3 id="DFS-2"><a href="#DFS-2" class="headerlink" title="DFS"></a>DFS</h3><p><strong>拓扑排序序列为DFS后序遍历序列取倒置</strong>。可以这样理解，后序遍历为左-&gt;右-&gt;根。遍历完左右子树之后才会执行后序遍历位置的代码。换句话说，当左右子树的节点都被装到结果列表里面了，根节点才会被装进去。</p>
+<p><strong>后序遍历的这一特点很重要，之所以拓扑排序的基础是后序遍历，是因为一个任务必须等到它依赖的所有任务都完成之后才能开始开始执行</strong>。</p>
+<img src="/../../images/topu.jpeg"  style="zoom:40%;" />
+
+<p>倒置后即为拓扑排序序列，使用<code>reverse(path.begin(),path.end())</code>函数实现</p>
+<img src="/../../images/topu_2.jpeg"  style="zoom:40%;" />
+
+<p>由于为图的后序遍历，所以在邻居结点都被访问后才把当前结点加入遍历序列。这里的<code>is_visited_list</code>防止结点被重复访问</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">bool</span> has_circle;</span><br><span class="line">vector&lt;<span class="type">bool</span>&gt; is_visited_list;</span><br><span class="line">vector&lt;<span class="type">bool</span>&gt; on_path;</span><br><span class="line">vector&lt;<span class="type">int</span>&gt; path;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">traverse</span><span class="params">(vector&lt;vector&lt;<span class="type">int</span>&gt;&gt; &amp;graph, <span class="type">int</span> start)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (start &lt; <span class="number">0</span> || start &gt;= graph.<span class="built_in">size</span>())</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    <span class="keyword">if</span> (has_circle)</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// on_path的判断与is_visited_list的判断不能颠倒</span></span><br><span class="line">    <span class="comment">// 因为组成环的结点一定是之前访问过的，即is_visited_list中的结点，所以会直接返回而不判断是否成环</span></span><br><span class="line">    <span class="keyword">if</span> (on_path[start] == <span class="literal">true</span>) &#123;</span><br><span class="line">        has_circle = <span class="literal">true</span>;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (is_visited_list[start] == <span class="literal">true</span>)</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    on_path[start] = <span class="literal">true</span>;</span><br><span class="line">    is_visited_list[start] = <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; graph[start].<span class="built_in">size</span>(); i++)</span><br><span class="line">        <span class="built_in">traverse</span>(graph, graph[start][i]);</span><br><span class="line">    on_path[start] = <span class="literal">false</span>;</span><br><span class="line">    path.<span class="built_in">push_back</span>(start);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">vector&lt;<span class="type">int</span>&gt; <span class="title">findOrder</span><span class="params">(<span class="type">int</span> numCourses, vector&lt;vector&lt;<span class="type">int</span>&gt;&gt;&amp; prerequisites)</span> </span>&#123;</span><br><span class="line">            is_visited_list.<span class="built_in">resize</span>(numCourses, <span class="literal">false</span>);</span><br><span class="line">    on_path.<span class="built_in">resize</span>(numCourses, <span class="literal">false</span>);</span><br><span class="line">    has_circle = <span class="literal">false</span>;</span><br><span class="line">    vector&lt;vector&lt;<span class="type">int</span>&gt;&gt; graph =</span><br><span class="line">        <span class="built_in">build_tree_with_table</span>(numCourses, prerequisites);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; graph.<span class="built_in">size</span>(); i++)</span><br><span class="line">        <span class="built_in">traverse</span>(graph, i);</span><br><span class="line">    <span class="keyword">if</span> (has_circle)</span><br><span class="line">    &#123;</span><br><span class="line">        vector&lt;<span class="type">int</span>&gt; null_vec = &#123;&#125;;</span><br><span class="line">        <span class="keyword">return</span> null_vec;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">reverse</span>(path.<span class="built_in">begin</span>(),path.<span class="built_in">end</span>());</span><br><span class="line">        <span class="keyword">return</span> path;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="BFS-1"><a href="#BFS-1" class="headerlink" title="BFS"></a>BFS</h3><p><strong>同判断图是否有环的BFS实现</strong>，修改下返回值为<code>path</code>遍历序列即可</p>
+
+  </div>
+</article>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>Please enable JavaScript to view the comments.</noscript>
+        </div>
+    </div>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">Home</a></li>
+        
+          <li><a href="/about/">About</a></li>
+        
+          <li><a href="/archives/">Writing</a></li>
+        
+          <li><a href="/tags/">Tag</a></li>
+        
+          <li><a href="/search/">Search</a></li>
+        
+          <li><a target="_blank" rel="noopener" href="https://github.com/smartyue076">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%BE%E7%9A%84%E5%BB%BA%E7%AB%8B"><span class="toc-number">1.</span> <span class="toc-text">图的建立</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%82%BB%E6%8E%A5%E8%A1%A8"><span class="toc-number">1.1.</span> <span class="toc-text">邻接表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%82%BB%E6%8E%A5%E7%9F%A9%E9%98%B5"><span class="toc-number">1.2.</span> <span class="toc-text">邻接矩阵</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%BE%E7%9A%84%E9%81%8D%E5%8E%86%EF%BC%88%E8%8E%B7%E5%8F%96%E6%89%80%E6%9C%89%E8%B7%AF%E5%BE%84%EF%BC%89"><span class="toc-number">2.</span> <span class="toc-text">图的遍历（获取所有路径）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#DFS"><span class="toc-number">2.1.</span> <span class="toc-text">DFS</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%A4%E6%96%AD%E5%9B%BE%E6%98%AF%E5%90%A6%E6%9C%89%E7%8E%AF"><span class="toc-number">3.</span> <span class="toc-text">判断图是否有环</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#DFS-1"><span class="toc-number">3.1.</span> <span class="toc-text">DFS</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#BFS"><span class="toc-number">3.2.</span> <span class="toc-text">BFS</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8B%93%E6%89%91%E6%8E%92%E5%BA%8F"><span class="toc-number">4.</span> <span class="toc-text">拓扑排序</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#DFS-2"><span class="toc-number">4.1.</span> <span class="toc-text">DFS</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#BFS-1"><span class="toc-number">4.2.</span> <span class="toc-text">BFS</span></a></li></ol></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://smartyue076.github.io/2025/01/21/%E5%9B%BE%E7%AE%97%E6%B3%95%EF%BC%88DFS%E4%B8%8EBFS%EF%BC%89/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://smartyue076.github.io/2025/01/21/%E5%9B%BE%E7%AE%97%E6%B3%95%EF%BC%88DFS%E4%B8%8EBFS%EF%BC%89/&text=图算法（DFS与BFS）"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://smartyue076.github.io/2025/01/21/%E5%9B%BE%E7%AE%97%E6%B3%95%EF%BC%88DFS%E4%B8%8EBFS%EF%BC%89/&title=图算法（DFS与BFS）"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://smartyue076.github.io/2025/01/21/%E5%9B%BE%E7%AE%97%E6%B3%95%EF%BC%88DFS%E4%B8%8EBFS%EF%BC%89/&is_video=false&description=图算法（DFS与BFS）"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=图算法（DFS与BFS）&body=Check out this article: https://smartyue076.github.io/2025/01/21/%E5%9B%BE%E7%AE%97%E6%B3%95%EF%BC%88DFS%E4%B8%8EBFS%EF%BC%89/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://smartyue076.github.io/2025/01/21/%E5%9B%BE%E7%AE%97%E6%B3%95%EF%BC%88DFS%E4%B8%8EBFS%EF%BC%89/&title=图算法（DFS与BFS）"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://smartyue076.github.io/2025/01/21/%E5%9B%BE%E7%AE%97%E6%B3%95%EF%BC%88DFS%E4%B8%8EBFS%EF%BC%89/&title=图算法（DFS与BFS）"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://smartyue076.github.io/2025/01/21/%E5%9B%BE%E7%AE%97%E6%B3%95%EF%BC%88DFS%E4%B8%8EBFS%EF%BC%89/&title=图算法（DFS与BFS）"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://smartyue076.github.io/2025/01/21/%E5%9B%BE%E7%AE%97%E6%B3%95%EF%BC%88DFS%E4%B8%8EBFS%EF%BC%89/&title=图算法（DFS与BFS）"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://smartyue076.github.io/2025/01/21/%E5%9B%BE%E7%AE%97%E6%B3%95%EF%BC%88DFS%E4%B8%8EBFS%EF%BC%89/&name=图算法（DFS与BFS）&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://smartyue076.github.io/2025/01/21/%E5%9B%BE%E7%AE%97%E6%B3%95%EF%BC%88DFS%E4%B8%8EBFS%EF%BC%89/&t=图算法（DFS与BFS）"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2020-2025
+    Martin XU
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/tags/">Tag</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/smartyue076">Projects</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+  <script type="text/javascript">
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?2e6da3c375c8a87f5b664cea6d4cb29c";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+        </script>
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'cactus-1';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+<!-- utterances Comments -->
+
+</body>
+</html>
