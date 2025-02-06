@@ -268,6 +268,275 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://smartyue076.github.io/2025/02/06/%E6%95%B0%E6%8D%AE%E5%BA%93%EF%BC%88%E4%BA%8C%EF%BC%89%E7%B4%A2%E5%BC%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Martin XU">
+      <meta itemprop="description" content="Hi，朋友。欢迎来到我的技术博客。本站主要整理了计算机相关的专业知识，包括操作系统、计算机网络、算法以及分布式系统等等。此外，还有我的一些学习及工作碎碎念，希望能与你一同探索计算机的有趣世界～">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Martin XU的技术博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2025/02/06/%E6%95%B0%E6%8D%AE%E5%BA%93%EF%BC%88%E4%BA%8C%EF%BC%89%E7%B4%A2%E5%BC%95/" class="post-title-link" itemprop="url">数据库（二）索引</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2025-02-06 11:06:16 / Modified: 11:06:56" itemprop="dateCreated datePublished" datetime="2025-02-06T11:06:16+08:00">2025-02-06</time>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="Symbols count in article">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">Symbols count in article: </span>
+              <span>2.1k</span>
+            </span>
+            <span class="post-meta-item" title="Reading time">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">Reading time &asymp;</span>
+              <span>5 mins.</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="索引存储结构"><a href="#索引存储结构" class="headerlink" title="索引存储结构"></a>索引存储结构</h2><h3 id="存储结构"><a href="#存储结构" class="headerlink" title="存储结构"></a>存储结构</h3><p>使用<strong>B+树</strong>作为存储结构，<strong>非叶子结点存放索引</strong>，<strong>叶子节点才会存放实际数据（索引+记录）</strong></p>
+<img src="/../../images/db_index_1.webp" style="zoom:70%;">
+
+<h3 id="为什么使用B-树"><a href="#为什么使用B-树" class="headerlink" title="为什么使用B+树"></a>为什么使用B+树</h3><p>B+树与B树的对比如下</p>
+<ul>
+<li>B+ 树的非叶子节点<strong>不存放实际的记录数据，仅存放索引</strong>，因此数据量相同的情况下，相比存储即存索引又存记录的 B 树，<strong>B+树的非叶子节点可以存放更多的索引</strong>，因此 B+ 树可以比 B 树更「矮胖」，<strong>查询底层节点的磁盘 I&#x2F;O次数会更少</strong></li>
+<li>B+ 树<strong>有大量的冗余节点</strong>（所有非叶子节点都是冗余索引），这些冗余索引让 <strong>B+ 树在插入、删除的效率都更高</strong>，比如删除根节点的时候，<strong>不会像 B 树那样会发生复杂的树的变化</strong></li>
+<li><strong>B+ 树叶子节点之间用链表连接了起来，有利于范围查询</strong>，而 B 树要实现范围查询，因此只能通过树的遍历来完成范围查询，这会涉及多个节点的磁盘 I&#x2F;O 操作，范围查询效率不如 B+ 树。</li>
+</ul>
+<h2 id="使用索引时的查询流程"><a href="#使用索引时的查询流程" class="headerlink" title="使用索引时的查询流程"></a>使用索引时的查询流程</h2><h3 id="叶子节点存放的是实际数据时（聚簇索引）"><a href="#叶子节点存放的是实际数据时（聚簇索引）" class="headerlink" title="叶子节点存放的是实际数据时（聚簇索引）"></a>叶子节点存放的是实际数据时（聚簇索引）</h3><p>当通过主键指定条件时，<strong>通过主键索引遍历到叶子结点</strong>，<strong>获得主键值和其对应的数据</strong></p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2025/02/06/%E6%95%B0%E6%8D%AE%E5%BA%93%EF%BC%88%E4%BA%8C%EF%BC%89%E7%B4%A2%E5%BC%95/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://smartyue076.github.io/2025/02/06/%E6%95%B0%E6%8D%AE%E5%BA%93%EF%BC%88%E4%B8%80%EF%BC%89%E7%BB%AA%E8%AE%BA/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Martin XU">
+      <meta itemprop="description" content="Hi，朋友。欢迎来到我的技术博客。本站主要整理了计算机相关的专业知识，包括操作系统、计算机网络、算法以及分布式系统等等。此外，还有我的一些学习及工作碎碎念，希望能与你一同探索计算机的有趣世界～">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Martin XU的技术博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2025/02/06/%E6%95%B0%E6%8D%AE%E5%BA%93%EF%BC%88%E4%B8%80%EF%BC%89%E7%BB%AA%E8%AE%BA/" class="post-title-link" itemprop="url">数据库（一）绪论</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2025-02-06 11:03:42" itemprop="dateCreated datePublished" datetime="2025-02-06T11:03:42+08:00">2025-02-06</time>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="Symbols count in article">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">Symbols count in article: </span>
+              <span>1.2k</span>
+            </span>
+            <span class="post-meta-item" title="Reading time">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">Reading time &asymp;</span>
+              <span>3 mins.</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="执行select的过程"><a href="#执行select的过程" class="headerlink" title="执行select的过程"></a>执行select的过程</h2><img src="/../../images/mysql查询流程.webp" style="zoom:60%;">
+
+<h3 id="连接器"><a href="#连接器" class="headerlink" title="连接器"></a>连接器</h3><p>客户端通过<strong>TCP三次握手</strong>与数据库建立连接</p>
+<h3 id="查询缓存"><a href="#查询缓存" class="headerlink" title="查询缓存"></a>查询缓存</h3><p>如果 SQL 是<strong>查询语句（select 语句）</strong>，MySQL 就会先去<strong>查询缓存</strong>（ Query Cache ）里查找缓存数据，看看之前有没有执行过这一条命令，这个查询缓存是以 <strong>key-value 形式保存在内存中</strong>的，key 为 SQL 查询语句，value 为 SQL 语句查询的结果。</p>
+<h3 id="解析SQL"><a href="#解析SQL" class="headerlink" title="解析SQL"></a>解析SQL</h3><p>解析器完成<strong>词法分析</strong>（根据输入的字符串识别出关键字）和<strong>语法分析</strong>（判断语句语法）</p>
+<h3 id="执行SQL"><a href="#执行SQL" class="headerlink" title="执行SQL"></a>执行SQL</h3><h4 id="预处理器"><a href="#预处理器" class="headerlink" title="预处理器"></a>预处理器</h4>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2025/02/06/%E6%95%B0%E6%8D%AE%E5%BA%93%EF%BC%88%E4%B8%80%EF%BC%89%E7%BB%AA%E8%AE%BA/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://smartyue076.github.io/2025/02/06/%E6%95%B0%E6%8D%AE%E5%BA%93%EF%BC%88%E4%B8%89%EF%BC%89%E4%BA%8B%E5%8A%A1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Martin XU">
+      <meta itemprop="description" content="Hi，朋友。欢迎来到我的技术博客。本站主要整理了计算机相关的专业知识，包括操作系统、计算机网络、算法以及分布式系统等等。此外，还有我的一些学习及工作碎碎念，希望能与你一同探索计算机的有趣世界～">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Martin XU的技术博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2025/02/06/%E6%95%B0%E6%8D%AE%E5%BA%93%EF%BC%88%E4%B8%89%EF%BC%89%E4%BA%8B%E5%8A%A1/" class="post-title-link" itemprop="url">数据库（三）事务</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2025-02-06 10:05:56 / Modified: 11:07:11" itemprop="dateCreated datePublished" datetime="2025-02-06T10:05:56+08:00">2025-02-06</time>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="Symbols count in article">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">Symbols count in article: </span>
+              <span>4.4k</span>
+            </span>
+            <span class="post-meta-item" title="Reading time">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">Reading time &asymp;</span>
+              <span>11 mins.</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="数据库需要解决的问题（背景）"><a href="#数据库需要解决的问题（背景）" class="headerlink" title="数据库需要解决的问题（背景）"></a>数据库需要解决的问题（背景）</h2><p>在转账场景中，A向B转账100元。转账过程需要保证的是要么转账成功，要么转账失败恢复到原始值<strong>（原子性 Atomicity）</strong>；转账前后A与B账号的存款总数不变<strong>（一致性 Consistency）</strong>；转账过程中A与B的其他转账操作不影响当前转账<strong>（隔离性 Isolation）</strong>；转账成功则不可撤回<strong>（持久性 Durability）</strong>。所以引入<strong>事务（Transaction）</strong>的概念</p>
+<h2 id="事务（解决方案）"><a href="#事务（解决方案）" class="headerlink" title="事务（解决方案）"></a>事务（解决方案）</h2><h3 id="特性（ACID）"><a href="#特性（ACID）" class="headerlink" title="特性（ACID）"></a>特性（ACID）</h3><ol>
+<li><strong>原子性（Atomicity）</strong>：一个事务中的所有操作，要么全部完成，要么全部不完成，不会结束在中间某个环节，而且事务在执行过程中发生错误，会被回滚到事务开始前的状态，就像这个事务从来没有执行过一样</li>
+<li><strong>一致性（Consistency）</strong>：是指事务操作前和操作后，数据满足完整性约束，数据库保持一致性状态</li>
+<li><strong>隔离性（Isolation）</strong>：数据库允许多个并发事务同时对其数据进行读写和修改的能力，隔离性可以防止多个事务并发执行时由于交叉执行而导致数据的不一致</li>
+<li><strong>持久性（Durability）</strong>：事务处理结束后，对数据的修改就是永久的，即便系统故障也不会丢失</li>
+</ol>
+<p>InnoDB 引擎通过什么技术来保证事务的这四个特性的呢？</p>
+<ul>
+<li>持久性是通过 redo log （重做日志）来保证的；</li>
+<li>原子性是通过 undo log（回滚日志） 来保证的；</li>
+<li>隔离性是通过 MVCC（多版本并发控制） 或锁机制来保证的；</li>
+<li>一致性则是通过持久性+原子性+隔离性来保证；</li>
+</ul>
+<h3 id="并行事务的问题与解决方案（隔离性）"><a href="#并行事务的问题与解决方案（隔离性）" class="headerlink" title="并行事务的问题与解决方案（隔离性）"></a>并行事务的问题与解决方案（隔离性）</h3><h4 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h4><ol>
+<li><strong>脏读</strong>：如果一个事务「读到」了另一个<strong>「未提交事务修改过的数据」</strong>，就意味着发生了「脏读」现象</li>
+</ol>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2025/02/06/%E6%95%B0%E6%8D%AE%E5%BA%93%EF%BC%88%E4%B8%89%EF%BC%89%E4%BA%8B%E5%8A%A1/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
     <link itemprop="mainEntityOfPage" href="https://smartyue076.github.io/2025/01/21/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E7%A1%80/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -792,283 +1061,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
-    <link itemprop="mainEntityOfPage" href="https://smartyue076.github.io/2025/01/15/%E7%AC%AC%E5%9B%9B%E7%AB%A0%20%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86%EF%BC%88%E4%BA%8C%EF%BC%89/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Martin XU">
-      <meta itemprop="description" content="Hi，朋友。欢迎来到我的技术博客。本站主要整理了计算机相关的专业知识，包括操作系统、计算机网络、算法以及分布式系统等等。此外，还有我的一些学习及工作碎碎念，希望能与你一同探索计算机的有趣世界～">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Martin XU的技术博客">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2025/01/15/%E7%AC%AC%E5%9B%9B%E7%AB%A0%20%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86%EF%BC%88%E4%BA%8C%EF%BC%89/" class="post-title-link" itemprop="url">操作系统（七）文件管理（系统调用与文件存储）</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2025-01-15 14:53:51" itemprop="dateCreated datePublished" datetime="2025-01-15T14:53:51+08:00">2025-01-15</time>
-            </span>
-
-          <br>
-            <span class="post-meta-item" title="Symbols count in article">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">Symbols count in article: </span>
-              <span>2.8k</span>
-            </span>
-            <span class="post-meta-item" title="Reading time">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">Reading time &asymp;</span>
-              <span>7 mins.</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h4 id="文件系统操作"><a href="#文件系统操作" class="headerlink" title="文件系统操作"></a>文件系统操作</h4><h5 id="整体架构"><a href="#整体架构" class="headerlink" title="整体架构"></a>整体架构</h5><p>在文件系统和应用程序间有一层抽象层，称为虚拟文件系统（VFS）</p>
-<ul>
-<li>VFS作为抽象层向应用层提供了统一的文件接口（read，write等）</li>
-<li>VFS实现了一些公共的功能，如Directory Cache和Page Cache等</li>
-<li>规范了接口</li>
-</ul>
-<p>VFS向应用层提供统一接口，具体实现不同文件系统有不同实现，VFS将函数指针指向对应函数</p>
-<img src="/../../images/fs_architecture.png" width="500px">
-
-<h5 id="核心操作"><a href="#核心操作" class="headerlink" title="核心操作"></a>核心操作</h5><p><strong>文件系统的注册</strong></p>
-<p>在Linux中，具体文件系统通常是一个内核模块，在内核模块被加载时完成文件系统的注册</p>
-<p><strong>磁盘挂载</strong></p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2025/01/15/%E7%AC%AC%E5%9B%9B%E7%AB%A0%20%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86%EF%BC%88%E4%BA%8C%EF%BC%89/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
-    <link itemprop="mainEntityOfPage" href="https://smartyue076.github.io/2025/01/15/%E7%AC%AC%E5%9B%9B%E7%AB%A0%20%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Martin XU">
-      <meta itemprop="description" content="Hi，朋友。欢迎来到我的技术博客。本站主要整理了计算机相关的专业知识，包括操作系统、计算机网络、算法以及分布式系统等等。此外，还有我的一些学习及工作碎碎念，希望能与你一同探索计算机的有趣世界～">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Martin XU的技术博客">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2025/01/15/%E7%AC%AC%E5%9B%9B%E7%AB%A0%20%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86/" class="post-title-link" itemprop="url">操作系统（六）文件管理</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2025-01-15 14:53:16" itemprop="dateCreated datePublished" datetime="2025-01-15T14:53:16+08:00">2025-01-15</time>
-            </span>
-
-          <br>
-            <span class="post-meta-item" title="Symbols count in article">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">Symbols count in article: </span>
-              <span>3.7k</span>
-            </span>
-            <span class="post-meta-item" title="Reading time">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">Reading time &asymp;</span>
-              <span>9 mins.</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h4 id="磁盘的工作原理"><a href="#磁盘的工作原理" class="headerlink" title="磁盘的工作原理"></a>磁盘的工作原理</h4><h5 id="磁盘读写的过程"><a href="#磁盘读写的过程" class="headerlink" title="磁盘读写的过程"></a>磁盘读写的过程</h5><ol>
-<li>磁盘移动，找到要读的<strong>柱面</strong>（cylinder，简称C）</li>
-<li>从柱面选择具体读哪个<strong>磁道</strong>（magnetic head，简称H），选择对应的磁头上电（每次只能有一个磁头上电）</li>
-<li>旋转磁盘，将对应磁道中要读写的那个<strong>扇区</strong>（sector，简称S）转到磁头下方</li>
-<li>开始读写，将扇区中的内容读到内存缓存区中，或者将内存缓存区中的内容写到该扇区中</li>
-</ol>
-<img src="/../../images/physical_disk.png" width="400px">
-
-<h4 id="生磁盘的使用"><a href="#生磁盘的使用" class="headerlink" title="生磁盘的使用"></a>生磁盘的使用</h4><h5 id="第一层抽象：从扇区到磁盘块请求（抽象读写请求）"><a href="#第一层抽象：从扇区到磁盘块请求（抽象读写请求）" class="headerlink" title="第一层抽象：从扇区到磁盘块请求（抽象读写请求）"></a>第一层抽象：从扇区到磁盘块请求（抽象读写请求）</h5><p>正常寻址需要通过<strong>CHS</strong>三维向量，但是可以通过一位扇区编号编址</p>
-<p>磁盘读写时间 &#x3D; 寻道时间（选择柱面）+旋转时间（选择+读取扇区）+传输时间（磁生电活电生磁）</p>
-<p>其中寻道时间占主导，故每次只读&#x2F;写一个扇区是对于时间的浪费，故一次读&#x2F;写多个扇区，称为<strong>块</strong></p>
-<h5 id="第二层抽象：多个进程产生的磁盘请求队列（抽象读写方法）"><a href="#第二层抽象：多个进程产生的磁盘请求队列（抽象读写方法）" class="headerlink" title="第二层抽象：多个进程产生的磁盘请求队列（抽象读写方法）"></a>第二层抽象：多个进程产生的磁盘请求队列（抽象读写方法）</h5>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2025/01/15/%E7%AC%AC%E5%9B%9B%E7%AB%A0%20%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
-    <link itemprop="mainEntityOfPage" href="https://smartyue076.github.io/2025/01/15/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%EF%BC%88%E5%8D%81%E4%B8%80%EF%BC%89IO/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Martin XU">
-      <meta itemprop="description" content="Hi，朋友。欢迎来到我的技术博客。本站主要整理了计算机相关的专业知识，包括操作系统、计算机网络、算法以及分布式系统等等。此外，还有我的一些学习及工作碎碎念，希望能与你一同探索计算机的有趣世界～">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Martin XU的技术博客">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2025/01/15/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%EF%BC%88%E5%8D%81%E4%B8%80%EF%BC%89IO/" class="post-title-link" itemprop="url">操作系统（十一）IO</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2025-01-15 14:52:28" itemprop="dateCreated datePublished" datetime="2025-01-15T14:52:28+08:00">2025-01-15</time>
-            </span>
-
-          <br>
-            <span class="post-meta-item" title="Symbols count in article">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">Symbols count in article: </span>
-              <span>801</span>
-            </span>
-            <span class="post-meta-item" title="Reading time">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">Reading time &asymp;</span>
-              <span>2 mins.</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h4 id="传统IO"><a href="#传统IO" class="headerlink" title="传统IO"></a>传统IO</h4><h5 id="传统IO过程"><a href="#传统IO过程" class="headerlink" title="传统IO过程"></a>传统IO过程</h5><ol>
-<li>CPU发起IO请求，每次只能请求一个字</li>
-<li>磁盘数据写入缓冲区后，通过IO中断通知CPU</li>
-<li>CPU将缓冲区数据通过寄存器写入内核缓冲区（内存中）</li>
-<li>CPU将内核缓冲区（内存中）的数据拷贝到用户缓冲区（内存中）</li>
-</ol>
-<h5 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h5><ol>
-<li>CPU效率低下：CPU需要频繁得处理IO请求</li>
-<li>传输效率低下：数据先从磁盘缓冲区拷贝到寄存器后才到拷贝到内存</li>
-</ol>
-<img src="/../../images/no_dma.png" alt="image.png" style="zoom:100%;">
-
-<h4 id="引入DMA后的IO"><a href="#引入DMA后的IO" class="headerlink" title="引入DMA后的IO"></a>引入DMA后的IO</h4><p>将数据搬运的工作全部交给DMA控制器，CPU不需要参与</p>
-<h5 id="引入DMA后的IO过程"><a href="#引入DMA后的IO过程" class="headerlink" title="引入DMA后的IO过程"></a>引入DMA后的IO过程</h5><ol>
-<li>CPU发送IO请求到DMA</li>
-<li>DMA拷贝磁盘数据到内核缓冲区</li>
-<li>DMA拷贝完后向CPU发送IO中断请求</li>
-<li>CPU将内核缓冲区的数据拷贝到用户缓冲区</li>
-</ol>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2025/01/15/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%EF%BC%88%E5%8D%81%E4%B8%80%EF%BC%89IO/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1138,7 +1130,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">46</span>
+          <span class="site-state-item-count">49</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -1150,7 +1142,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-count">21</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -1186,12 +1178,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="Symbols count total">86k</span>
+    <span title="Symbols count total">94k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="Reading time total">3:36</span>
+    <span title="Reading time total">3:56</span>
 </div>
   <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a>
   </div>

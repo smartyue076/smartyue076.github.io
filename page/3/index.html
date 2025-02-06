@@ -185,6 +185,414 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://smartyue076.github.io/2025/01/05/GDB/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Martin XU">
+      <meta itemprop="description" content="Hi，朋友。欢迎来到我的技术博客。本站主要整理了计算机相关的专业知识，包括操作系统、计算机网络、算法以及分布式系统等等。此外，还有我的一些学习及工作碎碎念，希望能与你一同探索计算机的有趣世界～">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Martin XU的技术博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2025/01/05/GDB/" class="post-title-link" itemprop="url">GDB使用手册</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2025-01-05 11:20:25" itemprop="dateCreated datePublished" datetime="2025-01-05T11:20:25+08:00">2025-01-05</time>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="Symbols count in article">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">Symbols count in article: </span>
+              <span>493</span>
+            </span>
+            <span class="post-meta-item" title="Reading time">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">Reading time &asymp;</span>
+              <span>1 mins.</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="GDB使用手册"><a href="#GDB使用手册" class="headerlink" title="GDB使用手册"></a>GDB使用手册</h2><p>编译时加上<code>-g</code>选项</p>
+<table>
+<thead>
+<tr>
+<th>命令名称</th>
+<th>命令缩写</th>
+<th>命令说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>run</td>
+<td>r</td>
+<td>运行一个待调试的程序</td>
+</tr>
+<tr>
+<td>continue</td>
+<td>c</td>
+<td>让暂停的程序继续运行</td>
+</tr>
+<tr>
+<td>next</td>
+<td>n</td>
+<td>运行到下一行</td>
+</tr>
+<tr>
+<td>step</td>
+<td>s</td>
+<td>单步执行，遇到函数会进入</td>
+</tr>
+<tr>
+<td>until</td>
+<td>u</td>
+<td>运行到指定行停下来</td>
+</tr>
+<tr>
+<td>finish</td>
+<td>fi</td>
+<td>结束当前调用函数，回到上一层调用函数处</td>
+</tr>
+<tr>
+<td>return</td>
+<td>return</td>
+<td>结束当前调用函数并返回指定值，到上一层函数调用处</td>
+</tr>
+<tr>
+<td>jump</td>
+<td>j</td>
+<td>将当前程序执行流跳转到指定行或地址，不运行跳过的代码</td>
+</tr>
+<tr>
+<td>print</td>
+<td>p</td>
+<td>打印变量或寄存器值</td>
+</tr>
+<tr>
+<td>backtrace</td>
+<td>bt</td>
+<td>查看当前线程的调用堆栈</td>
+</tr>
+<tr>
+<td>frame</td>
+<td>f</td>
+<td>切换到当前调用线程的指定堆栈</td>
+</tr>
+<tr>
+<td>thread</td>
+<td>thread</td>
+<td>切换到指定线程</td>
+</tr>
+<tr>
+<td>break</td>
+<td>b</td>
+<td>添加断点</td>
+</tr>
+<tr>
+<td>tbreak</td>
+<td>tb</td>
+<td>添加临时断点</td>
+</tr>
+<tr>
+<td>delete</td>
+<td>d</td>
+<td>删除断点</td>
+</tr>
+<tr>
+<td>enable</td>
+<td>enable</td>
+<td>启用某个断点</td>
+</tr>
+<tr>
+<td>disable</td>
+<td>disable</td>
+<td>禁用某个断点</td>
+</tr>
+<tr>
+<td>watch</td>
+<td>watch</td>
+<td>监视某一个变量或内存地址的值是否发生变化</td>
+</tr>
+<tr>
+<td>list</td>
+<td>l</td>
+<td>显示源码</td>
+</tr>
+<tr>
+<td>info</td>
+<td>i</td>
+<td>查看断点 &#x2F; 线程等信息</td>
+</tr>
+<tr>
+<td>ptype</td>
+<td>ptype</td>
+<td>查看变量类型</td>
+</tr>
+<tr>
+<td>disassemble</td>
+<td>dis</td>
+<td>查看汇编代码</td>
+</tr>
+<tr>
+<td>set args</td>
+<td>set args</td>
+<td>设置程序启动命令行参数</td>
+</tr>
+<tr>
+<td>show args</td>
+<td>show args</td>
+<td>查看设置的命令行参数</td>
+</tr>
+</tbody></table>
+
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2025/01/05/GDB/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://smartyue076.github.io/2025/01/05/C++questions/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Martin XU">
+      <meta itemprop="description" content="Hi，朋友。欢迎来到我的技术博客。本站主要整理了计算机相关的专业知识，包括操作系统、计算机网络、算法以及分布式系统等等。此外，还有我的一些学习及工作碎碎念，希望能与你一同探索计算机的有趣世界～">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Martin XU的技术博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2025/01/05/C++questions/" class="post-title-link" itemprop="url">C++面试题</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2025-01-05 11:20:03" itemprop="dateCreated datePublished" datetime="2025-01-05T11:20:03+08:00">2025-01-05</time>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="Symbols count in article">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">Symbols count in article: </span>
+              <span>939</span>
+            </span>
+            <span class="post-meta-item" title="Reading time">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">Reading time &asymp;</span>
+              <span>2 mins.</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="我的疑问"><a href="#我的疑问" class="headerlink" title="我的疑问"></a>我的疑问</h3><ol>
+<li>header中防御式声明的目的</li>
+</ol>
+<ul>
+<li>防止两个头文件相互include时的循环include</li>
+<li>防止cpp在include不同头文件时可能产生的重复定义</li>
+</ul>
+<ol start="2">
+<li>inline</li>
+</ol>
+<p>将函数声明为inline可以避免函数调用的开销，空间换时间</p>
+<p>常规的函数调用需要用到栈，需要返回地址和参数压栈，但通过inline展开后就为普通的顺序执行</p>
+<p><strong>与define的区别</strong>：</p>
+<ul>
+<li>define无类型检查，inline有</li>
+<li>define编写时运算符的优先级较难处理</li>
+<li>define在预处理时展开，inline由编译器实现展开</li>
+</ul>
+<ol start="2">
+<li>const</li>
+</ol>
+<p>const对象的<strong>值创建后值不能再改变</strong>，所以必须初始化</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2025/01/05/C++questions/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://smartyue076.github.io/2025/01/05/%E7%AC%AC%E4%B8%89%E7%AB%A0%20%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Martin XU">
+      <meta itemprop="description" content="Hi，朋友。欢迎来到我的技术博客。本站主要整理了计算机相关的专业知识，包括操作系统、计算机网络、算法以及分布式系统等等。此外，还有我的一些学习及工作碎碎念，希望能与你一同探索计算机的有趣世界～">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Martin XU的技术博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2025/01/05/%E7%AC%AC%E4%B8%89%E7%AB%A0%20%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/" class="post-title-link" itemprop="url">操作系统（四）内存管理</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2025-01-05 11:10:21" itemprop="dateCreated datePublished" datetime="2025-01-05T11:10:21+08:00">2025-01-05</time>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="Symbols count in article">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">Symbols count in article: </span>
+              <span>2.4k</span>
+            </span>
+            <span class="post-meta-item" title="Reading time">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">Reading time &asymp;</span>
+              <span>6 mins.</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="第三章-内存管理"><a href="#第三章-内存管理" class="headerlink" title="第三章 内存管理"></a>第三章 内存管理</h2><h3 id="程序重定位"><a href="#程序重定位" class="headerlink" title="程序重定位"></a>程序重定位</h3><p>在编译形成可执行程序时，用到的地址都是从0开始的相对地址，也被称为<strong>逻辑地址</strong>。但被加载到内存后可能使用任意一块空闲地址，所以需要将逻辑地址转化成内存中实际的物理地址，即<strong>重定位</strong>。</p>
+<p>有以下几种解决方法：</p>
+<ol>
+<li><p>编译时重定位：需要在编译时确定哪块内存空间空闲，且在装入前不允许使用（用于执行固定任务的计算机系统，如嵌入式系统）</p>
+</li>
+<li><p>载入时重定位：在程序载入时，根据初始内存地址修改程序里的逻辑地址，但如果进程阻塞换出内存后换入时的地址不一定是之前的地址，造成错误</p>
+</li>
+<li><p><strong>运行时重定位（PC机使用）</strong>：在指令执行时才将逻辑地址转化为物理地址，取出指令—修改地址（<strong>存储管理部件MMU</strong>计算）—执行指令</p>
+<p>基地址存在PCB中，在内存基地址修改时更新，在执行时加载到寄存器中使MMU修改地址</p>
+<img src="/../../images/mem_base.png" width="700px"></li>
+</ol>
+<h3 id="分段"><a href="#分段" class="headerlink" title="分段"></a>分段</h3><p>程序由若干段组成，每段都有各自的用途</p>
+<ul>
+<li>代码段：程序指令形成的段，只读</li>
+<li>数据段：存放程序使用的数据，可读可写</li>
+<li>栈：实现函数调用，通常只能向下（低地址）增长</li>
+<li>函数库：include的函数库，可有可无</li>
+</ul>
+<img src="/../../images/memoryLayoutC.jpg" width="500px">
+
+<p>由于各个段有不同的语义及限制操作，所以需要进行区分。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2025/01/05/%E7%AC%AC%E4%B8%89%E7%AB%A0%20%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
     <link itemprop="mainEntityOfPage" href="https://smartyue076.github.io/2025/01/05/%E7%AC%AC%E4%BA%8C%E7%AB%A0%20%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86%EF%BC%88%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E5%A4%9A%E8%BF%9B%E7%A8%8B%EF%BC%89/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -810,285 +1218,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
-    <link itemprop="mainEntityOfPage" href="https://smartyue076.github.io/2025/01/05/Chapter3%20VMwareFT/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Martin XU">
-      <meta itemprop="description" content="Hi，朋友。欢迎来到我的技术博客。本站主要整理了计算机相关的专业知识，包括操作系统、计算机网络、算法以及分布式系统等等。此外，还有我的一些学习及工作碎碎念，希望能与你一同探索计算机的有趣世界～">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Martin XU的技术博客">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2025/01/05/Chapter3%20VMwareFT/" class="post-title-link" itemprop="url">VMwareFT</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2025-01-05 10:42:48" itemprop="dateCreated datePublished" datetime="2025-01-05T10:42:48+08:00">2025-01-05</time>
-            </span>
-
-          <br>
-            <span class="post-meta-item" title="Symbols count in article">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">Symbols count in article: </span>
-              <span>1.7k</span>
-            </span>
-            <span class="post-meta-item" title="Reading time">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">Reading time &asymp;</span>
-              <span>4 mins.</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h4 id="状态转移和复制状态机"><a href="#状态转移和复制状态机" class="headerlink" title="状态转移和复制状态机"></a>状态转移和复制状态机</h4><p>状态转移（State Transfer）：Primary将自己的完整状态（例如内存中的内容），拷贝发给Backup</p>
-<p>复制状态机（Replicated State Machine）：将来自客户端的操作或其他外部事件，从Primary传到Backup。由于<strong>外部操作比服务的状态要小得多</strong>，所以大多采用该方法，缺点是同步会比较复杂</p>
-<h4 id="架构"><a href="#架构" class="headerlink" title="架构"></a>架构</h4><p><strong>主虚拟机(Primary VM)简称为主机，Backup VM 简称为备机</strong>。</p>
-<p>VMware FT 需要两台物理服务器，主机与备机保持同步，虚拟机的虚拟磁盘在共享存储上。</p>
-<p>所有的输入(如网络、鼠标、键盘等)都会输入到主机，然后通过 Logging channel 转发到备机，对于非确定性的操作，还将发送额外的信息，确保备机以确定性的方式执行这些操作。</p>
-<p>两台虚拟机都会执行输入操作，但<strong>只有主机的输出会返回客户端，备机的输出会被管理程序丢弃</strong>。</p>
-<img src="/../../images/VMware_ft_architecture.png" width="400px">
-
-<h4 id="非确定性事件"><a href="#非确定性事件" class="headerlink" title="非确定性事件"></a>非确定性事件</h4>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2025/01/05/Chapter3%20VMwareFT/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
-    <link itemprop="mainEntityOfPage" href="https://smartyue076.github.io/2025/01/05/Chapter2%20GFS/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Martin XU">
-      <meta itemprop="description" content="Hi，朋友。欢迎来到我的技术博客。本站主要整理了计算机相关的专业知识，包括操作系统、计算机网络、算法以及分布式系统等等。此外，还有我的一些学习及工作碎碎念，希望能与你一同探索计算机的有趣世界～">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Martin XU的技术博客">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2025/01/05/Chapter2%20GFS/" class="post-title-link" itemprop="url">GFS</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2025-01-05 10:42:03" itemprop="dateCreated datePublished" datetime="2025-01-05T10:42:03+08:00">2025-01-05</time>
-            </span>
-
-          <br>
-            <span class="post-meta-item" title="Symbols count in article">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">Symbols count in article: </span>
-              <span>3.6k</span>
-            </span>
-            <span class="post-meta-item" title="Reading time">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">Reading time &asymp;</span>
-              <span>9 mins.</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h4 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h4><p>GFS是一个可以支持上千个机器和硬盘，上百用户同时访问的文件系统</p>
-<h4 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h4><table>
-<thead>
-<tr>
-<th>问题或现象</th>
-<th>解决办法</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>机器错误</td>
-<td>持续监控，错误发现，错误处理，自动恢复</td>
-</tr>
-<tr>
-<td>文件过大</td>
-<td>设计IO操作和block大小</td>
-</tr>
-<tr>
-<td>大部分文件写为append而不是overwrite</td>
-<td>只优化append保证性能和原子性</td>
-</tr>
-<tr>
-<td>引入GFS特有文件读写方式</td>
-<td>复用部分文件系统API</td>
-</tr>
-</tbody></table>
-<h4 id="设计概述"><a href="#设计概述" class="headerlink" title="设计概述"></a>设计概述</h4><h5 id="假设"><a href="#假设" class="headerlink" title="假设"></a>假设</h5><ul>
-<li>系统通过廉价机器组成</li>
-<li>日常处理GB级的文件</li>
-<li>写大部分为append</li>
-<li>多个用户看到的同一个文件必须相同</li>
-<li>保证高频使用的准确性</li>
-</ul>
-<h5 id="接口"><a href="#接口" class="headerlink" title="接口"></a>接口</h5><p>GFS<strong>不使用类似于POSIX的标准API</strong></p>
-<h4 id="架构"><a href="#架构" class="headerlink" title="架构"></a>架构</h4>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2025/01/05/Chapter2%20GFS/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
-    <link itemprop="mainEntityOfPage" href="https://smartyue076.github.io/2025/01/03/%E5%BC%80%E5%8D%B7%E4%BD%95%E5%BF%85%E6%9C%89%E7%9B%8A/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Martin XU">
-      <meta itemprop="description" content="Hi，朋友。欢迎来到我的技术博客。本站主要整理了计算机相关的专业知识，包括操作系统、计算机网络、算法以及分布式系统等等。此外，还有我的一些学习及工作碎碎念，希望能与你一同探索计算机的有趣世界～">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Martin XU的技术博客">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2025/01/03/%E5%BC%80%E5%8D%B7%E4%BD%95%E5%BF%85%E6%9C%89%E7%9B%8A/" class="post-title-link" itemprop="url">“开卷”何必“有益”</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2025-01-03 20:35:34" itemprop="dateCreated datePublished" datetime="2025-01-03T20:35:34+08:00">2025-01-03</time>
-            </span>
-
-          <br>
-            <span class="post-meta-item" title="Symbols count in article">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">Symbols count in article: </span>
-              <span>1.2k</span>
-            </span>
-            <span class="post-meta-item" title="Reading time">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">Reading time &asymp;</span>
-              <span>3 mins.</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>记得小学阅读课上，我在读一本悬疑小说并写到了读后感作业中，结果第二天就被老师批评，并以“开卷有益”这个成语来教导我说，你这种书以后少读读。当时，我就觉得老师这种说法一定是错的，但限于那时的表达能力和逻辑能力并不能给出完整的反驳，现写下此文以表述自己的想法。<br>“以后少读读”这句话一直在我脑海中，我不理解曾几何时，书之间也有了贵贱之分，难道读四大名著的就是好学生，读《福尔摩斯》的就是差学生吗？“开卷有益”指的是读书总有好处，并非告诉我们先对于书是否有益有了定性之后再去读。老师说的这些话显然是没有道理的。<br>那她又是出于什么原因这样说呢？说到底，四个字，功利主义。什么书对于学习有帮助那就是有益的，没帮助就是浪费时间。我们中的很多人从小被灌输这样一个观念：只有努力学习才能上好大学，只有上好大学才能找到好工作，才能有幸福的生活。曾经我也认为这句话是对的，为了以后能开心地生活现在必须努力学习。但真的是这样吗？从学校到工作到生话并非完全是后者依赖前者的先序关系，其中某一环节的丢失并不一定能影响到之后的生活。这种观点只是指出人生中几个重要结点，并对每一个结点提出要求。上了好大学能就能仕途一帆风顺，有了好工作真能天天开开心心享受生活？不尽然。<br>    前段时间，“鸡娃”一度成为社会热点问题，家长给孩子报了各种补课班，兴趣班，以求孩子能领先他人一步。我想，他们也许都是上文观点的拥趸，生怕自己孩子因为没补课而落后其他同学。其实，我小时候也是个“鸡娃”，从幼儿园开始补课直到高中毕业，周末只是换了个地方上课。现在看来，报那么多班其实未必有用，现在的我也只是刚从普通大学毕业，过着平淡的生话。每个人学习能力不同，那假设补课班是有用的，能让所有上课的孩子成绩提升，考上好大学，但那之后呢，补课班除了能培养出优秀的做题家外并不会给孩子带来什么。<br>    好大学并不是人生的终点，拥有幸福快乐的人生也不是名校生的特权，否则怎么会有某大学投毒案，某大学弑母案呢？这一切的一切都是功利主义在作祟，他们认为人生只需要为那几个重要结点去准备就行了，达到目的则视为成功，在他们的眼中，世界是线性的，必须要完成一个个小目标，追求利益最大化，否则就是失败。但他们不知道的是人生并不是一蹴而就的，阶段性的成功并不意味着什么。事物之间也在不断变化发展，幸福的人生并不是公式化的结果，在这之中更重要的是我们对为人处世的态度，以及对于个人，社会，以及世界的看法，这会贯穿人的一生，而非学校，工作等短暂的光环。<br>冯友兰先生将人生分为四种境界：自然镜界，功利境界，道德境界和天地境界。你我皆为凡人，虽难以达到“敬天爱人，天人合一”，但也不应在功利境界一直徘徊，为了眼前的利益患得患失。“开卷”何必“有益”，看自己想看的书，做自己想做的事，何必要按照公式走完自己的人生呢。</p>
-
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2025/01/03/%E5%BC%80%E5%8D%B7%E4%BD%95%E5%BF%85%E6%9C%89%E7%9B%8A/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1158,7 +1287,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">46</span>
+          <span class="site-state-item-count">49</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -1170,7 +1299,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-count">21</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -1206,12 +1335,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="Symbols count total">86k</span>
+    <span title="Symbols count total">94k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="Reading time total">3:36</span>
+    <span title="Reading time total">3:56</span>
 </div>
   <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a>
   </div>

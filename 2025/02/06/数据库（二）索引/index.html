@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"smartyue076.github.io","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","width":250,"display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":2,"unescape":false,"preload":false},"motion":{"enable":true,"async":true,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="索引存储结构存储结构使用B+树作为存储结构，非叶子结点存放索引，叶子节点才会存放实际数据（索引+记录）   为什么使用B+树B+树与B树的对比如下  B+ 树的非叶子节点不存放实际的记录数据，仅存放索引，因此数据量相同的情况下，相比存储即存索引又存记录的 B 树，B+树的非叶子节点可以存放更多的索引，因此 B+ 树可以比 B 树更「矮胖」，查询底层节点的磁盘 I&#x2F;O次数会更少 B+ 树有">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据库（二）索引">
+<meta property="og:url" content="https://smartyue076.github.io/2025/02/06/%E6%95%B0%E6%8D%AE%E5%BA%93%EF%BC%88%E4%BA%8C%EF%BC%89%E7%B4%A2%E5%BC%95/index.html">
+<meta property="og:site_name" content="Martin XU的技术博客">
+<meta property="og:description" content="索引存储结构存储结构使用B+树作为存储结构，非叶子结点存放索引，叶子节点才会存放实际数据（索引+记录）   为什么使用B+树B+树与B树的对比如下  B+ 树的非叶子节点不存放实际的记录数据，仅存放索引，因此数据量相同的情况下，相比存储即存索引又存记录的 B 树，B+树的非叶子节点可以存放更多的索引，因此 B+ 树可以比 B 树更「矮胖」，查询底层节点的磁盘 I&#x2F;O次数会更少 B+ 树有">
+<meta property="og:locale">
+<meta property="og:image" content="https://smartyue076.github.io/images/db_index_1.webp">
+<meta property="og:image" content="https://smartyue076.github.io/images/db_index_1.webp">
+<meta property="og:image" content="https://smartyue076.github.io/images/db_index_2.webp">
+<meta property="article:published_time" content="2025-02-06T03:06:16.163Z">
+<meta property="article:modified_time" content="2025-02-06T03:06:56.437Z">
+<meta property="article:author" content="Martin XU">
+<meta property="article:tag" content="数据库">
+<meta property="article:tag" content="MySQL">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://smartyue076.github.io/images/db_index_1.webp">
+
+<link rel="canonical" href="https://smartyue076.github.io/2025/02/06/%E6%95%B0%E6%8D%AE%E5%BA%93%EF%BC%88%E4%BA%8C%EF%BC%89%E7%B4%A2%E5%BC%95/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>数据库（二）索引 | Martin XU的技术博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Martin XU的技术博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://smartyue076.github.io/2025/02/06/%E6%95%B0%E6%8D%AE%E5%BA%93%EF%BC%88%E4%BA%8C%EF%BC%89%E7%B4%A2%E5%BC%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Martin XU">
+      <meta itemprop="description" content="Hi，朋友。欢迎来到我的技术博客。本站主要整理了计算机相关的专业知识，包括操作系统、计算机网络、算法以及分布式系统等等。此外，还有我的一些学习及工作碎碎念，希望能与你一同探索计算机的有趣世界～">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Martin XU的技术博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          数据库（二）索引
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2025-02-06 11:06:16 / Modified: 11:06:56" itemprop="dateCreated datePublished" datetime="2025-02-06T11:06:16+08:00">2025-02-06</time>
+            </span>
+
+          
+            <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="Symbols count in article">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">Symbols count in article: </span>
+              <span>2.1k</span>
+            </span>
+            <span class="post-meta-item" title="Reading time">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">Reading time &asymp;</span>
+              <span>5 mins.</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="索引存储结构"><a href="#索引存储结构" class="headerlink" title="索引存储结构"></a>索引存储结构</h2><h3 id="存储结构"><a href="#存储结构" class="headerlink" title="存储结构"></a>存储结构</h3><p>使用<strong>B+树</strong>作为存储结构，<strong>非叶子结点存放索引</strong>，<strong>叶子节点才会存放实际数据（索引+记录）</strong></p>
+<img src="/../../images/db_index_1.webp" style="zoom:70%;" />
+
+<h3 id="为什么使用B-树"><a href="#为什么使用B-树" class="headerlink" title="为什么使用B+树"></a>为什么使用B+树</h3><p>B+树与B树的对比如下</p>
+<ul>
+<li>B+ 树的非叶子节点<strong>不存放实际的记录数据，仅存放索引</strong>，因此数据量相同的情况下，相比存储即存索引又存记录的 B 树，<strong>B+树的非叶子节点可以存放更多的索引</strong>，因此 B+ 树可以比 B 树更「矮胖」，<strong>查询底层节点的磁盘 I&#x2F;O次数会更少</strong></li>
+<li>B+ 树<strong>有大量的冗余节点</strong>（所有非叶子节点都是冗余索引），这些冗余索引让 <strong>B+ 树在插入、删除的效率都更高</strong>，比如删除根节点的时候，<strong>不会像 B 树那样会发生复杂的树的变化</strong></li>
+<li><strong>B+ 树叶子节点之间用链表连接了起来，有利于范围查询</strong>，而 B 树要实现范围查询，因此只能通过树的遍历来完成范围查询，这会涉及多个节点的磁盘 I&#x2F;O 操作，范围查询效率不如 B+ 树。</li>
+</ul>
+<h2 id="使用索引时的查询流程"><a href="#使用索引时的查询流程" class="headerlink" title="使用索引时的查询流程"></a>使用索引时的查询流程</h2><h3 id="叶子节点存放的是实际数据时（聚簇索引）"><a href="#叶子节点存放的是实际数据时（聚簇索引）" class="headerlink" title="叶子节点存放的是实际数据时（聚簇索引）"></a>叶子节点存放的是实际数据时（聚簇索引）</h3><p>当通过主键指定条件时，<strong>通过主键索引遍历到叶子结点</strong>，<strong>获得主键值和其对应的数据</strong></p>
+<img src="/../../images\db_index_1.webp" style="zoom:70%;" />
+
+<h3 id="叶子节点存放的是主键值时（二级索引）"><a href="#叶子节点存放的是主键值时（二级索引）" class="headerlink" title="叶子节点存放的是主键值时（二级索引）"></a>叶子节点存放的是主键值时（二级索引）</h3><p>当建立了非主键字段的索引而且是通过该字段指定条件时，<strong>通过二级索引可查到该条件下对应的主键值</strong>。如果查询的字段除了主键外还有其他值，则需要进行<strong>回表操作</strong>（即通过主键值搜索聚簇索引到叶子结点取值）</p>
+<p>所以为了提升效率，<strong>一是在查询时尽量只查索引项包含的字段</strong>，<strong>二是对于常用字段建立二级索引时考虑将会用到的字段一同建立联合索引，避免回表（即减少IO操作）</strong></p>
+<img src="/../../images\db_index_2.webp" style="zoom:70%;" />
+
+<h2 id="什么时候需要-不需要创建索引"><a href="#什么时候需要-不需要创建索引" class="headerlink" title="什么时候需要 &#x2F; 不需要创建索引"></a>什么时候需要 &#x2F; 不需要创建索引</h2><h3 id="索引的优点和代价"><a href="#索引的优点和代价" class="headerlink" title="索引的优点和代价"></a>索引的优点和代价</h3><p>索引最大的好处是<strong>提高查询速度</strong>，但是索引也是有缺点的，比如：</p>
+<ul>
+<li>需要<strong>占用物理空间</strong>，数量越大，占用空间越大；</li>
+<li><strong>会降低表的增删改的效率</strong>，因为每次增删改索引，B+ 树为了维护索引有序性，都需要进行动态维护。</li>
+</ul>
+<h4 id="什么时候适用索引？"><a href="#什么时候适用索引？" class="headerlink" title="什么时候适用索引？"></a>什么时候适用索引？</h4><ul>
+<li><p><strong>经常用于 <code>WHERE</code> 查询条件的字段</strong>，这样能够提高整个表的查询速度，如果查询条件不是一个字段，可以建立联合索引。</p>
+</li>
+<li><p><strong>经常用于 <code>GROUP BY</code> 和 <code>ORDER BY</code> 的字段</strong>，这样在查询的时候就不需要再去做一次排序了，因为我们都已经知道了<strong>建立索引之后在 B+Tree 中的记录都是排序好的</strong>。</p>
+</li>
+</ul>
+<h4 id="什么时候不需要创建索引？"><a href="#什么时候不需要创建索引？" class="headerlink" title="什么时候不需要创建索引？"></a>什么时候不需要创建索引？</h4><ul>
+<li><strong><code>WHERE</code> 条件，<code>GROUP BY</code>，<code>ORDER BY</code> 里用不到的字段</strong>，索引的价值是快速定位，如果起不到定位的字段通常是不需要创建索引的，因为索引是会占用物理空间的。</li>
+<li><strong>字段中存在大量重复数据</strong>，不需要创建索引，比如性别字段，只有男女，如果数据库表中，男女的记录分布均匀，那么无论搜索哪个值都可能得到一半的数据。在这些情况下，还不如不要索引，因为 MySQL 还有一个查询优化器，查询优化器发现某个值出现在表的数据行中的百分比很高的时候，它一般会忽略索引，进行全表扫描。</li>
+<li><strong>表数据太少的时候</strong>，不需要创建索引；</li>
+<li><strong>经常更新的字段不用创建索引</strong>，比如不要对电商项目的用户余额建立索引，因为索引字段频繁修改，由于要维护 B+Tree的有序性，那么就需要频繁的重建索引，这个过程是会影响数据库性能的。</li>
+</ul>
+<h2 id="索引失效"><a href="#索引失效" class="headerlink" title="索引失效"></a>索引失效</h2><p>索引失效的情况</p>
+<ul>
+<li><strong>使用左或者左右模糊匹配</strong>的时候，也就是 <code>like %xx</code> 或者 <code>like %xx%</code>这两种方式都会造成索引失效；</li>
+<li><strong>联合索引要能正确使用需要遵循最左匹配原则</strong>，也就是按照<strong>最左优先</strong>的方式进行索引的匹配，否则就会导致索引失效。（原因是<strong>建立联合索引是按照字段顺序排序的</strong>，即先按照第一个字段排序，第一个字段相同时按第二个字段排序。所以当<strong>前几个字段没有指定时后面的字段是无序的</strong>）</li>
+<li><strong>在查询条件中对索引列使用函数</strong>，就会导致索引失效。</li>
+<li><strong>在查询条件中对索引列进行表达式计算</strong>，也是无法走索引的。</li>
+<li>MySQL 在遇到字符串和数字比较的时候，会自动把字符串转为数字，然后再进行比较。如果字符串是索引列，而条件语句中的输入参数是数字的话，那么索引列会<strong>发生隐式类型转换</strong>，由于隐式类型转换是通过 CAST 函数实现的，等同于对索引列使用了函数，所以就会导致索引失效。</li>
+<li>在 WHERE 子句中，<strong>如果在 OR 前的条件列是索引列，而在 OR 后的条件列不是索引列</strong>，那么索引会失效。</li>
+</ul>
+<h2 id="优化索引方法"><a href="#优化索引方法" class="headerlink" title="优化索引方法"></a>优化索引方法</h2><h3 id="前缀索引优化"><a href="#前缀索引优化" class="headerlink" title="前缀索引优化"></a>前缀索引优化</h3><p><strong>使用某个字段中字符串的前几个字符建立索引</strong>。使用前缀索引是<strong>为了减小索引字段大小</strong>，可以增加一个索引页中存储的索引值，有效提高索引的查询速度。在一些大字符串的字段作为索引时，使用前缀索引可以帮助我们减小索引项的大小。</p>
+<p>在 MySQL 中，创建前缀索引时，<strong>指定索引的前缀长度</strong>。例如，如果有一个 name 字段，并且只对前 10 个字符建立索引，可以这样定义前缀索引</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> INDEX idx_name_prefix <span class="keyword">ON</span> users (name(<span class="number">10</span>));</span><br></pre></td></tr></table></figure>
+
+<h3 id="覆盖索引优化"><a href="#覆盖索引优化" class="headerlink" title="覆盖索引优化"></a>覆盖索引优化</h3><p>覆盖索引是指 SQL 中 query 的所有字段，<strong>在索引 B+Tree 的叶子节点上都能找得到的那些索引</strong>，从二级索引中查询得到记录，而不需要通过聚簇索引查询获得，可以<strong>避免回表</strong>的操作</p>
+<p>假设我们只需要查询商品的名称、价格，有什么方式可以避免回表呢？</p>
+<p>我们可以<strong>建立一个联合索引</strong>，即「商品ID、名称、价格」作为一个联合索引。如果索引中存在这些数据，查询将不会再次检索主键索引，从而避免回表。</p>
+<p>所以，使用覆盖索引的好处就是，不需要查询出包含整行记录的所有信息，也就<strong>减少了大量的 I&#x2F;O 操作</strong>。</p>
+<h3 id="防止索引失效"><a href="#防止索引失效" class="headerlink" title="防止索引失效"></a>防止索引失效</h3><p><strong>当因为查询条件写法问题，或者存储引擎认为该字段区分度不高时就会索引失效</strong>，转而进行全表扫描</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag"># 数据库</a>
+              <a href="/tags/MySQL/" rel="tag"># MySQL</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2025/02/06/%E6%95%B0%E6%8D%AE%E5%BA%93%EF%BC%88%E4%B8%80%EF%BC%89%E7%BB%AA%E8%AE%BA/" rel="prev" title="数据库（一）绪论">
+      <i class="fa fa-chevron-left"></i> 数据库（一）绪论
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B4%A2%E5%BC%95%E5%AD%98%E5%82%A8%E7%BB%93%E6%9E%84"><span class="nav-number">1.</span> <span class="nav-text">索引存储结构</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AD%98%E5%82%A8%E7%BB%93%E6%9E%84"><span class="nav-number">1.1.</span> <span class="nav-text">存储结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BD%BF%E7%94%A8B-%E6%A0%91"><span class="nav-number">1.2.</span> <span class="nav-text">为什么使用B+树</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E7%B4%A2%E5%BC%95%E6%97%B6%E7%9A%84%E6%9F%A5%E8%AF%A2%E6%B5%81%E7%A8%8B"><span class="nav-number">2.</span> <span class="nav-text">使用索引时的查询流程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%B6%E5%AD%90%E8%8A%82%E7%82%B9%E5%AD%98%E6%94%BE%E7%9A%84%E6%98%AF%E5%AE%9E%E9%99%85%E6%95%B0%E6%8D%AE%E6%97%B6%EF%BC%88%E8%81%9A%E7%B0%87%E7%B4%A2%E5%BC%95%EF%BC%89"><span class="nav-number">2.1.</span> <span class="nav-text">叶子节点存放的是实际数据时（聚簇索引）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%B6%E5%AD%90%E8%8A%82%E7%82%B9%E5%AD%98%E6%94%BE%E7%9A%84%E6%98%AF%E4%B8%BB%E9%94%AE%E5%80%BC%E6%97%B6%EF%BC%88%E4%BA%8C%E7%BA%A7%E7%B4%A2%E5%BC%95%EF%BC%89"><span class="nav-number">2.2.</span> <span class="nav-text">叶子节点存放的是主键值时（二级索引）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%97%B6%E5%80%99%E9%9C%80%E8%A6%81-%E4%B8%8D%E9%9C%80%E8%A6%81%E5%88%9B%E5%BB%BA%E7%B4%A2%E5%BC%95"><span class="nav-number">3.</span> <span class="nav-text">什么时候需要 &#x2F; 不需要创建索引</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%B4%A2%E5%BC%95%E7%9A%84%E4%BC%98%E7%82%B9%E5%92%8C%E4%BB%A3%E4%BB%B7"><span class="nav-number">3.1.</span> <span class="nav-text">索引的优点和代价</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%97%B6%E5%80%99%E9%80%82%E7%94%A8%E7%B4%A2%E5%BC%95%EF%BC%9F"><span class="nav-number">3.1.1.</span> <span class="nav-text">什么时候适用索引？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%97%B6%E5%80%99%E4%B8%8D%E9%9C%80%E8%A6%81%E5%88%9B%E5%BB%BA%E7%B4%A2%E5%BC%95%EF%BC%9F"><span class="nav-number">3.1.2.</span> <span class="nav-text">什么时候不需要创建索引？</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B4%A2%E5%BC%95%E5%A4%B1%E6%95%88"><span class="nav-number">4.</span> <span class="nav-text">索引失效</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BC%98%E5%8C%96%E7%B4%A2%E5%BC%95%E6%96%B9%E6%B3%95"><span class="nav-number">5.</span> <span class="nav-text">优化索引方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%89%8D%E7%BC%80%E7%B4%A2%E5%BC%95%E4%BC%98%E5%8C%96"><span class="nav-number">5.1.</span> <span class="nav-text">前缀索引优化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A6%86%E7%9B%96%E7%B4%A2%E5%BC%95%E4%BC%98%E5%8C%96"><span class="nav-number">5.2.</span> <span class="nav-text">覆盖索引优化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%98%B2%E6%AD%A2%E7%B4%A2%E5%BC%95%E5%A4%B1%E6%95%88"><span class="nav-number">5.3.</span> <span class="nav-text">防止索引失效</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Martin XU</p>
+  <div class="site-description" itemprop="description">Hi，朋友。欢迎来到我的技术博客。本站主要整理了计算机相关的专业知识，包括操作系统、计算机网络、算法以及分布式系统等等。此外，还有我的一些学习及工作碎碎念，希望能与你一同探索计算机的有趣世界～</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">49</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Martin XU</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="Symbols count total">94k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="Reading time total">3:56</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a>
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+</body>
+</html>

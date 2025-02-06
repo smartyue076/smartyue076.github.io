@@ -185,6 +185,283 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://smartyue076.github.io/2025/01/15/%E7%AC%AC%E5%9B%9B%E7%AB%A0%20%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86%EF%BC%88%E4%BA%8C%EF%BC%89/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Martin XU">
+      <meta itemprop="description" content="Hi，朋友。欢迎来到我的技术博客。本站主要整理了计算机相关的专业知识，包括操作系统、计算机网络、算法以及分布式系统等等。此外，还有我的一些学习及工作碎碎念，希望能与你一同探索计算机的有趣世界～">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Martin XU的技术博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2025/01/15/%E7%AC%AC%E5%9B%9B%E7%AB%A0%20%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86%EF%BC%88%E4%BA%8C%EF%BC%89/" class="post-title-link" itemprop="url">操作系统（七）文件管理（系统调用与文件存储）</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2025-01-15 14:53:51" itemprop="dateCreated datePublished" datetime="2025-01-15T14:53:51+08:00">2025-01-15</time>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="Symbols count in article">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">Symbols count in article: </span>
+              <span>2.8k</span>
+            </span>
+            <span class="post-meta-item" title="Reading time">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">Reading time &asymp;</span>
+              <span>7 mins.</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h4 id="文件系统操作"><a href="#文件系统操作" class="headerlink" title="文件系统操作"></a>文件系统操作</h4><h5 id="整体架构"><a href="#整体架构" class="headerlink" title="整体架构"></a>整体架构</h5><p>在文件系统和应用程序间有一层抽象层，称为虚拟文件系统（VFS）</p>
+<ul>
+<li>VFS作为抽象层向应用层提供了统一的文件接口（read，write等）</li>
+<li>VFS实现了一些公共的功能，如Directory Cache和Page Cache等</li>
+<li>规范了接口</li>
+</ul>
+<p>VFS向应用层提供统一接口，具体实现不同文件系统有不同实现，VFS将函数指针指向对应函数</p>
+<img src="/../../images/fs_architecture.png" width="500px">
+
+<h5 id="核心操作"><a href="#核心操作" class="headerlink" title="核心操作"></a>核心操作</h5><p><strong>文件系统的注册</strong></p>
+<p>在Linux中，具体文件系统通常是一个内核模块，在内核模块被加载时完成文件系统的注册</p>
+<p><strong>磁盘挂载</strong></p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2025/01/15/%E7%AC%AC%E5%9B%9B%E7%AB%A0%20%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86%EF%BC%88%E4%BA%8C%EF%BC%89/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://smartyue076.github.io/2025/01/15/%E7%AC%AC%E5%9B%9B%E7%AB%A0%20%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Martin XU">
+      <meta itemprop="description" content="Hi，朋友。欢迎来到我的技术博客。本站主要整理了计算机相关的专业知识，包括操作系统、计算机网络、算法以及分布式系统等等。此外，还有我的一些学习及工作碎碎念，希望能与你一同探索计算机的有趣世界～">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Martin XU的技术博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2025/01/15/%E7%AC%AC%E5%9B%9B%E7%AB%A0%20%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86/" class="post-title-link" itemprop="url">操作系统（六）文件管理</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2025-01-15 14:53:16" itemprop="dateCreated datePublished" datetime="2025-01-15T14:53:16+08:00">2025-01-15</time>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="Symbols count in article">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">Symbols count in article: </span>
+              <span>3.7k</span>
+            </span>
+            <span class="post-meta-item" title="Reading time">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">Reading time &asymp;</span>
+              <span>9 mins.</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h4 id="磁盘的工作原理"><a href="#磁盘的工作原理" class="headerlink" title="磁盘的工作原理"></a>磁盘的工作原理</h4><h5 id="磁盘读写的过程"><a href="#磁盘读写的过程" class="headerlink" title="磁盘读写的过程"></a>磁盘读写的过程</h5><ol>
+<li>磁盘移动，找到要读的<strong>柱面</strong>（cylinder，简称C）</li>
+<li>从柱面选择具体读哪个<strong>磁道</strong>（magnetic head，简称H），选择对应的磁头上电（每次只能有一个磁头上电）</li>
+<li>旋转磁盘，将对应磁道中要读写的那个<strong>扇区</strong>（sector，简称S）转到磁头下方</li>
+<li>开始读写，将扇区中的内容读到内存缓存区中，或者将内存缓存区中的内容写到该扇区中</li>
+</ol>
+<img src="/../../images/physical_disk.png" width="400px">
+
+<h4 id="生磁盘的使用"><a href="#生磁盘的使用" class="headerlink" title="生磁盘的使用"></a>生磁盘的使用</h4><h5 id="第一层抽象：从扇区到磁盘块请求（抽象读写请求）"><a href="#第一层抽象：从扇区到磁盘块请求（抽象读写请求）" class="headerlink" title="第一层抽象：从扇区到磁盘块请求（抽象读写请求）"></a>第一层抽象：从扇区到磁盘块请求（抽象读写请求）</h5><p>正常寻址需要通过<strong>CHS</strong>三维向量，但是可以通过一位扇区编号编址</p>
+<p>磁盘读写时间 &#x3D; 寻道时间（选择柱面）+旋转时间（选择+读取扇区）+传输时间（磁生电活电生磁）</p>
+<p>其中寻道时间占主导，故每次只读&#x2F;写一个扇区是对于时间的浪费，故一次读&#x2F;写多个扇区，称为<strong>块</strong></p>
+<h5 id="第二层抽象：多个进程产生的磁盘请求队列（抽象读写方法）"><a href="#第二层抽象：多个进程产生的磁盘请求队列（抽象读写方法）" class="headerlink" title="第二层抽象：多个进程产生的磁盘请求队列（抽象读写方法）"></a>第二层抽象：多个进程产生的磁盘请求队列（抽象读写方法）</h5>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2025/01/15/%E7%AC%AC%E5%9B%9B%E7%AB%A0%20%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://smartyue076.github.io/2025/01/15/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%EF%BC%88%E5%8D%81%E4%B8%80%EF%BC%89IO/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Martin XU">
+      <meta itemprop="description" content="Hi，朋友。欢迎来到我的技术博客。本站主要整理了计算机相关的专业知识，包括操作系统、计算机网络、算法以及分布式系统等等。此外，还有我的一些学习及工作碎碎念，希望能与你一同探索计算机的有趣世界～">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Martin XU的技术博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2025/01/15/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%EF%BC%88%E5%8D%81%E4%B8%80%EF%BC%89IO/" class="post-title-link" itemprop="url">操作系统（十一）IO</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2025-01-15 14:52:28" itemprop="dateCreated datePublished" datetime="2025-01-15T14:52:28+08:00">2025-01-15</time>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="Symbols count in article">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">Symbols count in article: </span>
+              <span>801</span>
+            </span>
+            <span class="post-meta-item" title="Reading time">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">Reading time &asymp;</span>
+              <span>2 mins.</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h4 id="传统IO"><a href="#传统IO" class="headerlink" title="传统IO"></a>传统IO</h4><h5 id="传统IO过程"><a href="#传统IO过程" class="headerlink" title="传统IO过程"></a>传统IO过程</h5><ol>
+<li>CPU发起IO请求，每次只能请求一个字</li>
+<li>磁盘数据写入缓冲区后，通过IO中断通知CPU</li>
+<li>CPU将缓冲区数据通过寄存器写入内核缓冲区（内存中）</li>
+<li>CPU将内核缓冲区（内存中）的数据拷贝到用户缓冲区（内存中）</li>
+</ol>
+<h5 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h5><ol>
+<li>CPU效率低下：CPU需要频繁得处理IO请求</li>
+<li>传输效率低下：数据先从磁盘缓冲区拷贝到寄存器后才到拷贝到内存</li>
+</ol>
+<img src="/../../images/no_dma.png" alt="image.png" style="zoom:100%;">
+
+<h4 id="引入DMA后的IO"><a href="#引入DMA后的IO" class="headerlink" title="引入DMA后的IO"></a>引入DMA后的IO</h4><p>将数据搬运的工作全部交给DMA控制器，CPU不需要参与</p>
+<h5 id="引入DMA后的IO过程"><a href="#引入DMA后的IO过程" class="headerlink" title="引入DMA后的IO过程"></a>引入DMA后的IO过程</h5><ol>
+<li>CPU发送IO请求到DMA</li>
+<li>DMA拷贝磁盘数据到内核缓冲区</li>
+<li>DMA拷贝完后向CPU发送IO中断请求</li>
+<li>CPU将内核缓冲区的数据拷贝到用户缓冲区</li>
+</ol>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2025/01/15/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%EF%BC%88%E5%8D%81%E4%B8%80%EF%BC%89IO/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
     <link itemprop="mainEntityOfPage" href="https://smartyue076.github.io/2025/01/12/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%EF%BC%88%E5%8D%81%EF%BC%89%E4%B8%AD%E6%96%AD/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -881,414 +1158,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
-    <link itemprop="mainEntityOfPage" href="https://smartyue076.github.io/2025/01/05/GDB/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Martin XU">
-      <meta itemprop="description" content="Hi，朋友。欢迎来到我的技术博客。本站主要整理了计算机相关的专业知识，包括操作系统、计算机网络、算法以及分布式系统等等。此外，还有我的一些学习及工作碎碎念，希望能与你一同探索计算机的有趣世界～">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Martin XU的技术博客">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2025/01/05/GDB/" class="post-title-link" itemprop="url">GDB使用手册</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2025-01-05 11:20:25" itemprop="dateCreated datePublished" datetime="2025-01-05T11:20:25+08:00">2025-01-05</time>
-            </span>
-
-          <br>
-            <span class="post-meta-item" title="Symbols count in article">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">Symbols count in article: </span>
-              <span>493</span>
-            </span>
-            <span class="post-meta-item" title="Reading time">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">Reading time &asymp;</span>
-              <span>1 mins.</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="GDB使用手册"><a href="#GDB使用手册" class="headerlink" title="GDB使用手册"></a>GDB使用手册</h2><p>编译时加上<code>-g</code>选项</p>
-<table>
-<thead>
-<tr>
-<th>命令名称</th>
-<th>命令缩写</th>
-<th>命令说明</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>run</td>
-<td>r</td>
-<td>运行一个待调试的程序</td>
-</tr>
-<tr>
-<td>continue</td>
-<td>c</td>
-<td>让暂停的程序继续运行</td>
-</tr>
-<tr>
-<td>next</td>
-<td>n</td>
-<td>运行到下一行</td>
-</tr>
-<tr>
-<td>step</td>
-<td>s</td>
-<td>单步执行，遇到函数会进入</td>
-</tr>
-<tr>
-<td>until</td>
-<td>u</td>
-<td>运行到指定行停下来</td>
-</tr>
-<tr>
-<td>finish</td>
-<td>fi</td>
-<td>结束当前调用函数，回到上一层调用函数处</td>
-</tr>
-<tr>
-<td>return</td>
-<td>return</td>
-<td>结束当前调用函数并返回指定值，到上一层函数调用处</td>
-</tr>
-<tr>
-<td>jump</td>
-<td>j</td>
-<td>将当前程序执行流跳转到指定行或地址，不运行跳过的代码</td>
-</tr>
-<tr>
-<td>print</td>
-<td>p</td>
-<td>打印变量或寄存器值</td>
-</tr>
-<tr>
-<td>backtrace</td>
-<td>bt</td>
-<td>查看当前线程的调用堆栈</td>
-</tr>
-<tr>
-<td>frame</td>
-<td>f</td>
-<td>切换到当前调用线程的指定堆栈</td>
-</tr>
-<tr>
-<td>thread</td>
-<td>thread</td>
-<td>切换到指定线程</td>
-</tr>
-<tr>
-<td>break</td>
-<td>b</td>
-<td>添加断点</td>
-</tr>
-<tr>
-<td>tbreak</td>
-<td>tb</td>
-<td>添加临时断点</td>
-</tr>
-<tr>
-<td>delete</td>
-<td>d</td>
-<td>删除断点</td>
-</tr>
-<tr>
-<td>enable</td>
-<td>enable</td>
-<td>启用某个断点</td>
-</tr>
-<tr>
-<td>disable</td>
-<td>disable</td>
-<td>禁用某个断点</td>
-</tr>
-<tr>
-<td>watch</td>
-<td>watch</td>
-<td>监视某一个变量或内存地址的值是否发生变化</td>
-</tr>
-<tr>
-<td>list</td>
-<td>l</td>
-<td>显示源码</td>
-</tr>
-<tr>
-<td>info</td>
-<td>i</td>
-<td>查看断点 &#x2F; 线程等信息</td>
-</tr>
-<tr>
-<td>ptype</td>
-<td>ptype</td>
-<td>查看变量类型</td>
-</tr>
-<tr>
-<td>disassemble</td>
-<td>dis</td>
-<td>查看汇编代码</td>
-</tr>
-<tr>
-<td>set args</td>
-<td>set args</td>
-<td>设置程序启动命令行参数</td>
-</tr>
-<tr>
-<td>show args</td>
-<td>show args</td>
-<td>查看设置的命令行参数</td>
-</tr>
-</tbody></table>
-
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2025/01/05/GDB/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
-    <link itemprop="mainEntityOfPage" href="https://smartyue076.github.io/2025/01/05/C++questions/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Martin XU">
-      <meta itemprop="description" content="Hi，朋友。欢迎来到我的技术博客。本站主要整理了计算机相关的专业知识，包括操作系统、计算机网络、算法以及分布式系统等等。此外，还有我的一些学习及工作碎碎念，希望能与你一同探索计算机的有趣世界～">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Martin XU的技术博客">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2025/01/05/C++questions/" class="post-title-link" itemprop="url">C++面试题</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2025-01-05 11:20:03" itemprop="dateCreated datePublished" datetime="2025-01-05T11:20:03+08:00">2025-01-05</time>
-            </span>
-
-          <br>
-            <span class="post-meta-item" title="Symbols count in article">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">Symbols count in article: </span>
-              <span>939</span>
-            </span>
-            <span class="post-meta-item" title="Reading time">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">Reading time &asymp;</span>
-              <span>2 mins.</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="我的疑问"><a href="#我的疑问" class="headerlink" title="我的疑问"></a>我的疑问</h3><ol>
-<li>header中防御式声明的目的</li>
-</ol>
-<ul>
-<li>防止两个头文件相互include时的循环include</li>
-<li>防止cpp在include不同头文件时可能产生的重复定义</li>
-</ul>
-<ol start="2">
-<li>inline</li>
-</ol>
-<p>将函数声明为inline可以避免函数调用的开销，空间换时间</p>
-<p>常规的函数调用需要用到栈，需要返回地址和参数压栈，但通过inline展开后就为普通的顺序执行</p>
-<p><strong>与define的区别</strong>：</p>
-<ul>
-<li>define无类型检查，inline有</li>
-<li>define编写时运算符的优先级较难处理</li>
-<li>define在预处理时展开，inline由编译器实现展开</li>
-</ul>
-<ol start="2">
-<li>const</li>
-</ol>
-<p>const对象的<strong>值创建后值不能再改变</strong>，所以必须初始化</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2025/01/05/C++questions/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
-    <link itemprop="mainEntityOfPage" href="https://smartyue076.github.io/2025/01/05/%E7%AC%AC%E4%B8%89%E7%AB%A0%20%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Martin XU">
-      <meta itemprop="description" content="Hi，朋友。欢迎来到我的技术博客。本站主要整理了计算机相关的专业知识，包括操作系统、计算机网络、算法以及分布式系统等等。此外，还有我的一些学习及工作碎碎念，希望能与你一同探索计算机的有趣世界～">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Martin XU的技术博客">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2025/01/05/%E7%AC%AC%E4%B8%89%E7%AB%A0%20%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/" class="post-title-link" itemprop="url">操作系统（四）内存管理</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2025-01-05 11:10:21" itemprop="dateCreated datePublished" datetime="2025-01-05T11:10:21+08:00">2025-01-05</time>
-            </span>
-
-          <br>
-            <span class="post-meta-item" title="Symbols count in article">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">Symbols count in article: </span>
-              <span>2.4k</span>
-            </span>
-            <span class="post-meta-item" title="Reading time">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">Reading time &asymp;</span>
-              <span>6 mins.</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="第三章-内存管理"><a href="#第三章-内存管理" class="headerlink" title="第三章 内存管理"></a>第三章 内存管理</h2><h3 id="程序重定位"><a href="#程序重定位" class="headerlink" title="程序重定位"></a>程序重定位</h3><p>在编译形成可执行程序时，用到的地址都是从0开始的相对地址，也被称为<strong>逻辑地址</strong>。但被加载到内存后可能使用任意一块空闲地址，所以需要将逻辑地址转化成内存中实际的物理地址，即<strong>重定位</strong>。</p>
-<p>有以下几种解决方法：</p>
-<ol>
-<li><p>编译时重定位：需要在编译时确定哪块内存空间空闲，且在装入前不允许使用（用于执行固定任务的计算机系统，如嵌入式系统）</p>
-</li>
-<li><p>载入时重定位：在程序载入时，根据初始内存地址修改程序里的逻辑地址，但如果进程阻塞换出内存后换入时的地址不一定是之前的地址，造成错误</p>
-</li>
-<li><p><strong>运行时重定位（PC机使用）</strong>：在指令执行时才将逻辑地址转化为物理地址，取出指令—修改地址（<strong>存储管理部件MMU</strong>计算）—执行指令</p>
-<p>基地址存在PCB中，在内存基地址修改时更新，在执行时加载到寄存器中使MMU修改地址</p>
-<img src="/../../images/mem_base.png" width="700px"></li>
-</ol>
-<h3 id="分段"><a href="#分段" class="headerlink" title="分段"></a>分段</h3><p>程序由若干段组成，每段都有各自的用途</p>
-<ul>
-<li>代码段：程序指令形成的段，只读</li>
-<li>数据段：存放程序使用的数据，可读可写</li>
-<li>栈：实现函数调用，通常只能向下（低地址）增长</li>
-<li>函数库：include的函数库，可有可无</li>
-</ul>
-<img src="/../../images/memoryLayoutC.jpg" width="500px">
-
-<p>由于各个段有不同的语义及限制操作，所以需要进行区分。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2025/01/05/%E7%AC%AC%E4%B8%89%E7%AB%A0%20%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1358,7 +1227,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">46</span>
+          <span class="site-state-item-count">49</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -1370,7 +1239,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-count">21</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -1406,12 +1275,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="Symbols count total">86k</span>
+    <span title="Symbols count total">94k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="Reading time total">3:36</span>
+    <span title="Reading time total">3:56</span>
 </div>
   <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a>
   </div>
