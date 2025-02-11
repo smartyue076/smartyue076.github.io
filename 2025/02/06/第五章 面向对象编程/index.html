@@ -23,20 +23,21 @@
   <meta name="description" content="类不是实体，对象是实体 成员变量（filed）属于对象 成员函数（member function）属于类 Big Three（构造函数，拷贝构造，拷贝赋值）构造函数初始化列表列表初始化（initialize list）仅对成员变量初始化。 在构造函数里对成员变量初始化则为先初始化（默认）后赋值，故所有成员变量必须要有默认的初始化方法（成员变量包含其他类但该类没有默认构造函数则会报错）。构造函数无法">
 <meta property="og:type" content="article">
 <meta property="og:title" content="C++面向对象（一）封装、继承和多态">
-<meta property="og:url" content="https://smartyue076.github.io/2025/01/06/%E7%AC%AC%E4%BA%94%E7%AB%A0%20%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%BC%96%E7%A8%8B/index.html">
+<meta property="og:url" content="https://smartyue076.github.io/2025/02/06/%E7%AC%AC%E4%BA%94%E7%AB%A0%20%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%BC%96%E7%A8%8B/index.html">
 <meta property="og:site_name" content="Martin XU的技术博客">
 <meta property="og:description" content="类不是实体，对象是实体 成员变量（filed）属于对象 成员函数（member function）属于类 Big Three（构造函数，拷贝构造，拷贝赋值）构造函数初始化列表列表初始化（initialize list）仅对成员变量初始化。 在构造函数里对成员变量初始化则为先初始化（默认）后赋值，故所有成员变量必须要有默认的初始化方法（成员变量包含其他类但该类没有默认构造函数则会报错）。构造函数无法">
 <meta property="og:locale">
-<meta property="og:image" content="https://smartyue076.github.io/images/vtable.PNG">
-<meta property="article:published_time" content="2025-01-06T08:02:35.584Z">
-<meta property="article:modified_time" content="2025-01-06T08:02:35.584Z">
+<meta property="og:image" content="https://smartyue076.github.io/images/vtable.png">
+<meta property="og:image" content="https://smartyue076.github.io/images/vtable_2.png">
+<meta property="article:published_time" content="2025-02-06T09:42:48.024Z">
+<meta property="article:modified_time" content="2025-02-06T09:42:48.024Z">
 <meta property="article:author" content="Martin XU">
 <meta property="article:tag" content="C++">
 <meta property="article:tag" content="面向对象">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://smartyue076.github.io/images/vtable.PNG">
+<meta name="twitter:image" content="https://smartyue076.github.io/images/vtable.png">
 
-<link rel="canonical" href="https://smartyue076.github.io/2025/01/06/%E7%AC%AC%E4%BA%94%E7%AB%A0%20%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%BC%96%E7%A8%8B/">
+<link rel="canonical" href="https://smartyue076.github.io/2025/02/06/%E7%AC%AC%E4%BA%94%E7%AB%A0%20%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%BC%96%E7%A8%8B/">
 
 
 <script id="page-configurations">
@@ -192,7 +193,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
-    <link itemprop="mainEntityOfPage" href="https://smartyue076.github.io/2025/01/06/%E7%AC%AC%E4%BA%94%E7%AB%A0%20%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%BC%96%E7%A8%8B/">
+    <link itemprop="mainEntityOfPage" href="https://smartyue076.github.io/2025/02/06/%E7%AC%AC%E4%BA%94%E7%AB%A0%20%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%BC%96%E7%A8%8B/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -215,7 +216,7 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2025-01-06 16:02:35" itemprop="dateCreated datePublished" datetime="2025-01-06T16:02:35+08:00">2025-01-06</time>
+              <time title="Created: 2025-02-06 17:42:48" itemprop="dateCreated datePublished" datetime="2025-02-06T17:42:48+08:00">2025-02-06</time>
             </span>
 
           
@@ -321,7 +322,8 @@
 <li>简化代码维护：使用虚函数可以将代码的实现细节从类的使用者中分离出来，使得修改基类的实现对派生类的影响最小。</li>
 </ul>
 <h5 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h5><p>对于有虚函数的类，其对象会包含指向vtable的vptr指针（vtable中为所有虚函数的地址）。在运行时确定对象类型，来选取相应的vptr，进而找到vptr指向的vtable的虚函数的具体函数地址</p>
-<img src="/../../images/vtable.PNG" style="zoom:30%;" />
+<img src="/../../images/vtable.png" style="zoom:30%;" />
+<img src="/../../images/vtable_2.png" style="zoom:50%;" />
 
 <h5 id="要求"><a href="#要求" class="headerlink" title="要求"></a>要求</h5><ol>
 <li>新建子类对象</li>
@@ -357,12 +359,12 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2025/01/05/%E7%BA%BF%E7%A8%8B%E6%B1%A0%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%9E%E7%8E%B0/" rel="prev" title="线程池原理与实现">
-      <i class="fa fa-chevron-left"></i> 线程池原理与实现
+    <a href="/2025/02/06/%E6%95%B0%E6%8D%AE%E5%BA%93%EF%BC%88%E4%BA%8C%EF%BC%89%E7%B4%A2%E5%BC%95/" rel="prev" title="数据库（二）索引">
+      <i class="fa fa-chevron-left"></i> 数据库（二）索引
     </a></div>
       <div class="post-nav-item">
-    <a href="/2025/01/07/%E7%AC%AC%E4%BA%8C%E7%AB%A0%20%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86%EF%BC%88%E8%BF%9B%E7%A8%8B%E5%90%8C%E6%AD%A5%E4%B8%8E%E6%AD%BB%E9%94%81%EF%BC%89/" rel="next" title="操作系统（二）进程管理（进程同步与死锁）">
-      操作系统（二）进程管理（进程同步与死锁） <i class="fa fa-chevron-right"></i>
+    <a href="/2025/02/11/%E6%95%B0%E6%8D%AE%E5%BA%93%EF%BC%88%E5%9B%9B%EF%BC%89%E9%94%81%E7%90%86%E8%AE%BA/" rel="next" title="数据库（四）锁理论">
+      数据库（四）锁理论 <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
@@ -436,7 +438,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">49</span>
+          <span class="site-state-item-count">53</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -448,7 +450,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-count">23</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -484,12 +486,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="Symbols count total">94k</span>
+    <span title="Symbols count total">109k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="Reading time total">3:56</span>
+    <span title="Reading time total">4:32</span>
 </div>
   <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a>
   </div>
