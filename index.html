@@ -9,10 +9,12 @@
   <link rel="icon" type="image/png" sizes="32x32" href="/images/me_icon_32.ico">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/me_icon_16.ico">
   <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="M_avNi87YsXV1nsCz0Qp5pHTFwS89aIxXwXh6yF-cE4">
+  <meta name="msvalidate.01" content="A0EF53E4F47194CE0652434A8BF6473C">
 
 <link rel="stylesheet" href="/css/main.css">
 
-<link rel="stylesheet" href="https://www.googlefonts.cn/css?family=Times New Roman:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
 <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
 <script id="hexo-configurations">
@@ -245,6 +247,90 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2025/01/05/%E7%BA%BF%E7%A8%8B%E6%B1%A0%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%9E%E7%8E%B0/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://smartyue076.github.io/2025/02/14/%E6%95%B0%E6%8D%AE%E5%BA%93%EF%BC%88%E4%B8%80%EF%BC%89%E7%BB%AA%E8%AE%BA/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/me.png">
+      <meta itemprop="name" content="Martin XU">
+      <meta itemprop="description" content="Hi，朋友。欢迎来到我的技术博客。本站主要整理了计算机相关的专业知识，包括操作系统、计算机网络、算法以及分布式系统等等。此外，还有我的一些学习及工作碎碎念，希望能与你一同探索计算机的有趣世界～">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Martin XU的技术博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2025/02/14/%E6%95%B0%E6%8D%AE%E5%BA%93%EF%BC%88%E4%B8%80%EF%BC%89%E7%BB%AA%E8%AE%BA/" class="post-title-link" itemprop="url">数据库（一）绪论</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2025-02-14 13:00:00" itemprop="dateCreated datePublished" datetime="2025-02-14T13:00:00+08:00">2025-02-14</time>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="Symbols count in article">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">Symbols count in article: </span>
+              <span>1.2k</span>
+            </span>
+            <span class="post-meta-item" title="Reading time">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">Reading time &asymp;</span>
+              <span>3 mins.</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="执行select的过程"><a href="#执行select的过程" class="headerlink" title="执行select的过程"></a>执行select的过程</h2><img src="/../../images/mysql查询流程.webp" style="zoom:60%;">
+
+<h3 id="连接器"><a href="#连接器" class="headerlink" title="连接器"></a>连接器</h3><p>客户端通过<strong>TCP三次握手</strong>与数据库建立连接</p>
+<h3 id="查询缓存"><a href="#查询缓存" class="headerlink" title="查询缓存"></a>查询缓存</h3><p>如果 SQL 是<strong>查询语句（select 语句）</strong>，MySQL 就会先去<strong>查询缓存</strong>（ Query Cache ）里查找缓存数据，看看之前有没有执行过这一条命令，这个查询缓存是以 <strong>key-value 形式保存在内存中</strong>的，key 为 SQL 查询语句，value 为 SQL 语句查询的结果。</p>
+<h3 id="解析SQL"><a href="#解析SQL" class="headerlink" title="解析SQL"></a>解析SQL</h3><p>解析器完成<strong>词法分析</strong>（根据输入的字符串识别出关键字）和<strong>语法分析</strong>（判断语句语法）</p>
+<h3 id="执行SQL"><a href="#执行SQL" class="headerlink" title="执行SQL"></a>执行SQL</h3><h4 id="预处理器"><a href="#预处理器" class="headerlink" title="预处理器"></a>预处理器</h4>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2025/02/14/%E6%95%B0%E6%8D%AE%E5%BA%93%EF%BC%88%E4%B8%80%EF%BC%89%E7%BB%AA%E8%AE%BA/#more" rel="contents">
                 Read more &raquo;
               </a>
             </div>
@@ -865,90 +951,6 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2025/02/06/%E6%95%B0%E6%8D%AE%E5%BA%93%EF%BC%88%E4%BA%8C%EF%BC%89%E7%B4%A2%E5%BC%95/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
-    <link itemprop="mainEntityOfPage" href="https://smartyue076.github.io/2025/02/06/%E6%95%B0%E6%8D%AE%E5%BA%93%EF%BC%88%E4%B8%80%EF%BC%89%E7%BB%AA%E8%AE%BA/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/me.png">
-      <meta itemprop="name" content="Martin XU">
-      <meta itemprop="description" content="Hi，朋友。欢迎来到我的技术博客。本站主要整理了计算机相关的专业知识，包括操作系统、计算机网络、算法以及分布式系统等等。此外，还有我的一些学习及工作碎碎念，希望能与你一同探索计算机的有趣世界～">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Martin XU的技术博客">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2025/02/06/%E6%95%B0%E6%8D%AE%E5%BA%93%EF%BC%88%E4%B8%80%EF%BC%89%E7%BB%AA%E8%AE%BA/" class="post-title-link" itemprop="url">数据库（一）绪论</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2025-02-06 11:03:42" itemprop="dateCreated datePublished" datetime="2025-02-06T11:03:42+08:00">2025-02-06</time>
-            </span>
-
-          <br>
-            <span class="post-meta-item" title="Symbols count in article">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">Symbols count in article: </span>
-              <span>1.2k</span>
-            </span>
-            <span class="post-meta-item" title="Reading time">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">Reading time &asymp;</span>
-              <span>3 mins.</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="执行select的过程"><a href="#执行select的过程" class="headerlink" title="执行select的过程"></a>执行select的过程</h2><img src="/../../images/mysql查询流程.webp" style="zoom:60%;">
-
-<h3 id="连接器"><a href="#连接器" class="headerlink" title="连接器"></a>连接器</h3><p>客户端通过<strong>TCP三次握手</strong>与数据库建立连接</p>
-<h3 id="查询缓存"><a href="#查询缓存" class="headerlink" title="查询缓存"></a>查询缓存</h3><p>如果 SQL 是<strong>查询语句（select 语句）</strong>，MySQL 就会先去<strong>查询缓存</strong>（ Query Cache ）里查找缓存数据，看看之前有没有执行过这一条命令，这个查询缓存是以 <strong>key-value 形式保存在内存中</strong>的，key 为 SQL 查询语句，value 为 SQL 语句查询的结果。</p>
-<h3 id="解析SQL"><a href="#解析SQL" class="headerlink" title="解析SQL"></a>解析SQL</h3><p>解析器完成<strong>词法分析</strong>（根据输入的字符串识别出关键字）和<strong>语法分析</strong>（判断语句语法）</p>
-<h3 id="执行SQL"><a href="#执行SQL" class="headerlink" title="执行SQL"></a>执行SQL</h3><h4 id="预处理器"><a href="#预处理器" class="headerlink" title="预处理器"></a>预处理器</h4>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2025/02/06/%E6%95%B0%E6%8D%AE%E5%BA%93%EF%BC%88%E4%B8%80%EF%BC%89%E7%BB%AA%E8%AE%BA/#more" rel="contents">
                 Read more &raquo;
               </a>
             </div>
