@@ -14,7 +14,7 @@
 
 <link rel="stylesheet" href="/css/main.css">
 
-
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Noto Sans SC:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
 <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
 <script id="hexo-configurations">
@@ -26,14 +26,14 @@
 <meta property="og:type" content="article">
 <meta property="og:title" content="C++基础（一）CPP编译过程、宏以及头文件">
 <meta property="og:url" content="https://smartyue076.github.io/2025/01/03/%E7%AC%AC%E4%B8%80%E7%AB%A0%20%E5%BC%80%E5%A7%8B/index.html">
-<meta property="og:site_name" content="Martin XU的技术博客">
+<meta property="og:site_name" content="子非鱼的技术博客">
 <meta property="og:description" content="endl将与设备关联的缓冲区（buffer）中的内容刷到设备中。在调试时应保证”一直”刷新流。否则若程序崩溃，输出可能还是缓冲区，导致对于程序崩溃位置的错误推断  读取数量不定的输入数据可用while (std::in &gt;&gt; value) 当遇到文件结束符（end-of-file），或遇到一个无效输入时，istream对象状态变为无效，使条件为假 EOF：在Windows中为Ctrl">
 <meta property="og:locale">
 <meta property="og:image" content="https://smartyue076.github.io/images/compiler.png">
 <meta property="og:image" content="https://smartyue076.github.io/images/header%20and%20cpp.png">
 <meta property="article:published_time" content="2025-01-03T03:32:32.413Z">
 <meta property="article:modified_time" content="2025-01-03T03:32:32.413Z">
-<meta property="article:author" content="Martin XU">
+<meta property="article:author" content="子非鱼">
 <meta property="article:tag" content="C++">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://smartyue076.github.io/images/compiler.png">
@@ -51,7 +51,7 @@
   };
 </script>
 
-  <title>C++基础（一）CPP编译过程、宏以及头文件 | Martin XU的技术博客</title>
+  <title>C++基础（一）CPP编译过程、宏以及头文件 | 子非鱼的技术博客</title>
   
 
 
@@ -102,7 +102,7 @@
 
     <a href="/" class="brand" rel="start">
       <span class="logo-line-before"><i></i></span>
-      <h1 class="site-title">Martin XU的技术博客</h1>
+      <h1 class="site-title">子非鱼的技术博客</h1>
       <span class="logo-line-after"><i></i></span>
     </a>
   </div>
@@ -198,12 +198,12 @@
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/me.png">
-      <meta itemprop="name" content="Martin XU">
+      <meta itemprop="name" content="子非鱼">
       <meta itemprop="description" content="Hi，朋友。欢迎来到我的技术博客。本站主要整理了计算机相关的专业知识，包括操作系统、计算机网络、算法以及分布式系统等等。此外，还有我的一些学习及工作碎碎念，希望能与你一同探索计算机的有趣世界～">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Martin XU的技术博客">
+      <meta itemprop="name" content="子非鱼的技术博客">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
@@ -381,9 +381,9 @@
 
       <div class="site-overview-wrap sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <img class="site-author-image" itemprop="image" alt="Martin XU"
+    <img class="site-author-image" itemprop="image" alt="子非鱼"
       src="/images/me.png">
-  <p class="site-author-name" itemprop="name">Martin XU</p>
+  <p class="site-author-name" itemprop="name">子非鱼</p>
   <div class="site-description" itemprop="description">Hi，朋友。欢迎来到我的技术博客。本站主要整理了计算机相关的专业知识，包括操作系统、计算机网络、算法以及分布式系统等等。此外，还有我的一些学习及工作碎碎念，希望能与你一同探索计算机的有趣世界～</div>
 </div>
 <div class="site-state-wrap motion-element">
@@ -434,7 +434,7 @@
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
-  <span class="author" itemprop="copyrightHolder">Martin XU</span>
+  <span class="author" itemprop="copyrightHolder">子非鱼</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>

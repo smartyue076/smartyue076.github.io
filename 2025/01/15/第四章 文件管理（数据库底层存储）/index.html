@@ -14,7 +14,7 @@
 
 <link rel="stylesheet" href="/css/main.css">
 
-
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Noto Sans SC:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
 <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
 <script id="hexo-configurations">
@@ -26,13 +26,13 @@
 <meta property="og:type" content="article">
 <meta property="og:title" content="操作系统（八）文件管理（数据库底层存储）">
 <meta property="og:url" content="https://smartyue076.github.io/2025/01/15/%E7%AC%AC%E5%9B%9B%E7%AB%A0%20%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86%EF%BC%88%E6%95%B0%E6%8D%AE%E5%BA%93%E5%BA%95%E5%B1%82%E5%AD%98%E5%82%A8%EF%BC%89/index.html">
-<meta property="og:site_name" content="Martin XU的技术博客">
+<meta property="og:site_name" content="子非鱼的技术博客">
 <meta property="og:description" content="LSM Tree在内存中维护一个Memtable并排序（AVL，红黑树等），当达到某一阈值后写入到磁盘，写入的结构称为SSTable SSTable会定期进行压缩compaction，将重复的key以最新value压缩。由于数据量较大，所以通过数据大小对SStable分层   读：从Memtable到各级SStable读取，由于SStable有序，可以通过范围判断是否在当前table，然后通过二分">
 <meta property="og:locale">
 <meta property="og:image" content="https://smartyue076.github.io/images/LSM_tree.png">
 <meta property="article:published_time" content="2025-01-15T06:54:06.090Z">
 <meta property="article:modified_time" content="2025-01-15T06:54:06.090Z">
-<meta property="article:author" content="Martin XU">
+<meta property="article:author" content="子非鱼">
 <meta property="article:tag" content="操作系统">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://smartyue076.github.io/images/LSM_tree.png">
@@ -50,7 +50,7 @@
   };
 </script>
 
-  <title>操作系统（八）文件管理（数据库底层存储） | Martin XU的技术博客</title>
+  <title>操作系统（八）文件管理（数据库底层存储） | 子非鱼的技术博客</title>
   
 
 
@@ -101,7 +101,7 @@
 
     <a href="/" class="brand" rel="start">
       <span class="logo-line-before"><i></i></span>
-      <h1 class="site-title">Martin XU的技术博客</h1>
+      <h1 class="site-title">子非鱼的技术博客</h1>
       <span class="logo-line-after"><i></i></span>
     </a>
   </div>
@@ -197,12 +197,12 @@
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/me.png">
-      <meta itemprop="name" content="Martin XU">
+      <meta itemprop="name" content="子非鱼">
       <meta itemprop="description" content="Hi，朋友。欢迎来到我的技术博客。本站主要整理了计算机相关的专业知识，包括操作系统、计算机网络、算法以及分布式系统等等。此外，还有我的一些学习及工作碎碎念，希望能与你一同探索计算机的有趣世界～">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Martin XU的技术博客">
+      <meta itemprop="name" content="子非鱼的技术博客">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
@@ -420,9 +420,9 @@
 
       <div class="site-overview-wrap sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <img class="site-author-image" itemprop="image" alt="Martin XU"
+    <img class="site-author-image" itemprop="image" alt="子非鱼"
       src="/images/me.png">
-  <p class="site-author-name" itemprop="name">Martin XU</p>
+  <p class="site-author-name" itemprop="name">子非鱼</p>
   <div class="site-description" itemprop="description">Hi，朋友。欢迎来到我的技术博客。本站主要整理了计算机相关的专业知识，包括操作系统、计算机网络、算法以及分布式系统等等。此外，还有我的一些学习及工作碎碎念，希望能与你一同探索计算机的有趣世界～</div>
 </div>
 <div class="site-state-wrap motion-element">
@@ -473,7 +473,7 @@
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
-  <span class="author" itemprop="copyrightHolder">Martin XU</span>
+  <span class="author" itemprop="copyrightHolder">子非鱼</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
