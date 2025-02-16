@@ -187,6 +187,264 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://smartyue076.github.io/2025/02/06/%E7%AC%AC%E4%BA%94%E7%AB%A0%20%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%BC%96%E7%A8%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/me.png">
+      <meta itemprop="name" content="子非鱼">
+      <meta itemprop="description" content="Hi，朋友。欢迎来到我的技术博客。本站主要整理了计算机相关的专业知识，包括操作系统、计算机网络、算法以及分布式系统等等。此外，还有我的一些学习及工作碎碎念，希望能与你一同探索计算机的有趣世界～">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="子非鱼的技术博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2025/02/06/%E7%AC%AC%E4%BA%94%E7%AB%A0%20%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%BC%96%E7%A8%8B/" class="post-title-link" itemprop="url">C++面向对象（一）封装、继承和多态</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2025-02-06 17:42:48" itemprop="dateCreated datePublished" datetime="2025-02-06T17:42:48+08:00">2025-02-06</time>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="Symbols count in article">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">Symbols count in article: </span>
+              <span>4.4k</span>
+            </span>
+            <span class="post-meta-item" title="Reading time">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">Reading time &asymp;</span>
+              <span>11 mins.</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>类不是实体，对象是实体</p>
+<p>成员变量（filed）属于对象</p>
+<p>成员函数（member function）属于类</p>
+<h3 id="Big-Three（构造函数，拷贝构造，拷贝赋值）"><a href="#Big-Three（构造函数，拷贝构造，拷贝赋值）" class="headerlink" title="Big Three（构造函数，拷贝构造，拷贝赋值）"></a>Big Three（构造函数，拷贝构造，拷贝赋值）</h3><h4 id="构造函数"><a href="#构造函数" class="headerlink" title="构造函数"></a>构造函数</h4><h5 id="初始化列表"><a href="#初始化列表" class="headerlink" title="初始化列表"></a>初始化列表</h5><p><strong>列表初始化（initialize list）</strong>仅对成员变量初始化。</p>
+<p>在构造函数里对成员变量初始化则为先初始化（默认）后赋值，故所有成员变量必须要有默认的初始化方法（成员变量包含其他类但该类没有默认构造函数则会报错）。构造函数无法主动调用。</p>
+<p>尽量使用列表初始化</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">A</span>&#123;</span><br><span class="line">  <span class="keyword">public</span>:</span><br><span class="line">  	<span class="type">int</span> a;</span><br><span class="line">    <span class="built_in">A</span>(<span class="type">int</span> i):<span class="built_in">a</span>(i)&#123;&#125;;  <span class="comment">//initialize list</span></span><br><span class="line">  	<span class="comment">// A(int i):&#123;a=i;&#125; </span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2025/02/06/%E7%AC%AC%E4%BA%94%E7%AB%A0%20%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%BC%96%E7%A8%8B/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://smartyue076.github.io/2025/02/06/%E6%95%B0%E6%8D%AE%E5%BA%93%EF%BC%88%E4%BA%8C%EF%BC%89%E7%B4%A2%E5%BC%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/me.png">
+      <meta itemprop="name" content="子非鱼">
+      <meta itemprop="description" content="Hi，朋友。欢迎来到我的技术博客。本站主要整理了计算机相关的专业知识，包括操作系统、计算机网络、算法以及分布式系统等等。此外，还有我的一些学习及工作碎碎念，希望能与你一同探索计算机的有趣世界～">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="子非鱼的技术博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2025/02/06/%E6%95%B0%E6%8D%AE%E5%BA%93%EF%BC%88%E4%BA%8C%EF%BC%89%E7%B4%A2%E5%BC%95/" class="post-title-link" itemprop="url">数据库（二）索引</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2025-02-06 11:06:16 / Modified: 11:06:56" itemprop="dateCreated datePublished" datetime="2025-02-06T11:06:16+08:00">2025-02-06</time>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="Symbols count in article">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">Symbols count in article: </span>
+              <span>2.1k</span>
+            </span>
+            <span class="post-meta-item" title="Reading time">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">Reading time &asymp;</span>
+              <span>5 mins.</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="索引存储结构"><a href="#索引存储结构" class="headerlink" title="索引存储结构"></a>索引存储结构</h2><h3 id="存储结构"><a href="#存储结构" class="headerlink" title="存储结构"></a>存储结构</h3><p>使用<strong>B+树</strong>作为存储结构，<strong>非叶子结点存放索引</strong>，<strong>叶子节点才会存放实际数据（索引+记录）</strong></p>
+<img src="/../../images/db_index_1.webp" style="zoom:70%;">
+
+<h3 id="为什么使用B-树"><a href="#为什么使用B-树" class="headerlink" title="为什么使用B+树"></a>为什么使用B+树</h3><p>B+树与B树的对比如下</p>
+<ul>
+<li>B+ 树的非叶子节点<strong>不存放实际的记录数据，仅存放索引</strong>，因此数据量相同的情况下，相比存储即存索引又存记录的 B 树，<strong>B+树的非叶子节点可以存放更多的索引</strong>，因此 B+ 树可以比 B 树更「矮胖」，<strong>查询底层节点的磁盘 I&#x2F;O次数会更少</strong></li>
+<li>B+ 树<strong>有大量的冗余节点</strong>（所有非叶子节点都是冗余索引），这些冗余索引让 <strong>B+ 树在插入、删除的效率都更高</strong>，比如删除根节点的时候，<strong>不会像 B 树那样会发生复杂的树的变化</strong></li>
+<li><strong>B+ 树叶子节点之间用链表连接了起来，有利于范围查询</strong>，而 B 树要实现范围查询，因此只能通过树的遍历来完成范围查询，这会涉及多个节点的磁盘 I&#x2F;O 操作，范围查询效率不如 B+ 树。</li>
+</ul>
+<h2 id="使用索引时的查询流程"><a href="#使用索引时的查询流程" class="headerlink" title="使用索引时的查询流程"></a>使用索引时的查询流程</h2><h3 id="叶子节点存放的是实际数据时（聚簇索引）"><a href="#叶子节点存放的是实际数据时（聚簇索引）" class="headerlink" title="叶子节点存放的是实际数据时（聚簇索引）"></a>叶子节点存放的是实际数据时（聚簇索引）</h3><p>当通过主键指定条件时，<strong>通过主键索引遍历到叶子结点</strong>，<strong>获得主键值和其对应的数据</strong></p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2025/02/06/%E6%95%B0%E6%8D%AE%E5%BA%93%EF%BC%88%E4%BA%8C%EF%BC%89%E7%B4%A2%E5%BC%95/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://smartyue076.github.io/2025/01/21/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E7%A1%80/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/me.png">
+      <meta itemprop="name" content="子非鱼">
+      <meta itemprop="description" content="Hi，朋友。欢迎来到我的技术博客。本站主要整理了计算机相关的专业知识，包括操作系统、计算机网络、算法以及分布式系统等等。此外，还有我的一些学习及工作碎碎念，希望能与你一同探索计算机的有趣世界～">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="子非鱼的技术博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2025/01/21/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E7%A1%80/" class="post-title-link" itemprop="url">机器学习基础（一）基础方法与概念（线性回归为例）</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2025-01-21 18:49:32" itemprop="dateCreated datePublished" datetime="2025-01-21T18:49:32+08:00">2025-01-21</time>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="Symbols count in article">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">Symbols count in article: </span>
+              <span>3k</span>
+            </span>
+            <span class="post-meta-item" title="Reading time">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">Reading time &asymp;</span>
+              <span>8 mins.</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="1-选择合适的模型"><a href="#1-选择合适的模型" class="headerlink" title="1. 选择合适的模型"></a>1. 选择合适的模型</h2><p>对于回归或分类问题使用合适的模型，在本文中对于回归问题使用<strong>线形回归</strong>模型，对于分类问题使用<strong>Logistic回归</strong>模型</p>
+<h2 id="2-如何判定当前模型及参数是符合现实要求的（Cost-Function）"><a href="#2-如何判定当前模型及参数是符合现实要求的（Cost-Function）" class="headerlink" title="2. 如何判定当前模型及参数是符合现实要求的（Cost Function）"></a>2. 如何判定当前模型及参数是符合现实要求的（Cost Function）</h2><p>$$<br>J(w,b) &#x3D; \frac{1}{2m} \sum\limits_{i &#x3D; 0}^{m-1} (f_{w,b}(x^{(i)}) - y^{(i)})^2<br>$$</p>
+<p>$$<br>f_{w,b}(x^{(i)}) &#x3D; wx^{(i)} + b \tag{2}<br>$$</p>
+<p>计算预测值与现实值的均方误差后取平均（除以2是为了在求导时与平方的2约去）</p>
+<h2 id="3-数据预处理"><a href="#3-数据预处理" class="headerlink" title="3. 数据预处理"></a>3. 数据预处理</h2><h4 id="特征缩放（Feature-Scaling）"><a href="#特征缩放（Feature-Scaling）" class="headerlink" title="特征缩放（Feature Scaling）"></a>特征缩放（Feature Scaling）</h4><p>如果不同属性的取值返回相差过大则会导致模型收敛得很慢，所以要对属性值做映射。</p>
+<p>常用缩放方法：<br><strong>均值标准化</strong><br>$$<br>x_i :&#x3D; \dfrac{x_i - \mu_i}{max - min}\tag{Mean normalization}<br>$$</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2025/01/21/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E7%A1%80/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
     <link itemprop="mainEntityOfPage" href="https://smartyue076.github.io/2025/01/21/%E5%9B%BE%E7%AE%97%E6%B3%95%EF%BC%88DFS%E4%B8%8EBFS%EF%BC%89/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -543,94 +801,6 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
-    <link itemprop="mainEntityOfPage" href="https://smartyue076.github.io/2025/01/15/%E7%AC%AC%E5%9B%9B%E7%AB%A0%20%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86%EF%BC%88%E6%95%B0%E6%8D%AE%E5%BA%93%E5%BA%95%E5%B1%82%E5%AD%98%E5%82%A8%EF%BC%89/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/me.png">
-      <meta itemprop="name" content="子非鱼">
-      <meta itemprop="description" content="Hi，朋友。欢迎来到我的技术博客。本站主要整理了计算机相关的专业知识，包括操作系统、计算机网络、算法以及分布式系统等等。此外，还有我的一些学习及工作碎碎念，希望能与你一同探索计算机的有趣世界～">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="子非鱼的技术博客">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2025/01/15/%E7%AC%AC%E5%9B%9B%E7%AB%A0%20%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86%EF%BC%88%E6%95%B0%E6%8D%AE%E5%BA%93%E5%BA%95%E5%B1%82%E5%AD%98%E5%82%A8%EF%BC%89/" class="post-title-link" itemprop="url">操作系统（八）文件管理（数据库底层存储）</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2025-01-15 14:54:06" itemprop="dateCreated datePublished" datetime="2025-01-15T14:54:06+08:00">2025-01-15</time>
-            </span>
-
-          <br>
-            <span class="post-meta-item" title="Symbols count in article">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">Symbols count in article: </span>
-              <span>1.2k</span>
-            </span>
-            <span class="post-meta-item" title="Reading time">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">Reading time &asymp;</span>
-              <span>3 mins.</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h4 id="LSM-Tree"><a href="#LSM-Tree" class="headerlink" title="LSM Tree"></a>LSM Tree</h4><p>在内存中维护一个Memtable并排序（AVL，红黑树等），当达到某一阈值后写入到磁盘，写入的结构称为SSTable</p>
-<p>SSTable会定期进行压缩compaction，将重复的key以最新value压缩。由于数据量较大，所以通过数据大小对SStable分层</p>
-<img src="/../../images/LSM_tree.png" alt="process_state" width="700px">
-
-<p><strong>读：</strong>从Memtable到各级SStable读取，由于SStable有序，可以通过范围判断是否在当前table，然后通过二分查找等方法查找</p>
-<p><strong>写：</strong>直接增加到Memtable</p>
-<p><strong>优化：</strong>布隆过滤器，通过哈希方法计算key是否存在，否表示肯定不存在，是表示可能存在</p>
-<p><strong>优点：</strong>顺序写；写效率高</p>
-<p><strong>缺点：</strong>读效率过低</p>
-<h4 id="B-Tree"><a href="#B-Tree" class="headerlink" title="B+ Tree"></a>B+ Tree</h4>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2025/01/15/%E7%AC%AC%E5%9B%9B%E7%AB%A0%20%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86%EF%BC%88%E6%95%B0%E6%8D%AE%E5%BA%93%E5%BA%95%E5%B1%82%E5%AD%98%E5%82%A8%EF%BC%89/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
     <link itemprop="mainEntityOfPage" href="https://smartyue076.github.io/2025/01/15/%E7%AC%AC%E5%9B%9B%E7%AB%A0%20%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86%EF%BC%88%E4%BA%8C%EF%BC%89/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -904,198 +1074,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
-    <link itemprop="mainEntityOfPage" href="https://smartyue076.github.io/2025/01/12/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%EF%BC%88%E5%8D%81%EF%BC%89%E4%B8%AD%E6%96%AD/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/me.png">
-      <meta itemprop="name" content="子非鱼">
-      <meta itemprop="description" content="Hi，朋友。欢迎来到我的技术博客。本站主要整理了计算机相关的专业知识，包括操作系统、计算机网络、算法以及分布式系统等等。此外，还有我的一些学习及工作碎碎念，希望能与你一同探索计算机的有趣世界～">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="子非鱼的技术博客">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2025/01/12/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%EF%BC%88%E5%8D%81%EF%BC%89%E4%B8%AD%E6%96%AD/" class="post-title-link" itemprop="url">操作系统（十）中断</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2025-01-12 14:00:13" itemprop="dateCreated datePublished" datetime="2025-01-12T14:00:13+08:00">2025-01-12</time>
-            </span>
-
-          <br>
-            <span class="post-meta-item" title="Symbols count in article">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">Symbols count in article: </span>
-              <span>282</span>
-            </span>
-            <span class="post-meta-item" title="Reading time">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">Reading time &asymp;</span>
-              <span>1 mins.</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="第七章-中断"><a href="#第七章-中断" class="headerlink" title="第七章 中断"></a>第七章 中断</h2><h3 id="中断与异常"><a href="#中断与异常" class="headerlink" title="中断与异常"></a>中断与异常</h3><img src="/../../images/interrupt_1.png" alt="image.png" style="zoom:35%;">
-
-<h3 id="中断执行过程"><a href="#中断执行过程" class="headerlink" title="中断执行过程"></a>中断执行过程</h3><img src="/../../images/interrupt_2.png" alt="image.png" style="zoom:35%;">
-
-<h3 id="当通过键盘给当前进程输入参数时的流程（IO中断）"><a href="#当通过键盘给当前进程输入参数时的流程（IO中断）" class="headerlink" title="当通过键盘给当前进程输入参数时的流程（IO中断）"></a>当通过键盘给当前进程输入参数时的流程（IO中断）</h3><p>中断流程</p>
-<ol>
-<li>用户键盘输入</li>
-<li>键盘控制器生成扫描码并触发中断 (IRQ1)</li>
-<li>CPU 暂停当前进程，响应中断</li>
-<li>CPU执行中断处理程序，获取键盘输入</li>
-<li>恢复被中断的任务</li>
-<li>用户进程读取缓冲区输入（系统调用，使用“陷阱”内中断）</li>
-</ol>
-<h3 id="用户如何使用系统其他资源（系统调用）"><a href="#用户如何使用系统其他资源（系统调用）" class="headerlink" title="用户如何使用系统其他资源（系统调用）"></a>用户如何使用系统其他资源（系统调用）</h3><p>用户态的程序只能使用内存中用户段，不能使用内核段。内核态可以访问任何内存数据。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2025/01/12/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%EF%BC%88%E5%8D%81%EF%BC%89%E4%B8%AD%E6%96%AD/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
-    <link itemprop="mainEntityOfPage" href="https://smartyue076.github.io/2025/01/12/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%EF%BC%88%E4%B9%9D%EF%BC%89%E7%B3%BB%E7%BB%9F%E5%AE%89%E5%85%A8/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/me.png">
-      <meta itemprop="name" content="子非鱼">
-      <meta itemprop="description" content="Hi，朋友。欢迎来到我的技术博客。本站主要整理了计算机相关的专业知识，包括操作系统、计算机网络、算法以及分布式系统等等。此外，还有我的一些学习及工作碎碎念，希望能与你一同探索计算机的有趣世界～">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="子非鱼的技术博客">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2025/01/12/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%EF%BC%88%E4%B9%9D%EF%BC%89%E7%B3%BB%E7%BB%9F%E5%AE%89%E5%85%A8/" class="post-title-link" itemprop="url">操作系统（九）操作系统安全</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2025-01-12 14:00:02" itemprop="dateCreated datePublished" datetime="2025-01-12T14:00:02+08:00">2025-01-12</time>
-            </span>
-
-          <br>
-            <span class="post-meta-item" title="Symbols count in article">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">Symbols count in article: </span>
-              <span>536</span>
-            </span>
-            <span class="post-meta-item" title="Reading time">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">Reading time &asymp;</span>
-              <span>1 mins.</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="第六章-操作系统安全"><a href="#第六章-操作系统安全" class="headerlink" title="第六章 操作系统安全"></a>第六章 操作系统安全</h2><h3 id="缓冲区溢出攻击"><a href="#缓冲区溢出攻击" class="headerlink" title="缓冲区溢出攻击"></a>缓冲区溢出攻击</h3><h4 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h4><p>缓冲区溢出通常发生在程序使用固定大小的内存缓冲区来存储用户输入时，<strong>没有对输入数据的长度进行适当检查</strong>。攻击者利用这一点，<strong>将过大的输入数据注入缓冲区</strong>，导致：</p>
-<ul>
-<li><p><strong>覆盖关键数据</strong>：覆盖函数的返回地址、指针或其他重要变量。</p>
-</li>
-<li><p><strong>注入恶意代码</strong>：将攻击代码注入溢出的内存区域，并操纵程序跳转到攻击代码执行。</p>
-</li>
-<li><p><strong>控制程序执行流</strong>：通过覆盖返回地址或函数指针，改变程序的正常执行逻辑。</p>
-</li>
-</ul>
-<h4 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h4><ul>
-<li><p><strong>栈随机化</strong></p>
-</li>
-<li><p><strong>栈破坏检测</strong></p>
-</li>
-<li><p><strong>限制可执行代码区域</strong></p>
-</li>
-</ul>
-<img src="/../../images/buffer_overflow_attack.png" alt="image.png" style="zoom:20%;">
-
-
-
-<h3 id="操作系统安全算法"><a href="#操作系统安全算法" class="headerlink" title="操作系统安全算法"></a>操作系统安全算法</h3><p><strong>1. 用户身份验证：散列算法</strong></p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2025/01/12/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%EF%BC%88%E4%B9%9D%EF%BC%89%E7%B3%BB%E7%BB%9F%E5%AE%89%E5%85%A8/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1167,7 +1145,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">53</span>
+          <span class="site-state-item-count">55</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -1215,12 +1193,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="Symbols count total">109k</span>
+    <span title="Symbols count total">114k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="Reading time total">4:32</span>
+    <span title="Reading time total">4:45</span>
 </div>
   <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a>
   </div>

@@ -187,6 +187,198 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://smartyue076.github.io/2025/01/12/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%EF%BC%88%E5%8D%81%EF%BC%89%E4%B8%AD%E6%96%AD/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/me.png">
+      <meta itemprop="name" content="子非鱼">
+      <meta itemprop="description" content="Hi，朋友。欢迎来到我的技术博客。本站主要整理了计算机相关的专业知识，包括操作系统、计算机网络、算法以及分布式系统等等。此外，还有我的一些学习及工作碎碎念，希望能与你一同探索计算机的有趣世界～">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="子非鱼的技术博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2025/01/12/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%EF%BC%88%E5%8D%81%EF%BC%89%E4%B8%AD%E6%96%AD/" class="post-title-link" itemprop="url">操作系统（十）中断</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2025-01-12 14:00:13" itemprop="dateCreated datePublished" datetime="2025-01-12T14:00:13+08:00">2025-01-12</time>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="Symbols count in article">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">Symbols count in article: </span>
+              <span>282</span>
+            </span>
+            <span class="post-meta-item" title="Reading time">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">Reading time &asymp;</span>
+              <span>1 mins.</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="第七章-中断"><a href="#第七章-中断" class="headerlink" title="第七章 中断"></a>第七章 中断</h2><h3 id="中断与异常"><a href="#中断与异常" class="headerlink" title="中断与异常"></a>中断与异常</h3><img src="/../../images/interrupt_1.png" alt="image.png" style="zoom:35%;">
+
+<h3 id="中断执行过程"><a href="#中断执行过程" class="headerlink" title="中断执行过程"></a>中断执行过程</h3><img src="/../../images/interrupt_2.png" alt="image.png" style="zoom:35%;">
+
+<h3 id="当通过键盘给当前进程输入参数时的流程（IO中断）"><a href="#当通过键盘给当前进程输入参数时的流程（IO中断）" class="headerlink" title="当通过键盘给当前进程输入参数时的流程（IO中断）"></a>当通过键盘给当前进程输入参数时的流程（IO中断）</h3><p>中断流程</p>
+<ol>
+<li>用户键盘输入</li>
+<li>键盘控制器生成扫描码并触发中断 (IRQ1)</li>
+<li>CPU 暂停当前进程，响应中断</li>
+<li>CPU执行中断处理程序，获取键盘输入</li>
+<li>恢复被中断的任务</li>
+<li>用户进程读取缓冲区输入（系统调用，使用“陷阱”内中断）</li>
+</ol>
+<h3 id="用户如何使用系统其他资源（系统调用）"><a href="#用户如何使用系统其他资源（系统调用）" class="headerlink" title="用户如何使用系统其他资源（系统调用）"></a>用户如何使用系统其他资源（系统调用）</h3><p>用户态的程序只能使用内存中用户段，不能使用内核段。内核态可以访问任何内存数据。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2025/01/12/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%EF%BC%88%E5%8D%81%EF%BC%89%E4%B8%AD%E6%96%AD/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://smartyue076.github.io/2025/01/12/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%EF%BC%88%E4%B9%9D%EF%BC%89%E7%B3%BB%E7%BB%9F%E5%AE%89%E5%85%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/me.png">
+      <meta itemprop="name" content="子非鱼">
+      <meta itemprop="description" content="Hi，朋友。欢迎来到我的技术博客。本站主要整理了计算机相关的专业知识，包括操作系统、计算机网络、算法以及分布式系统等等。此外，还有我的一些学习及工作碎碎念，希望能与你一同探索计算机的有趣世界～">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="子非鱼的技术博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2025/01/12/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%EF%BC%88%E4%B9%9D%EF%BC%89%E7%B3%BB%E7%BB%9F%E5%AE%89%E5%85%A8/" class="post-title-link" itemprop="url">操作系统（九）操作系统安全</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2025-01-12 14:00:02" itemprop="dateCreated datePublished" datetime="2025-01-12T14:00:02+08:00">2025-01-12</time>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="Symbols count in article">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">Symbols count in article: </span>
+              <span>536</span>
+            </span>
+            <span class="post-meta-item" title="Reading time">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">Reading time &asymp;</span>
+              <span>1 mins.</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="第六章-操作系统安全"><a href="#第六章-操作系统安全" class="headerlink" title="第六章 操作系统安全"></a>第六章 操作系统安全</h2><h3 id="缓冲区溢出攻击"><a href="#缓冲区溢出攻击" class="headerlink" title="缓冲区溢出攻击"></a>缓冲区溢出攻击</h3><h4 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h4><p>缓冲区溢出通常发生在程序使用固定大小的内存缓冲区来存储用户输入时，<strong>没有对输入数据的长度进行适当检查</strong>。攻击者利用这一点，<strong>将过大的输入数据注入缓冲区</strong>，导致：</p>
+<ul>
+<li><p><strong>覆盖关键数据</strong>：覆盖函数的返回地址、指针或其他重要变量。</p>
+</li>
+<li><p><strong>注入恶意代码</strong>：将攻击代码注入溢出的内存区域，并操纵程序跳转到攻击代码执行。</p>
+</li>
+<li><p><strong>控制程序执行流</strong>：通过覆盖返回地址或函数指针，改变程序的正常执行逻辑。</p>
+</li>
+</ul>
+<h4 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h4><ul>
+<li><p><strong>栈随机化</strong></p>
+</li>
+<li><p><strong>栈破坏检测</strong></p>
+</li>
+<li><p><strong>限制可执行代码区域</strong></p>
+</li>
+</ul>
+<img src="/../../images/buffer_overflow_attack.png" alt="image.png" style="zoom:20%;">
+
+
+
+<h3 id="操作系统安全算法"><a href="#操作系统安全算法" class="headerlink" title="操作系统安全算法"></a>操作系统安全算法</h3><p><strong>1. 用户身份验证：散列算法</strong></p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2025/01/12/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%EF%BC%88%E4%B9%9D%EF%BC%89%E7%B3%BB%E7%BB%9F%E5%AE%89%E5%85%A8/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
     <link itemprop="mainEntityOfPage" href="https://smartyue076.github.io/2025/01/12/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%EF%BC%88%E5%85%AB%EF%BC%89%E6%B5%81%E6%B0%B4%E7%BA%BF/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1101,203 +1293,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
-    <link itemprop="mainEntityOfPage" href="https://smartyue076.github.io/2025/01/05/%E7%AC%AC%E4%B8%89%E7%AB%A0%20%E4%BC%A0%E8%BE%93%E5%B1%82/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/me.png">
-      <meta itemprop="name" content="子非鱼">
-      <meta itemprop="description" content="Hi，朋友。欢迎来到我的技术博客。本站主要整理了计算机相关的专业知识，包括操作系统、计算机网络、算法以及分布式系统等等。此外，还有我的一些学习及工作碎碎念，希望能与你一同探索计算机的有趣世界～">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="子非鱼的技术博客">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2025/01/05/%E7%AC%AC%E4%B8%89%E7%AB%A0%20%E4%BC%A0%E8%BE%93%E5%B1%82/" class="post-title-link" itemprop="url">计算机网络（五）传输层</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2025-01-05 10:55:59" itemprop="dateCreated datePublished" datetime="2025-01-05T10:55:59+08:00">2025-01-05</time>
-            </span>
-
-          <br>
-            <span class="post-meta-item" title="Symbols count in article">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">Symbols count in article: </span>
-              <span>1.7k</span>
-            </span>
-            <span class="post-meta-item" title="Reading time">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">Reading time &asymp;</span>
-              <span>4 mins.</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="概述和传输层服务"><a href="#概述和传输层服务" class="headerlink" title="概述和传输层服务"></a>概述和传输层服务</h3><p>可靠的、保序的传输：TCP</p>
-<ul>
-<li>多路复用，解复用</li>
-<li>拥塞控制</li>
-<li>流量控制（防止接收方缓存区满造成的分组丢失）</li>
-<li>建立连接</li>
-</ul>
-<p>不可靠、不保序的传输：UDP</p>
-<ul>
-<li>多路复用，解复用</li>
-<li>没有为尽力而为的IP服务添加更多的其他服务</li>
-</ul>
-<p>都不提供的服务：</p>
-<ul>
-<li>延时保证</li>
-<li>带宽保证</li>
-</ul>
-<h3 id="可靠数据传输原理"><a href="#可靠数据传输原理" class="headerlink" title="可靠数据传输原理"></a>可靠数据传输原理</h3><h4 id="RDT协议（递进关系）"><a href="#RDT协议（递进关系）" class="headerlink" title="RDT协议（递进关系）"></a>RDT协议（递进关系）</h4><ol>
-<li><p>rdt1.0：不提供反馈信息（假设所有数据包都正确从发送端传送到接收端）</p>
-</li>
-<li><p>rdt2.0：<strong>停止等待协议</strong>，引入差错检验，接收方反馈，重传机制。接收方在检验后向发送方返回ACK（正确）&#x2F;NCK（错误），这里的重传是对于NCK的重传，没有考虑对于丢失处理的超时重传（假设所有反馈消息都能正确送到发送端，没有消息分组的丢弃）</p>
-</li>
-<li><p>rdt2.1：ACK&#x2F;NCK对于接受到的消息编号，由于为停止等待协议，发送方若未收到消息的确认则不发下个消息，所以只需要一个位表示序号0&#x2F;1</p>
-</li>
-<li><p>rdt2.2：通过对于上个消息序号的确认替代对于本次消息的NCK（基于rdt2.1的小升级）</p>
-</li>
-<li><p>rdt3.0：引入超时重传机制，可能在接收端会出现冗余分组，但rdt2.2已可以应对（应对消息分组的丢失，但由于为停止等待，网络利用率很低）</p>
-</li>
-</ol>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2025/01/05/%E7%AC%AC%E4%B8%89%E7%AB%A0%20%E4%BC%A0%E8%BE%93%E5%B1%82/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
-    <link itemprop="mainEntityOfPage" href="https://smartyue076.github.io/2025/01/05/%E7%AC%AC%E4%BA%8C%E7%AB%A0%20%E5%BA%94%E7%94%A8%E5%B1%82%EF%BC%88%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%EF%BC%89/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/me.png">
-      <meta itemprop="name" content="子非鱼">
-      <meta itemprop="description" content="Hi，朋友。欢迎来到我的技术博客。本站主要整理了计算机相关的专业知识，包括操作系统、计算机网络、算法以及分布式系统等等。此外，还有我的一些学习及工作碎碎念，希望能与你一同探索计算机的有趣世界～">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="子非鱼的技术博客">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2025/01/05/%E7%AC%AC%E4%BA%8C%E7%AB%A0%20%E5%BA%94%E7%94%A8%E5%B1%82%EF%BC%88%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%EF%BC%89/" class="post-title-link" itemprop="url">计算机网络（四）应用层（网络编程）</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2025-01-05 10:53:54" itemprop="dateCreated datePublished" datetime="2025-01-05T10:53:54+08:00">2025-01-05</time>
-            </span>
-
-          <br>
-            <span class="post-meta-item" title="Symbols count in article">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">Symbols count in article: </span>
-              <span>1.5k</span>
-            </span>
-            <span class="post-meta-item" title="Reading time">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">Reading time &asymp;</span>
-              <span>4 mins.</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="UDP编程"><a href="#UDP编程" class="headerlink" title="UDP编程"></a>UDP编程</h3><img src="/../../images/udpprocess.png" alt="udpprocess" style="zoom:50%;">
-
-<p>UdpClient</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> socket <span class="keyword">import</span> *</span><br><span class="line">serverName = <span class="string">&quot;hostname&quot;</span></span><br><span class="line">severPort = <span class="number">12000</span></span><br><span class="line">clientSocket = socket(AF_INET,SOCK_DGRAM) <span class="comment"># ipv4,udp</span></span><br><span class="line">message = <span class="string">&quot;Hello World&quot;</span></span><br><span class="line">clientSocket.sendto(message.encode(),(serverName,severPort))</span><br><span class="line">modifiedMessage,serverAddress = clientSocket.recvfrom(<span class="number">2048</span>)</span><br><span class="line"><span class="built_in">print</span>(modifiedMessage.decode)</span><br><span class="line">clientSocket.close()</span><br></pre></td></tr></table></figure>
-
-<p>Udpserver</p>
-<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> socket <span class="keyword">import</span> *</span><br><span class="line">serverPort = <span class="number">12000</span></span><br><span class="line">serverSocket = socket(AF_INET, SOCK_DGRAM)  <span class="comment"># ipv4,udp</span></span><br><span class="line">serverSocket.bind((<span class="string">&#x27;&#x27;</span>, serverPort))</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;The server is ready to receive&quot;</span>)</span><br><span class="line"><span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">    message, clientAddress = serverSocket.recvfrom(<span class="number">2048</span>)</span><br><span class="line">    modifiedMssage = message.decode().upper()</span><br><span class="line">    serverSocket.sendto(modifiedMssage.encode(), clientAddress)</span><br></pre></td></tr></table></figure>
-
-<h4 id="TCP编程"><a href="#TCP编程" class="headerlink" title="TCP编程"></a>TCP编程</h4><img src="/../../images/tcpprocess.png" alt="tcpprocess" style="zoom:50%;">
-
-<p>TcpClient</p>
-<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> socket <span class="keyword">import</span> *</span><br><span class="line">serverName = <span class="string">&quot;servername&quot;</span></span><br><span class="line">serverPort = <span class="number">12000</span></span><br><span class="line">clientSocket = socket(AF_INET,SOCK_STREAM) <span class="comment">#ipv4,tcp</span></span><br><span class="line">clientSocket.connect((serverName,serverPort))</span><br><span class="line">sentence = <span class="string">&quot;Hello World&quot;</span></span><br><span class="line">clientSocket.send(sentence.encode()) <span class="comment"># tcp three-way handshake to welcomesocket</span></span><br><span class="line">modifiedSentence = clientSocket.recv(<span class="number">1024</span>)</span><br><span class="line">clientSocket.close()</span><br></pre></td></tr></table></figure>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2025/01/05/%E7%AC%AC%E4%BA%8C%E7%AB%A0%20%E5%BA%94%E7%94%A8%E5%B1%82%EF%BC%88%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%EF%BC%89/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1369,7 +1364,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">53</span>
+          <span class="site-state-item-count">55</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -1417,12 +1412,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="Symbols count total">109k</span>
+    <span title="Symbols count total">114k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="Reading time total">4:32</span>
+    <span title="Reading time total">4:45</span>
 </div>
   <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a>
   </div>
