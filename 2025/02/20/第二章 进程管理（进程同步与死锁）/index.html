@@ -25,26 +25,25 @@
   <meta name="description" content="CPU调度策略任务调度策略的三个基本准则 任务周转时间：从新建到完成的时间 任务响应时间：从提交请求到首次响应的时间（前台任务关心） 系统吞吐量：一段时间内系统能完成的任务数  调度算法 先来先服务  最短作业优先调度：不可抢占，平均周转时间短（作业运行时间只能近似给出）  最短剩余时间有限：最短作业优先的可抢占版本  时间片轮转调度：保证响应时间 时间片设得太短会导致过多的进程切换，降低了CPU">
 <meta property="og:type" content="article">
 <meta property="og:title" content="操作系统（二）进程管理（进程同步与死锁）">
-<meta property="og:url" content="https://smartyue076.github.io/2025/01/07/%E7%AC%AC%E4%BA%8C%E7%AB%A0%20%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86%EF%BC%88%E8%BF%9B%E7%A8%8B%E5%90%8C%E6%AD%A5%E4%B8%8E%E6%AD%BB%E9%94%81%EF%BC%89/index.html">
+<meta property="og:url" content="https://smartyue076.github.io/2025/02/20/%E7%AC%AC%E4%BA%8C%E7%AB%A0%20%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86%EF%BC%88%E8%BF%9B%E7%A8%8B%E5%90%8C%E6%AD%A5%E4%B8%8E%E6%AD%BB%E9%94%81%EF%BC%89/index.html">
 <meta property="og:site_name" content="子非鱼的技术博客">
 <meta property="og:description" content="CPU调度策略任务调度策略的三个基本准则 任务周转时间：从新建到完成的时间 任务响应时间：从提交请求到首次响应的时间（前台任务关心） 系统吞吐量：一段时间内系统能完成的任务数  调度算法 先来先服务  最短作业优先调度：不可抢占，平均周转时间短（作业运行时间只能近似给出）  最短剩余时间有限：最短作业优先的可抢占版本  时间片轮转调度：保证响应时间 时间片设得太短会导致过多的进程切换，降低了CPU">
 <meta property="og:locale">
 <meta property="og:image" content="https://smartyue076.github.io/images/rr.png">
 <meta property="og:image" content="https://smartyue076.github.io/images/process_control.png">
 <meta property="og:image" content="https://smartyue076.github.io/images/process_control_2.png">
-<meta property="og:image" content="https://smartyue076.github.io/images/semaphore.png">
 <meta property="og:image" content="https://smartyue076.github.io/images/reader_writer.png">
 <meta property="og:image" content="https://smartyue076.github.io/images/reader_writer_2.png">
 <meta property="og:image" content="https://smartyue076.github.io/images/eat.png">
 <meta property="og:image" content="https://smartyue076.github.io/images/banker.png">
-<meta property="article:published_time" content="2025-01-07T07:50:40.248Z">
-<meta property="article:modified_time" content="2025-01-07T07:50:40.248Z">
+<meta property="article:published_time" content="2025-02-20T11:50:32.290Z">
+<meta property="article:modified_time" content="2025-02-20T11:50:32.291Z">
 <meta property="article:author" content="子非鱼">
 <meta property="article:tag" content="操作系统">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://smartyue076.github.io/images/rr.png">
 
-<link rel="canonical" href="https://smartyue076.github.io/2025/01/07/%E7%AC%AC%E4%BA%8C%E7%AB%A0%20%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86%EF%BC%88%E8%BF%9B%E7%A8%8B%E5%90%8C%E6%AD%A5%E4%B8%8E%E6%AD%BB%E9%94%81%EF%BC%89/">
+<link rel="canonical" href="https://smartyue076.github.io/2025/02/20/%E7%AC%AC%E4%BA%8C%E7%AB%A0%20%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86%EF%BC%88%E8%BF%9B%E7%A8%8B%E5%90%8C%E6%AD%A5%E4%B8%8E%E6%AD%BB%E9%94%81%EF%BC%89/">
 
 
 <script id="page-configurations">
@@ -200,7 +199,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
-    <link itemprop="mainEntityOfPage" href="https://smartyue076.github.io/2025/01/07/%E7%AC%AC%E4%BA%8C%E7%AB%A0%20%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86%EF%BC%88%E8%BF%9B%E7%A8%8B%E5%90%8C%E6%AD%A5%E4%B8%8E%E6%AD%BB%E9%94%81%EF%BC%89/">
+    <link itemprop="mainEntityOfPage" href="https://smartyue076.github.io/2025/02/20/%E7%AC%AC%E4%BA%8C%E7%AB%A0%20%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86%EF%BC%88%E8%BF%9B%E7%A8%8B%E5%90%8C%E6%AD%A5%E4%B8%8E%E6%AD%BB%E9%94%81%EF%BC%89/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/me.png">
@@ -223,7 +222,7 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2025-01-07 15:50:40" itemprop="dateCreated datePublished" datetime="2025-01-07T15:50:40+08:00">2025-01-07</time>
+              <time title="Created: 2025-02-20 19:50:32" itemprop="dateCreated datePublished" datetime="2025-02-20T19:50:32+08:00">2025-02-20</time>
             </span>
 
           
@@ -274,7 +273,7 @@
 <p><strong>时间片设得太短</strong>会导致过多的进程切换，<strong>降低了CPU效率</strong>；<strong>设得太长</strong>会引起<strong>对短作业的交互请求的响应时间变长</strong></p>
 </li>
 </ol>
-<img src="/../../images/rr.png" align='left' width=700px/>
+<img src="/../../images/rr.png" align='middle' width=700px/>
 
 <ol start="5">
 <li><p>多级反馈队列调度：动态调整任务类型（近期多IO可能为前台任务，无IO时间片结束未完成可能为后台大任务）</p>
@@ -286,9 +285,9 @@
 </ol>
 </li>
 </ol>
-<h4 id="调度算法比较"><a href="#调度算法比较" class="headerlink" title="调度算法比较"></a>调度算法比较</h4><img src="/../../images/process_control.png" align='left' width=700px/>
+<h4 id="调度算法比较"><a href="#调度算法比较" class="headerlink" title="调度算法比较"></a>调度算法比较</h4><img src="/../../images/process_control.png" align='middle' width=700px/>
 
-<img src="/../../images/process_control_2.png" align='left' width=700px/>
+<img src="/../../images/process_control_2.png" align='middle' width=700px/>
 
 <h5 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h5><ol>
 <li>IO占比越大，任务优先级越高</li>
@@ -304,22 +303,20 @@
 
 <h4 id="信号量"><a href="#信号量" class="headerlink" title="信号量"></a>信号量</h4><p>记录型信号量支持让权等待（while判断循环的都不是让权等待）</p>
 <p>退出临界区的进程负责唤醒阻塞态进程（区别于while判断循环的自发进入临界区）</p>
-<img src="/../../images/semaphore.png" align='left' width=700px/>
-
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">semaphore</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">  <span class="type">int</span> value; <span class="comment">// value of block_process or free resource</span></span><br><span class="line">  PCB *<span class="built_in">queue</span>; <span class="comment">// process queue wait on sem</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">P</span><span class="params">(semaphore s)</span></span><br><span class="line">&#123;</span><br><span class="line">  s.value--;</span><br><span class="line">  <span class="keyword">if</span> (s.value &lt; <span class="number">0</span>)</span><br><span class="line">  	sleep_on(s.<span class="built_in">queue</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">V</span><span class="params">(semaphore s)</span></span><br><span class="line">&#123;</span><br><span class="line">  s.value++;</span><br><span class="line">  <span class="keyword">if</span> (s.value &lt;= <span class="number">0</span>) <span class="comment">// release one wake_up one(唤醒阻塞队列的队头任务)</span></span><br><span class="line">  	wake_up(s.<span class="built_in">queue</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h4 id="生产者-消费者模型"><a href="#生产者-消费者模型" class="headerlink" title="生产者&#x2F;消费者模型"></a>生产者&#x2F;消费者模型</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// use semaphore</span></span><br><span class="line">semaphore empty = BUFFER_SIZE; <span class="comment">// count of empty size</span></span><br><span class="line">semaphore full = <span class="number">0</span>; <span class="comment">// count of resource in space</span></span><br><span class="line">semaphore mutex = <span class="number">1</span>; <span class="comment">// prevent change to space</span></span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">producer</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">  P(empty); <span class="comment">//确保有空间</span></span><br><span class="line">  P(mutex);</span><br><span class="line">  buffer[in] = item;</span><br><span class="line">  in = (in + <span class="number">1</span>) % BUFFER_SIZE;</span><br><span class="line">  V(mutex);</span><br><span class="line">  V(full);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">consumer</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">  P(full); <span class="comment">//确保有东西</span></span><br><span class="line">  P(mutex);</span><br><span class="line">  item = buffer[out];</span><br><span class="line">  out = (out + <span class="number">1</span>) % BUFFER_SIZE;</span><br><span class="line">  V(mutex);</span><br><span class="line">  V(empty);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h4 id="读者-写者模型"><a href="#读者-写者模型" class="headerlink" title="读者&#x2F;写者模型"></a>读者&#x2F;写者模型</h4><h5 id="读者优先"><a href="#读者优先" class="headerlink" title="读者优先"></a>读者优先</h5><img src="/../../images/reader_writer.png" align='left' width=700px/>
+<h4 id="读者-写者模型"><a href="#读者-写者模型" class="headerlink" title="读者&#x2F;写者模型"></a>读者&#x2F;写者模型</h4><h5 id="读者优先"><a href="#读者优先" class="headerlink" title="读者优先"></a>读者优先</h5><img src="/../../images/reader_writer.png" align='middle' width=700px/>
 
-<h5 id="读写公平"><a href="#读写公平" class="headerlink" title="读写公平"></a>读写公平</h5><img src="/../../images/reader_writer_2.png" align='left' width=700px/>
+<h5 id="读写公平"><a href="#读写公平" class="headerlink" title="读写公平"></a>读写公平</h5><img src="/../../images/reader_writer_2.png" align='middle' width=700px/>
 
 
 
 <h4 id="哲学家进餐问题"><a href="#哲学家进餐问题" class="headerlink" title="哲学家进餐问题"></a>哲学家进餐问题</h4><p>各哲学家互斥得拿筷子，即同一时间至多有一个哲学家拿筷子阻塞</p>
-<img src="/../../images/eat.png" align='left' width=700px/>
+<img src="/../../images/eat.png" align='middle' width=700px/>
 
 
 
@@ -367,7 +364,7 @@
 </ol>
 <p><strong>不发生死锁的最小资源量</strong></p>
 <p>每个所需资源都-1后累加，再加一（每个所需资源都-1为请求与保持的最坏情况，+1即可确保分配不发生死锁）</p>
-<img src="/../../images/banker.png" align='left' width=700px/>
+<img src="/../../images/banker.png" align='middle' width=700px/>
 
 
 
@@ -396,13 +393,10 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2025/01/05/%E7%BA%BF%E7%A8%8B%E6%B1%A0%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%9E%E7%8E%B0/" rel="prev" title="线程池原理与实现">
-      <i class="fa fa-chevron-left"></i> 线程池原理与实现
+    <a href="/2025/02/16/%E6%95%B0%E6%8D%AE%E5%BA%93%EF%BC%88%E5%85%AB%EF%BC%89%E5%85%B6%E4%BB%96/" rel="prev" title="数据库（八）其他">
+      <i class="fa fa-chevron-left"></i> 数据库（八）其他
     </a></div>
-      <div class="post-nav-item">
-    <a href="/2025/01/08/%E9%80%92%E5%BD%92%E7%AE%97%E6%B3%95%E7%9A%84%E7%90%86%E8%A7%A3/" rel="next" title="递归算法的理解">
-      递归算法的理解 <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     

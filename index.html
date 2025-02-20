@@ -270,6 +270,115 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://smartyue076.github.io/2025/02/20/%E7%AC%AC%E4%BA%8C%E7%AB%A0%20%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86%EF%BC%88%E8%BF%9B%E7%A8%8B%E5%90%8C%E6%AD%A5%E4%B8%8E%E6%AD%BB%E9%94%81%EF%BC%89/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/me.png">
+      <meta itemprop="name" content="子非鱼">
+      <meta itemprop="description" content="Hi，朋友。欢迎来到我的技术博客。本站主要整理了计算机相关的专业知识，包括操作系统、计算机网络、算法以及分布式系统等等。此外，还有我的一些学习及工作碎碎念，希望能与你一同探索计算机的有趣世界～">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="子非鱼的技术博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2025/02/20/%E7%AC%AC%E4%BA%8C%E7%AB%A0%20%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86%EF%BC%88%E8%BF%9B%E7%A8%8B%E5%90%8C%E6%AD%A5%E4%B8%8E%E6%AD%BB%E9%94%81%EF%BC%89/" class="post-title-link" itemprop="url">操作系统（二）进程管理（进程同步与死锁）</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2025-02-20 19:50:32" itemprop="dateCreated datePublished" datetime="2025-02-20T19:50:32+08:00">2025-02-20</time>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="Symbols count in article">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">Symbols count in article: </span>
+              <span>2.6k</span>
+            </span>
+            <span class="post-meta-item" title="Reading time">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">Reading time &asymp;</span>
+              <span>7 mins.</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="CPU调度策略"><a href="#CPU调度策略" class="headerlink" title="CPU调度策略"></a>CPU调度策略</h3><h4 id="任务调度策略的三个基本准则"><a href="#任务调度策略的三个基本准则" class="headerlink" title="任务调度策略的三个基本准则"></a>任务调度策略的三个基本准则</h4><ul>
+<li>任务周转时间：从新建到完成的时间</li>
+<li>任务响应时间：从提交请求到首次响应的时间（前台任务关心）</li>
+<li>系统吞吐量：一段时间内系统能完成的任务数</li>
+</ul>
+<h4 id="调度算法"><a href="#调度算法" class="headerlink" title="调度算法"></a>调度算法</h4><ol>
+<li><p>先来先服务</p>
+</li>
+<li><p>最短作业优先调度：不可抢占，平均周转时间短（作业运行时间只能近似给出）</p>
+</li>
+<li><p>最短剩余时间有限：最短作业优先的可抢占版本</p>
+</li>
+<li><p>时间片轮转调度：保证响应时间</p>
+<p><strong>时间片设得太短</strong>会导致过多的进程切换，<strong>降低了CPU效率</strong>；<strong>设得太长</strong>会引起<strong>对短作业的交互请求的响应时间变长</strong></p>
+</li>
+</ol>
+<img src="/../../images/rr.png" align="middle" width="700px/">
+
+<ol start="5">
+<li><p>多级反馈队列调度：动态调整任务类型（近期多IO可能为前台任务，无IO时间片结束未完成可能为后台大任务）</p>
+<p>运行流程</p>
+<ol>
+<li>设置<strong>多级就绪队列</strong>，各级队列优先级从高到低，时间片从小到大</li>
+<li>新进程到达时<strong>先进入第1级队列</strong>，按<strong>FCFS原则</strong>排队等待被分配时间片。 若用完时间片进程还未结束，则进程<strong>进入下一级队列队尾</strong>。如果此时已经是在最下级的队列，则重新放回最下级队列队尾</li>
+<li>只有第k级队列为空时，才会<strong>为k+1级队头的进程分配时间片</strong></li>
+</ol>
+</li>
+</ol>
+<h4 id="调度算法比较"><a href="#调度算法比较" class="headerlink" title="调度算法比较"></a>调度算法比较</h4><img src="/../../images/process_control.png" align="middle" width="700px/">
+
+<img src="/../../images/process_control_2.png" align="middle" width="700px/">
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2025/02/20/%E7%AC%AC%E4%BA%8C%E7%AB%A0%20%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86%EF%BC%88%E8%BF%9B%E7%A8%8B%E5%90%8C%E6%AD%A5%E4%B8%8E%E6%AD%BB%E9%94%81%EF%BC%89/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
     <link itemprop="mainEntityOfPage" href="https://smartyue076.github.io/2025/02/16/%E6%95%B0%E6%8D%AE%E5%BA%93%EF%BC%88%E5%85%AB%EF%BC%89%E5%85%B6%E4%BB%96/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -931,107 +1040,6 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2025/02/11/%E6%95%B0%E6%8D%AE%E5%BA%93%EF%BC%88%E4%B8%89%EF%BC%89%E4%BA%8B%E5%8A%A1/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
-    <link itemprop="mainEntityOfPage" href="https://smartyue076.github.io/2025/02/11/%E6%95%B0%E6%8D%AE%E5%BA%93%EF%BC%88%E5%9B%9B%EF%BC%89%E9%94%81%E7%90%86%E8%AE%BA/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/me.png">
-      <meta itemprop="name" content="子非鱼">
-      <meta itemprop="description" content="Hi，朋友。欢迎来到我的技术博客。本站主要整理了计算机相关的专业知识，包括操作系统、计算机网络、算法以及分布式系统等等。此外，还有我的一些学习及工作碎碎念，希望能与你一同探索计算机的有趣世界～">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="子非鱼的技术博客">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2025/02/11/%E6%95%B0%E6%8D%AE%E5%BA%93%EF%BC%88%E5%9B%9B%EF%BC%89%E9%94%81%E7%90%86%E8%AE%BA/" class="post-title-link" itemprop="url">数据库（四）锁理论</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2025-02-11 09:41:26 / Modified: 19:20:54" itemprop="dateCreated datePublished" datetime="2025-02-11T09:41:26+08:00">2025-02-11</time>
-            </span>
-
-          <br>
-            <span class="post-meta-item" title="Symbols count in article">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">Symbols count in article: </span>
-              <span>942</span>
-            </span>
-            <span class="post-meta-item" title="Reading time">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">Reading time &asymp;</span>
-              <span>2 mins.</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="事务并发带来的问题"><a href="#事务并发带来的问题" class="headerlink" title="事务并发带来的问题"></a>事务并发带来的问题</h2><ul>
-<li><strong>丢失修改（lost update）</strong>：<strong>事务 1 与事务 2 从数据库中读入同一数据并修改</strong>，事务 2 的提交结果破坏了事务 1 提交的结果， 导致事务 1 的修改被丢失。(W-W)</li>
-<li><strong>读 “脏” 数据（dirty read）</strong>：<strong>事务 1 修改某一数据</strong>，并将其写回磁盘，<strong>事务 2 读取同一数据后，事务 1 由于某种原因被撤消</strong>，这时事务 1 已修改过的数据恢复原值，<strong>事务 2 读到的数据就与数据库中的数据不一致</strong>，是不正确的数据，又称为 “脏” 数据。（W-R）</li>
-<li><strong>不可重复读（non-repeatable read）</strong>：<strong>事务 1 读取数据后，事务 2 执行更新操作</strong>，使事务 1 无法再现前一次读取结果。(R-W)</li>
-</ul>
-<h2 id="并发不一致性的解决办法（封锁协议）"><a href="#并发不一致性的解决办法（封锁协议）" class="headerlink" title="并发不一致性的解决办法（封锁协议）"></a>并发不一致性的解决办法（封锁协议）</h2><ul>
-<li><p><strong>一级封锁协议</strong></p>
-<p>事务 T 在修改数据 W 之前必须先对其加 X 锁，直到<strong>事务结束</strong>才释放（读不加锁）</p>
-<p><strong>一级封锁协议可防止 丢失修改</strong></p>
-</li>
-<li><p><strong>二级封锁协议</strong></p>
-<p><strong>一级封锁协议基础上</strong>，事务 T 在读取数据 R 之前必须先对其加 S 锁，<strong>读完后</strong>即可释放 S 锁</p>
-<p>**二级封锁协议可以防止 丢失修改 和 读 “脏” 数据 **</p>
-</li>
-<li><p><strong>三级封锁协议</strong></p>
-<p><strong>一级封锁协议基础上</strong>，事务 T 在读取数据 R 之前必须先对其加 S 锁，直到<strong>事务结束</strong>才释放</p>
-<p><strong>三级封锁协议可防止 丢失修改、读脏数据和不可重复读</strong></p>
-</li>
-</ul>
-<h2 id="并行事务正确性的唯一准则（可串行化调度）"><a href="#并行事务正确性的唯一准则（可串行化调度）" class="headerlink" title="并行事务正确性的唯一准则（可串行化调度）"></a>并行事务正确性的唯一准则（可串行化调度）</h2><h3 id="可串行性的定义"><a href="#可串行性的定义" class="headerlink" title="可串行性的定义"></a><strong>可串行性的定义</strong></h3><p>几个事务的并行执行是正确的，<strong>当且仅当其结果与按某一次序串行地执行它们时的结果相同</strong>。 这种并行调度策略称为可串行化（Serializable） 的调度</p>
-<p><strong>可串行性是并行事务正确性的唯一准则</strong></p>
-<h3 id="什么是冲突操作"><a href="#什么是冲突操作" class="headerlink" title="什么是冲突操作"></a><strong>什么是冲突操作</strong></h3><p>冲突操作是指<strong>读写操作</strong>和<strong>写写操作</strong></p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2025/02/11/%E6%95%B0%E6%8D%AE%E5%BA%93%EF%BC%88%E5%9B%9B%EF%BC%89%E9%94%81%E7%90%86%E8%AE%BA/#more" rel="contents">
                 Read more &raquo;
               </a>
             </div>

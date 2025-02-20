@@ -187,6 +187,107 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://smartyue076.github.io/2025/02/11/%E6%95%B0%E6%8D%AE%E5%BA%93%EF%BC%88%E5%9B%9B%EF%BC%89%E9%94%81%E7%90%86%E8%AE%BA/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/me.png">
+      <meta itemprop="name" content="子非鱼">
+      <meta itemprop="description" content="Hi，朋友。欢迎来到我的技术博客。本站主要整理了计算机相关的专业知识，包括操作系统、计算机网络、算法以及分布式系统等等。此外，还有我的一些学习及工作碎碎念，希望能与你一同探索计算机的有趣世界～">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="子非鱼的技术博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2025/02/11/%E6%95%B0%E6%8D%AE%E5%BA%93%EF%BC%88%E5%9B%9B%EF%BC%89%E9%94%81%E7%90%86%E8%AE%BA/" class="post-title-link" itemprop="url">数据库（四）锁理论</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2025-02-11 09:41:26 / Modified: 19:20:54" itemprop="dateCreated datePublished" datetime="2025-02-11T09:41:26+08:00">2025-02-11</time>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="Symbols count in article">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">Symbols count in article: </span>
+              <span>942</span>
+            </span>
+            <span class="post-meta-item" title="Reading time">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">Reading time &asymp;</span>
+              <span>2 mins.</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="事务并发带来的问题"><a href="#事务并发带来的问题" class="headerlink" title="事务并发带来的问题"></a>事务并发带来的问题</h2><ul>
+<li><strong>丢失修改（lost update）</strong>：<strong>事务 1 与事务 2 从数据库中读入同一数据并修改</strong>，事务 2 的提交结果破坏了事务 1 提交的结果， 导致事务 1 的修改被丢失。(W-W)</li>
+<li><strong>读 “脏” 数据（dirty read）</strong>：<strong>事务 1 修改某一数据</strong>，并将其写回磁盘，<strong>事务 2 读取同一数据后，事务 1 由于某种原因被撤消</strong>，这时事务 1 已修改过的数据恢复原值，<strong>事务 2 读到的数据就与数据库中的数据不一致</strong>，是不正确的数据，又称为 “脏” 数据。（W-R）</li>
+<li><strong>不可重复读（non-repeatable read）</strong>：<strong>事务 1 读取数据后，事务 2 执行更新操作</strong>，使事务 1 无法再现前一次读取结果。(R-W)</li>
+</ul>
+<h2 id="并发不一致性的解决办法（封锁协议）"><a href="#并发不一致性的解决办法（封锁协议）" class="headerlink" title="并发不一致性的解决办法（封锁协议）"></a>并发不一致性的解决办法（封锁协议）</h2><ul>
+<li><p><strong>一级封锁协议</strong></p>
+<p>事务 T 在修改数据 W 之前必须先对其加 X 锁，直到<strong>事务结束</strong>才释放（读不加锁）</p>
+<p><strong>一级封锁协议可防止 丢失修改</strong></p>
+</li>
+<li><p><strong>二级封锁协议</strong></p>
+<p><strong>一级封锁协议基础上</strong>，事务 T 在读取数据 R 之前必须先对其加 S 锁，<strong>读完后</strong>即可释放 S 锁</p>
+<p>**二级封锁协议可以防止 丢失修改 和 读 “脏” 数据 **</p>
+</li>
+<li><p><strong>三级封锁协议</strong></p>
+<p><strong>一级封锁协议基础上</strong>，事务 T 在读取数据 R 之前必须先对其加 S 锁，直到<strong>事务结束</strong>才释放</p>
+<p><strong>三级封锁协议可防止 丢失修改、读脏数据和不可重复读</strong></p>
+</li>
+</ul>
+<h2 id="并行事务正确性的唯一准则（可串行化调度）"><a href="#并行事务正确性的唯一准则（可串行化调度）" class="headerlink" title="并行事务正确性的唯一准则（可串行化调度）"></a>并行事务正确性的唯一准则（可串行化调度）</h2><h3 id="可串行性的定义"><a href="#可串行性的定义" class="headerlink" title="可串行性的定义"></a><strong>可串行性的定义</strong></h3><p>几个事务的并行执行是正确的，<strong>当且仅当其结果与按某一次序串行地执行它们时的结果相同</strong>。 这种并行调度策略称为可串行化（Serializable） 的调度</p>
+<p><strong>可串行性是并行事务正确性的唯一准则</strong></p>
+<h3 id="什么是冲突操作"><a href="#什么是冲突操作" class="headerlink" title="什么是冲突操作"></a><strong>什么是冲突操作</strong></h3><p>冲突操作是指<strong>读写操作</strong>和<strong>写写操作</strong></p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2025/02/11/%E6%95%B0%E6%8D%AE%E5%BA%93%EF%BC%88%E5%9B%9B%EF%BC%89%E9%94%81%E7%90%86%E8%AE%BA/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
     <link itemprop="mainEntityOfPage" href="https://smartyue076.github.io/2025/02/06/%E7%AC%AC%E4%BA%94%E7%AB%A0%20%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%BC%96%E7%A8%8B/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -958,103 +1059,6 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2025/01/15/%E7%AC%AC%E5%9B%9B%E7%AB%A0%20%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
-    <link itemprop="mainEntityOfPage" href="https://smartyue076.github.io/2025/01/15/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%EF%BC%88%E5%8D%81%E4%B8%80%EF%BC%89IO/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/me.png">
-      <meta itemprop="name" content="子非鱼">
-      <meta itemprop="description" content="Hi，朋友。欢迎来到我的技术博客。本站主要整理了计算机相关的专业知识，包括操作系统、计算机网络、算法以及分布式系统等等。此外，还有我的一些学习及工作碎碎念，希望能与你一同探索计算机的有趣世界～">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="子非鱼的技术博客">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2025/01/15/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%EF%BC%88%E5%8D%81%E4%B8%80%EF%BC%89IO/" class="post-title-link" itemprop="url">操作系统（十一）IO</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2025-01-15 14:52:28" itemprop="dateCreated datePublished" datetime="2025-01-15T14:52:28+08:00">2025-01-15</time>
-            </span>
-
-          <br>
-            <span class="post-meta-item" title="Symbols count in article">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">Symbols count in article: </span>
-              <span>801</span>
-            </span>
-            <span class="post-meta-item" title="Reading time">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">Reading time &asymp;</span>
-              <span>2 mins.</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h4 id="传统IO"><a href="#传统IO" class="headerlink" title="传统IO"></a>传统IO</h4><h5 id="传统IO过程"><a href="#传统IO过程" class="headerlink" title="传统IO过程"></a>传统IO过程</h5><ol>
-<li>CPU发起IO请求，每次只能请求一个字</li>
-<li>磁盘数据写入缓冲区后，通过IO中断通知CPU</li>
-<li>CPU将缓冲区数据通过寄存器写入内核缓冲区（内存中）</li>
-<li>CPU将内核缓冲区（内存中）的数据拷贝到用户缓冲区（内存中）</li>
-</ol>
-<h5 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h5><ol>
-<li>CPU效率低下：CPU需要频繁得处理IO请求</li>
-<li>传输效率低下：数据先从磁盘缓冲区拷贝到寄存器后才到拷贝到内存</li>
-</ol>
-<img src="/../../images/no_dma.png" alt="image.png" style="zoom:100%;">
-
-<h4 id="引入DMA后的IO"><a href="#引入DMA后的IO" class="headerlink" title="引入DMA后的IO"></a>引入DMA后的IO</h4><p>将数据搬运的工作全部交给DMA控制器，CPU不需要参与</p>
-<h5 id="引入DMA后的IO过程"><a href="#引入DMA后的IO过程" class="headerlink" title="引入DMA后的IO过程"></a>引入DMA后的IO过程</h5><ol>
-<li>CPU发送IO请求到DMA</li>
-<li>DMA拷贝磁盘数据到内核缓冲区</li>
-<li>DMA拷贝完后向CPU发送IO中断请求</li>
-<li>CPU将内核缓冲区的数据拷贝到用户缓冲区</li>
-</ol>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2025/01/15/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%EF%BC%88%E5%8D%81%E4%B8%80%EF%BC%89IO/#more" rel="contents">
                 Read more &raquo;
               </a>
             </div>
