@@ -187,6 +187,91 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://smartyue076.github.io/2025/01/03/%E7%AC%AC%E4%BA%8C%E7%AB%A0%20C++%E5%9F%BA%E7%A1%80%E2%80%94%E2%80%94%E6%8C%87%E9%92%88/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/me.png">
+      <meta itemprop="name" content="子非鱼">
+      <meta itemprop="description" content="Hi，朋友。欢迎来到我的技术博客。本站主要整理了计算机相关的专业知识，包括操作系统、计算机网络、算法以及分布式系统等等。此外，还有我的一些学习及工作碎碎念，希望能与你一同探索计算机的有趣世界～">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="子非鱼的技术博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2025/01/03/%E7%AC%AC%E4%BA%8C%E7%AB%A0%20C++%E5%9F%BA%E7%A1%80%E2%80%94%E2%80%94%E6%8C%87%E9%92%88/" class="post-title-link" itemprop="url">C++基础（三）指针</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2025-01-03 19:44:13" itemprop="dateCreated datePublished" datetime="2025-01-03T19:44:13+08:00">2025-01-03</time>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="Symbols count in article">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">Symbols count in article: </span>
+              <span>1.7k</span>
+            </span>
+            <span class="post-meta-item" title="Reading time">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">Reading time &asymp;</span>
+              <span>4 mins.</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="第二章-C-基础——指针"><a href="#第二章-C-基础——指针" class="headerlink" title="第二章 C++基础——指针"></a>第二章 C++基础——指针</h2><p>指针是一个变量，其存储的是值的地址，而不是值本身</p>
+<p>使用常规变量时，值是指定的量，而地址是派生量，而指针相反</p>
+<p><strong>OOP</strong>强调的是在运行阶段（而不是编译阶段）进行决策，提供了灵活性，对于内存管理也更加高效</p>
+<h3 id="初始化指针"><a href="#初始化指针" class="headerlink" title="初始化指针"></a>初始化指针</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span>* ptr_a;</span><br><span class="line"><span class="type">double</span>* ptr_b;</span><br></pre></td></tr></table></figure>
+<p>初始化时必须指定所指元素类型，因为对所有指针来说其都是代表一个初始地址，但从该初始地址读多少字节则由指针类型判断</p>
+<p>指针也是作为变量存储，只不过其内存空间存的是地址。指针p1,p2有各自的地址&amp;p1,&amp;p2。长度为4B（32位）或8B（64位）。p1,p2表示存储的所指向元素的地址。*p1表示指向元素的值。<br><img src="/../../images/1.png" alt="image.png" style="zoom:30%;"></p>
+<h3 id="指针注意事项"><a href="#指针注意事项" class="headerlink" title="指针注意事项"></a>指针注意事项</h3><p>在C++中创建指针时，计算机将分配用来存储地址的内存，但不会分配用来存储指针所指向的数据的内存（指向不确定）。另外，<strong>一定要在对指针提取（*）之前，将指针初始化为一个确定的、适当的地址。</strong></p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2025/01/03/%E7%AC%AC%E4%BA%8C%E7%AB%A0%20C++%E5%9F%BA%E7%A1%80%E2%80%94%E2%80%94%E6%8C%87%E9%92%88/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
     <link itemprop="mainEntityOfPage" href="https://smartyue076.github.io/2025/01/03/%E7%AC%AC%E4%BA%8C%E7%AB%A0%20C++%E5%9F%BA%E7%A1%80%E2%80%94%E2%80%94%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1033,125 +1118,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
-    <link itemprop="mainEntityOfPage" href="https://smartyue076.github.io/2025/01/03/%E7%AC%AC%E4%BA%94%E7%AB%A0%20%E5%87%BD%E6%95%B0/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/me.png">
-      <meta itemprop="name" content="子非鱼">
-      <meta itemprop="description" content="Hi，朋友。欢迎来到我的技术博客。本站主要整理了计算机相关的专业知识，包括操作系统、计算机网络、算法以及分布式系统等等。此外，还有我的一些学习及工作碎碎念，希望能与你一同探索计算机的有趣世界～">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="子非鱼的技术博客">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2025/01/03/%E7%AC%AC%E4%BA%94%E7%AB%A0%20%E5%87%BD%E6%95%B0/" class="post-title-link" itemprop="url">C++基础（四）inline函数</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2025-01-03 12:05:46" itemprop="dateCreated datePublished" datetime="2025-01-03T12:05:46+08:00">2025-01-03</time>
-            </span>
-
-          <br>
-            <span class="post-meta-item" title="Symbols count in article">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">Symbols count in article: </span>
-              <span>236</span>
-            </span>
-            <span class="post-meta-item" title="Reading time">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">Reading time &asymp;</span>
-              <span>1 mins.</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="inline-函数"><a href="#inline-函数" class="headerlink" title="inline 函数"></a>inline 函数</h3><p>将函数声明为inline可以避免函数调用的开销，空间换时间</p>
-<p>调用函数步骤：</p>
-<ol>
-<li>返回地址压栈</li>
-<li>函数参数压栈</li>
-<li>计算返回值</li>
-<li>函数部分所有元素出栈，返回值</li>
-</ol>
-<img src="/../../images/assembly code.png" width="500px">
-
-<p>普通函数与inline函数的汇编代码对比</p>
-<img src="/../../images/inline.png" width="500px">
-
-
-
-<p><strong>inline函数不是定义是声明，应该写在头文件里，保证编译器将其作为inline函数展开</strong></p>
-<p>宏定义与inline函数的区别</p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th>宏定义</th>
-<th>inline函数</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>类型检查</td>
-<td>无</td>
-<td>有</td>
-</tr>
-<tr>
-<td>实现方式</td>
-<td>预处理时展开</td>
-<td>由编译器实现展开，是否将函数作为inline依赖于编译器的判断</td>
-</tr>
-<tr>
-<td>其他</td>
-<td>容易引发运算符优先级的问题，不可调试</td>
-<td>可以调试</td>
-</tr>
-</tbody></table>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2025/01/03/%E7%AC%AC%E4%BA%94%E7%AB%A0%20%E5%87%BD%E6%95%B0/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1223,19 +1189,14 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">55</span>
+          <span class="site-state-item-count">54</span>
           <span class="site-state-item-name">posts</span>
         </a>
-      </div>
-      <div class="site-state-item site-state-categories">
-            <a href="/categories/">
-        <span class="site-state-item-count">1</span>
-        <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">23</span>
+        <span class="site-state-item-count">21</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -1271,12 +1232,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="Symbols count total">114k</span>
+    <span title="Symbols count total">131k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="Reading time total">4:45</span>
+    <span title="Reading time total">5:26</span>
 </div>
   <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a>
   </div>
