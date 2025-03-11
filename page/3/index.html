@@ -187,6 +187,188 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://smartyue076.github.io/2025/01/21/%E4%BA%8C%E5%8F%89%E6%A0%91%E7%AE%97%E6%B3%95%EF%BC%88%E5%9B%9E%E6%BA%AF%EF%BC%8C%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%EF%BC%8C%E8%BF%AD%E4%BB%A3%EF%BC%89/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/me.png">
+      <meta itemprop="name" content="子非鱼">
+      <meta itemprop="description" content="Hi，朋友。欢迎来到我的技术博客。本站主要整理了计算机相关的专业知识，包括操作系统、计算机网络、算法以及分布式系统等等。此外，还有我的一些学习及工作碎碎念，希望能与你一同探索计算机的有趣世界～">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="子非鱼的技术博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2025/01/21/%E4%BA%8C%E5%8F%89%E6%A0%91%E7%AE%97%E6%B3%95%EF%BC%88%E5%9B%9E%E6%BA%AF%EF%BC%8C%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%EF%BC%8C%E8%BF%AD%E4%BB%A3%EF%BC%89/" class="post-title-link" itemprop="url">二叉树算法（回溯，动态规划，迭代）</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2025-01-21 18:45:04" itemprop="dateCreated datePublished" datetime="2025-01-21T18:45:04+08:00">2025-01-21</time>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="Symbols count in article">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">Symbols count in article: </span>
+              <span>4.3k</span>
+            </span>
+            <span class="post-meta-item" title="Reading time">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">Reading time &asymp;</span>
+              <span>11 mins.</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="序言"><a href="#序言" class="headerlink" title="序言"></a>序言</h2><p>二叉树题型的算法主要分为<strong>回溯，动态规划，迭代</strong>三类。从本质上三者都是在遍历算法基础上的修改。<strong>回溯</strong>关心的是在<strong>每个结点的访问过程中如何更新结果</strong>；动态规划关心的是<strong>如何拆解出子问题，不具体分析每个结点的状态，而是通过划分子问题让其通过基本问题递归解决</strong>；迭代主要是指<strong>BFS层序遍历</strong>，适用于与深度（或高度）相关的问题求解</p>
+<h2 id="二叉树基本结构"><a href="#二叉树基本结构" class="headerlink" title="二叉树基本结构"></a>二叉树基本结构</h2><ol>
+<li>二叉树</li>
+</ol>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">TreeNode</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="type">int</span> val;</span><br><span class="line">    TreeNode* left;</span><br><span class="line">    TreeNode* right;</span><br><span class="line">    <span class="built_in">TreeNode</span>(<span class="type">int</span> x) : <span class="built_in">val</span>(x), <span class="built_in">left</span>(<span class="literal">nullptr</span>), <span class="built_in">right</span>(<span class="literal">nullptr</span>) &#123;&#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>多叉树</li>
+</ol>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">TreeNode</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="type">int</span> val;</span><br><span class="line">    vector&lt;TreeNode *&gt; children;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h2 id="二叉树遍历"><a href="#二叉树遍历" class="headerlink" title="二叉树遍历"></a>二叉树遍历</h2><ol>
+<li>递归遍历</li>
+</ol>
+<p>前序位置：刚进入当前子树根结点的时候（已知根结点信息）</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2025/01/21/%E4%BA%8C%E5%8F%89%E6%A0%91%E7%AE%97%E6%B3%95%EF%BC%88%E5%9B%9E%E6%BA%AF%EF%BC%8C%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%EF%BC%8C%E8%BF%AD%E4%BB%A3%EF%BC%89/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://smartyue076.github.io/2025/01/18/%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/me.png">
+      <meta itemprop="name" content="子非鱼">
+      <meta itemprop="description" content="Hi，朋友。欢迎来到我的技术博客。本站主要整理了计算机相关的专业知识，包括操作系统、计算机网络、算法以及分布式系统等等。此外，还有我的一些学习及工作碎碎念，希望能与你一同探索计算机的有趣世界～">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="子非鱼的技术博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2025/01/18/%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95/" class="post-title-link" itemprop="url">回溯算法</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2025-01-18 13:30:38" itemprop="dateCreated datePublished" datetime="2025-01-18T13:30:38+08:00">2025-01-18</time>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="Symbols count in article">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">Symbols count in article: </span>
+              <span>6.2k</span>
+            </span>
+            <span class="post-meta-item" title="Reading time">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">Reading time &asymp;</span>
+              <span>15 mins.</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="回溯框架"><a href="#回溯框架" class="headerlink" title="回溯框架"></a>回溯框架</h2><h3 id="回溯算法求解时要考虑三个问题"><a href="#回溯算法求解时要考虑三个问题" class="headerlink" title="回溯算法求解时要考虑三个问题"></a>回溯算法求解时要考虑三个问题</h3><ol>
+<li><strong>路径</strong>：已经做出的选择</li>
+<li><strong>选择列表</strong>：当前可以做的选择，即<strong>孩子结点的情况</strong>（<strong>剪枝</strong>做的就是精简孩子结点，避免重复讨论，反映到代码里就是<strong>对于某些情况直接continue调过</strong>）</li>
+<li><strong>结束条件</strong>：何时到达决策树的底层，返回结果</li>
+</ol>
+<p><strong>求解的关键在于画出决策树，并运用合理的剪枝条件。不要跳出此框架自己去想新写法，很容易漏解或者多解</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">result = []</span><br><span class="line"><span class="keyword">def</span> <span class="title function_">backtrack</span>(<span class="params">路径, 选择列表</span>):</span><br><span class="line">    <span class="keyword">if</span> 满足结束条件:</span><br><span class="line">        result.add(路径)</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span> 选择 <span class="keyword">in</span> 选择列表:</span><br><span class="line">        做选择</span><br><span class="line">        backtrack(路径, 选择列表)</span><br><span class="line">        撤销选择</span><br></pre></td></tr></table></figure>
+
+<h2 id="全排列问题"><a href="#全排列问题" class="headerlink" title="全排列问题"></a>全排列问题</h2><h3 id="排列问题（元素不重复不可复选）"><a href="#排列问题（元素不重复不可复选）" class="headerlink" title="排列问题（元素不重复不可复选）"></a>排列问题（元素不重复不可复选）</h3><p><strong>选择列表</strong>：避免选当前路径上已经选择过的数字</p>
+<p><strong>解决方法</strong>：引入used数组，记录从根结点到当前结点的路径信息，判断数字是否被使用</p>
+<img src="/../../images/P.png" style="zoom:40%;">
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2025/01/18/%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
     <link itemprop="mainEntityOfPage" href="https://smartyue076.github.io/2025/01/15/%E7%AC%AC%E5%9B%9B%E7%AB%A0%20%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86%EF%BC%88%E4%BA%8C%EF%BC%89/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -966,315 +1148,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
-    <link itemprop="mainEntityOfPage" href="https://smartyue076.github.io/2025/01/05/GDB/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/me.png">
-      <meta itemprop="name" content="子非鱼">
-      <meta itemprop="description" content="Hi，朋友。欢迎来到我的技术博客。本站主要整理了计算机相关的专业知识，包括操作系统、计算机网络、算法以及分布式系统等等。此外，还有我的一些学习及工作碎碎念，希望能与你一同探索计算机的有趣世界～">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="子非鱼的技术博客">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2025/01/05/GDB/" class="post-title-link" itemprop="url">GDB使用手册</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2025-01-05 11:20:25" itemprop="dateCreated datePublished" datetime="2025-01-05T11:20:25+08:00">2025-01-05</time>
-            </span>
-
-          <br>
-            <span class="post-meta-item" title="Symbols count in article">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">Symbols count in article: </span>
-              <span>493</span>
-            </span>
-            <span class="post-meta-item" title="Reading time">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">Reading time &asymp;</span>
-              <span>1 mins.</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="GDB使用手册"><a href="#GDB使用手册" class="headerlink" title="GDB使用手册"></a>GDB使用手册</h2><p>编译时加上<code>-g</code>选项</p>
-<table>
-<thead>
-<tr>
-<th>命令名称</th>
-<th>命令缩写</th>
-<th>命令说明</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>run</td>
-<td>r</td>
-<td>运行一个待调试的程序</td>
-</tr>
-<tr>
-<td>continue</td>
-<td>c</td>
-<td>让暂停的程序继续运行</td>
-</tr>
-<tr>
-<td>next</td>
-<td>n</td>
-<td>运行到下一行</td>
-</tr>
-<tr>
-<td>step</td>
-<td>s</td>
-<td>单步执行，遇到函数会进入</td>
-</tr>
-<tr>
-<td>until</td>
-<td>u</td>
-<td>运行到指定行停下来</td>
-</tr>
-<tr>
-<td>finish</td>
-<td>fi</td>
-<td>结束当前调用函数，回到上一层调用函数处</td>
-</tr>
-<tr>
-<td>return</td>
-<td>return</td>
-<td>结束当前调用函数并返回指定值，到上一层函数调用处</td>
-</tr>
-<tr>
-<td>jump</td>
-<td>j</td>
-<td>将当前程序执行流跳转到指定行或地址，不运行跳过的代码</td>
-</tr>
-<tr>
-<td>print</td>
-<td>p</td>
-<td>打印变量或寄存器值</td>
-</tr>
-<tr>
-<td>backtrace</td>
-<td>bt</td>
-<td>查看当前线程的调用堆栈</td>
-</tr>
-<tr>
-<td>frame</td>
-<td>f</td>
-<td>切换到当前调用线程的指定堆栈</td>
-</tr>
-<tr>
-<td>thread</td>
-<td>thread</td>
-<td>切换到指定线程</td>
-</tr>
-<tr>
-<td>break</td>
-<td>b</td>
-<td>添加断点</td>
-</tr>
-<tr>
-<td>tbreak</td>
-<td>tb</td>
-<td>添加临时断点</td>
-</tr>
-<tr>
-<td>delete</td>
-<td>d</td>
-<td>删除断点</td>
-</tr>
-<tr>
-<td>enable</td>
-<td>enable</td>
-<td>启用某个断点</td>
-</tr>
-<tr>
-<td>disable</td>
-<td>disable</td>
-<td>禁用某个断点</td>
-</tr>
-<tr>
-<td>watch</td>
-<td>watch</td>
-<td>监视某一个变量或内存地址的值是否发生变化</td>
-</tr>
-<tr>
-<td>list</td>
-<td>l</td>
-<td>显示源码</td>
-</tr>
-<tr>
-<td>info</td>
-<td>i</td>
-<td>查看断点 &#x2F; 线程等信息</td>
-</tr>
-<tr>
-<td>ptype</td>
-<td>ptype</td>
-<td>查看变量类型</td>
-</tr>
-<tr>
-<td>disassemble</td>
-<td>dis</td>
-<td>查看汇编代码</td>
-</tr>
-<tr>
-<td>set args</td>
-<td>set args</td>
-<td>设置程序启动命令行参数</td>
-</tr>
-<tr>
-<td>show args</td>
-<td>show args</td>
-<td>查看设置的命令行参数</td>
-</tr>
-</tbody></table>
-
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2025/01/05/GDB/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
-    <link itemprop="mainEntityOfPage" href="https://smartyue076.github.io/2025/01/05/C++questions/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/me.png">
-      <meta itemprop="name" content="子非鱼">
-      <meta itemprop="description" content="Hi，朋友。欢迎来到我的技术博客。本站主要整理了计算机相关的专业知识，包括操作系统、计算机网络、算法以及分布式系统等等。此外，还有我的一些学习及工作碎碎念，希望能与你一同探索计算机的有趣世界～">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="子非鱼的技术博客">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2025/01/05/C++questions/" class="post-title-link" itemprop="url">C++面试题</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2025-01-05 11:20:03" itemprop="dateCreated datePublished" datetime="2025-01-05T11:20:03+08:00">2025-01-05</time>
-            </span>
-
-          <br>
-            <span class="post-meta-item" title="Symbols count in article">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">Symbols count in article: </span>
-              <span>939</span>
-            </span>
-            <span class="post-meta-item" title="Reading time">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">Reading time &asymp;</span>
-              <span>2 mins.</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="我的疑问"><a href="#我的疑问" class="headerlink" title="我的疑问"></a>我的疑问</h3><ol>
-<li>header中防御式声明的目的</li>
-</ol>
-<ul>
-<li>防止两个头文件相互include时的循环include</li>
-<li>防止cpp在include不同头文件时可能产生的重复定义</li>
-</ul>
-<ol start="2">
-<li>inline</li>
-</ol>
-<p>将函数声明为inline可以避免函数调用的开销，空间换时间</p>
-<p>常规的函数调用需要用到栈，需要返回地址和参数压栈，但通过inline展开后就为普通的顺序执行</p>
-<p><strong>与define的区别</strong>：</p>
-<ul>
-<li>define无类型检查，inline有</li>
-<li>define编写时运算符的优先级较难处理</li>
-<li>define在预处理时展开，inline由编译器实现展开</li>
-</ul>
-<ol start="2">
-<li>const</li>
-</ol>
-<p>const对象的<strong>值创建后值不能再改变</strong>，所以必须初始化</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2025/01/05/C++questions/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1346,14 +1219,14 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">54</span>
+          <span class="site-state-item-count">56</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-count">23</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -1389,12 +1262,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="Symbols count total">131k</span>
+    <span title="Symbols count total">135k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="Reading time total">5:26</span>
+    <span title="Reading time total">5:38</span>
 </div>
   <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a>
   </div>
