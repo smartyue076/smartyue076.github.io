@@ -25,26 +25,26 @@
   <meta name="description" content="RAFT分布式共识机制系统机制Raft 是一个管理 replicated log 的算法 Raft 实现共识的机制  领导者选举（Leader Election）：共同选举出一个 Leader 日志复制（Log Replication）：给予这个 Leader 管理 replicated log 的完全职责 安全（Safety）：Leader 接受来自客户端的 log entries，然后复制给其">
 <meta property="og:type" content="article">
 <meta property="og:title" content="RAFT 分布式一致性算法（理论篇）">
-<meta property="og:url" content="https://smartyue076.github.io/2025/02/22/Chapter4%20RAFT/index.html">
+<meta property="og:url" content="https://smartyue076.github.io/2025/03/17/Chapter4%20RAFT/index.html">
 <meta property="og:site_name" content="子非鱼的技术博客">
 <meta property="og:description" content="RAFT分布式共识机制系统机制Raft 是一个管理 replicated log 的算法 Raft 实现共识的机制  领导者选举（Leader Election）：共同选举出一个 Leader 日志复制（Log Replication）：给予这个 Leader 管理 replicated log 的完全职责 安全（Safety）：Leader 接受来自客户端的 log entries，然后复制给其">
 <meta property="og:locale">
 <meta property="og:image" content="https://smartyue076.github.io/images/raft_state_machine.png">
-<meta property="og:image" content="https://smartyue076.github.io/images/Leader_election_3.png">
+<meta property="og:image" content="https://smartyue076.github.io/images/leader_election_3.png">
 <meta property="og:image" content="https://smartyue076.github.io/images/log_replication_3.webp">
 <meta property="og:image" content="https://smartyue076.github.io/images/log_replication_4.webp">
 <meta property="og:image" content="https://smartyue076.github.io/images/log_replication_5.webp">
 <meta property="og:image" content="https://smartyue076.github.io/images/log_replication_2.png">
 <meta property="og:image" content="https://smartyue076.github.io/images/state_on_Leader.png">
-<meta property="article:published_time" content="2025-02-22T04:35:29.162Z">
-<meta property="article:modified_time" content="2025-02-22T04:35:29.162Z">
+<meta property="article:published_time" content="2025-03-17T05:56:12.826Z">
+<meta property="article:modified_time" content="2025-03-17T05:56:12.826Z">
 <meta property="article:author" content="子非鱼">
 <meta property="article:tag" content="论文导读">
 <meta property="article:tag" content="分布式系统">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://smartyue076.github.io/images/raft_state_machine.png">
 
-<link rel="canonical" href="https://smartyue076.github.io/2025/02/22/Chapter4%20RAFT/">
+<link rel="canonical" href="https://smartyue076.github.io/2025/03/17/Chapter4%20RAFT/">
 
 
 <script id="page-configurations">
@@ -200,7 +200,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
-    <link itemprop="mainEntityOfPage" href="https://smartyue076.github.io/2025/02/22/Chapter4%20RAFT/">
+    <link itemprop="mainEntityOfPage" href="https://smartyue076.github.io/2025/03/17/Chapter4%20RAFT/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/me.png">
@@ -223,7 +223,7 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2025-02-22 12:35:29" itemprop="dateCreated datePublished" datetime="2025-02-22T12:35:29+08:00">2025-02-22</time>
+              <time title="Created: 2025-03-17 13:56:12" itemprop="dateCreated datePublished" datetime="2025-03-17T13:56:12+08:00">2025-03-17</time>
             </span>
 
           
@@ -329,7 +329,7 @@
 <li><p>日志为 <strong>append 写</strong>，不会删除旧内容</p>
 </li>
 </ol>
-<img src="/../../images\Leader_election_3.png" style="zoom:50%;" />
+<img src="/../../images\leader_election_3.png" style="zoom:50%;" />
 
 <h4 id="流程"><a href="#流程" class="headerlink" title="流程"></a>流程</h4><p><strong>写请求</strong>需要由 Leader 统一处理，倘若 Follower 接收到了写请求，则会告知客户端 Leader 的所在位置（节点 id），让客户端重新将写请求发送给 Leader 处理</p>
 <p>另外<strong>读请求</strong>可以从任意结点读取，也可设置强制读主，即 Follower 告知客户端 Leader 位置</p>
@@ -541,13 +541,10 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2025/02/22/RAFT%EF%BC%88%E5%88%86%E5%B8%83%E5%BC%8F%E4%B8%80%E8%87%B4%E6%80%A7%E7%AE%97%E6%B3%95%EF%BC%89%E5%AE%9E%E7%8E%B0/" rel="prev" title="RAFT 分布式一致性算法（实现篇）">
-      <i class="fa fa-chevron-left"></i> RAFT 分布式一致性算法（实现篇）
+    <a href="/2025/03/11/%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/" rel="prev" title="滑动窗口">
+      <i class="fa fa-chevron-left"></i> 滑动窗口
     </a></div>
-      <div class="post-nav-item">
-    <a href="/2025/03/11/%E5%89%8D%E7%BC%80%E5%92%8C/" rel="next" title="前缀和">
-      前缀和 <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
