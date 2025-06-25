@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/me_icon_32.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/me_icon_16.ico">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="M_avNi87YsXV1nsCz0Qp5pHTFwS89aIxXwXh6yF-cE4">
+  <meta name="msvalidate.01" content="A0EF53E4F47194CE0652434A8BF6473C">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Noto Sans SC:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"smartyue076.github.io","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"right","width":250,"display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":2,"unescape":false,"preload":false},"motion":{"enable":true,"async":true,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="1. 选择合适的模型对于回归或分类问题使用合适的模型，在本文中对于回归问题使用线形回归模型，对于分类问题使用Logistic回归模型 2. 如何判定当前模型及参数是符合现实要求的（Cost Function）$$J(w,b) &#x3D; \frac{1}{2m} \sum\limits_{i &#x3D; 0}^{m-1} (f_{w,b}(x^{(i)}) - y^{(i)})^2$$ $$f">
+<meta property="og:type" content="article">
+<meta property="og:title" content="机器学习基础（一）基础方法与概念（线性回归为例）">
+<meta property="og:url" content="https://smartyue076.github.io/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E7%A1%80/index.html">
+<meta property="og:site_name" content="子非鱼的技术博客">
+<meta property="og:description" content="1. 选择合适的模型对于回归或分类问题使用合适的模型，在本文中对于回归问题使用线形回归模型，对于分类问题使用Logistic回归模型 2. 如何判定当前模型及参数是符合现实要求的（Cost Function）$$J(w,b) &#x3D; \frac{1}{2m} \sum\limits_{i &#x3D; 0}^{m-1} (f_{w,b}(x^{(i)}) - y^{(i)})^2$$ $$f">
+<meta property="og:locale">
+<meta property="og:image" content="https://smartyue076.github.io/images/gradient_algo_1.png">
+<meta property="og:image" content="https://smartyue076.github.io/images/gradient_algo_2.png">
+<meta property="og:image" content="https://smartyue076.github.io/images/gradient_algo_3.png">
+<meta property="og:image" content="https://smartyue076.github.io/images/C1_W3_LinearCostRegularized.png">
+<meta property="og:image" content="https://smartyue076.github.io/images/C1_W3_LinearGradientRegularized.png">
+<meta property="og:image" content="https://smartyue076.github.io/images/C1_W3_LogisticCostRegularized.png">
+<meta property="og:image" content="https://smartyue076.github.io/images/C1_W3_LogisticGradientRegularized.png">
+<meta property="article:published_time" content="2025-06-25T07:30:08.771Z">
+<meta property="article:modified_time" content="2025-06-25T07:30:08.771Z">
+<meta property="article:author" content="子非鱼">
+<meta property="article:tag" content="机器学习">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://smartyue076.github.io/images/gradient_algo_1.png">
+
+<link rel="canonical" href="https://smartyue076.github.io/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E7%A1%80/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>机器学习基础（一）基础方法与概念（线性回归为例） | 子非鱼的技术博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">子非鱼的技术博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://smartyue076.github.io/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E7%A1%80/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/me.png">
+      <meta itemprop="name" content="子非鱼">
+      <meta itemprop="description" content="Hi，朋友。欢迎来到我的技术博客。本站主要整理了计算机相关的专业知识，包括操作系统、计算机网络、算法以及分布式系统等等。此外，还有我的一些学习及工作碎碎念，希望能与你一同探索计算机的有趣世界～">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="子非鱼的技术博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          机器学习基础（一）基础方法与概念（线性回归为例）
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2025-06-25 15:30:08" itemprop="dateCreated datePublished" datetime="2025-06-25T15:30:08+08:00">2025-06-25</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">机器学习</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="Symbols count in article">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">Symbols count in article: </span>
+              <span>3k</span>
+            </span>
+            <span class="post-meta-item" title="Reading time">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">Reading time &asymp;</span>
+              <span>8 mins.</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="1-选择合适的模型"><a href="#1-选择合适的模型" class="headerlink" title="1. 选择合适的模型"></a>1. 选择合适的模型</h2><p>对于回归或分类问题使用合适的模型，在本文中对于回归问题使用<strong>线形回归</strong>模型，对于分类问题使用<strong>Logistic回归</strong>模型</p>
+<h2 id="2-如何判定当前模型及参数是符合现实要求的（Cost-Function）"><a href="#2-如何判定当前模型及参数是符合现实要求的（Cost-Function）" class="headerlink" title="2. 如何判定当前模型及参数是符合现实要求的（Cost Function）"></a>2. 如何判定当前模型及参数是符合现实要求的（Cost Function）</h2><p>$$<br>J(w,b) &#x3D; \frac{1}{2m} \sum\limits_{i &#x3D; 0}^{m-1} (f_{w,b}(x^{(i)}) - y^{(i)})^2<br>$$</p>
+<p>$$<br>f_{w,b}(x^{(i)}) &#x3D; wx^{(i)} + b \tag{2}<br>$$</p>
+<p>计算预测值与现实值的均方误差后取平均（除以2是为了在求导时与平方的2约去）</p>
+<h2 id="3-数据预处理"><a href="#3-数据预处理" class="headerlink" title="3. 数据预处理"></a>3. 数据预处理</h2><h4 id="特征缩放（Feature-Scaling）"><a href="#特征缩放（Feature-Scaling）" class="headerlink" title="特征缩放（Feature Scaling）"></a>特征缩放（Feature Scaling）</h4><p>如果不同属性的取值返回相差过大则会导致模型收敛得很慢，所以要对属性值做映射。</p>
+<p>常用缩放方法：<br><strong>均值标准化</strong><br>$$<br>x_i :&#x3D; \dfrac{x_i - \mu_i}{max - min}\tag{Mean normalization}<br>$$</p>
+<p><strong>z-score标准化（正态分布）</strong><br>$$<br>x^{(i)}_j &#x3D; \dfrac{x^{(i)}_j - \mu_j}{\sigma_j} \tag{z-score normalization}<br>$$</p>
+<h2 id="4-如何调整模型参数"><a href="#4-如何调整模型参数" class="headerlink" title="4. 如何调整模型参数"></a>4. 如何调整模型参数</h2><h3 id="学习方法（梯度下降学习法（Gradient-Descent））"><a href="#学习方法（梯度下降学习法（Gradient-Descent））" class="headerlink" title="学习方法（梯度下降学习法（Gradient Descent））"></a>学习方法（梯度下降学习法（Gradient Descent））</h3><h4 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h4><p>梯度下降是一种优化算法，用于<strong>最小化目标函数（如损失函数）并找到函数的最优参数</strong>。它是机器学习和深度学习中训练模型的核心方法。将<strong>参数更新为原值 ➖偏移量【学习率Learning Rate✖️损失函数对该参数的偏导数】</strong>，直到偏导数为0</p>
+<img src="/../../images/gradient_algo_1.png"  style="zoom:25%;" />
+
+<h4 id="直观表示"><a href="#直观表示" class="headerlink" title="直观表示"></a>直观表示</h4><p><strong>目标是使代价函数J(w)最小，即图中函数的最低点</strong>。偏导数在几何上<strong>为在平面上点的切线</strong></p>
+<img src="/../../images/gradient_algo_2.png"  style="zoom:25%;" />
+
+<h4 id="公式推导"><a href="#公式推导" class="headerlink" title="公式推导"></a>公式推导</h4><img src="/../../images/gradient_algo_3.png"  style="zoom:25%;" />
+
+<h4 id="如何设置合适的学习率（Learning-Rate）"><a href="#如何设置合适的学习率（Learning-Rate）" class="headerlink" title="如何设置合适的学习率（Learning Rate）"></a>如何设置合适的学习率（Learning Rate）</h4><p>梯度下降算法的每次迭代受到学习率的影响，如果学习率过小，则达到收敛（converge）所需的迭代次数会非常高；如果学习率过大，每次迭代可能不会减小代价函数，可能会越过局部最小值导致无法收敛。可尝试（0.01,0.03,0.1,0.3,1,3,10）</p>
+<h2 id="5-什么时候算训练完成"><a href="#5-什么时候算训练完成" class="headerlink" title="5. 什么时候算训练完成"></a>5. 什么时候算训练完成</h2><p><strong>通过训练集训练参数</strong>（随着训练轮数的增加，模型在训练集上的表现总是越来越好直至收敛的），训练<strong>指定轮数后在验证集里测效果</strong>。当模型<strong>在验证集准确率到达最大值时终止训练</strong>（从趋势上看，验证集准确率会逐步上升【期间欠拟合】，到达最高点后下降【此后过拟合】）</p>
+<p><strong>“偏差-方差分解”（bias-variance decomposition）</strong>是解释学习算法泛化性能的一种重要工具。</p>
+<p>泛化误差可分解为偏差、方差与噪声之和：</p>
+<ul>
+<li><strong>偏差</strong>：度量了学习算法的期望预测与真实结果的偏离程度，即刻画了<strong>学习算法本身的拟合能力</strong>；</li>
+<li><strong>方差</strong>：度量了同样大小的训练集的变动所导致的学习性能的变化，即刻画了<strong>数据扰动所造成的影响</strong>；</li>
+<li><strong>噪声</strong>：表达了在当前任务上任何学习算法所能够达到的期望泛化误差的下界，即刻画了<strong>学习问题本身的难度</strong>。</li>
+</ul>
+<p>偏差-方差分解说明，<strong>泛化性能</strong>是由<strong>学习算法的能力</strong>、<strong>数据的充分性</strong>以及<strong>学习任务本身的难度</strong>所共同决定的。给定学习任务，为了取得好的泛化性能，则需要使偏差较小，即能够充分拟合数据，并且使方差较小，即使得数据扰动产生的影响小。</p>
+<p>在<strong>欠拟合（underfitting）</strong>的情况下，出现<strong>高偏差（high bias）</strong>的情况，即不能很好地对数据进行分类。</p>
+<p>当模型设置的太复杂时，训练集中的一些噪声没有被排除，使得模型出现<strong>过拟合（overfitting）</strong>的情况，在验证集上出现<strong>高方差（high variance）</strong>的现象。</p>
+<p>‼️当训练出一个模型以后，如果：</p>
+<table>
+<thead>
+<tr>
+<th><strong>训练集错误率</strong></th>
+<th><strong>验证集错误率</strong></th>
+<th><strong>现象分析</strong></th>
+<th><strong>可能的问题</strong></th>
+<th><strong>解决办法</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>较小</td>
+<td>较大</td>
+<td>方差较大</td>
+<td>可能出现了过拟合</td>
+<td>增加数据、使用正则化（如L1、L2正则化、Dropout）、减少模型复杂度</td>
+</tr>
+<tr>
+<td>较大</td>
+<td>较大（且相当）</td>
+<td>偏差较大</td>
+<td>可能出现了欠拟合</td>
+<td>增加模型复杂度（如增加参数或层数）、尝试不同模型架构、减小正则化力度</td>
+</tr>
+<tr>
+<td>较大</td>
+<td>远大于训练集</td>
+<td>方差和偏差都较大</td>
+<td>模型表现很差</td>
+<td>重新设计模型、增加数据量、适当正则化或调整模型训练超参数</td>
+</tr>
+<tr>
+<td>较小</td>
+<td>较小（且相差小）</td>
+<td>方差和偏差都较小，模型效果好</td>
+<td>模型性能较好，适合应用场景</td>
+<td>持续优化但避免过度调整，以保持模型的良好泛化能力</td>
+</tr>
+</tbody></table>
+<h2 id="6-在学习过程中如何减少欠拟合或过拟合"><a href="#6-在学习过程中如何减少欠拟合或过拟合" class="headerlink" title="6. 在学习过程中如何减少欠拟合或过拟合"></a>6. 在学习过程中如何减少欠拟合或过拟合</h2><h3 id="欠拟合（Underfitting）"><a href="#欠拟合（Underfitting）" class="headerlink" title="欠拟合（Underfitting）"></a>欠拟合（Underfitting）</h3><h4 id="现象"><a href="#现象" class="headerlink" title="现象"></a><strong>现象</strong></h4><p>模型无法很好地学习训练数据，表现为训练集和测试集的误差都较高。通常是因为模型复杂度不足或训练不足导致</p>
+<h4 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a><strong>解决方法</strong></h4><ul>
+<li><p><strong>增加模型复杂度</strong>：选择更复杂的模型（例如，增加深度神经网络的层数或神经元数量）；使用更强的算法（如从线性回归换成多项式回归）</p>
+</li>
+<li><p><strong>增加特征数量</strong>：提取更多相关的特征，或者进行特征组合</p>
+</li>
+<li><p><strong>降低正则化力度</strong>：减小正则化参数（如L1&#x2F;L2正则化的系数）</p>
+</li>
+</ul>
+<h3 id="过拟合（Overfitting）"><a href="#过拟合（Overfitting）" class="headerlink" title="过拟合（Overfitting）"></a><strong>过拟合（Overfitting）</strong></h3><h4 id="现象-1"><a href="#现象-1" class="headerlink" title="现象"></a><strong>现象</strong></h4><p>模型对训练数据学习过度，对测试数据表现较差。通常是因为模型复杂度过高或训练数据不足导致。</p>
+<h4 id="解决方法-1"><a href="#解决方法-1" class="headerlink" title="解决方法"></a><strong>解决方法</strong></h4><ul>
+<li><strong>增加训练数据</strong>：通过数据增强（Data Augmentation）生成更多样本；从外部来源获取更多数据</li>
+<li><strong>减少模型复杂度</strong>：减少模型的层数或神经元数量；使用简单的算法（如减少决策树的深度）</li>
+<li><strong>正则化</strong>：增加L1或L2正则化（权重惩罚）；使用 Dropout 随机丢弃神经元</li>
+<li><strong>交叉验证</strong>：使用交叉验证选择最合适的模型和超参数</li>
+<li><strong>早停法（Early Stopping）</strong>：在验证集性能不再提升时停止训练</li>
+<li><strong>降低特征数量</strong>：通过特征选择或降维（如PCA）降低特征数量</li>
+</ul>
+<h4 id="正则化（Regularization）"><a href="#正则化（Regularization）" class="headerlink" title="正则化（Regularization）"></a>正则化（Regularization）</h4><p>为了减少因模型过于复杂而导致的过拟合，那就需要减少模型的复杂程度。一种直观的想法是舍弃一些不重要的属性，但这往往很难达到，因为这依赖于人的经验，相当于引入了不可控因素。而比较好的方法是<strong>在cost function中加入对模型复杂度的考虑</strong>，当模型过于复杂（即参数过大时）给予较大惩罚</p>
+<h5 id="线性回归"><a href="#线性回归" class="headerlink" title="线性回归"></a><strong>线性回归</strong></h5><img src="/../../images/C1_W3_LinearCostRegularized.png"  style="zoom:70%;" />
+
+<img src="/../../images/C1_W3_LinearGradientRegularized.png"  style="zoom:70%;" />
+
+<h5 id="Logistic回归"><a href="#Logistic回归" class="headerlink" title="Logistic回归"></a>Logistic回归</h5><img src="/../../images/C1_W3_LogisticCostRegularized.png"  style="zoom:70%;" />
+
+<img src="/../../images/C1_W3_LogisticGradientRegularized.png"  style="zoom:70%;" />
+
+<h2 id="0-数据划分（训练集-验证集-测试集）"><a href="#0-数据划分（训练集-验证集-测试集）" class="headerlink" title="0. 数据划分（训练集&#x2F;验证集&#x2F;测试集）"></a>0. 数据划分（训练集&#x2F;验证集&#x2F;测试集）</h2><p>应用深度学习是一个典型的迭代过程</p>
+<p>对于一个需要解决的问题的样本数据，在建立模型的过程中，数据会被划分为以下几个部分：</p>
+<ul>
+<li>训练集（train set）：用训练集对算法或模型进行<strong>训练</strong>过程；</li>
+<li>验证集（development set）：利用验证集（又称为简单交叉验证集，hold-out cross validation set）进行<strong>交叉验证</strong>，<strong>选择出最好的模型</strong>；</li>
+<li>测试集（test set）：最后利用测试集对模型进行测试，<strong>获取模型运行的无偏估计</strong>（对学习方法进行评估）。</li>
+</ul>
+<p>在<strong>小数据量</strong>的时代，如 100、1000、10000 的数据量大小，可以将数据集按照以下比例进行划分：</p>
+<ul>
+<li>无验证集的情况：70% &#x2F; 30%；</li>
+<li>有验证集的情况：60% &#x2F; 20% &#x2F; 20%；</li>
+</ul>
+<p>而在如今的<strong>大数据时代</strong>，对于一个问题，我们拥有的数据集的规模可能是百万级别的，所以验证集和测试集所占的比重会趋向于变得更小。</p>
+<p>验证集的目的是为了验证不同的算法哪种更加有效，所以验证集只要足够大到能够验证大约 2-10 种算法哪种更好，而不需要使用 20% 的数据作为验证集。如百万数据中抽取 1 万的数据作为验证集就可以了。</p>
+<p>测试集的主要目的是评估模型的效果，如在单个分类器中，往往在百万级别的数据中，我们选择其中 1000 条数据足以评估单个模型的效果。</p>
+<ul>
+<li>100 万数据量：98% &#x2F; 1% &#x2F; 1%；</li>
+<li>超百万数据量：99.5% &#x2F; 0.25% &#x2F; 0.25%（或者99.5% &#x2F; 0.4% &#x2F; 0.1%）</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" rel="tag"># 机器学习</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/%E5%9B%BE%E7%AE%97%E6%B3%95%EF%BC%88DFS%E4%B8%8EBFS%EF%BC%89/" rel="prev" title="图算法（DFS与BFS）">
+      <i class="fa fa-chevron-left"></i> 图算法（DFS与BFS）
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="next" title="设计模式">
+      设计模式 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E9%80%89%E6%8B%A9%E5%90%88%E9%80%82%E7%9A%84%E6%A8%A1%E5%9E%8B"><span class="nav-number">1.</span> <span class="nav-text">1. 选择合适的模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E5%A6%82%E4%BD%95%E5%88%A4%E5%AE%9A%E5%BD%93%E5%89%8D%E6%A8%A1%E5%9E%8B%E5%8F%8A%E5%8F%82%E6%95%B0%E6%98%AF%E7%AC%A6%E5%90%88%E7%8E%B0%E5%AE%9E%E8%A6%81%E6%B1%82%E7%9A%84%EF%BC%88Cost-Function%EF%BC%89"><span class="nav-number">2.</span> <span class="nav-text">2. 如何判定当前模型及参数是符合现实要求的（Cost Function）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E6%95%B0%E6%8D%AE%E9%A2%84%E5%A4%84%E7%90%86"><span class="nav-number">3.</span> <span class="nav-text">3. 数据预处理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%89%B9%E5%BE%81%E7%BC%A9%E6%94%BE%EF%BC%88Feature-Scaling%EF%BC%89"><span class="nav-number">3.0.1.</span> <span class="nav-text">特征缩放（Feature Scaling）</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-%E5%A6%82%E4%BD%95%E8%B0%83%E6%95%B4%E6%A8%A1%E5%9E%8B%E5%8F%82%E6%95%B0"><span class="nav-number">4.</span> <span class="nav-text">4. 如何调整模型参数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AD%A6%E4%B9%A0%E6%96%B9%E6%B3%95%EF%BC%88%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8D%E5%AD%A6%E4%B9%A0%E6%B3%95%EF%BC%88Gradient-Descent%EF%BC%89%EF%BC%89"><span class="nav-number">4.1.</span> <span class="nav-text">学习方法（梯度下降学习法（Gradient Descent））</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A6%82%E5%BF%B5"><span class="nav-number">4.1.1.</span> <span class="nav-text">概念</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%9B%B4%E8%A7%82%E8%A1%A8%E7%A4%BA"><span class="nav-number">4.1.2.</span> <span class="nav-text">直观表示</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%85%AC%E5%BC%8F%E6%8E%A8%E5%AF%BC"><span class="nav-number">4.1.3.</span> <span class="nav-text">公式推导</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E8%AE%BE%E7%BD%AE%E5%90%88%E9%80%82%E7%9A%84%E5%AD%A6%E4%B9%A0%E7%8E%87%EF%BC%88Learning-Rate%EF%BC%89"><span class="nav-number">4.1.4.</span> <span class="nav-text">如何设置合适的学习率（Learning Rate）</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-%E4%BB%80%E4%B9%88%E6%97%B6%E5%80%99%E7%AE%97%E8%AE%AD%E7%BB%83%E5%AE%8C%E6%88%90"><span class="nav-number">5.</span> <span class="nav-text">5. 什么时候算训练完成</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-%E5%9C%A8%E5%AD%A6%E4%B9%A0%E8%BF%87%E7%A8%8B%E4%B8%AD%E5%A6%82%E4%BD%95%E5%87%8F%E5%B0%91%E6%AC%A0%E6%8B%9F%E5%90%88%E6%88%96%E8%BF%87%E6%8B%9F%E5%90%88"><span class="nav-number">6.</span> <span class="nav-text">6. 在学习过程中如何减少欠拟合或过拟合</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AC%A0%E6%8B%9F%E5%90%88%EF%BC%88Underfitting%EF%BC%89"><span class="nav-number">6.1.</span> <span class="nav-text">欠拟合（Underfitting）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%8E%B0%E8%B1%A1"><span class="nav-number">6.1.1.</span> <span class="nav-text">现象</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95"><span class="nav-number">6.1.2.</span> <span class="nav-text">解决方法</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%87%E6%8B%9F%E5%90%88%EF%BC%88Overfitting%EF%BC%89"><span class="nav-number">6.2.</span> <span class="nav-text">过拟合（Overfitting）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%8E%B0%E8%B1%A1-1"><span class="nav-number">6.2.1.</span> <span class="nav-text">现象</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95-1"><span class="nav-number">6.2.2.</span> <span class="nav-text">解决方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%AD%A3%E5%88%99%E5%8C%96%EF%BC%88Regularization%EF%BC%89"><span class="nav-number">6.2.3.</span> <span class="nav-text">正则化（Regularization）</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92"><span class="nav-number">6.2.3.1.</span> <span class="nav-text">线性回归</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Logistic%E5%9B%9E%E5%BD%92"><span class="nav-number">6.2.3.2.</span> <span class="nav-text">Logistic回归</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0-%E6%95%B0%E6%8D%AE%E5%88%92%E5%88%86%EF%BC%88%E8%AE%AD%E7%BB%83%E9%9B%86-%E9%AA%8C%E8%AF%81%E9%9B%86-%E6%B5%8B%E8%AF%95%E9%9B%86%EF%BC%89"><span class="nav-number">7.</span> <span class="nav-text">0. 数据划分（训练集&#x2F;验证集&#x2F;测试集）</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="子非鱼"
+      src="/images/me.png">
+  <p class="site-author-name" itemprop="name">子非鱼</p>
+  <div class="site-description" itemprop="description">Hi，朋友。欢迎来到我的技术博客。本站主要整理了计算机相关的专业知识，包括操作系统、计算机网络、算法以及分布式系统等等。此外，还有我的一些学习及工作碎碎念，希望能与你一同探索计算机的有趣世界～</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">58</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">24</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">子非鱼</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="Symbols count total">139k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="Reading time total">5:48</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a>
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+</body>
+</html>

@@ -128,6 +128,11 @@
     <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
 
   </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
+
+  </li>
         <li class="menu-item menu-item-archives">
 
     <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
@@ -187,7 +192,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
-    <link itemprop="mainEntityOfPage" href="https://smartyue076.github.io/2025/01/03/%E7%AC%AC%E4%B8%89%E7%AB%A0%20%E5%AD%97%E7%AC%A6%E4%B8%B2%E3%80%81%E5%90%91%E9%87%8F%E5%92%8C%E6%95%B0%E7%BB%84/">
+    <link itemprop="mainEntityOfPage" href="https://smartyue076.github.io/GDB/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/me.png">
@@ -201,7 +206,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2025/01/03/%E7%AC%AC%E4%B8%89%E7%AB%A0%20%E5%AD%97%E7%AC%A6%E4%B8%B2%E3%80%81%E5%90%91%E9%87%8F%E5%92%8C%E6%95%B0%E7%BB%84/" class="post-title-link" itemprop="url">C++基础（二）字符串、向量和数组</a>
+            <a href="/GDB/" class="post-title-link" itemprop="url">GDB使用手册</a>
         </h2>
 
         <div class="post-meta">
@@ -211,7 +216,16 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2025-01-03 12:09:04" itemprop="dateCreated datePublished" datetime="2025-01-03T12:09:04+08:00">2025-01-03</time>
+              <time title="Created: 2025-06-25 14:26:16" itemprop="dateCreated datePublished" datetime="2025-06-25T14:26:16+08:00">2025-06-25</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/GDB/" itemprop="url" rel="index"><span itemprop="name">GDB</span></a>
+                </span>
             </span>
 
           <br>
@@ -220,14 +234,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">Symbols count in article: </span>
-              <span>827</span>
+              <span>493</span>
             </span>
             <span class="post-meta-item" title="Reading time">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">Reading time &asymp;</span>
-              <span>2 mins.</span>
+              <span>1 mins.</span>
             </span>
 
         </div>
@@ -239,18 +253,140 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h3 id="标准库类型String"><a href="#标准库类型String" class="headerlink" title="标准库类型String"></a>标准库类型String</h3><p>读写string对象</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">string s;</span><br><span class="line">cin &gt;&gt; s;   <span class="comment">//from empty to empty</span></span><br><span class="line"><span class="built_in">getline</span>(cin,s); <span class="comment">//one line, stop by ENTER</span></span><br></pre></td></tr></table></figure>
+          <h2 id="GDB使用手册"><a href="#GDB使用手册" class="headerlink" title="GDB使用手册"></a>GDB使用手册</h2><p>编译时加上<code>-g</code>选项</p>
+<table>
+<thead>
+<tr>
+<th>命令名称</th>
+<th>命令缩写</th>
+<th>命令说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>run</td>
+<td>r</td>
+<td>运行一个待调试的程序</td>
+</tr>
+<tr>
+<td>continue</td>
+<td>c</td>
+<td>让暂停的程序继续运行</td>
+</tr>
+<tr>
+<td>next</td>
+<td>n</td>
+<td>运行到下一行</td>
+</tr>
+<tr>
+<td>step</td>
+<td>s</td>
+<td>单步执行，遇到函数会进入</td>
+</tr>
+<tr>
+<td>until</td>
+<td>u</td>
+<td>运行到指定行停下来</td>
+</tr>
+<tr>
+<td>finish</td>
+<td>fi</td>
+<td>结束当前调用函数，回到上一层调用函数处</td>
+</tr>
+<tr>
+<td>return</td>
+<td>return</td>
+<td>结束当前调用函数并返回指定值，到上一层函数调用处</td>
+</tr>
+<tr>
+<td>jump</td>
+<td>j</td>
+<td>将当前程序执行流跳转到指定行或地址，不运行跳过的代码</td>
+</tr>
+<tr>
+<td>print</td>
+<td>p</td>
+<td>打印变量或寄存器值</td>
+</tr>
+<tr>
+<td>backtrace</td>
+<td>bt</td>
+<td>查看当前线程的调用堆栈</td>
+</tr>
+<tr>
+<td>frame</td>
+<td>f</td>
+<td>切换到当前调用线程的指定堆栈</td>
+</tr>
+<tr>
+<td>thread</td>
+<td>thread</td>
+<td>切换到指定线程</td>
+</tr>
+<tr>
+<td>break</td>
+<td>b</td>
+<td>添加断点</td>
+</tr>
+<tr>
+<td>tbreak</td>
+<td>tb</td>
+<td>添加临时断点</td>
+</tr>
+<tr>
+<td>delete</td>
+<td>d</td>
+<td>删除断点</td>
+</tr>
+<tr>
+<td>enable</td>
+<td>enable</td>
+<td>启用某个断点</td>
+</tr>
+<tr>
+<td>disable</td>
+<td>disable</td>
+<td>禁用某个断点</td>
+</tr>
+<tr>
+<td>watch</td>
+<td>watch</td>
+<td>监视某一个变量或内存地址的值是否发生变化</td>
+</tr>
+<tr>
+<td>list</td>
+<td>l</td>
+<td>显示源码</td>
+</tr>
+<tr>
+<td>info</td>
+<td>i</td>
+<td>查看断点 &#x2F; 线程等信息</td>
+</tr>
+<tr>
+<td>ptype</td>
+<td>ptype</td>
+<td>查看变量类型</td>
+</tr>
+<tr>
+<td>disassemble</td>
+<td>dis</td>
+<td>查看汇编代码</td>
+</tr>
+<tr>
+<td>set args</td>
+<td>set args</td>
+<td>设置程序启动命令行参数</td>
+</tr>
+<tr>
+<td>show args</td>
+<td>show args</td>
+<td>查看设置的命令行参数</td>
+</tr>
+</tbody></table>
 
-<p>当把string对象和字符（串）字面值混在一条语句时，必须确保加法运算符（+）两侧的运算对象至少一个是string</p>
-<h3 id="标准库类型vector"><a href="#标准库类型vector" class="headerlink" title="标准库类型vector"></a>标准库类型vector</h3><p>vector是模板而非类型</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">vector&lt;T&gt; v1;</span><br><span class="line"><span class="function">vector&lt;T&gt; <span class="title">v2</span><span class="params">(v1)</span></span>;</span><br><span class="line">vector&lt;T&gt; v3 = v1; <span class="comment">//same to above</span></span><br><span class="line">vector&lt;T&gt; v4&#123;a,b,c,...&#125;;</span><br><span class="line">vector&lt;T&gt; v5 = &#123;a,b,c,...&#125;; <span class="comment">//same to above</span></span><br></pre></td></tr></table></figure>
-
-<p>凡是使用了迭代器的循环体，都不要向迭代器所属的容器添加元素</p>
-<h3 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h3><p>理解复杂的数组声明（P102-103）</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2025/01/03/%E7%AC%AC%E4%B8%89%E7%AB%A0%20%E5%AD%97%E7%AC%A6%E4%B8%B2%E3%80%81%E5%90%91%E9%87%8F%E5%92%8C%E6%95%B0%E7%BB%84/#more" rel="contents">
+              <a class="btn" href="/GDB/#more" rel="contents">
                 Read more &raquo;
               </a>
             </div>
@@ -274,7 +410,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
-    <link itemprop="mainEntityOfPage" href="https://smartyue076.github.io/2025/01/03/%E7%AC%AC%E5%9B%9B%E7%AB%A0%20%E8%A1%A8%E8%BE%BE%E5%BC%8F/">
+    <link itemprop="mainEntityOfPage" href="https://smartyue076.github.io/C++questions/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/me.png">
@@ -288,7 +424,271 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2025/01/03/%E7%AC%AC%E5%9B%9B%E7%AB%A0%20%E8%A1%A8%E8%BE%BE%E5%BC%8F/" class="post-title-link" itemprop="url">C++基础（五）自增的问题</a>
+            <a href="/C++questions/" class="post-title-link" itemprop="url">C++面试题</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2025-01-05 11:20:03" itemprop="dateCreated datePublished" datetime="2025-01-05T11:20:03+08:00">2025-01-05</time>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="Symbols count in article">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">Symbols count in article: </span>
+              <span>939</span>
+            </span>
+            <span class="post-meta-item" title="Reading time">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">Reading time &asymp;</span>
+              <span>2 mins.</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="我的疑问"><a href="#我的疑问" class="headerlink" title="我的疑问"></a>我的疑问</h3><ol>
+<li>header中防御式声明的目的</li>
+</ol>
+<ul>
+<li>防止两个头文件相互include时的循环include</li>
+<li>防止cpp在include不同头文件时可能产生的重复定义</li>
+</ul>
+<ol start="2">
+<li>inline</li>
+</ol>
+<p>将函数声明为inline可以避免函数调用的开销，空间换时间</p>
+<p>常规的函数调用需要用到栈，需要返回地址和参数压栈，但通过inline展开后就为普通的顺序执行</p>
+<p><strong>与define的区别</strong>：</p>
+<ul>
+<li>define无类型检查，inline有</li>
+<li>define编写时运算符的优先级较难处理</li>
+<li>define在预处理时展开，inline由编译器实现展开</li>
+</ul>
+<ol start="2">
+<li>const</li>
+</ol>
+<p>const对象的<strong>值创建后值不能再改变</strong>，所以必须初始化</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/C++questions/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://smartyue076.github.io/%E5%BC%80%E5%8D%B7%E4%BD%95%E5%BF%85%E6%9C%89%E7%9B%8A/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/me.png">
+      <meta itemprop="name" content="子非鱼">
+      <meta itemprop="description" content="Hi，朋友。欢迎来到我的技术博客。本站主要整理了计算机相关的专业知识，包括操作系统、计算机网络、算法以及分布式系统等等。此外，还有我的一些学习及工作碎碎念，希望能与你一同探索计算机的有趣世界～">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="子非鱼的技术博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/%E5%BC%80%E5%8D%B7%E4%BD%95%E5%BF%85%E6%9C%89%E7%9B%8A/" class="post-title-link" itemprop="url">“开卷”何必“有益”</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2025-01-03 20:35:34" itemprop="dateCreated datePublished" datetime="2025-01-03T20:35:34+08:00">2025-01-03</time>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="Symbols count in article">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">Symbols count in article: </span>
+              <span>1.2k</span>
+            </span>
+            <span class="post-meta-item" title="Reading time">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">Reading time &asymp;</span>
+              <span>3 mins.</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>记得小学阅读课上，我在读一本悬疑小说并写到了读后感作业中，结果第二天就被老师批评，并以“开卷有益”这个成语来教导我说，你这种书以后少读读。当时，我就觉得老师这种说法一定是错的，但限于那时的表达能力和逻辑能力并不能给出完整的反驳，现写下此文以表述自己的想法。<br>“以后少读读”这句话一直在我脑海中，我不理解曾几何时，书之间也有了贵贱之分，难道读四大名著的就是好学生，读《福尔摩斯》的就是差学生吗？“开卷有益”指的是读书总有好处，并非告诉我们先对于书是否有益有了定性之后再去读。老师说的这些话显然是没有道理的。<br>那她又是出于什么原因这样说呢？说到底，四个字，功利主义。什么书对于学习有帮助那就是有益的，没帮助就是浪费时间。我们中的很多人从小被灌输这样一个观念：只有努力学习才能上好大学，只有上好大学才能找到好工作，才能有幸福的生活。曾经我也认为这句话是对的，为了以后能开心地生活现在必须努力学习。但真的是这样吗？从学校到工作到生话并非完全是后者依赖前者的先序关系，其中某一环节的丢失并不一定能影响到之后的生活。这种观点只是指出人生中几个重要结点，并对每一个结点提出要求。上了好大学能就能仕途一帆风顺，有了好工作真能天天开开心心享受生活？不尽然。<br>    前段时间，“鸡娃”一度成为社会热点问题，家长给孩子报了各种补课班，兴趣班，以求孩子能领先他人一步。我想，他们也许都是上文观点的拥趸，生怕自己孩子因为没补课而落后其他同学。其实，我小时候也是个“鸡娃”，从幼儿园开始补课直到高中毕业，周末只是换了个地方上课。现在看来，报那么多班其实未必有用，现在的我也只是刚从普通大学毕业，过着平淡的生话。每个人学习能力不同，那假设补课班是有用的，能让所有上课的孩子成绩提升，考上好大学，但那之后呢，补课班除了能培养出优秀的做题家外并不会给孩子带来什么。<br>    好大学并不是人生的终点，拥有幸福快乐的人生也不是名校生的特权，否则怎么会有某大学投毒案，某大学弑母案呢？这一切的一切都是功利主义在作祟，他们认为人生只需要为那几个重要结点去准备就行了，达到目的则视为成功，在他们的眼中，世界是线性的，必须要完成一个个小目标，追求利益最大化，否则就是失败。但他们不知道的是人生并不是一蹴而就的，阶段性的成功并不意味着什么。事物之间也在不断变化发展，幸福的人生并不是公式化的结果，在这之中更重要的是我们对为人处世的态度，以及对于个人，社会，以及世界的看法，这会贯穿人的一生，而非学校，工作等短暂的光环。<br>冯友兰先生将人生分为四种境界：自然镜界，功利境界，道德境界和天地境界。你我皆为凡人，虽难以达到“敬天爱人，天人合一”，但也不应在功利境界一直徘徊，为了眼前的利益患得患失。“开卷”何必“有益”，看自己想看的书，做自己想做的事，何必要按照公式走完自己的人生呢。</p>
+
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/%E5%BC%80%E5%8D%B7%E4%BD%95%E5%BF%85%E6%9C%89%E7%9B%8A/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://smartyue076.github.io/%E7%AC%AC%E4%BA%94%E7%AB%A0%20%E6%A8%A1%E7%89%88/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/me.png">
+      <meta itemprop="name" content="子非鱼">
+      <meta itemprop="description" content="Hi，朋友。欢迎来到我的技术博客。本站主要整理了计算机相关的专业知识，包括操作系统、计算机网络、算法以及分布式系统等等。此外，还有我的一些学习及工作碎碎念，希望能与你一同探索计算机的有趣世界～">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="子非鱼的技术博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/%E7%AC%AC%E4%BA%94%E7%AB%A0%20%E6%A8%A1%E7%89%88/" class="post-title-link" itemprop="url">C++面向对象（三）模版</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2025-01-03 12:11:35" itemprop="dateCreated datePublished" datetime="2025-01-03T12:11:35+08:00">2025-01-03</time>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="Symbols count in article">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">Symbols count in article: </span>
+              <span>191</span>
+            </span>
+            <span class="post-meta-item" title="Reading time">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">Reading time &asymp;</span>
+              <span>1 mins.</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>模版函数（template function）为声明不是定义，在使用时根据输入类型定义</p>
+<p>使用模版时，不会使用隐式类型转换</p>
+<p>类模版里的每个函数都是函数模版，需要在声明前加上<code>template</code></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> elemType&gt;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">BinaryTree</span>&#123;</span><br><span class="line">  <span class="keyword">private</span>:</span><br><span class="line">  	BTnode&lt;elemType&gt; *_root;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/%E7%AC%AC%E4%BA%94%E7%AB%A0%20%E6%A8%A1%E7%89%88/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://smartyue076.github.io/%E7%AC%AC%E5%9B%9B%E7%AB%A0%20%E8%A1%A8%E8%BE%BE%E5%BC%8F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/me.png">
+      <meta itemprop="name" content="子非鱼">
+      <meta itemprop="description" content="Hi，朋友。欢迎来到我的技术博客。本站主要整理了计算机相关的专业知识，包括操作系统、计算机网络、算法以及分布式系统等等。此外，还有我的一些学习及工作碎碎念，希望能与你一同探索计算机的有趣世界～">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="子非鱼的技术博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/%E7%AC%AC%E5%9B%9B%E7%AB%A0%20%E8%A1%A8%E8%BE%BE%E5%BC%8F/" class="post-title-link" itemprop="url">C++基础（五）自增的问题</a>
         </h2>
 
         <div class="post-meta">
@@ -331,7 +731,7 @@
 
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2025/01/03/%E7%AC%AC%E5%9B%9B%E7%AB%A0%20%E8%A1%A8%E8%BE%BE%E5%BC%8F/#more" rel="contents">
+              <a class="btn" href="/%E7%AC%AC%E5%9B%9B%E7%AB%A0%20%E8%A1%A8%E8%BE%BE%E5%BC%8F/#more" rel="contents">
                 Read more &raquo;
               </a>
             </div>
@@ -355,7 +755,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
-    <link itemprop="mainEntityOfPage" href="https://smartyue076.github.io/2025/01/03/%E7%AC%AC%E4%BA%94%E7%AB%A0%20%E5%87%BD%E6%95%B0/">
+    <link itemprop="mainEntityOfPage" href="https://smartyue076.github.io/%E7%AC%AC%E4%BA%94%E7%AB%A0%20%E5%87%BD%E6%95%B0/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/me.png">
@@ -369,7 +769,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2025/01/03/%E7%AC%AC%E4%BA%94%E7%AB%A0%20%E5%87%BD%E6%95%B0/" class="post-title-link" itemprop="url">C++基础（四）inline函数</a>
+            <a href="/%E7%AC%AC%E4%BA%94%E7%AB%A0%20%E5%87%BD%E6%95%B0/" class="post-title-link" itemprop="url">C++基础（四）inline函数</a>
         </h2>
 
         <div class="post-meta">
@@ -450,7 +850,7 @@
 </tbody></table>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2025/01/03/%E7%AC%AC%E4%BA%94%E7%AB%A0%20%E5%87%BD%E6%95%B0/#more" rel="contents">
+              <a class="btn" href="/%E7%AC%AC%E4%BA%94%E7%AB%A0%20%E5%87%BD%E6%95%B0/#more" rel="contents">
                 Read more &raquo;
               </a>
             </div>
@@ -474,7 +874,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
-    <link itemprop="mainEntityOfPage" href="https://smartyue076.github.io/2025/01/03/%E7%AC%AC%E4%B8%83%E7%AB%A0%20STL/">
+    <link itemprop="mainEntityOfPage" href="https://smartyue076.github.io/%E7%AC%AC%E4%B8%83%E7%AB%A0%20STL/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/me.png">
@@ -488,7 +888,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2025/01/03/%E7%AC%AC%E4%B8%83%E7%AB%A0%20STL/" class="post-title-link" itemprop="url">C++ STL基础</a>
+            <a href="/%E7%AC%AC%E4%B8%83%E7%AB%A0%20STL/" class="post-title-link" itemprop="url">C++ STL基础</a>
         </h2>
 
         <div class="post-meta">
@@ -536,7 +936,7 @@
 <img src="/../../images/array_overview.png" alt="array_overview.png" style="zoom:60%;">
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2025/01/03/%E7%AC%AC%E4%B8%83%E7%AB%A0%20STL/#more" rel="contents">
+              <a class="btn" href="/%E7%AC%AC%E4%B8%83%E7%AB%A0%20STL/#more" rel="contents">
                 Read more &raquo;
               </a>
             </div>
@@ -560,7 +960,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
-    <link itemprop="mainEntityOfPage" href="https://smartyue076.github.io/2025/01/03/%E7%AC%AC%E4%BA%94%E7%AB%A0%20%E8%BF%90%E7%AE%97%E7%AC%A6%E9%87%8D%E8%BD%BD/">
+    <link itemprop="mainEntityOfPage" href="https://smartyue076.github.io/%E7%AC%AC%E4%BA%94%E7%AB%A0%20%E8%BF%90%E7%AE%97%E7%AC%A6%E9%87%8D%E8%BD%BD/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/me.png">
@@ -574,7 +974,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2025/01/03/%E7%AC%AC%E4%BA%94%E7%AB%A0%20%E8%BF%90%E7%AE%97%E7%AC%A6%E9%87%8D%E8%BD%BD/" class="post-title-link" itemprop="url">C++面向对象（一）运算符重载</a>
+            <a href="/%E7%AC%AC%E4%BA%94%E7%AB%A0%20%E8%BF%90%E7%AE%97%E7%AC%A6%E9%87%8D%E8%BD%BD/" class="post-title-link" itemprop="url">C++面向对象（一）运算符重载</a>
         </h2>
 
         <div class="post-meta">
@@ -621,115 +1021,7 @@
 <p>加const可以防止返回结果做左值</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2025/01/03/%E7%AC%AC%E4%BA%94%E7%AB%A0%20%E8%BF%90%E7%AE%97%E7%AC%A6%E9%87%8D%E8%BD%BD/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
-    <link itemprop="mainEntityOfPage" href="https://smartyue076.github.io/2025/01/03/%E7%AC%AC%E4%B8%80%E7%AB%A0%20%E5%BC%80%E5%A7%8B/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/me.png">
-      <meta itemprop="name" content="子非鱼">
-      <meta itemprop="description" content="Hi，朋友。欢迎来到我的技术博客。本站主要整理了计算机相关的专业知识，包括操作系统、计算机网络、算法以及分布式系统等等。此外，还有我的一些学习及工作碎碎念，希望能与你一同探索计算机的有趣世界～">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="子非鱼的技术博客">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2025/01/03/%E7%AC%AC%E4%B8%80%E7%AB%A0%20%E5%BC%80%E5%A7%8B/" class="post-title-link" itemprop="url">C++基础（一）CPP编译过程、宏以及头文件</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2025-01-03 11:32:32" itemprop="dateCreated datePublished" datetime="2025-01-03T11:32:32+08:00">2025-01-03</time>
-            </span>
-
-          <br>
-            <span class="post-meta-item" title="Symbols count in article">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">Symbols count in article: </span>
-              <span>869</span>
-            </span>
-            <span class="post-meta-item" title="Reading time">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">Reading time &asymp;</span>
-              <span>2 mins.</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <ol>
-<li><p><code>endl</code>将与设备关联的<strong>缓冲区（buffer）</strong>中的内容刷到设备中。在调试时应保证”一直”刷新流。否则若程序崩溃，输出可能还是缓冲区，导致对于程序崩溃位置的错误推断</p>
-</li>
-<li><p>读取数量不定的输入数据可用<code>while (std::in &gt;&gt; value)</code></p>
-<p>当遇到<strong>文件结束符（end-of-file）</strong>，或遇到一个无效输入时，<em>istream</em>对象状态变为无效，使条件为假</p>
-<p>EOF：在Windows中为<code>Ctrl+Z</code>，UNIX为<code>Ctrl+D</code></p>
-</li>
-</ol>
-<h3 id="C-编译过程"><a href="#C-编译过程" class="headerlink" title="C++编译过程"></a>C++编译过程</h3><ol>
-<li><p>预处理（Preprocessing）</p>
-<p>将所有的#include<strong>头文件以及宏定义替换成其真正的内容</strong>，预处理之后得到的仍然是文本文件，但文件体积会大很多。gcc的预处理是<strong>预处理器cpp来完成的</strong>。（include只做文本插入，在include的位置将头文件展开）</p>
-</li>
-<li><p>编译（Compilation）</p>
-<p>这里的编译不是指程序从源文件到二进制程序的全部过程，而是指将经过预处理之后的程序转换成特定<strong>汇编代码（assembly code）</strong>的过程。</p>
-<p>一个cpp文件是一个编译单元。</p>
-</li>
-<li><p>汇编（Assemble）</p>
-<p>汇编过程将上一步的汇编代码转换成<strong>机器码（machine code）</strong>，这一步产生的文件叫做目标文件，是二进制格式。</p>
-<p><strong>这一步会为每一个源文件产生一个目标文件</strong>。</p>
-</li>
-<li><p>链接（Linking）</p>
-<p>链接过程将<strong>多个目标文以及所需的库文件（.so等）链接</strong>成最终的<strong>可执行文件（executable file）</strong></p>
-</li>
-</ol>
-<p><img src="/../../images/compiler.png" alt="compiler"></p>
-<h3 id="宏"><a href="#宏" class="headerlink" title="宏"></a>宏</h3><p>预处理阶段将宏所写内容替换</p>
-<p>宏没有类型检查</p>
-<p>在宏外加括号防止运算符优先级错误</p>
-<p>在宏后不需要加分号（非C++语句）</p>
-<h3 id="头文件"><a href="#头文件" class="headerlink" title="头文件"></a>头文件</h3>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2025/01/03/%E7%AC%AC%E4%B8%80%E7%AB%A0%20%E5%BC%80%E5%A7%8B/#more" rel="contents">
+              <a class="btn" href="/%E7%AC%AC%E4%BA%94%E7%AB%A0%20%E8%BF%90%E7%AE%97%E7%AC%A6%E9%87%8D%E8%BD%BD/#more" rel="contents">
                 Read more &raquo;
               </a>
             </div>
@@ -820,14 +1112,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">56</span>
+          <span class="site-state-item-count">58</span>
           <span class="site-state-item-name">posts</span>
         </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">23</span>
+        <span class="site-state-item-count">24</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -863,12 +1161,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="Symbols count total">135k</span>
+    <span title="Symbols count total">139k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="Reading time total">5:38</span>
+    <span title="Reading time total">5:48</span>
 </div>
   <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a>
   </div>

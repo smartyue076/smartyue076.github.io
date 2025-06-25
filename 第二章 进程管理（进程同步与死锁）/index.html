@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/me_icon_32.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/me_icon_16.ico">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="M_avNi87YsXV1nsCz0Qp5pHTFwS89aIxXwXh6yF-cE4">
+  <meta name="msvalidate.01" content="A0EF53E4F47194CE0652434A8BF6473C">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Noto Sans SC:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"smartyue076.github.io","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"right","width":250,"display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":2,"unescape":false,"preload":false},"motion":{"enable":true,"async":true,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="CPU调度策略任务调度策略的三个基本准则 任务周转时间：从新建到完成的时间 任务响应时间：从提交请求到首次响应的时间（前台任务关心） 系统吞吐量：一段时间内系统能完成的任务数  调度算法 先来先服务  最短作业优先调度：不可抢占，平均周转时间短（作业运行时间只能近似给出）  最短剩余时间有限：最短作业优先的可抢占版本  时间片轮转调度：保证响应时间 时间片设得太短会导致过多的进程切换，降低了CPU">
+<meta property="og:type" content="article">
+<meta property="og:title" content="操作系统（二）进程管理（进程同步与死锁）">
+<meta property="og:url" content="https://smartyue076.github.io/%E7%AC%AC%E4%BA%8C%E7%AB%A0%20%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86%EF%BC%88%E8%BF%9B%E7%A8%8B%E5%90%8C%E6%AD%A5%E4%B8%8E%E6%AD%BB%E9%94%81%EF%BC%89/index.html">
+<meta property="og:site_name" content="子非鱼的技术博客">
+<meta property="og:description" content="CPU调度策略任务调度策略的三个基本准则 任务周转时间：从新建到完成的时间 任务响应时间：从提交请求到首次响应的时间（前台任务关心） 系统吞吐量：一段时间内系统能完成的任务数  调度算法 先来先服务  最短作业优先调度：不可抢占，平均周转时间短（作业运行时间只能近似给出）  最短剩余时间有限：最短作业优先的可抢占版本  时间片轮转调度：保证响应时间 时间片设得太短会导致过多的进程切换，降低了CPU">
+<meta property="og:locale">
+<meta property="og:image" content="https://smartyue076.github.io/images/rr.png">
+<meta property="og:image" content="https://smartyue076.github.io/images/process_control.png">
+<meta property="og:image" content="https://smartyue076.github.io/images/process_control_2.png">
+<meta property="og:image" content="https://smartyue076.github.io/images/reader_writer.png">
+<meta property="og:image" content="https://smartyue076.github.io/images/reader_writer_2.png">
+<meta property="og:image" content="https://smartyue076.github.io/images/eat.png">
+<meta property="og:image" content="https://smartyue076.github.io/images/banker.png">
+<meta property="article:published_time" content="2025-06-25T06:52:12.478Z">
+<meta property="article:modified_time" content="2025-06-25T06:52:12.479Z">
+<meta property="article:author" content="子非鱼">
+<meta property="article:tag" content="操作系统">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://smartyue076.github.io/images/rr.png">
+
+<link rel="canonical" href="https://smartyue076.github.io/%E7%AC%AC%E4%BA%8C%E7%AB%A0%20%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86%EF%BC%88%E8%BF%9B%E7%A8%8B%E5%90%8C%E6%AD%A5%E4%B8%8E%E6%AD%BB%E9%94%81%EF%BC%89/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>操作系统（二）进程管理（进程同步与死锁） | 子非鱼的技术博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">子非鱼的技术博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://smartyue076.github.io/%E7%AC%AC%E4%BA%8C%E7%AB%A0%20%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86%EF%BC%88%E8%BF%9B%E7%A8%8B%E5%90%8C%E6%AD%A5%E4%B8%8E%E6%AD%BB%E9%94%81%EF%BC%89/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/me.png">
+      <meta itemprop="name" content="子非鱼">
+      <meta itemprop="description" content="Hi，朋友。欢迎来到我的技术博客。本站主要整理了计算机相关的专业知识，包括操作系统、计算机网络、算法以及分布式系统等等。此外，还有我的一些学习及工作碎碎念，希望能与你一同探索计算机的有趣世界～">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="子非鱼的技术博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          操作系统（二）进程管理（进程同步与死锁）
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2025-06-25 14:52:12" itemprop="dateCreated datePublished" datetime="2025-06-25T14:52:12+08:00">2025-06-25</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" itemprop="url" rel="index"><span itemprop="name">操作系统</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="Symbols count in article">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">Symbols count in article: </span>
+              <span>2.6k</span>
+            </span>
+            <span class="post-meta-item" title="Reading time">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">Reading time &asymp;</span>
+              <span>7 mins.</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="CPU调度策略"><a href="#CPU调度策略" class="headerlink" title="CPU调度策略"></a>CPU调度策略</h3><h4 id="任务调度策略的三个基本准则"><a href="#任务调度策略的三个基本准则" class="headerlink" title="任务调度策略的三个基本准则"></a>任务调度策略的三个基本准则</h4><ul>
+<li>任务周转时间：从新建到完成的时间</li>
+<li>任务响应时间：从提交请求到首次响应的时间（前台任务关心）</li>
+<li>系统吞吐量：一段时间内系统能完成的任务数</li>
+</ul>
+<h4 id="调度算法"><a href="#调度算法" class="headerlink" title="调度算法"></a>调度算法</h4><ol>
+<li><p>先来先服务</p>
+</li>
+<li><p>最短作业优先调度：不可抢占，平均周转时间短（作业运行时间只能近似给出）</p>
+</li>
+<li><p>最短剩余时间有限：最短作业优先的可抢占版本</p>
+</li>
+<li><p>时间片轮转调度：保证响应时间</p>
+<p><strong>时间片设得太短</strong>会导致过多的进程切换，<strong>降低了CPU效率</strong>；<strong>设得太长</strong>会引起<strong>对短作业的交互请求的响应时间变长</strong></p>
+</li>
+</ol>
+<img src="/../../images/rr.png" align='middle' width=700px/>
+
+<ol start="5">
+<li><p>多级反馈队列调度：动态调整任务类型（近期多IO可能为前台任务，无IO时间片结束未完成可能为后台大任务）</p>
+<p>运行流程</p>
+<ol>
+<li>设置<strong>多级就绪队列</strong>，各级队列优先级从高到低，时间片从小到大</li>
+<li>新进程到达时<strong>先进入第1级队列</strong>，按<strong>FCFS原则</strong>排队等待被分配时间片。 若用完时间片进程还未结束，则进程<strong>进入下一级队列队尾</strong>。如果此时已经是在最下级的队列，则重新放回最下级队列队尾</li>
+<li>只有第k级队列为空时，才会<strong>为k+1级队头的进程分配时间片</strong></li>
+</ol>
+</li>
+</ol>
+<h4 id="调度算法比较"><a href="#调度算法比较" class="headerlink" title="调度算法比较"></a>调度算法比较</h4><img src="/../../images/process_control.png" align='middle' width=700px/>
+
+<img src="/../../images/process_control_2.png" align='middle' width=700px/>
+
+<h5 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h5><ol>
+<li>IO占比越大，任务优先级越高</li>
+</ol>
+<h3 id="进程同步与互斥"><a href="#进程同步与互斥" class="headerlink" title="进程同步与互斥"></a>进程同步与互斥</h3><h5 id="实现临界区互斥的基本方法"><a href="#实现临界区互斥的基本方法" class="headerlink" title="实现临界区互斥的基本方法"></a>实现临界区互斥的基本方法</h5><p><strong>软件实现</strong></p>
+<p>Peterson算法：访问临界区前判断其他进程是否要用，要用则循环等待；等其他进程使用完后访问临界区</p>
+<p><strong>硬件实现</strong></p>
+<ol>
+<li>开关中断：只适用于单处理机，可以使得一个处理机内任务不中断。如果多处理机要实现互斥需要总线支持</li>
+<li>TestAndSet</li>
+</ol>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">define</span> LOCKED 1</span></span><br><span class="line"><span class="keyword">volatile</span> <span class="type">int</span> lock = <span class="number">0</span>;</span><br><span class="line"><span class="type">void</span> <span class="title function_">Critical</span><span class="params">()</span> &#123;</span><br><span class="line">     <span class="keyword">while</span> (TestAndSet(&amp;lock) == <span class="number">1</span>);</span><br><span class="line">     critical section <span class="comment">// only one process can be in this section at a time</span></span><br><span class="line">     lock = <span class="number">0</span> <span class="comment">// release lock when finished with the critical section</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 原子操作</span></span><br><span class="line"><span class="type">int</span> TestAndSet(<span class="type">int</span>* lockPtr) &#123;</span><br><span class="line">    <span class="type">int</span> oldValue;</span><br><span class="line">    oldValue = *lockPtr;</span><br><span class="line">    *lockPtr = LOCKED; <span class="comment">//不管原来有没有上锁，先加锁</span></span><br><span class="line">    <span class="keyword">return</span> oldValue; <span class="comment">//返回本来是否上锁</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="信号量"><a href="#信号量" class="headerlink" title="信号量"></a>信号量</h4><p>记录型信号量支持让权等待（while判断循环的都不是让权等待）</p>
+<p>退出临界区的进程负责唤醒阻塞态进程（区别于while判断循环的自发进入临界区）</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">semaphore</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">  <span class="type">int</span> value; <span class="comment">// value of block_process or free resource</span></span><br><span class="line">  PCB *<span class="built_in">queue</span>; <span class="comment">// process queue wait on sem</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">P</span><span class="params">(semaphore s)</span></span><br><span class="line">&#123;</span><br><span class="line">  s.value--;</span><br><span class="line">  <span class="keyword">if</span> (s.value &lt; <span class="number">0</span>)</span><br><span class="line">  	sleep_on(s.<span class="built_in">queue</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">V</span><span class="params">(semaphore s)</span></span><br><span class="line">&#123;</span><br><span class="line">  s.value++;</span><br><span class="line">  <span class="keyword">if</span> (s.value &lt;= <span class="number">0</span>) <span class="comment">// release one wake_up one(唤醒阻塞队列的队头任务)</span></span><br><span class="line">  	wake_up(s.<span class="built_in">queue</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="生产者-消费者模型"><a href="#生产者-消费者模型" class="headerlink" title="生产者&#x2F;消费者模型"></a>生产者&#x2F;消费者模型</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// use semaphore</span></span><br><span class="line">semaphore empty = BUFFER_SIZE; <span class="comment">// count of empty size</span></span><br><span class="line">semaphore full = <span class="number">0</span>; <span class="comment">// count of resource in space</span></span><br><span class="line">semaphore mutex = <span class="number">1</span>; <span class="comment">// prevent change to space</span></span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">producer</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">  P(empty); <span class="comment">//确保有空间</span></span><br><span class="line">  P(mutex);</span><br><span class="line">  buffer[in] = item;</span><br><span class="line">  in = (in + <span class="number">1</span>) % BUFFER_SIZE;</span><br><span class="line">  V(mutex);</span><br><span class="line">  V(full);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">consumer</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">  P(full); <span class="comment">//确保有东西</span></span><br><span class="line">  P(mutex);</span><br><span class="line">  item = buffer[out];</span><br><span class="line">  out = (out + <span class="number">1</span>) % BUFFER_SIZE;</span><br><span class="line">  V(mutex);</span><br><span class="line">  V(empty);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="读者-写者模型"><a href="#读者-写者模型" class="headerlink" title="读者&#x2F;写者模型"></a>读者&#x2F;写者模型</h4><h5 id="读者优先"><a href="#读者优先" class="headerlink" title="读者优先"></a>读者优先</h5><img src="/../../images/reader_writer.png" align='middle' width=700px/>
+
+<h5 id="读写公平"><a href="#读写公平" class="headerlink" title="读写公平"></a>读写公平</h5><img src="/../../images/reader_writer_2.png" align='middle' width=700px/>
+
+
+
+<h4 id="哲学家进餐问题"><a href="#哲学家进餐问题" class="headerlink" title="哲学家进餐问题"></a>哲学家进餐问题</h4><p>各哲学家互斥得拿筷子，即同一时间至多有一个哲学家拿筷子阻塞</p>
+<img src="/../../images/eat.png" align='middle' width=700px/>
+
+
+
+<h3 id="死锁"><a href="#死锁" class="headerlink" title="死锁"></a>死锁</h3><p>死锁的四个<strong>必要条件</strong></p>
+<ul>
+<li>互斥：资源不能被共享，一个资源每次只能被一个进程使用</li>
+<li>不可剥夺：进程已获得的资源，在未使用完之前，不能强行剥夺</li>
+<li>请求与保持：一个进程因请求资源而阻塞时，对已获得的资源保持不放</li>
+<li>循环等待：若干进程之间形成一种头尾相接的循环性资源等待关系</li>
+</ul>
+<h4 id="死锁预防（不会发生死锁）"><a href="#死锁预防（不会发生死锁）" class="headerlink" title="死锁预防（不会发生死锁）"></a>死锁预防（不会发生死锁）</h4><p>破坏“请求与保持”：一次性申请进程所需的所有资源</p>
+<p>破坏“循环等待”：资源按顺序申请（其实达不到，没法预测程序走的分支）</p>
+<p>缺点：</p>
+<ul>
+<li>需要预先计算程序要请求的资源</li>
+<li>可能很久以后才使用的资源早早地预留下来，造成资源的浪费</li>
+</ul>
+<h4 id="死锁避免（拒绝某些资源请求）"><a href="#死锁避免（拒绝某些资源请求）" class="headerlink" title="死锁避免（拒绝某些资源请求）"></a>死锁避免（拒绝某些资源请求）</h4><p>每次申请资源都要判断是否出现死锁的危险，如果有危险就拒绝这次请求</p>
+<p>通过<strong>银行家算法</strong>计算安全序列，充分性算法，<strong>完全避免死锁</strong></p>
+<p>算法优先分配给能满足进程所需最大资源量的进程，一次分配所有所需要的所有资源</p>
+<p>缺点：</p>
+<ul>
+<li>每次资源请求发生就要计算，且时间复杂度不小（时间复杂度O(mn^2)，m为资源种类，n为进程数）</li>
+<li>需要已知进程执行完成所需的资源总数</li>
+</ul>
+<p><strong>银行家算法（‼️）</strong></p>
+<ol>
+<li>判断请求是否小于所需资源</li>
+<li>判断请求是否小于当前系统资源量</li>
+<li>尝试分配，判断能否找出安全序列</li>
+<li>若能找到则分配，若不能找到则不分配</li>
+</ol>
+<p><strong>求安全序列</strong></p>
+<p>最大资源组A，已分配组B，还需资源组C（C&#x3D;A-B）</p>
+<p>系统资源组P</p>
+<ol>
+<li>查看<strong>还需 资源A 小于等于 系统资源P 的进程</strong></li>
+<li>一次分配后，将已分配的资源回收，<strong>更新系统P</strong></li>
+<li>返回1，若所有进程都能分配，则存在安全序列（不唯一）</li>
+</ol>
+<p>备注：</p>
+<ol>
+<li>存在安全序列 -》无死锁进程</li>
+<li>不存在安全序列不一定发生死锁（依赖于请求资源的序列）</li>
+</ol>
+<p><strong>不发生死锁的最小资源量</strong></p>
+<p>每个所需资源都-1后累加，再加一（每个所需资源都-1为请求与保持的最坏情况，+1即可确保分配不发生死锁）</p>
+<img src="/../../images/banker.png" align='middle' width=700px/>
+
+
+
+<h4 id="死锁检测-恢复（排查因资源导致的阻塞进程）"><a href="#死锁检测-恢复（排查因资源导致的阻塞进程）" class="headerlink" title="死锁检测&#x2F;恢复（排查因资源导致的阻塞进程）"></a>死锁检测&#x2F;恢复（排查因资源导致的阻塞进程）</h4><p>检测发生死锁的进程（资源未被使用，进程长时间未调度等），恢复进程并重新分配资源（<strong>改进的银行家算法</strong>）</p>
+<p>改进的银行家算法分配每次进程请求的资源，而不是分配所需的所有资源，因为有事进程对于资源使用后就会释放，这样系统有更多余量</p>
+<p>缺点：</p>
+<ul>
+<li>回滚的处理问题</li>
+</ul>
+<h4 id="死锁忽略（大部分PC机操作系统）"><a href="#死锁忽略（大部分PC机操作系统）" class="headerlink" title="死锁忽略（大部分PC机操作系统）"></a>死锁忽略（大部分PC机操作系统）</h4><p>不进行死锁处理</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" rel="tag"># 操作系统</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/%E7%AC%AC%E4%BA%8C%E7%AB%A0%20%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86%EF%BC%88%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E5%A4%9A%E8%BF%9B%E7%A8%8B%EF%BC%89/" rel="prev" title="操作系统（二）进程管理（如何实现多进程）">
+      <i class="fa fa-chevron-left"></i> 操作系统（二）进程管理（如何实现多进程）
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/%E7%AC%AC%E4%B8%89%E7%AB%A0%20%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/" rel="next" title="操作系统（四）内存管理">
+      操作系统（四）内存管理 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#CPU%E8%B0%83%E5%BA%A6%E7%AD%96%E7%95%A5"><span class="nav-number">1.</span> <span class="nav-text">CPU调度策略</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6%E7%AD%96%E7%95%A5%E7%9A%84%E4%B8%89%E4%B8%AA%E5%9F%BA%E6%9C%AC%E5%87%86%E5%88%99"><span class="nav-number">1.1.</span> <span class="nav-text">任务调度策略的三个基本准则</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%B0%83%E5%BA%A6%E7%AE%97%E6%B3%95"><span class="nav-number">1.2.</span> <span class="nav-text">调度算法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%B0%83%E5%BA%A6%E7%AE%97%E6%B3%95%E6%AF%94%E8%BE%83"><span class="nav-number">1.3.</span> <span class="nav-text">调度算法比较</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%85%B6%E4%BB%96"><span class="nav-number">1.3.1.</span> <span class="nav-text">其他</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%9B%E7%A8%8B%E5%90%8C%E6%AD%A5%E4%B8%8E%E4%BA%92%E6%96%A5"><span class="nav-number">2.</span> <span class="nav-text">进程同步与互斥</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0%E4%B8%B4%E7%95%8C%E5%8C%BA%E4%BA%92%E6%96%A5%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%96%B9%E6%B3%95"><span class="nav-number">2.0.1.</span> <span class="nav-text">实现临界区互斥的基本方法</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BF%A1%E5%8F%B7%E9%87%8F"><span class="nav-number">2.1.</span> <span class="nav-text">信号量</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%94%9F%E4%BA%A7%E8%80%85-%E6%B6%88%E8%B4%B9%E8%80%85%E6%A8%A1%E5%9E%8B"><span class="nav-number">2.2.</span> <span class="nav-text">生产者&#x2F;消费者模型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%AF%BB%E8%80%85-%E5%86%99%E8%80%85%E6%A8%A1%E5%9E%8B"><span class="nav-number">2.3.</span> <span class="nav-text">读者&#x2F;写者模型</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%AF%BB%E8%80%85%E4%BC%98%E5%85%88"><span class="nav-number">2.3.1.</span> <span class="nav-text">读者优先</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%AF%BB%E5%86%99%E5%85%AC%E5%B9%B3"><span class="nav-number">2.3.2.</span> <span class="nav-text">读写公平</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%93%B2%E5%AD%A6%E5%AE%B6%E8%BF%9B%E9%A4%90%E9%97%AE%E9%A2%98"><span class="nav-number">2.4.</span> <span class="nav-text">哲学家进餐问题</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AD%BB%E9%94%81"><span class="nav-number">3.</span> <span class="nav-text">死锁</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%AD%BB%E9%94%81%E9%A2%84%E9%98%B2%EF%BC%88%E4%B8%8D%E4%BC%9A%E5%8F%91%E7%94%9F%E6%AD%BB%E9%94%81%EF%BC%89"><span class="nav-number">3.1.</span> <span class="nav-text">死锁预防（不会发生死锁）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%AD%BB%E9%94%81%E9%81%BF%E5%85%8D%EF%BC%88%E6%8B%92%E7%BB%9D%E6%9F%90%E4%BA%9B%E8%B5%84%E6%BA%90%E8%AF%B7%E6%B1%82%EF%BC%89"><span class="nav-number">3.2.</span> <span class="nav-text">死锁避免（拒绝某些资源请求）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%AD%BB%E9%94%81%E6%A3%80%E6%B5%8B-%E6%81%A2%E5%A4%8D%EF%BC%88%E6%8E%92%E6%9F%A5%E5%9B%A0%E8%B5%84%E6%BA%90%E5%AF%BC%E8%87%B4%E7%9A%84%E9%98%BB%E5%A1%9E%E8%BF%9B%E7%A8%8B%EF%BC%89"><span class="nav-number">3.3.</span> <span class="nav-text">死锁检测&#x2F;恢复（排查因资源导致的阻塞进程）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%AD%BB%E9%94%81%E5%BF%BD%E7%95%A5%EF%BC%88%E5%A4%A7%E9%83%A8%E5%88%86PC%E6%9C%BA%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%EF%BC%89"><span class="nav-number">3.4.</span> <span class="nav-text">死锁忽略（大部分PC机操作系统）</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="子非鱼"
+      src="/images/me.png">
+  <p class="site-author-name" itemprop="name">子非鱼</p>
+  <div class="site-description" itemprop="description">Hi，朋友。欢迎来到我的技术博客。本站主要整理了计算机相关的专业知识，包括操作系统、计算机网络、算法以及分布式系统等等。此外，还有我的一些学习及工作碎碎念，希望能与你一同探索计算机的有趣世界～</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">58</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">24</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">子非鱼</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="Symbols count total">139k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="Reading time total">5:48</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a>
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+</body>
+</html>

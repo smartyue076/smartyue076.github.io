@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/me_icon_32.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/me_icon_16.ico">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="M_avNi87YsXV1nsCz0Qp5pHTFwS89aIxXwXh6yF-cE4">
+  <meta name="msvalidate.01" content="A0EF53E4F47194CE0652434A8BF6473C">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Noto Sans SC:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"smartyue076.github.io","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"right","width":250,"display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":2,"unescape":false,"preload":false},"motion":{"enable":true,"async":true,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="状态机切换流程  初始化初始化流程主要包括从磁盘中加在持久化配置，将自己的状态设为 Follower init：从磁盘中加在持久化配置，将自己的状态设为 Follower becomeFollower：状态机切换为 Follower，执行 Follower 的处理流程 12345678910111213int init()&#123;  &#x2F;&#x2F; 1. 读取初始化配置（from 本地磁盘）  curr">
+<meta property="og:type" content="article">
+<meta property="og:title" content="RAFT 分布式一致性算法（实现篇）">
+<meta property="og:url" content="https://smartyue076.github.io/RAFT%EF%BC%88%E5%88%86%E5%B8%83%E5%BC%8F%E4%B8%80%E8%87%B4%E6%80%A7%E7%AE%97%E6%B3%95%EF%BC%89%E5%AE%9E%E7%8E%B0/index.html">
+<meta property="og:site_name" content="子非鱼的技术博客">
+<meta property="og:description" content="状态机切换流程  初始化初始化流程主要包括从磁盘中加在持久化配置，将自己的状态设为 Follower init：从磁盘中加在持久化配置，将自己的状态设为 Follower becomeFollower：状态机切换为 Follower，执行 Follower 的处理流程 12345678910111213int init()&#123;  &#x2F;&#x2F; 1. 读取初始化配置（from 本地磁盘）  curr">
+<meta property="og:locale">
+<meta property="og:image" content="https://smartyue076.github.io/images/raft_state_machine.svg">
+<meta property="og:image" content="https://smartyue076.github.io/images/partition.svg">
+<meta property="article:published_time" content="2025-06-25T06:46:52.607Z">
+<meta property="article:modified_time" content="2025-06-25T06:46:52.607Z">
+<meta property="article:author" content="子非鱼">
+<meta property="article:tag" content="论文导读">
+<meta property="article:tag" content="分布式系统">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://smartyue076.github.io/images/raft_state_machine.svg">
+
+<link rel="canonical" href="https://smartyue076.github.io/RAFT%EF%BC%88%E5%88%86%E5%B8%83%E5%BC%8F%E4%B8%80%E8%87%B4%E6%80%A7%E7%AE%97%E6%B3%95%EF%BC%89%E5%AE%9E%E7%8E%B0/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>RAFT 分布式一致性算法（实现篇） | 子非鱼的技术博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">子非鱼的技术博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://smartyue076.github.io/RAFT%EF%BC%88%E5%88%86%E5%B8%83%E5%BC%8F%E4%B8%80%E8%87%B4%E6%80%A7%E7%AE%97%E6%B3%95%EF%BC%89%E5%AE%9E%E7%8E%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/me.png">
+      <meta itemprop="name" content="子非鱼">
+      <meta itemprop="description" content="Hi，朋友。欢迎来到我的技术博客。本站主要整理了计算机相关的专业知识，包括操作系统、计算机网络、算法以及分布式系统等等。此外，还有我的一些学习及工作碎碎念，希望能与你一同探索计算机的有趣世界～">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="子非鱼的技术博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          RAFT 分布式一致性算法（实现篇）
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2025-06-25 14:46:52" itemprop="dateCreated datePublished" datetime="2025-06-25T14:46:52+08:00">2025-06-25</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F/" itemprop="url" rel="index"><span itemprop="name">分布式系统</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="Symbols count in article">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">Symbols count in article: </span>
+              <span>10k</span>
+            </span>
+            <span class="post-meta-item" title="Reading time">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">Reading time &asymp;</span>
+              <span>26 mins.</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="状态机切换流程"><a href="#状态机切换流程" class="headerlink" title="状态机切换流程"></a>状态机切换流程</h2><img src="/../../images\raft_state_machine.svg" style="zoom:50%;" />
+
+<h2 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h2><p>初始化流程主要包括<strong>从磁盘中加在持久化配置</strong>，将自己的<strong>状态设为 Follower</strong></p>
+<p>init：从磁盘中加在持久化配置，将自己的状态设为 Follower</p>
+<p>becomeFollower：状态机切换为 Follower，执行 Follower 的处理流程</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">init</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="comment">// 1. 读取初始化配置（from 本地磁盘）</span></span><br><span class="line">  currentTerm = <span class="built_in">read_file</span>(currentTerm);</span><br><span class="line">  votedFor = <span class="built_in">read_file</span>(voteFor);</span><br><span class="line">  prevLogIndex = <span class="built_in">get_prev_log_index</span>(<span class="built_in">read_file</span>(log[]));</span><br><span class="line">  prevLogTerm = <span class="built_in">get_prev_log_term</span>(<span class="built_in">read_file</span>(log[]));</span><br><span class="line">  </span><br><span class="line">  <span class="comment">// 2. 将自己的状态设置为Follower</span></span><br><span class="line">  <span class="built_in">becomeFollower</span>();</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="主要功能模块"><a href="#主要功能模块" class="headerlink" title="主要功能模块"></a>主要功能模块</h2><h3 id="请求响应模块"><a href="#请求响应模块" class="headerlink" title="请求响应模块"></a>请求响应模块</h3><p><strong>所有结点</strong>都可以响应客户端的<strong>读请求</strong></p>
+<p><strong>仅 Leader 结点</strong>响应客户端<strong>写请求</strong>，如果客户端发送到了 Follower ，则其会通过 <code>leaderId</code> 返回 Leader 的位置</p>
+<p><code>handleClientRequest</code>：Leader 线程，用于处理客户端请求</p>
+<p><code>sendRequest</code>：发送同步请求并收集响应，如果获得超半数的确认，则返回 true</p>
+<p><code>doLogReplication</code>：对每个结点发送包含当前请求的 <code>sendAppendEntries RPC</code></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">handleClientRequest</span><span class="params">()</span></span>&#123;</span><br><span class="line">  <span class="keyword">while</span> (status == Leader)&#123;</span><br><span class="line">    <span class="type">int</span> n = <span class="built_in">epoll_wait</span>(...);</span><br><span class="line">    <span class="keyword">for</span>(socket_fd in socket_fd_list)&#123;</span><br><span class="line">      <span class="keyword">if</span> (status != Leader)</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      request_log = <span class="built_in">getLogFromRequest</span>(sock_fd);</span><br><span class="line">      <span class="comment">// 当前请求执行失败意味着出现了网络分区</span></span><br><span class="line">      <span class="type">bool</span> is_commited = <span class="built_in">sendRequest</span>();</span><br><span class="line">      <span class="keyword">if</span> (!is_commited)</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">not</span> commited request socket_fd)</span><br><span class="line">      <span class="built_in">sendRejectMessage</span>(socket_fd);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">bool</span> <span class="title">sendRequest</span><span class="params">()</span></span>&#123;</span><br><span class="line">  <span class="comment">// 将当前请求持久化</span></span><br><span class="line">  log.<span class="built_in">append</span>(request_log);</span><br><span class="line">  <span class="built_in">persist</span>();</span><br><span class="line">  commited_sevrer_count = <span class="number">1</span>;</span><br><span class="line">  </span><br><span class="line">  <span class="comment">// 发送日志同步请求</span></span><br><span class="line">	<span class="built_in">doLogReplication</span>();</span><br><span class="line">  <span class="keyword">while</span> (commitedSevrerCount &lt; server_list.<span class="built_in">size</span>() / <span class="number">2</span> + <span class="number">1</span>)&#123;</span><br><span class="line">    <span class="comment">// 超时未收到过半的结点响应</span></span><br><span class="line">    <span class="keyword">if</span> (requestTimeout == <span class="literal">true</span>)</span><br><span class="line">      <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    commitedSevrerCount = <span class="built_in">getCommitedServerCount</span>(commitedSevrerList)</span><br><span class="line">    <span class="built_in">sleep</span>(tick);</span><br><span class="line">  &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">doLogReplication</span><span class="params">()</span></span>&#123;</span><br><span class="line">  appendEntriesArgs-&gt;<span class="built_in">set_term</span>(currentTerm);</span><br><span class="line">  appendEntriesArgs-&gt;<span class="built_in">set_leaderid</span>(id);</span><br><span class="line">  appendEntriesArgs-&gt;<span class="built_in">set_prevlogindex</span>(prevlogindex);</span><br><span class="line">  appendEntriesArgs-&gt;<span class="built_in">set_prevlogterm</span>(prevlogterm);</span><br><span class="line">  appendEntriesArgs-&gt;<span class="built_in">set_leadercommit</span>(leaderCommit);</span><br><span class="line">  appendEntriesArgs-&gt;<span class="built_in">set_entries</span>(request_log);</span><br><span class="line">  heartBeatTimer.<span class="built_in">reset</span>();</span><br><span class="line">  <span class="keyword">for</span> (each server in server_list)&#123;</span><br><span class="line">    <span class="keyword">if</span> (status!=Leader)</span><br><span class="line">      <span class="keyword">break</span>;</span><br><span class="line">    <span class="built_in">thread_pool_add_work</span>(sendAppendEntries,server_id,appendEntriesArgs);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="心跳处理与日志同步模块"><a href="#心跳处理与日志同步模块" class="headerlink" title="心跳处理与日志同步模块"></a>心跳处理与日志同步模块</h3><p>当心跳时钟到点后，对其他结点发送心跳以<strong>告知 Leader 的存活</strong></p>
+<p><code>becomeLeader</code>：状态机切换为 Leader，执行 Leader 的处理流程</p>
+<p><code>heartBeatTimeoutTicker</code>：时钟到点后触发心跳发布流程</p>
+<p><code>doHeartBeat</code>：如果其他结点与 Leader 日志状态一致则只发送心跳，否则发送最后一条日志来逐个同步</p>
+<p><code>sendAppendEntries</code>：对每个结点发送 <code>sendAppendEntries RPC</code> 以刷新 <code>electionTimeout</code> 以及同步日志。如果当前 Leader 的 term 落后集群，则主动退位为 Follower，调用 <code>becomeFollower</code></p>
+<p><code>appendEntriesRPC</code>：同步状态与日志，若不满足日志同步条件则返回 false</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Leader</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">becomeLeader</span><span class="params">()</span></span>&#123;</span><br><span class="line">  status = Leader;</span><br><span class="line">  <span class="built_in">thread_pool_add_work</span>(handleClientRequest,<span class="literal">NULL</span>);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">while</span> (status == Leader)&#123;</span><br><span class="line">    <span class="built_in">heartBeatTimeoutTicker</span>();</span><br><span class="line">    <span class="built_in">sleep</span>(tick);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">heartBeatTimeoutTicker</span><span class="params">()</span></span>&#123;</span><br><span class="line">  <span class="comment">// 条件满足时进入心跳流程</span></span><br><span class="line">  <span class="keyword">if</span>(heartBeatTimeout is finished)&#123;</span><br><span class="line">    <span class="built_in">doHeartBeat</span>();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 发送心跳与同步日志</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">doHeartBeat</span><span class="params">()</span></span>&#123;</span><br><span class="line">  <span class="comment">// 默认仅发送心跳</span></span><br><span class="line">  appendEntriesArgs-&gt;<span class="built_in">set_term</span>(currentTerm);</span><br><span class="line">  appendEntriesArgs-&gt;<span class="built_in">set_leaderid</span>(id);</span><br><span class="line">  appendEntriesArgs-&gt;<span class="built_in">set_leadercommit</span>(leaderCommit);</span><br><span class="line"></span><br><span class="line">  appendEntriesArgs-&gt;<span class="built_in">set_prevlogindex</span>(<span class="number">-1</span>);</span><br><span class="line">  appendEntriesArgs-&gt;<span class="built_in">set_prevlogterm</span>(<span class="number">-1</span>);</span><br><span class="line">  appendEntriesArgs-&gt;<span class="built_in">set_entries</span>([]);</span><br><span class="line">  heartBeatTimer.<span class="built_in">reset</span>();</span><br><span class="line">  <span class="keyword">for</span> (each server in server_list)&#123;</span><br><span class="line">    <span class="keyword">if</span> (status!=Leader)</span><br><span class="line">      <span class="keyword">break</span>;</span><br><span class="line">    <span class="comment">// 如果日志状态不同步，则发送最后一条日志来逐个同步</span></span><br><span class="line">    <span class="keyword">if</span> (nextIndex[server_id] != prevlogindex)&#123;</span><br><span class="line">      appendEntriesArgs-&gt;<span class="built_in">set_prevlogindex</span>(prevlogindex);</span><br><span class="line">      appendEntriesArgs-&gt;<span class="built_in">set_prevlogterm</span>(prevlogterm);</span><br><span class="line">      appendEntriesArgs-&gt;<span class="built_in">set_entries</span>(entries);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">thread_pool_add_work</span>(sendAppendEntries,server_id,appendEntriesArgs);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">Status <span class="title">sendAppendEntries</span><span class="params">(<span class="type">int</span> server_id, AppendEntriesArgs &amp;appendEntriesArgs)</span></span>&#123;</span><br><span class="line">  Status status = stub_-&gt;<span class="built_in">appendEntriesRPC</span>(&amp;context, appendEntriesArgs, &amp;reply);</span><br><span class="line">  <span class="keyword">if</span> (!status.<span class="built_in">ok</span>())</span><br><span class="line">    <span class="keyword">return</span> connectFailed;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (currentTerm &lt; reply-&gt;<span class="built_in">term</span>())&#123;</span><br><span class="line">    currentTerm = reply-&gt;<span class="built_in">term</span>();</span><br><span class="line">    votedFor = <span class="number">-1</span>;</span><br><span class="line">    <span class="built_in">persist</span>();</span><br><span class="line">    <span class="built_in">thread_pool_add_work</span>(becomeFollower,<span class="literal">NULL</span>);</span><br><span class="line">    <span class="keyword">return</span> failedCampaign;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 仅处理心跳</span></span><br><span class="line">  <span class="keyword">if</span> (appendEntriesArgs-&gt;<span class="built_in">log</span>() == [])</span><br><span class="line">    <span class="keyword">return</span> success;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 日志同步(采用线形探测)</span></span><br><span class="line">  <span class="keyword">if</span>(reply-&gt;<span class="built_in">success</span>() == <span class="literal">true</span>)&#123;</span><br><span class="line">    commitedSevrerCount[server_id] = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">return</span> success;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">else</span>&#123;</span><br><span class="line">    nextIndex[server_id]--;</span><br><span class="line">    <span class="type">int</span> con_preLogIndex = <span class="built_in">getpreLogIndex</span>(nextIndex[server_id]);</span><br><span class="line">    <span class="type">int</span> con_preLogTerm = <span class="built_in">getpreLogTerm</span>(nextIndex[server_id]);</span><br><span class="line">    LogEntries entries = <span class="built_in">getLogEntries</span>(nextIndex[server_id]);</span><br><span class="line">    appendEntriesArgs-&gt;<span class="built_in">set_prevlogindex</span>(con_preLogIndex);</span><br><span class="line">    appendEntriesArgs-&gt;<span class="built_in">set_prevlogterm</span>(con_preLogTerm);</span><br><span class="line">    appendEntriesArgs-&gt;<span class="built_in">set_entries</span>(entries);</span><br><span class="line">    <span class="built_in">sendAppendEntries</span>(server_id, AppendEntriesArgs &amp;appendEntriesArgs);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// appendEntriesRPC</span></span><br><span class="line"><span class="function">Status <span class="title">appendEntriesRPC</span><span class="params">(ServerContext* context, <span class="type">const</span> AppendEntriesArgs *appendEntriesArgs, AppendEntriesReply* reply)</span> <span class="keyword">override</span> </span>&#123;</span><br><span class="line">  <span class="comment">// Leader 落后当前结点</span></span><br><span class="line">  <span class="keyword">if</span> (currentTerm &lt; appendEntriesArgs-&gt;<span class="built_in">term</span>())&#123;</span><br><span class="line">      reply-&gt;<span class="built_in">set_term</span>(currentTerm);</span><br><span class="line">      reply-&gt;<span class="built_in">set_success</span>(<span class="literal">false</span>);</span><br><span class="line">      <span class="keyword">return</span> Status::OK;</span><br><span class="line">  &#125;</span><br><span class="line">  electionTimer.<span class="built_in">reset</span>(); <span class="comment">// 只有当前 Leader 合法，才刷新 electionTimeout</span></span><br><span class="line">  </span><br><span class="line">  <span class="comment">// 更新状态</span></span><br><span class="line">  <span class="keyword">else</span> <span class="keyword">if</span> (currentTerm &lt; appendEntriesArgs-&gt;<span class="built_in">term</span>())&#123;</span><br><span class="line">    currentTerm = appendEntriesArgs-&gt;<span class="built_in">term</span>();</span><br><span class="line">    voteFor = <span class="number">-1</span>;</span><br><span class="line">    <span class="built_in">persist</span>();</span><br><span class="line">    <span class="keyword">if</span> (status != Follower)&#123;</span><br><span class="line">      <span class="built_in">thread_pool_add_work</span>(becomeFollower,<span class="literal">NULL</span>);</span><br><span class="line">      reply-&gt;<span class="built_in">set_term</span>(currentTerm);</span><br><span class="line">      reply-&gt;<span class="built_in">set_success</span>(<span class="literal">false</span>);</span><br><span class="line">      <span class="keyword">return</span> Status::OK;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">else</span>&#123;</span><br><span class="line">    leaderCommit = appendEntriesArgs-&gt;<span class="built_in">leaderCommit</span>();</span><br><span class="line">  &#125;</span><br><span class="line">  leaderId = appendEntriesArgs-&gt;<span class="built_in">leaderId</span>();</span><br><span class="line">  </span><br><span class="line">  <span class="comment">// 同步日志</span></span><br><span class="line">  <span class="keyword">if</span>(log[appendEntriesArgs-&gt;<span class="built_in">prevLogIndex</span>()] == appendEntriesArgs-&gt;<span class="built_in">prevLogTerm</span>())&#123;</span><br><span class="line">    log.<span class="built_in">erase</span>(appendEntriesArgs-&gt;<span class="built_in">prevLogIndex</span>(),prevLogIndex); <span class="comment">// start,end</span></span><br><span class="line">    log.<span class="built_in">append</span>(appendEntriesArgs-&gt;<span class="built_in">entries</span>());</span><br><span class="line">    <span class="built_in">persist</span>();</span><br><span class="line">    reply-&gt;<span class="built_in">set_term</span>(currentTerm);</span><br><span class="line">    reply-&gt;<span class="built_in">set_success</span>(<span class="literal">true</span>);</span><br><span class="line">    <span class="keyword">return</span> Status::OK;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">else</span>&#123;</span><br><span class="line">    reply-&gt;<span class="built_in">set_term</span>(currentTerm);</span><br><span class="line">    reply-&gt;<span class="built_in">set_success</span>(<span class="literal">false</span>);</span><br><span class="line">    <span class="keyword">return</span> Status::OK;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="主从选举模块"><a href="#主从选举模块" class="headerlink" title="主从选举模块"></a>主从选举模块</h3><p>如果选举时钟超时则触发选举流程，将自己的状态切换为 Candidate，调用 <code>becomeCandidate</code></p>
+<p><code>becomeFollower</code>：维护选举时钟</p>
+<p><code>electionTimeoutTicker</code>：选举时钟到点后触发选举流程</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Follower</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">becomeFollower</span><span class="params">()</span></span>&#123;</span><br><span class="line">  status = Follower;</span><br><span class="line">  <span class="keyword">while</span>(status == Follower)&#123;</span><br><span class="line">    <span class="comment">// 判断选举时钟是否超时</span></span><br><span class="line">    <span class="keyword">if</span>(<span class="built_in">electionTimeoutTicker</span>() == <span class="literal">true</span>)</span><br><span class="line">      <span class="keyword">break</span>;</span><br><span class="line">    <span class="built_in">sleep</span>(tick);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">bool</span> <span class="title">electionTimeoutTicker</span><span class="params">()</span></span>&#123;</span><br><span class="line">  <span class="comment">// 条件满足时进入选举流程</span></span><br><span class="line">  <span class="keyword">if</span>(electionTimeout is finished)&#123;</span><br><span class="line">    <span class="built_in">thread_pool_add_work</span>(becomeCandidate,<span class="literal">NULL</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>becomeCandidate</code>：切换状态为 Candidate ，进入选举流程</p>
+<p><code>doElection</code>：设置选举消息并开始选举</p>
+<p><code>sendRequestVote</code>：对其他结点调用 <code>requestVoteRPC</code> ，如果获得了超过半数的选票则切换为 Leader ，调用 <code>becomeLeader</code></p>
+<p><code>requestVoteRPC</code>：根据自身状态与选举约束决定是否投该 Candidate</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Candidate</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">becomeCandidate</span><span class="params">()</span></span>&#123;</span><br><span class="line">  status = Candidate;</span><br><span class="line">  <span class="built_in">doElection</span>();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">doElection</span><span class="params">()</span></span>&#123;</span><br><span class="line">  currentTerm += <span class="number">1</span>;</span><br><span class="line">  votedFor = id;  <span class="comment">//即是自己给自己投，也是避免自己给其他的Candidate投</span></span><br><span class="line">  <span class="built_in">persist</span>();	<span class="comment">// 状态持久化(currentTerm,voteFor)</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">// 设置requestVoteRPC的request参数</span></span><br><span class="line">  requestVoteArgs-&gt;<span class="built_in">set_term</span>(currentTerm);</span><br><span class="line">  requestVoteArgs-&gt;<span class="built_in">set_candidateid</span>(id);</span><br><span class="line">  requestVoteArgs-&gt;<span class="built_in">set_prevlogindex</span>(prevLogIndex);</span><br><span class="line">  requestVoteArgs-&gt;<span class="built_in">set_prevlogterm</span>(prevLogTerm);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 重置选举时钟</span></span><br><span class="line">  electionTimer.<span class="built_in">reset</span>();</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 清空选举列表（用列表记录所有结点的投票结果，而不只统计票数，防止一个结点因为网络重传等原因投了多票）</span></span><br><span class="line">  vote_list.<span class="built_in">reset</span>();</span><br><span class="line">  tickets = <span class="number">1</span>; <span class="comment">// 投给自己</span></span><br><span class="line">  <span class="keyword">for</span> (each server in server_list)&#123;</span><br><span class="line">    <span class="keyword">if</span> (status != Candidate) <span class="comment">// 在选举过程中可能自己会退化为Follower，发送前判断避免无效通信</span></span><br><span class="line">      <span class="keyword">break</span>;</span><br><span class="line">    <span class="comment">// 使用线程池异步发送选举请求（若采用同步则每次至少需要等2个RTT）</span></span><br><span class="line">    <span class="built_in">thread_pool_add_work</span>(sendRequestVote,server_id,requestVoteArgs,vote_list,tickets);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">Status <span class="title">sendRequestVote</span><span class="params">(<span class="type">int</span> server_id,RequestVoteArgs *requestVoteArgs, vector&lt;<span class="type">bool</span>&gt; &amp;vote_list,<span class="type">int</span> &amp;tickets)</span></span>&#123;</span><br><span class="line">  <span class="comment">// client调用requestVoteRPC服务</span></span><br><span class="line">  Status status = stub_-&gt;<span class="built_in">requestVoteRPC</span>(&amp;context, requestVoteArgs, &amp;reply);</span><br><span class="line">  <span class="keyword">if</span> (!status.<span class="built_in">ok</span>())</span><br><span class="line">    <span class="keyword">return</span> connectFailed;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Follower term &gt; Candidate term（说明当前Candidate已落后集群中至少一半结点，退化为Follower）</span></span><br><span class="line">  <span class="keyword">if</span> (currentTerm &lt; reply-&gt;<span class="built_in">term</span>())&#123;</span><br><span class="line">    status = Follower;</span><br><span class="line">    currentTerm = reply.term;</span><br><span class="line">    voteFor = <span class="number">-1</span>;</span><br><span class="line">    <span class="built_in">persist</span>();</span><br><span class="line">    <span class="keyword">if</span> (status!=Follower)</span><br><span class="line">      <span class="built_in">thread_pool_add_work</span>(becomeFollower,<span class="literal">NULL</span>);</span><br><span class="line">    <span class="keyword">return</span> failedCampaign；</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 其他拒绝的情况（详见server的requestVoteRPC服务）</span></span><br><span class="line">  <span class="keyword">if</span> (reply-&gt;<span class="built_in">voteGranted</span>() == <span class="literal">false</span>)&#123;</span><br><span class="line">    <span class="keyword">if</span> (status != Follower)</span><br><span class="line">      <span class="built_in">thread_pool_add_work</span>(becomeFollower,<span class="literal">NULL</span>);</span><br><span class="line">    <span class="keyword">return</span> failedCampaign;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 获得选票</span></span><br><span class="line">  <span class="keyword">if</span> (vote_list[server_id]!=<span class="number">0</span>)&#123;</span><br><span class="line">    tickets++;</span><br><span class="line">    <span class="comment">// 获得集群中所有结点超过半数选票则当选，成为Leader</span></span><br><span class="line">    <span class="keyword">if</span> (tickets &gt;= server_list.<span class="built_in">size</span>() / <span class="number">2</span> + <span class="number">1</span>)&#123;</span><br><span class="line">      <span class="keyword">if</span> (status != Leader)</span><br><span class="line">      	<span class="built_in">thread_pool_add_work</span>(becomeLeader,<span class="literal">NULL</span>);</span><br><span class="line">      <span class="keyword">return</span> winCampaign;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// requestVoteRPC</span></span><br><span class="line"><span class="comment">// 注：本轮的Candidate也会收到其他Candidate发送的投票请求</span></span><br><span class="line"><span class="function">Status <span class="title">requestVoteRPC</span><span class="params">(ServerContext* context, <span class="type">const</span> RequestVoteArgs *requestVoteArgs, RequestVoteReply* reply)</span> <span class="keyword">override</span> </span>&#123;		</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  <span class="comment">// 选举约束1:Candidate term &lt; currentTerm（Candidate刚经历网络分区）</span></span><br><span class="line">  <span class="keyword">if</span> (requestVoteArgs-&gt;<span class="built_in">term</span>() &lt; currentTerm) &#123;</span><br><span class="line">    reply-&gt;<span class="built_in">set_term</span>(currentTerm);</span><br><span class="line">    reply-&gt;<span class="built_in">set_voteGranted</span>(<span class="literal">false</span>);</span><br><span class="line">    <span class="keyword">return</span> Status::OK;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 选举约束2: 如果 term 相同，那 log entry index 更大（即更长）的那个 Candidate 胜出</span></span><br><span class="line">  <span class="comment">// requestVoteArgs-&gt;term() &gt;= currentTerm)</span></span><br><span class="line">  currentTerm = requestVoteArgs-&gt;<span class="built_in">term</span>();</span><br><span class="line">  <span class="built_in">persist</span>();</span><br><span class="line">  reply-&gt;<span class="built_in">set_term</span>(currentTerm);</span><br><span class="line">  <span class="comment">// 已经投过票</span></span><br><span class="line">  <span class="comment">// 1. 投的是当前Candidate（消息重传）</span></span><br><span class="line">  <span class="keyword">if</span>(voteFor == requestVoteArg-&gt;<span class="built_in">candidateid</span>())&#123;</span><br><span class="line">    reply-&gt;<span class="built_in">set_voteGranted</span>(<span class="literal">true</span>);</span><br><span class="line">    <span class="keyword">return</span> Status::OK;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 2. 投的是其他Candidate</span></span><br><span class="line">  <span class="keyword">else</span> <span class="keyword">if</span>(voteFor != <span class="number">-1</span>)&#123;</span><br><span class="line">    reply-&gt;<span class="built_in">set_voteGranted</span>(<span class="literal">false</span>);</span><br><span class="line">    <span class="keyword">return</span> Status::OK;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 没有投过票（根据本地log entries判断）</span></span><br><span class="line">  <span class="comment">// 1. lastLogTerm</span></span><br><span class="line">  <span class="keyword">if</span> (requestVoteArgs-&gt;<span class="built_in">lastLogTerm</span>() &gt;= lastLogTerm)&#123;</span><br><span class="line">    votedFor = requestVoteArgs-&gt;candidateid;</span><br><span class="line">    <span class="built_in">persist</span>();</span><br><span class="line">    reply-&gt;<span class="built_in">set_voteGranted</span>(<span class="literal">true</span>);</span><br><span class="line">    <span class="keyword">return</span> Status::OK;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 2. lastLogIndex</span></span><br><span class="line">  <span class="keyword">else</span> <span class="keyword">if</span> (requestVoteArgs-&gt;<span class="built_in">lastLogTerm</span>() == lastLogTerm)&#123;</span><br><span class="line">    <span class="keyword">if</span> (requestVoteArgs-&gt;<span class="built_in">lastLogIndex</span>() &gt;= lastLogIndex)&#123;</span><br><span class="line">      votedFor = requestVoteArgs-&gt;candidateid;</span><br><span class="line">      <span class="built_in">persist</span>();</span><br><span class="line">      reply-&gt;<span class="built_in">set_voteGranted</span>(<span class="literal">true</span>);</span><br><span class="line">      <span class="keyword">return</span> Status::OK;</span><br><span class="line">    &#125; 	</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  reply-&gt;<span class="built_in">set_voteGranted</span>(<span class="literal">false</span>);</span><br><span class="line">  <span class="keyword">return</span> Status::OK;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="辅助处理模块"><a href="#辅助处理模块" class="headerlink" title="辅助处理模块"></a>辅助处理模块</h2><h3 id="持久化模块"><a href="#持久化模块" class="headerlink" title="持久化模块"></a>持久化模块</h3><p>采用<strong>COW（写时拷贝）</strong>，如果状态或日志没有变化则不刷盘</p>
+<p>采用 <strong>protobuf</strong> 做序列化后写入文件，提高读写效率</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">persist</span><span class="params">()</span> </span>&#123; </span><br><span class="line">  <span class="keyword">if</span> (status <span class="keyword">not</span> changed) <span class="comment">// copy on write</span></span><br><span class="line">    	<span class="keyword">return</span>;</span><br><span class="line">  persistRaftNode.currentTerm = currentTerm;</span><br><span class="line">  persistRaftNode.votedFor = votedFor;</span><br><span class="line">  <span class="keyword">for</span> (item in entries) &#123;</span><br><span class="line">    persistRaftNode.log.<span class="built_in">push_back</span>(item);</span><br><span class="line">  &#125;</span><br><span class="line">	</span><br><span class="line">  <span class="built_in">write_to_file</span>(file_path,persistRaftNode.<span class="built_in">SerializeAsString</span>());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="其他优化"><a href="#其他优化" class="headerlink" title="其他优化"></a>其他优化</h2><h3 id="预选举机制（Pre-Vote）"><a href="#预选举机制（Pre-Vote）" class="headerlink" title="预选举机制（Pre-Vote）"></a>预选举机制（Pre-Vote）</h3><p>当 Raft 集群的网络发生分区时，会出现节点数达不到 quorum（达成共识至少需要的节点数）的分区</p>
+<img src="/../../images\partition.svg" style="zoom:100%;" />
+
+<p>在节点数能够达到 quorum 的分区中，选举流程会正常进行，该分区中的所有节点的 term 最终会稳定为新选举出的 Leader 节点的term。不幸的是，在节点数无法达到 quorum 的分区中，如果该分区中没有 Leader 节点，因为节点总是无法收到数量达到quorum的投票而不会选举出新的 Leader ，所以<strong>该分区中的节点在 <em>election timeout</em> 超时后，会增大 term 并发起下一轮选举，这导致该分区中的节点的term会不断增大</strong>。</p>
+<p>如果网络一直没有恢复，这是没有问题的。但是，如果网络分区恢复，此时，达不到 quorum 的分区中的节点的 term 值会远大于能够达到 quorum 的分区中的节点的 term ，这会<strong>导致能够达到 quorum 的分区的 Leader退位（step down）并增大自己的 term 到更大的term，使集群产生一轮不必要的选举</strong>。</p>
+<p><strong>Pre-Vote</strong> 机制就是为了解决这一问题而设计的，其解决的思路在于不允许达不到 quorum 的分区正常进入投票流程，也就避免了其 term 号的增大。为此，<strong>Pre-Vote <strong>引入了“预投票”，也就是说，</strong>当节点 <em>election timeout</em> 超时时，它们不会立即增大自身的 term 并请求投票，而是先发起一轮预投票。收到预投票请求的节点不会退位</strong>。<strong>只有当节点收到了达到 quorum 的预投票响应时，节点才能增大自身term 号并发起投票请求</strong>。这样，<strong>达不到 quorum 的分区中的节点永远无法增大 term ，也就不会在分区恢复后引起不必要的一轮投票</strong>。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E8%AE%BA%E6%96%87%E5%AF%BC%E8%AF%BB/" rel="tag"># 论文导读</a>
+              <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F/" rel="tag"># 分布式系统</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/Chapter4%20RAFT/" rel="prev" title="RAFT 分布式一致性算法（理论篇）">
+      <i class="fa fa-chevron-left"></i> RAFT 分布式一致性算法（理论篇）
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/%E7%AC%AC%E4%B8%80%E7%AB%A0%20%E7%BB%AA%E8%AE%BA/" rel="next" title="操作系统（一）绪论">
+      操作系统（一）绪论 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%8A%B6%E6%80%81%E6%9C%BA%E5%88%87%E6%8D%A2%E6%B5%81%E7%A8%8B"><span class="nav-number">1.</span> <span class="nav-text">状态机切换流程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="nav-number">2.</span> <span class="nav-text">初始化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BB%E8%A6%81%E5%8A%9F%E8%83%BD%E6%A8%A1%E5%9D%97"><span class="nav-number">3.</span> <span class="nav-text">主要功能模块</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AF%B7%E6%B1%82%E5%93%8D%E5%BA%94%E6%A8%A1%E5%9D%97"><span class="nav-number">3.1.</span> <span class="nav-text">请求响应模块</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BF%83%E8%B7%B3%E5%A4%84%E7%90%86%E4%B8%8E%E6%97%A5%E5%BF%97%E5%90%8C%E6%AD%A5%E6%A8%A1%E5%9D%97"><span class="nav-number">3.2.</span> <span class="nav-text">心跳处理与日志同步模块</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BB%E4%BB%8E%E9%80%89%E4%B8%BE%E6%A8%A1%E5%9D%97"><span class="nav-number">3.3.</span> <span class="nav-text">主从选举模块</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BE%85%E5%8A%A9%E5%A4%84%E7%90%86%E6%A8%A1%E5%9D%97"><span class="nav-number">4.</span> <span class="nav-text">辅助处理模块</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8C%81%E4%B9%85%E5%8C%96%E6%A8%A1%E5%9D%97"><span class="nav-number">4.1.</span> <span class="nav-text">持久化模块</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B6%E4%BB%96%E4%BC%98%E5%8C%96"><span class="nav-number">5.</span> <span class="nav-text">其他优化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A2%84%E9%80%89%E4%B8%BE%E6%9C%BA%E5%88%B6%EF%BC%88Pre-Vote%EF%BC%89"><span class="nav-number">5.1.</span> <span class="nav-text">预选举机制（Pre-Vote）</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="子非鱼"
+      src="/images/me.png">
+  <p class="site-author-name" itemprop="name">子非鱼</p>
+  <div class="site-description" itemprop="description">Hi，朋友。欢迎来到我的技术博客。本站主要整理了计算机相关的专业知识，包括操作系统、计算机网络、算法以及分布式系统等等。此外，还有我的一些学习及工作碎碎念，希望能与你一同探索计算机的有趣世界～</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">58</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">24</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">子非鱼</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="Symbols count total">139k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="Reading time total">5:48</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a>
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+</body>
+</html>
