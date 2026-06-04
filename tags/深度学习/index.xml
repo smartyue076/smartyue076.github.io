@@ -1,14 +1,14 @@
 <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
     <channel>
         <title>深度学习 - 标签 - 子非鱼的技术博客</title>
-        <link>http://localhost:1313/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/</link>
+        <link>https://smartyue076.github.io/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/</link>
         <description>深度学习 - 标签 - 子非鱼的技术博客</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Wed, 26 Feb 2025 10:47:26 &#43;0800</lastBuildDate><atom:link href="http://localhost:1313/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" rel="self" type="application/rss+xml" /><item>
+        <generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Wed, 26 Feb 2025 10:47:26 &#43;0800</lastBuildDate><atom:link href="https://smartyue076.github.io/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" rel="self" type="application/rss+xml" /><item>
     <title>机器学习基础（四）自然语言处理</title>
-    <link>http://localhost:1313/posts/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E7%A1%80%E5%9B%9B%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/</link>
+    <link>https://smartyue076.github.io/posts/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E7%A1%80%E5%9B%9B%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/</link>
     <pubDate>Wed, 26 Feb 2025 10:47:26 &#43;0800</pubDate>
     <author>子非鱼</author>
-    <guid>http://localhost:1313/posts/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E7%A1%80%E5%9B%9B%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/</guid>
+    <guid>https://smartyue076.github.io/posts/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E7%A1%80%E5%9B%9B%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/</guid>
     <description><![CDATA[<h2 id="词嵌入word-embedding">词嵌入（word embedding）</h2>
 <p>通过 <strong>one-hot 编码</strong>来表示单词有两个缺陷：</p>
 <ol>
@@ -21,10 +21,10 @@
 </item>
 <item>
     <title>机器学习基础（三）循环神经网络</title>
-    <link>http://localhost:1313/posts/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E7%A1%80%E4%B8%89%E5%BE%AA%E7%8E%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/</link>
+    <link>https://smartyue076.github.io/posts/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E7%A1%80%E4%B8%89%E5%BE%AA%E7%8E%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/</link>
     <pubDate>Sun, 26 Jan 2025 14:15:43 &#43;0800</pubDate>
     <author>子非鱼</author>
-    <guid>http://localhost:1313/posts/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E7%A1%80%E4%B8%89%E5%BE%AA%E7%8E%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/</guid>
+    <guid>https://smartyue076.github.io/posts/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E7%A1%80%E4%B8%89%E5%BE%AA%E7%8E%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/</guid>
     <description><![CDATA[<h2 id="背景标准神经网络的局限">背景（标准神经网络的局限）</h2>
 <p>对于<strong>序列数据（文本，语音等）</strong>，使用标准神经网络存在以下问题：</p>
 <ul>
@@ -39,10 +39,10 @@
 </item>
 <item>
     <title>机器学习基础（二）神经网络</title>
-    <link>http://localhost:1313/posts/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E7%A1%80%E4%BA%8C%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/</link>
+    <link>https://smartyue076.github.io/posts/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E7%A1%80%E4%BA%8C%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/</link>
     <pubDate>Mon, 20 Jan 2025 10:19:16 &#43;0800</pubDate>
     <author>子非鱼</author>
-    <guid>http://localhost:1313/posts/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E7%A1%80%E4%BA%8C%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/</guid>
+    <guid>https://smartyue076.github.io/posts/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E7%A1%80%E4%BA%8C%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/</guid>
     <description><![CDATA[<h2 id="基础">基础</h2>
 <p>竖向堆叠起来的输入特征被称作神经网络的<strong>输入层（the input layer）</strong>。</p>
 <p>神经网络的<strong>隐藏层（a hidden layer）</strong>。“隐藏”的含义是<strong>在训练集中</strong>，这些中间节点的真正数值是无法看到的。</p>

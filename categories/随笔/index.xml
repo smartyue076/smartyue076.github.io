@@ -1,14 +1,14 @@
 <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
     <channel>
         <title>随笔 - 分类 - 子非鱼的技术博客</title>
-        <link>http://localhost:1313/categories/%E9%9A%8F%E7%AC%94/</link>
+        <link>https://smartyue076.github.io/categories/%E9%9A%8F%E7%AC%94/</link>
         <description>随笔 - 分类 - 子非鱼的技术博客</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-cn</language><atom:link href="http://localhost:1313/categories/%E9%9A%8F%E7%AC%94/" rel="self" type="application/rss+xml" /><item>
+        <generator>Hugo -- gohugo.io</generator><language>zh-cn</language><atom:link href="https://smartyue076.github.io/categories/%E9%9A%8F%E7%AC%94/" rel="self" type="application/rss+xml" /><item>
     <title>“开卷”何必“有益”</title>
-    <link>http://localhost:1313/posts/%E5%BC%80%E5%8D%B7%E4%BD%95%E5%BF%85%E6%9C%89%E7%9B%8A/</link>
+    <link>https://smartyue076.github.io/posts/%E5%BC%80%E5%8D%B7%E4%BD%95%E5%BF%85%E6%9C%89%E7%9B%8A/</link>
     <pubDate>Mon, 01 Jan 0001 00:00:00 &#43;0000</pubDate>
     <author>子非鱼</author>
-    <guid>http://localhost:1313/posts/%E5%BC%80%E5%8D%B7%E4%BD%95%E5%BF%85%E6%9C%89%E7%9B%8A/</guid>
+    <guid>https://smartyue076.github.io/posts/%E5%BC%80%E5%8D%B7%E4%BD%95%E5%BF%85%E6%9C%89%E7%9B%8A/</guid>
     <description><![CDATA[<p>有些话小时候听不明白，长大后却会反复想起。</p>
 <p>“以后少读读”就是这样一句话。</p>
 <p>记得小学阅读课上，我在读一本悬疑小说并写到了读后感作业中，结果第二天就被老师批评，并以“开卷有益”这个成语来教导我说，你这种书以后少读读。</p>
@@ -16,10 +16,10 @@
 </item>
 <item>
     <title>一个普通人的学习感悟</title>
-    <link>http://localhost:1313/posts/%E4%B8%80%E4%B8%AA%E6%99%AE%E9%80%9A%E4%BA%BA%E7%9A%84%E5%AD%A6%E4%B9%A0%E6%84%9F%E6%82%9F/</link>
+    <link>https://smartyue076.github.io/posts/%E4%B8%80%E4%B8%AA%E6%99%AE%E9%80%9A%E4%BA%BA%E7%9A%84%E5%AD%A6%E4%B9%A0%E6%84%9F%E6%82%9F/</link>
     <pubDate>Mon, 01 Jan 0001 00:00:00 &#43;0000</pubDate>
     <author>子非鱼</author>
-    <guid>http://localhost:1313/posts/%E4%B8%80%E4%B8%AA%E6%99%AE%E9%80%9A%E4%BA%BA%E7%9A%84%E5%AD%A6%E4%B9%A0%E6%84%9F%E6%82%9F/</guid>
+    <guid>https://smartyue076.github.io/posts/%E4%B8%80%E4%B8%AA%E6%99%AE%E9%80%9A%E4%BA%BA%E7%9A%84%E5%AD%A6%E4%B9%A0%E6%84%9F%E6%82%9F/</guid>
     <description><![CDATA[<h2 id="困惑的起点学霸的经验为什么没用">困惑的起点：学霸的经验为什么没用？</h2>
 <p>在上学的时候，老师总会在班会课上让学霸分享经验，但真正按照他们的方法学下来也没什么用，而且他们说的还有很多矛盾，比方说：</p>
 <ul>

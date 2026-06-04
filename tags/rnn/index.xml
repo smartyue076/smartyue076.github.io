@@ -1,14 +1,14 @@
 <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
     <channel>
         <title>RNN - 标签 - 子非鱼的技术博客</title>
-        <link>http://localhost:1313/tags/rnn/</link>
+        <link>https://smartyue076.github.io/tags/rnn/</link>
         <description>RNN - 标签 - 子非鱼的技术博客</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Sun, 26 Jan 2025 14:15:43 &#43;0800</lastBuildDate><atom:link href="http://localhost:1313/tags/rnn/" rel="self" type="application/rss+xml" /><item>
+        <generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Sun, 26 Jan 2025 14:15:43 &#43;0800</lastBuildDate><atom:link href="https://smartyue076.github.io/tags/rnn/" rel="self" type="application/rss+xml" /><item>
     <title>机器学习基础（三）循环神经网络</title>
-    <link>http://localhost:1313/posts/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E7%A1%80%E4%B8%89%E5%BE%AA%E7%8E%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/</link>
+    <link>https://smartyue076.github.io/posts/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E7%A1%80%E4%B8%89%E5%BE%AA%E7%8E%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/</link>
     <pubDate>Sun, 26 Jan 2025 14:15:43 &#43;0800</pubDate>
     <author>子非鱼</author>
-    <guid>http://localhost:1313/posts/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E7%A1%80%E4%B8%89%E5%BE%AA%E7%8E%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/</guid>
+    <guid>https://smartyue076.github.io/posts/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E7%A1%80%E4%B8%89%E5%BE%AA%E7%8E%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/</guid>
     <description><![CDATA[<h2 id="背景标准神经网络的局限">背景（标准神经网络的局限）</h2>
 <p>对于<strong>序列数据（文本，语音等）</strong>，使用标准神经网络存在以下问题：</p>
 <ul>

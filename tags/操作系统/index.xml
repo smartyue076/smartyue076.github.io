@@ -1,14 +1,14 @@
 <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
     <channel>
         <title>操作系统 - 标签 - 子非鱼的技术博客</title>
-        <link>http://localhost:1313/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/</link>
+        <link>https://smartyue076.github.io/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/</link>
         <description>操作系统 - 标签 - 子非鱼的技术博客</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Sat, 11 Jan 2025 15:31:45 &#43;0800</lastBuildDate><atom:link href="http://localhost:1313/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" rel="self" type="application/rss+xml" /><item>
+        <generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Sat, 11 Jan 2025 15:31:45 &#43;0800</lastBuildDate><atom:link href="https://smartyue076.github.io/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" rel="self" type="application/rss+xml" /><item>
     <title>操作系统（十一）IO</title>
-    <link>http://localhost:1313/posts/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%8D%81%E4%B8%80io/</link>
+    <link>https://smartyue076.github.io/posts/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%8D%81%E4%B8%80io/</link>
     <pubDate>Sat, 11 Jan 2025 15:31:45 &#43;0800</pubDate>
     <author>子非鱼</author>
-    <guid>http://localhost:1313/posts/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%8D%81%E4%B8%80io/</guid>
+    <guid>https://smartyue076.github.io/posts/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%8D%81%E4%B8%80io/</guid>
     <description><![CDATA[<h2 id="第八章-io">第八章 IO</h2>
 <h3 id="传统io">传统IO</h3>
 <h4 id="传统io过程">传统IO过程</h4>
@@ -26,10 +26,10 @@
 </item>
 <item>
     <title>操作系统（十）中断</title>
-    <link>http://localhost:1313/posts/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%8D%81%E4%B8%AD%E6%96%AD/</link>
+    <link>https://smartyue076.github.io/posts/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%8D%81%E4%B8%AD%E6%96%AD/</link>
     <pubDate>Sat, 11 Jan 2025 15:21:04 &#43;0800</pubDate>
     <author>子非鱼</author>
-    <guid>http://localhost:1313/posts/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%8D%81%E4%B8%AD%E6%96%AD/</guid>
+    <guid>https://smartyue076.github.io/posts/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%8D%81%E4%B8%AD%E6%96%AD/</guid>
     <description><![CDATA[<h2 id="第七章-中断">第七章 中断</h2>
 <h3 id="中断与异常">中断与异常</h3>
 
@@ -50,10 +50,10 @@
 </item>
 <item>
     <title>操作系统（九）操作系统安全</title>
-    <link>http://localhost:1313/posts/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%9D%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%AE%89%E5%85%A8/</link>
+    <link>https://smartyue076.github.io/posts/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%9D%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%AE%89%E5%85%A8/</link>
     <pubDate>Fri, 10 Jan 2025 16:26:40 &#43;0800</pubDate>
     <author>子非鱼</author>
-    <guid>http://localhost:1313/posts/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%9D%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%AE%89%E5%85%A8/</guid>
+    <guid>https://smartyue076.github.io/posts/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%9D%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%AE%89%E5%85%A8/</guid>
     <description><![CDATA[<h2 id="第六章-操作系统安全">第六章 操作系统安全</h2>
 <h3 id="缓冲区溢出攻击">缓冲区溢出攻击</h3>
 <h4 id="原理">原理</h4>
@@ -69,10 +69,10 @@
 </item>
 <item>
     <title>操作系统（八）指令系统结构</title>
-    <link>http://localhost:1313/posts/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%85%AB%E6%8C%87%E4%BB%A4%E7%B3%BB%E7%BB%9F%E7%BB%93%E6%9E%84/</link>
+    <link>https://smartyue076.github.io/posts/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%85%AB%E6%8C%87%E4%BB%A4%E7%B3%BB%E7%BB%9F%E7%BB%93%E6%9E%84/</link>
     <pubDate>Fri, 10 Jan 2025 16:22:44 &#43;0800</pubDate>
     <author>子非鱼</author>
-    <guid>http://localhost:1313/posts/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%85%AB%E6%8C%87%E4%BB%A4%E7%B3%BB%E7%BB%9F%E7%BB%93%E6%9E%84/</guid>
+    <guid>https://smartyue076.github.io/posts/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%85%AB%E6%8C%87%E4%BB%A4%E7%B3%BB%E7%BB%9F%E7%BB%93%E6%9E%84/</guid>
     <description><![CDATA[<h2 id="第五章-指令系统结构">第五章 指令系统结构</h2>
 <h3 id="指令">指令</h3>
 <h4 id="执行流程">执行流程</h4>
@@ -87,10 +87,10 @@
 </item>
 <item>
     <title>软件开发面试题整理</title>
-    <link>http://localhost:1313/posts/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91%E9%9D%A2%E8%AF%95%E9%A2%98%E6%95%B4%E7%90%86/</link>
+    <link>https://smartyue076.github.io/posts/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91%E9%9D%A2%E8%AF%95%E9%A2%98%E6%95%B4%E7%90%86/</link>
     <pubDate>Sat, 18 Feb 2023 19:01:29 &#43;0800</pubDate>
     <author>子非鱼</author>
-    <guid>http://localhost:1313/posts/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91%E9%9D%A2%E8%AF%95%E9%A2%98%E6%95%B4%E7%90%86/</guid>
+    <guid>https://smartyue076.github.io/posts/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91%E9%9D%A2%E8%AF%95%E9%A2%98%E6%95%B4%E7%90%86/</guid>
     <description><![CDATA[<h2 id="面试题汇总">面试题汇总</h2>
 <h3 id="c">C++</h3>
 <h4 id="基础知识">基础知识</h4>
@@ -126,10 +126,10 @@
 </item>
 <item>
     <title>操作系统（七）文件管理（系统调用与文件存储）</title>
-    <link>http://localhost:1313/posts/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B8%83%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E8%B0%83%E7%94%A8%E4%B8%8E%E6%96%87%E4%BB%B6%E5%AD%98%E5%82%A8/</link>
+    <link>https://smartyue076.github.io/posts/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B8%83%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E8%B0%83%E7%94%A8%E4%B8%8E%E6%96%87%E4%BB%B6%E5%AD%98%E5%82%A8/</link>
     <pubDate>Wed, 08 Feb 2023 16:22:37 &#43;0800</pubDate>
     <author>子非鱼</author>
-    <guid>http://localhost:1313/posts/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B8%83%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E8%B0%83%E7%94%A8%E4%B8%8E%E6%96%87%E4%BB%B6%E5%AD%98%E5%82%A8/</guid>
+    <guid>https://smartyue076.github.io/posts/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B8%83%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E8%B0%83%E7%94%A8%E4%B8%8E%E6%96%87%E4%BB%B6%E5%AD%98%E5%82%A8/</guid>
     <description><![CDATA[<h2 id="第四章-文件管理二">第四章 文件管理（二）</h2>
 <h3 id="文件系统操作">文件系统操作</h3>
 <h4 id="整体架构">整体架构</h4>
@@ -143,10 +143,10 @@
 </item>
 <item>
     <title>操作系统（六）文件管理</title>
-    <link>http://localhost:1313/posts/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%85%AD%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86/</link>
+    <link>https://smartyue076.github.io/posts/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%85%AD%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86/</link>
     <pubDate>Wed, 25 Jan 2023 11:44:37 &#43;0800</pubDate>
     <author>子非鱼</author>
-    <guid>http://localhost:1313/posts/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%85%AD%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86/</guid>
+    <guid>https://smartyue076.github.io/posts/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%85%AD%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86/</guid>
     <description><![CDATA[<h2 id="第四章-文件管理">第四章 文件管理</h2>
 <h3 id="磁盘的工作原理">磁盘的工作原理</h3>
 <h4 id="磁盘读写的过程">磁盘读写的过程</h4>
@@ -159,16 +159,16 @@
 </item>
 <item>
     <title>操作系统（二）进程管理（进程同步与死锁）</title>
-    <link>http://localhost:1313/posts/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%BA%8C%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86%E8%BF%9B%E7%A8%8B%E5%90%8C%E6%AD%A5%E4%B8%8E%E6%AD%BB%E9%94%81/</link>
+    <link>https://smartyue076.github.io/posts/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%BA%8C%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86%E8%BF%9B%E7%A8%8B%E5%90%8C%E6%AD%A5%E4%B8%8E%E6%AD%BB%E9%94%81/</link>
     <pubDate>Sat, 21 Jan 2023 18:35:38 &#43;0800</pubDate>
     <author>子非鱼</author>
-    <guid>http://localhost:1313/posts/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%BA%8C%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86%E8%BF%9B%E7%A8%8B%E5%90%8C%E6%AD%A5%E4%B8%8E%E6%AD%BB%E9%94%81/</guid>
+    <guid>https://smartyue076.github.io/posts/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%BA%8C%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86%E8%BF%9B%E7%A8%8B%E5%90%8C%E6%AD%A5%E4%B8%8E%E6%AD%BB%E9%94%81/</guid>
     <description><![CDATA[<h2 id="第二章-进程管理进程同步与死锁">第二章 进程管理（进程同步与死锁）</h2>
 <h3 id="进程同步">进程同步</h3>
 <p>多个进程间可能存在依赖关系，为了保证其按依赖关系执行，操作系统需要通过一种机制保证</p>
 <h4 id="同步问题的解决">同步问题的解决</h4>
 <h5 id="利用信号解决同步问题">利用信号解决同步问题</h5>
-<div class="code-block code-line-numbers" style="counter-reset: code-block 0">
+<div class="code-block code-line-numbers open" style="counter-reset: code-block 0">
     <div class="code-header language-c">
         <span class="code-title"><i class="arrow fas fa-angle-right" aria-hidden="true"></i></span>
         <span class="ellipses"><i class="fas fa-ellipsis-h" aria-hidden="true"></i></span>
@@ -209,10 +209,10 @@
 </item>
 <item>
     <title>操作系统（四）内存管理</title>
-    <link>http://localhost:1313/posts/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%9B%9B%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/</link>
+    <link>https://smartyue076.github.io/posts/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%9B%9B%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/</link>
     <pubDate>Wed, 18 Jan 2023 16:26:05 &#43;0800</pubDate>
     <author>子非鱼</author>
-    <guid>http://localhost:1313/posts/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%9B%9B%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/</guid>
+    <guid>https://smartyue076.github.io/posts/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%9B%9B%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/</guid>
     <description><![CDATA[<h2 id="第三章-内存管理">第三章 内存管理</h2>
 <h3 id="程序重定位">程序重定位</h3>
 <p>在编译形成可执行程序时，用到的地址都是从0开始的相对地址，也被称为<strong>逻辑地址</strong>。但被加载到内存后可能使用任意一块空闲地址，所以需要将逻辑地址转化成内存中实际的物理地址，即<strong>重定位</strong>。</p>
@@ -228,10 +228,10 @@
 </item>
 <item>
     <title>操作系统（一）绪论</title>
-    <link>http://localhost:1313/posts/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B8%80%E7%BB%AA%E8%AE%BA/</link>
+    <link>https://smartyue076.github.io/posts/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B8%80%E7%BB%AA%E8%AE%BA/</link>
     <pubDate>Wed, 11 Jan 2023 18:45:57 &#43;0800</pubDate>
     <author>子非鱼</author>
-    <guid>http://localhost:1313/posts/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B8%80%E7%BB%AA%E8%AE%BA/</guid>
+    <guid>https://smartyue076.github.io/posts/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B8%80%E7%BB%AA%E8%AE%BA/</guid>
     <description><![CDATA[<h2 id="第一章-绪论">第一章 绪论</h2>
 <h3 id="计算机体系结构">计算机体系结构</h3>
 

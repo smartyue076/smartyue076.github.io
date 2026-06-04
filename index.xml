@@ -1,16 +1,16 @@
 <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
     <channel>
         <title>子非鱼的技术博客</title>
-        <link>http://localhost:1313/</link>
+        <link>https://smartyue076.github.io/</link>
         <description>子非鱼的技术博客</description>
         <generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Wed, 03 Jun 2026 00:00:00 &#43;0000</lastBuildDate>
-            <atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
+            <atom:link href="https://smartyue076.github.io/index.xml" rel="self" type="application/rss+xml" />
         <item>
     <title>前缀和</title>
-    <link>http://localhost:1313/posts/%E5%89%8D%E7%BC%80%E5%92%8C/</link>
+    <link>https://smartyue076.github.io/posts/%E5%89%8D%E7%BC%80%E5%92%8C/</link>
     <pubDate>Tue, 11 Mar 2025 12:58:54 &#43;0800</pubDate>
     <author>子非鱼</author>
-    <guid>http://localhost:1313/posts/%E5%89%8D%E7%BC%80%E5%92%8C/</guid>
+    <guid>https://smartyue076.github.io/posts/%E5%89%8D%E7%BC%80%E5%92%8C/</guid>
     <description><![CDATA[<h2 id="什么问题适合用前缀和">什么问题适合用前缀和</h2>
 <p>适用于快速、频繁地计算一个索引区间内的元素之和</p>
 <h2 id="前缀和算法框架">前缀和算法框架</h2>
@@ -20,10 +20,10 @@
 </item>
 <item>
     <title>滑动窗口</title>
-    <link>http://localhost:1313/posts/%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/</link>
+    <link>https://smartyue076.github.io/posts/%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/</link>
     <pubDate>Tue, 11 Mar 2025 10:43:54 &#43;0800</pubDate>
     <author>子非鱼</author>
-    <guid>http://localhost:1313/posts/%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/</guid>
+    <guid>https://smartyue076.github.io/posts/%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/</guid>
     <description><![CDATA[<h2 id="什么问题适用滑动窗口">什么问题适用滑动窗口</h2>
 <p>对于连续子序列问题，可以使用滑动窗口。例如按要求得到最长/短的序列</p>
 <h2 id="滑动窗口算法框架">滑动窗口算法框架</h2>
@@ -52,10 +52,10 @@
 </item>
 <item>
     <title>机器学习基础（四）自然语言处理</title>
-    <link>http://localhost:1313/posts/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E7%A1%80%E5%9B%9B%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/</link>
+    <link>https://smartyue076.github.io/posts/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E7%A1%80%E5%9B%9B%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/</link>
     <pubDate>Wed, 26 Feb 2025 10:47:26 &#43;0800</pubDate>
     <author>子非鱼</author>
-    <guid>http://localhost:1313/posts/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E7%A1%80%E5%9B%9B%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/</guid>
+    <guid>https://smartyue076.github.io/posts/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E7%A1%80%E5%9B%9B%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/</guid>
     <description><![CDATA[<h2 id="词嵌入word-embedding">词嵌入（word embedding）</h2>
 <p>通过 <strong>one-hot 编码</strong>来表示单词有两个缺陷：</p>
 <ol>
@@ -68,10 +68,10 @@
 </item>
 <item>
     <title>RAFT 分布式一致性算法（实现篇）</title>
-    <link>http://localhost:1313/posts/raft-%E5%88%86%E5%B8%83%E5%BC%8F%E4%B8%80%E8%87%B4%E6%80%A7%E7%AE%97%E6%B3%95%E5%AE%9E%E7%8E%B0%E7%AF%87/</link>
+    <link>https://smartyue076.github.io/posts/raft-%E5%88%86%E5%B8%83%E5%BC%8F%E4%B8%80%E8%87%B4%E6%80%A7%E7%AE%97%E6%B3%95%E5%AE%9E%E7%8E%B0%E7%AF%87/</link>
     <pubDate>Mon, 17 Feb 2025 12:42:32 &#43;0800</pubDate>
     <author>子非鱼</author>
-    <guid>http://localhost:1313/posts/raft-%E5%88%86%E5%B8%83%E5%BC%8F%E4%B8%80%E8%87%B4%E6%80%A7%E7%AE%97%E6%B3%95%E5%AE%9E%E7%8E%B0%E7%AF%87/</guid>
+    <guid>https://smartyue076.github.io/posts/raft-%E5%88%86%E5%B8%83%E5%BC%8F%E4%B8%80%E8%87%B4%E6%80%A7%E7%AE%97%E6%B3%95%E5%AE%9E%E7%8E%B0%E7%AF%87/</guid>
     <description><![CDATA[<h2 id="状态机切换流程">状态机切换流程</h2>
 
 <h2 id="初始化">初始化</h2>
@@ -81,10 +81,10 @@
 </item>
 <item>
     <title>数据库（八）其他</title>
-    <link>http://localhost:1313/posts/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%85%AB%E5%85%B6%E4%BB%96/</link>
+    <link>https://smartyue076.github.io/posts/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%85%AB%E5%85%B6%E4%BB%96/</link>
     <pubDate>Fri, 14 Feb 2025 14:46:31 &#43;0800</pubDate>
     <author>子非鱼</author>
-    <guid>http://localhost:1313/posts/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%85%AB%E5%85%B6%E4%BB%96/</guid>
+    <guid>https://smartyue076.github.io/posts/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%85%AB%E5%85%B6%E4%BB%96/</guid>
     <description><![CDATA[<h2 id="视图view">视图（view）</h2>
 <h3 id="概念">概念</h3>
 <p>在MySQL中，视图是一种虚拟表，它是由一个或多个基本表的行或列组成的。<strong>视图并不实际存储数据，而是根据定义的 select 语句动态生成结果集</strong>。视图可以简化复杂的查询操作，提高查询效率，同时也可以保护数据的安全性，隐藏敏感数据。</p>
@@ -98,10 +98,10 @@
 </item>
 <item>
     <title>数据库（七）缓存机制</title>
-    <link>http://localhost:1313/posts/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%83%E7%BC%93%E5%AD%98%E6%9C%BA%E5%88%B6/</link>
+    <link>https://smartyue076.github.io/posts/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%83%E7%BC%93%E5%AD%98%E6%9C%BA%E5%88%B6/</link>
     <pubDate>Thu, 13 Feb 2025 09:41:47 &#43;0800</pubDate>
     <author>子非鱼</author>
-    <guid>http://localhost:1313/posts/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%83%E7%BC%93%E5%AD%98%E6%9C%BA%E5%88%B6/</guid>
+    <guid>https://smartyue076.github.io/posts/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%83%E7%BC%93%E5%AD%98%E6%9C%BA%E5%88%B6/</guid>
     <description><![CDATA[<h2 id="为什么要有缓存机制">为什么要有缓存机制</h2>
 <p><strong>MySQL 的数据是存储在磁盘里的</strong>，但每次访问磁盘开销过大。为此，Innodb 存储引擎设计了一个<strong>缓冲池（Buffer Pool）</strong>，当数据从磁盘中取出后，缓存到Buffer Pool中，下次查询同样的数据的时候，直接从内存中读取，来提高数据库的读写性能。</p>
 
@@ -109,10 +109,10 @@
 </item>
 <item>
     <title>数据库（六）故障恢复</title>
-    <link>http://localhost:1313/posts/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%85%AD%E6%95%85%E9%9A%9C%E6%81%A2%E5%A4%8D/</link>
+    <link>https://smartyue076.github.io/posts/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%85%AD%E6%95%85%E9%9A%9C%E6%81%A2%E5%A4%8D/</link>
     <pubDate>Wed, 12 Feb 2025 11:06:29 &#43;0800</pubDate>
     <author>子非鱼</author>
-    <guid>http://localhost:1313/posts/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%85%AD%E6%95%85%E9%9A%9C%E6%81%A2%E5%A4%8D/</guid>
+    <guid>https://smartyue076.github.io/posts/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%85%AD%E6%95%85%E9%9A%9C%E6%81%A2%E5%A4%8D/</guid>
     <description><![CDATA[<h2 id="数据库运行期间会发生哪些故障问题">数据库运行期间会发生哪些故障（问题）</h2>
 <h3 id="事务故障">事务故障</h3>
 <p>事务故障指<strong>事务未运行到既定的终点</strong>（没有commit或显式的rollback），例如对于支付系统若付款失败则<strong>需要回滚</strong>支付的操作，确保事务的一致性</p>
@@ -123,10 +123,10 @@
 </item>
 <item>
     <title>动态规划</title>
-    <link>http://localhost:1313/posts/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/</link>
+    <link>https://smartyue076.github.io/posts/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/</link>
     <pubDate>Tue, 11 Feb 2025 16:21:36 &#43;0800</pubDate>
     <author>子非鱼</author>
-    <guid>http://localhost:1313/posts/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/</guid>
+    <guid>https://smartyue076.github.io/posts/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/</guid>
     <description><![CDATA[<h2 id="什么问题适合用动态规划最优子结构">什么问题适合用动态规划（最优子结构）</h2>
 <p>符合<strong>最优子结构</strong>的问题适合用动态规划</p>
 <p><strong>最优子结构</strong> 是指一个问题的<strong>最优解可以通过其子问题的最优解构造出来</strong>。换句话说，问题的最优解依赖于子问题的最优解。</p>
@@ -137,10 +137,10 @@
 </item>
 <item>
     <title>数据库（四）锁理论</title>
-    <link>http://localhost:1313/posts/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%9B%9B%E9%94%81%E7%90%86%E8%AE%BA/</link>
+    <link>https://smartyue076.github.io/posts/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%9B%9B%E9%94%81%E7%90%86%E8%AE%BA/</link>
     <pubDate>Tue, 11 Feb 2025 09:41:26 &#43;0800</pubDate>
     <author>子非鱼</author>
-    <guid>http://localhost:1313/posts/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%9B%9B%E9%94%81%E7%90%86%E8%AE%BA/</guid>
+    <guid>https://smartyue076.github.io/posts/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%9B%9B%E9%94%81%E7%90%86%E8%AE%BA/</guid>
     <description><![CDATA[<h2 id="事务并发带来的问题">事务并发带来的问题</h2>
 <ul>
 <li><strong>丢失修改（lost update）</strong>：<strong>事务 1 与事务 2 从数据库中读入同一数据并修改</strong>，事务 2 的提交结果破坏了事务 1 提交的结果， 导致事务 1 的修改被丢失。(W-W)</li>
@@ -158,10 +158,10 @@
 </item>
 <item>
     <title>数据库（五）MySQL中的锁</title>
-    <link>http://localhost:1313/posts/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%94mysql%E4%B8%AD%E7%9A%84%E9%94%81/</link>
+    <link>https://smartyue076.github.io/posts/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%94mysql%E4%B8%AD%E7%9A%84%E9%94%81/</link>
     <pubDate>Sat, 08 Feb 2025 18:37:04 &#43;0800</pubDate>
     <author>子非鱼</author>
-    <guid>http://localhost:1313/posts/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%94mysql%E4%B8%AD%E7%9A%84%E9%94%81/</guid>
+    <guid>https://smartyue076.github.io/posts/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%94mysql%E4%B8%AD%E7%9A%84%E9%94%81/</guid>
     <description><![CDATA[<h2 id="事务并发时遇到的问题">事务并发时遇到的问题</h2>
 <h3 id="数据完整性方面不同事务对同一行的读写写写操作">数据完整性方面（不同事务对同一行的读写/写写操作）</h3>
 <h4 id="问题">问题</h4>

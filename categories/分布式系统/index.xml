@@ -1,14 +1,14 @@
 <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
     <channel>
         <title>分布式系统 - 分类 - 子非鱼的技术博客</title>
-        <link>http://localhost:1313/categories/%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F/</link>
+        <link>https://smartyue076.github.io/categories/%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F/</link>
         <description>分布式系统 - 分类 - 子非鱼的技术博客</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Mon, 17 Feb 2025 12:42:32 &#43;0800</lastBuildDate><atom:link href="http://localhost:1313/categories/%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F/" rel="self" type="application/rss+xml" /><item>
+        <generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Mon, 17 Feb 2025 12:42:32 &#43;0800</lastBuildDate><atom:link href="https://smartyue076.github.io/categories/%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F/" rel="self" type="application/rss+xml" /><item>
     <title>RAFT 分布式一致性算法（实现篇）</title>
-    <link>http://localhost:1313/posts/raft-%E5%88%86%E5%B8%83%E5%BC%8F%E4%B8%80%E8%87%B4%E6%80%A7%E7%AE%97%E6%B3%95%E5%AE%9E%E7%8E%B0%E7%AF%87/</link>
+    <link>https://smartyue076.github.io/posts/raft-%E5%88%86%E5%B8%83%E5%BC%8F%E4%B8%80%E8%87%B4%E6%80%A7%E7%AE%97%E6%B3%95%E5%AE%9E%E7%8E%B0%E7%AF%87/</link>
     <pubDate>Mon, 17 Feb 2025 12:42:32 &#43;0800</pubDate>
     <author>子非鱼</author>
-    <guid>http://localhost:1313/posts/raft-%E5%88%86%E5%B8%83%E5%BC%8F%E4%B8%80%E8%87%B4%E6%80%A7%E7%AE%97%E6%B3%95%E5%AE%9E%E7%8E%B0%E7%AF%87/</guid>
+    <guid>https://smartyue076.github.io/posts/raft-%E5%88%86%E5%B8%83%E5%BC%8F%E4%B8%80%E8%87%B4%E6%80%A7%E7%AE%97%E6%B3%95%E5%AE%9E%E7%8E%B0%E7%AF%87/</guid>
     <description><![CDATA[<h2 id="状态机切换流程">状态机切换流程</h2>
 
 <h2 id="初始化">初始化</h2>
@@ -18,10 +18,10 @@
 </item>
 <item>
     <title>RAFT 分布式一致性算法（理论篇）</title>
-    <link>http://localhost:1313/posts/raft-%E5%88%86%E5%B8%83%E5%BC%8F%E4%B8%80%E8%87%B4%E6%80%A7%E7%AE%97%E6%B3%95%E7%90%86%E8%AE%BA%E7%AF%87/</link>
+    <link>https://smartyue076.github.io/posts/raft-%E5%88%86%E5%B8%83%E5%BC%8F%E4%B8%80%E8%87%B4%E6%80%A7%E7%AE%97%E6%B3%95%E7%90%86%E8%AE%BA%E7%AF%87/</link>
     <pubDate>Tue, 14 Feb 2023 20:02:00 &#43;0800</pubDate>
     <author>子非鱼</author>
-    <guid>http://localhost:1313/posts/raft-%E5%88%86%E5%B8%83%E5%BC%8F%E4%B8%80%E8%87%B4%E6%80%A7%E7%AE%97%E6%B3%95%E7%90%86%E8%AE%BA%E7%AF%87/</guid>
+    <guid>https://smartyue076.github.io/posts/raft-%E5%88%86%E5%B8%83%E5%BC%8F%E4%B8%80%E8%87%B4%E6%80%A7%E7%AE%97%E6%B3%95%E7%90%86%E8%AE%BA%E7%AF%87/</guid>
     <description><![CDATA[<h2 id="raft分布式共识机制">RAFT分布式共识机制</h2>
 <h3 id="系统机制">系统机制</h3>
 <p>Raft 是一个<strong>管理 replicated log</strong> 的算法</p>
@@ -34,10 +34,10 @@
 </item>
 <item>
     <title>VMwareFT</title>
-    <link>http://localhost:1313/posts/vmwareft/</link>
+    <link>https://smartyue076.github.io/posts/vmwareft/</link>
     <pubDate>Fri, 10 Feb 2023 12:20:31 &#43;0800</pubDate>
     <author>子非鱼</author>
-    <guid>http://localhost:1313/posts/vmwareft/</guid>
+    <guid>https://smartyue076.github.io/posts/vmwareft/</guid>
     <description><![CDATA[<h2 id="chapter3-vmwareft">Chapter3 VMwareFT</h2>
 <h3 id="状态转移和复制状态机">状态转移和复制状态机</h3>
 <p>状态转移（State Transfer）：Primary将自己的完整状态（例如内存中的内容），拷贝发给Backup</p>

@@ -1,14 +1,14 @@
 <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
     <channel>
         <title>算法 - 标签 - 子非鱼的技术博客</title>
-        <link>http://localhost:1313/tags/%E7%AE%97%E6%B3%95/</link>
+        <link>https://smartyue076.github.io/tags/%E7%AE%97%E6%B3%95/</link>
         <description>算法 - 标签 - 子非鱼的技术博客</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Tue, 11 Mar 2025 12:58:54 &#43;0800</lastBuildDate><atom:link href="http://localhost:1313/tags/%E7%AE%97%E6%B3%95/" rel="self" type="application/rss+xml" /><item>
+        <generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Tue, 11 Mar 2025 12:58:54 &#43;0800</lastBuildDate><atom:link href="https://smartyue076.github.io/tags/%E7%AE%97%E6%B3%95/" rel="self" type="application/rss+xml" /><item>
     <title>前缀和</title>
-    <link>http://localhost:1313/posts/%E5%89%8D%E7%BC%80%E5%92%8C/</link>
+    <link>https://smartyue076.github.io/posts/%E5%89%8D%E7%BC%80%E5%92%8C/</link>
     <pubDate>Tue, 11 Mar 2025 12:58:54 &#43;0800</pubDate>
     <author>子非鱼</author>
-    <guid>http://localhost:1313/posts/%E5%89%8D%E7%BC%80%E5%92%8C/</guid>
+    <guid>https://smartyue076.github.io/posts/%E5%89%8D%E7%BC%80%E5%92%8C/</guid>
     <description><![CDATA[<h2 id="什么问题适合用前缀和">什么问题适合用前缀和</h2>
 <p>适用于快速、频繁地计算一个索引区间内的元素之和</p>
 <h2 id="前缀和算法框架">前缀和算法框架</h2>
@@ -18,10 +18,10 @@
 </item>
 <item>
     <title>滑动窗口</title>
-    <link>http://localhost:1313/posts/%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/</link>
+    <link>https://smartyue076.github.io/posts/%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/</link>
     <pubDate>Tue, 11 Mar 2025 10:43:54 &#43;0800</pubDate>
     <author>子非鱼</author>
-    <guid>http://localhost:1313/posts/%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/</guid>
+    <guid>https://smartyue076.github.io/posts/%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/</guid>
     <description><![CDATA[<h2 id="什么问题适用滑动窗口">什么问题适用滑动窗口</h2>
 <p>对于连续子序列问题，可以使用滑动窗口。例如按要求得到最长/短的序列</p>
 <h2 id="滑动窗口算法框架">滑动窗口算法框架</h2>
@@ -50,10 +50,10 @@
 </item>
 <item>
     <title>动态规划</title>
-    <link>http://localhost:1313/posts/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/</link>
+    <link>https://smartyue076.github.io/posts/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/</link>
     <pubDate>Tue, 11 Feb 2025 16:21:36 &#43;0800</pubDate>
     <author>子非鱼</author>
-    <guid>http://localhost:1313/posts/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/</guid>
+    <guid>https://smartyue076.github.io/posts/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/</guid>
     <description><![CDATA[<h2 id="什么问题适合用动态规划最优子结构">什么问题适合用动态规划（最优子结构）</h2>
 <p>符合<strong>最优子结构</strong>的问题适合用动态规划</p>
 <p><strong>最优子结构</strong> 是指一个问题的<strong>最优解可以通过其子问题的最优解构造出来</strong>。换句话说，问题的最优解依赖于子问题的最优解。</p>
@@ -64,10 +64,10 @@
 </item>
 <item>
     <title>图算法（DFS与BFS）</title>
-    <link>http://localhost:1313/posts/%E5%9B%BE%E7%AE%97%E6%B3%95dfs%E4%B8%8Ebfs/</link>
+    <link>https://smartyue076.github.io/posts/%E5%9B%BE%E7%AE%97%E6%B3%95dfs%E4%B8%8Ebfs/</link>
     <pubDate>Tue, 21 Jan 2025 14:26:46 &#43;0800</pubDate>
     <author>子非鱼</author>
-    <guid>http://localhost:1313/posts/%E5%9B%BE%E7%AE%97%E6%B3%95dfs%E4%B8%8Ebfs/</guid>
+    <guid>https://smartyue076.github.io/posts/%E5%9B%BE%E7%AE%97%E6%B3%95dfs%E4%B8%8Ebfs/</guid>
     <description><![CDATA[<h2 id="图的建立">图的建立</h2>
 <h3 id="邻接表">邻接表</h3>
 <div class="code-block code-line-numbers open" style="counter-reset: code-block 0">
@@ -127,10 +127,10 @@
 </item>
 <item>
     <title>回溯算法</title>
-    <link>http://localhost:1313/posts/%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95/</link>
+    <link>https://smartyue076.github.io/posts/%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95/</link>
     <pubDate>Sun, 12 Jan 2025 19:20:27 &#43;0800</pubDate>
     <author>子非鱼</author>
-    <guid>http://localhost:1313/posts/%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95/</guid>
+    <guid>https://smartyue076.github.io/posts/%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95/</guid>
     <description><![CDATA[<h2 id="回溯框架">回溯框架</h2>
 <h3 id="回溯算法求解时要考虑三个问题">回溯算法求解时要考虑三个问题</h3>
 <ol>
@@ -142,10 +142,10 @@
 </item>
 <item>
     <title>二叉树算法（回溯，动态规划，迭代）</title>
-    <link>http://localhost:1313/posts/%E4%BA%8C%E5%8F%89%E6%A0%91%E7%AE%97%E6%B3%95%E5%9B%9E%E6%BA%AF%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%E8%BF%AD%E4%BB%A3/</link>
+    <link>https://smartyue076.github.io/posts/%E4%BA%8C%E5%8F%89%E6%A0%91%E7%AE%97%E6%B3%95%E5%9B%9E%E6%BA%AF%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%E8%BF%AD%E4%BB%A3/</link>
     <pubDate>Wed, 08 Jan 2025 20:10:36 &#43;0800</pubDate>
     <author>子非鱼</author>
-    <guid>http://localhost:1313/posts/%E4%BA%8C%E5%8F%89%E6%A0%91%E7%AE%97%E6%B3%95%E5%9B%9E%E6%BA%AF%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%E8%BF%AD%E4%BB%A3/</guid>
+    <guid>https://smartyue076.github.io/posts/%E4%BA%8C%E5%8F%89%E6%A0%91%E7%AE%97%E6%B3%95%E5%9B%9E%E6%BA%AF%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%E8%BF%AD%E4%BB%A3/</guid>
     <description><![CDATA[<h2 id="序言">序言</h2>
 <p>二叉树题型的算法主要分为<strong>回溯，动态规划，迭代</strong>三类。从本质上三者都是在遍历算法基础上的修改。<strong>回溯</strong>关心的是在<strong>每个结点的访问过程中如何更新结果</strong>；动态规划关心的是<strong>如何拆解出子问题，不具体分析每个结点的状态，而是通过划分子问题让其通过基本问题递归解决</strong>；迭代主要是指<strong>BFS层序遍历</strong>，适用于与深度（或高度）相关的问题求解</p>
 <h2 id="二叉树基本结构">二叉树基本结构</h2>
@@ -155,10 +155,10 @@
 </item>
 <item>
     <title>递归算法的理解</title>
-    <link>http://localhost:1313/posts/%E9%80%92%E5%BD%92%E7%AE%97%E6%B3%95%E7%9A%84%E7%90%86%E8%A7%A3/</link>
+    <link>https://smartyue076.github.io/posts/%E9%80%92%E5%BD%92%E7%AE%97%E6%B3%95%E7%9A%84%E7%90%86%E8%A7%A3/</link>
     <pubDate>Wed, 08 Jan 2025 14:23:11 &#43;0800</pubDate>
     <author>子非鱼</author>
-    <guid>http://localhost:1313/posts/%E9%80%92%E5%BD%92%E7%AE%97%E6%B3%95%E7%9A%84%E7%90%86%E8%A7%A3/</guid>
+    <guid>https://smartyue076.github.io/posts/%E9%80%92%E5%BD%92%E7%AE%97%E6%B3%95%E7%9A%84%E7%90%86%E8%A7%A3/</guid>
     <description><![CDATA[<h2 id="如何写一个递归算法">如何写一个递归算法</h2>
 <ol>
 <li><strong>确定问题</strong>：给当前的算法一个符合计算机处理流程的解释。例如对于斐波那契数数列求解<code>int fib(int n)</code>，应该翻译成计算数列第n项并返回数列的值</li>
