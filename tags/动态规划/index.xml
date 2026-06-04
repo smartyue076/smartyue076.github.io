@@ -1,14 +1,14 @@
 <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
     <channel>
         <title>动态规划 - 标签 - 子非鱼的技术博客</title>
-        <link>https://smartyue076.github.io/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/</link>
+        <link>http://localhost:1313/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/</link>
         <description>动态规划 - 标签 - 子非鱼的技术博客</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Tue, 11 Feb 2025 16:21:36 &#43;0800</lastBuildDate><atom:link href="https://smartyue076.github.io/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" rel="self" type="application/rss+xml" /><item>
+        <generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Tue, 11 Feb 2025 16:21:36 &#43;0800</lastBuildDate><atom:link href="http://localhost:1313/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" rel="self" type="application/rss+xml" /><item>
     <title>动态规划</title>
-    <link>https://smartyue076.github.io/posts/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/</link>
+    <link>http://localhost:1313/posts/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/</link>
     <pubDate>Tue, 11 Feb 2025 16:21:36 &#43;0800</pubDate>
     <author>子非鱼</author>
-    <guid>https://smartyue076.github.io/posts/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/</guid>
+    <guid>http://localhost:1313/posts/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/</guid>
     <description><![CDATA[<h2 id="什么问题适合用动态规划最优子结构">什么问题适合用动态规划（最优子结构）</h2>
 <p>符合<strong>最优子结构</strong>的问题适合用动态规划</p>
 <p><strong>最优子结构</strong> 是指一个问题的<strong>最优解可以通过其子问题的最优解构造出来</strong>。换句话说，问题的最优解依赖于子问题的最优解。</p>

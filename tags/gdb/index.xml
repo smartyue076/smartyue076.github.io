@@ -1,14 +1,14 @@
 <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
     <channel>
         <title>GDB - 标签 - 子非鱼的技术博客</title>
-        <link>https://smartyue076.github.io/tags/gdb/</link>
+        <link>http://localhost:1313/tags/gdb/</link>
         <description>GDB - 标签 - 子非鱼的技术博客</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Tue, 17 Jan 2023 22:05:26 &#43;0800</lastBuildDate><atom:link href="https://smartyue076.github.io/tags/gdb/" rel="self" type="application/rss+xml" /><item>
+        <generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Tue, 17 Jan 2023 22:05:26 &#43;0800</lastBuildDate><atom:link href="http://localhost:1313/tags/gdb/" rel="self" type="application/rss+xml" /><item>
     <title>GDB使用手册</title>
-    <link>https://smartyue076.github.io/posts/gdb%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C/</link>
+    <link>http://localhost:1313/posts/gdb%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C/</link>
     <pubDate>Tue, 17 Jan 2023 22:05:26 &#43;0800</pubDate>
     <author>子非鱼</author>
-    <guid>https://smartyue076.github.io/posts/gdb%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C/</guid>
+    <guid>http://localhost:1313/posts/gdb%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C/</guid>
     <description><![CDATA[<p>编译时加上<code>-g</code>选项</p>
 <table>
   <thead>

@@ -1,14 +1,14 @@
 <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
     <channel>
         <title>计算机网络 - 标签 - 子非鱼的技术博客</title>
-        <link>https://smartyue076.github.io/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/</link>
+        <link>http://localhost:1313/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/</link>
         <description>计算机网络 - 标签 - 子非鱼的技术博客</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Sat, 18 Feb 2023 19:01:29 &#43;0800</lastBuildDate><atom:link href="https://smartyue076.github.io/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" rel="self" type="application/rss+xml" /><item>
+        <generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Sat, 18 Feb 2023 19:01:29 &#43;0800</lastBuildDate><atom:link href="http://localhost:1313/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" rel="self" type="application/rss+xml" /><item>
     <title>软件开发面试题整理</title>
-    <link>https://smartyue076.github.io/posts/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91%E9%9D%A2%E8%AF%95%E9%A2%98%E6%95%B4%E7%90%86/</link>
+    <link>http://localhost:1313/posts/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91%E9%9D%A2%E8%AF%95%E9%A2%98%E6%95%B4%E7%90%86/</link>
     <pubDate>Sat, 18 Feb 2023 19:01:29 &#43;0800</pubDate>
     <author>子非鱼</author>
-    <guid>https://smartyue076.github.io/posts/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91%E9%9D%A2%E8%AF%95%E9%A2%98%E6%95%B4%E7%90%86/</guid>
+    <guid>http://localhost:1313/posts/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91%E9%9D%A2%E8%AF%95%E9%A2%98%E6%95%B4%E7%90%86/</guid>
     <description><![CDATA[<h2 id="面试题汇总">面试题汇总</h2>
 <h3 id="c">C++</h3>
 <h4 id="基础知识">基础知识</h4>
@@ -44,10 +44,10 @@
 </item>
 <item>
     <title>计算机网络（一）绪论</title>
-    <link>https://smartyue076.github.io/posts/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%B8%80%E7%BB%AA%E8%AE%BA/</link>
+    <link>http://localhost:1313/posts/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%B8%80%E7%BB%AA%E8%AE%BA/</link>
     <pubDate>Wed, 11 Jan 2023 18:37:44 &#43;0800</pubDate>
     <author>子非鱼</author>
-    <guid>https://smartyue076.github.io/posts/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%B8%80%E7%BB%AA%E8%AE%BA/</guid>
+    <guid>http://localhost:1313/posts/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%B8%80%E7%BB%AA%E8%AE%BA/</guid>
     <description><![CDATA[<h2 id="第零章-绪论">第零章 绪论</h2>
 <p>传输层：进程到进程</p>
 <p>网络层：端到端（end to end），网络设备到网络设备</p>
@@ -56,10 +56,10 @@
 </item>
 <item>
     <title>计算机网络（四）应用层（网络编程）</title>
-    <link>https://smartyue076.github.io/posts/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%9B%9B%E5%BA%94%E7%94%A8%E5%B1%82%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/</link>
+    <link>http://localhost:1313/posts/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%9B%9B%E5%BA%94%E7%94%A8%E5%B1%82%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/</link>
     <pubDate>Wed, 11 Jan 2023 18:37:36 &#43;0800</pubDate>
     <author>子非鱼</author>
-    <guid>https://smartyue076.github.io/posts/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%9B%9B%E5%BA%94%E7%94%A8%E5%B1%82%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/</guid>
+    <guid>http://localhost:1313/posts/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%9B%9B%E5%BA%94%E7%94%A8%E5%B1%82%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/</guid>
     <description><![CDATA[<h2 id="第二章-应用层网络编程">第二章 应用层（网络编程）</h2>
 <h3 id="udp编程">UDP编程</h3>
 
@@ -82,10 +82,10 @@
 </item>
 <item>
     <title>计算机网络（三）应用层</title>
-    <link>https://smartyue076.github.io/posts/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%B8%89%E5%BA%94%E7%94%A8%E5%B1%82/</link>
+    <link>http://localhost:1313/posts/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%B8%89%E5%BA%94%E7%94%A8%E5%B1%82/</link>
     <pubDate>Wed, 11 Jan 2023 18:36:57 &#43;0800</pubDate>
     <author>子非鱼</author>
-    <guid>https://smartyue076.github.io/posts/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%B8%89%E5%BA%94%E7%94%A8%E5%B1%82/</guid>
+    <guid>http://localhost:1313/posts/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%B8%89%E5%BA%94%E7%94%A8%E5%B1%82/</guid>
     <description><![CDATA[<h2 id="chapter-2-应用层">Chapter 2: 应用层</h2>
 <h3 id="应用层协议原理">应用层协议原理</h3>
 <p>传输层向应用层提供的服务为socket API</p>
@@ -96,10 +96,10 @@
 </item>
 <item>
     <title>计算机网络（五）传输层</title>
-    <link>https://smartyue076.github.io/posts/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%BA%94%E4%BC%A0%E8%BE%93%E5%B1%82/</link>
+    <link>http://localhost:1313/posts/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%BA%94%E4%BC%A0%E8%BE%93%E5%B1%82/</link>
     <pubDate>Wed, 11 Jan 2023 18:36:37 &#43;0800</pubDate>
     <author>子非鱼</author>
-    <guid>https://smartyue076.github.io/posts/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%BA%94%E4%BC%A0%E8%BE%93%E5%B1%82/</guid>
+    <guid>http://localhost:1313/posts/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%BA%94%E4%BC%A0%E8%BE%93%E5%B1%82/</guid>
     <description><![CDATA[<h2 id="第三章-传输层">第三章 传输层</h2>
 <h2 id="概述">概述</h2>
 <p>可靠的、保序的传输：TCP</p>
@@ -117,10 +117,10 @@
 </item>
 <item>
     <title>计算机网络（二）英特网</title>
-    <link>https://smartyue076.github.io/posts/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%BA%8C%E8%8B%B1%E7%89%B9%E7%BD%91/</link>
+    <link>http://localhost:1313/posts/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%BA%8C%E8%8B%B1%E7%89%B9%E7%BD%91/</link>
     <pubDate>Wed, 11 Jan 2023 18:36:03 &#43;0800</pubDate>
     <author>子非鱼</author>
-    <guid>https://smartyue076.github.io/posts/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%BA%8C%E8%8B%B1%E7%89%B9%E7%BD%91/</guid>
+    <guid>http://localhost:1313/posts/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%BA%8C%E8%8B%B1%E7%89%B9%E7%BD%91/</guid>
     <description><![CDATA[<h2 id="chapter-1-internet">Chapter 1: Internet</h2>
 <h2 id="基础概念">基础概念</h2>
 <p><strong>网络</strong>：由节点和边组成的结构</p>
