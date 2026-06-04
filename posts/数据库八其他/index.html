@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+    <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>数据库（八）其他 - 子非鱼的技术博客</title><meta name="Description" content="子非鱼的技术博客"><meta property="og:url" content="http://localhost:1313/posts/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%85%AB%E5%85%B6%E4%BB%96/">
+  <meta property="og:site_name" content="子非鱼的技术博客">
+  <meta property="og:title" content="数据库（八）其他">
+  <meta property="og:description" content="视图（view） 概念 在MySQL中，视图是一种虚拟表，它是由一个或多个基本表的行或列组成的。视图并不实际存储数据，而是根据定义的 select 语句动态生成结果集。视图可以简化复杂的查询操作，提高查询效率，同时也可以保护数据的安全性，隐藏敏感数据。
+执行过程 执行过程类似于 select 语句，流程如下
+视图展开（预处理器）：将视图名转化为 select 语句 查询优化（优化器）：选择使用索引或者连接算法优化查询效率 执行查询（执行器，存储引擎）：生成优化后的执行计划后，数据库的 存储引擎会根据这个计划执行查询。执行过程中，MySQL 会从底层表中读取数据，并按需执行连接、过滤、排序等操作，最终返回查询结果">
+  <meta property="og:locale" content="zh_cn">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-02-14T14:46:31+08:00">
+    <meta property="article:modified_time" content="2025-02-14T14:46:31+08:00">
+    <meta property="article:tag" content="数据库">
+    <meta property="article:tag" content="MySQL">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="数据库（八）其他">
+  <meta name="twitter:description" content="视图（view） 概念 在MySQL中，视图是一种虚拟表，它是由一个或多个基本表的行或列组成的。视图并不实际存储数据，而是根据定义的 select 语句动态生成结果集。视图可以简化复杂的查询操作，提高查询效率，同时也可以保护数据的安全性，隐藏敏感数据。
+执行过程 执行过程类似于 select 语句，流程如下
+视图展开（预处理器）：将视图名转化为 select 语句 查询优化（优化器）：选择使用索引或者连接算法优化查询效率 执行查询（执行器，存储引擎）：生成优化后的执行计划后，数据库的 存储引擎会根据这个计划执行查询。执行过程中，MySQL 会从底层表中读取数据，并按需执行连接、过滤、排序等操作，最终返回查询结果">
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site">
+<meta name="referrer" content="no-referrer" /><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://localhost:1313/posts/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%85%AB%E5%85%B6%E4%BB%96/" /><link rel="prev" href="http://localhost:1313/posts/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%83%E7%BC%93%E5%AD%98%E6%9C%BA%E5%88%B6/" /><link rel="next" href="http://localhost:1313/posts/raft-%E5%88%86%E5%B8%83%E5%BC%8F%E4%B8%80%E8%87%B4%E6%80%A7%E7%AE%97%E6%B3%95%E5%AE%9E%E7%8E%B0%E7%AF%87/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/css/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "数据库（八）其他",
+        "inLanguage": "zh-cn",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/localhost:1313\/posts\/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%85%AB%E5%85%B6%E4%BB%96\/"
+        },"genre": "posts","keywords": "数据库, MySQL","wordcount":  2462 ,
+        "url": "http:\/\/localhost:1313\/posts\/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%85%AB%E5%85%B6%E4%BB%96\/","datePublished": "2025-02-14T14:46:31+08:00","dateModified": "2025-02-14T14:46:31+08:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "子非鱼"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script>
+          const query = window.matchMedia('(prefers-color-scheme: dark)');
+          function applyTheme() {
+            let theme = window.localStorage?.getItem('theme') || 'light';
+            let isDark = theme === 'dark' || (theme === 'auto' && query.matches);
+            document.body.setAttribute('theme', isDark? 'dark' : 'light');
+            document.body.setAttribute('cfg-theme', theme);
+          }
+
+          applyTheme();
+          query.addEventListener('change', applyTheme);
+        </script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="子非鱼的技术博客">子非鱼的技术博客</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/"> 所有文章 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/about/"> 关于 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust" aria-hidden="true"></i>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="子非鱼的技术博客">子非鱼的技术博客</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/" title="">所有文章</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/about/" title="">关于</a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><div class="search-dropdown desktop">
+        <div id="search-dropdown-desktop"></div>
+    </div>
+    <div class="search-dropdown mobile">
+        <div id="search-dropdown-mobile"></div>
+    </div><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">数据库（八）其他</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle" aria-hidden="true"></i>子非鱼</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/mysql/"><i class="far fa-folder" aria-hidden="true"></i>MySQL</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt" aria-hidden="true"></i>&nbsp;<time datetime="2025年2月14日">2025年2月14日</time>&nbsp;<i class="fas fa-pencil-alt" aria-hidden="true"></i>&nbsp;约 2462 字&nbsp;
+                <i class="far fa-clock" aria-hidden="true"></i>&nbsp;预计阅读 5 分钟&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#视图view">视图（view）</a>
+      <ul>
+        <li><a href="#概念">概念</a></li>
+        <li><a href="#执行过程">执行过程</a></li>
+      </ul>
+    </li>
+    <li><a href="#连接join">连接（join）</a>
+      <ul>
+        <li><a href="#简单嵌套循环连接">简单嵌套循环连接</a></li>
+        <li><a href="#块嵌套循环连接">块嵌套循环连接</a></li>
+        <li><a href="#索引嵌套循环连接">索引嵌套循环连接</a></li>
+        <li><a href="#归并连接">归并连接</a></li>
+        <li><a href="#哈希连接">哈希连接</a></li>
+        <li><a href="#对比">对比</a></li>
+      </ul>
+    </li>
+    <li><a href="#范式">范式</a>
+      <ul>
+        <li><a href="#第一范式1nf">第一范式（1NF）</a></li>
+        <li><a href="#第二范式2nf">第二范式（2NF）</a></li>
+        <li><a href="#第三范式3nf">第三范式（3NF）</a></li>
+        <li><a href="#bc范式bcnf">BC范式（BCNF）</a></li>
+      </ul>
+    </li>
+    <li><a href="#存储">存储</a>
+      <ul>
+        <li><a href="#lsm树">LSM树</a></li>
+      </ul>
+    </li>
+    <li><a href="#关系型数据库与非关系型数据库">关系型数据库与非关系型数据库</a></li>
+    <li><a href="#数据库三级模式结构">数据库三级模式结构</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="视图view">视图（view）</h2>
+<h3 id="概念">概念</h3>
+<p>在MySQL中，视图是一种虚拟表，它是由一个或多个基本表的行或列组成的。<strong>视图并不实际存储数据，而是根据定义的 select 语句动态生成结果集</strong>。视图可以简化复杂的查询操作，提高查询效率，同时也可以保护数据的安全性，隐藏敏感数据。</p>
+<h3 id="执行过程">执行过程</h3>
+<p>执行过程类似于 select 语句，流程如下</p>
+<ol>
+<li><strong>视图展开（预处理器）</strong>：将视图名转化为 select 语句</li>
+<li><strong>查询优化（优化器）</strong>：选择使用索引或者连接算法优化查询效率</li>
+<li><strong>执行查询（执行器，存储引擎）</strong>：生成优化后的执行计划后，数据库的 存储引擎会根据这个计划执行查询。执行过程中，MySQL 会从底层表中读取数据，并按需执行连接、过滤、排序等操作，最终返回查询结果</li>
+</ol>
+<h2 id="连接join">连接（join）</h2>
+<h3 id="简单嵌套循环连接">简单嵌套循环连接</h3>
+<h4 id="执行流程">执行流程</h4>
+<p>对于左表的每一条记录，扫描右表的所有记录，找到匹配的记录</p>
+<img src="../../images/naive_nested_loop_join.png" style="zoom:40%;" />
+<h3 id="块嵌套循环连接">块嵌套循环连接</h3>
+<h4 id="执行流程-1">执行流程</h4>
+<p>将左表和右表分块，每次加载一块数据到内存中，进行连接操作</p>
+<img src="../../images/block_nested_loop_join.png" style="zoom:40%;" />
+<h3 id="索引嵌套循环连接">索引嵌套循环连接</h3>
+<h4 id="执行流程-2">执行流程</h4>
+<p>对于左表的每一条记录，通过右表的索引快速查找匹配的记录</p>
+<img src="../../images/index_nested_loop_join.png" style="zoom:40%;" />
+<h3 id="归并连接">归并连接</h3>
+<h4 id="执行流程-3">执行流程</h4>
+<ol>
+<li>对两个表按照join key排序</li>
+<li>按序匹配两个表在join key上的值，筛选有效行</li>
+</ol>
+<img src="../../images/sort_merge_join_1.png" style="zoom:40%;" />
+<img src="../../images/sort_merge_join_2.png" style="zoom:40%;" />
+<h3 id="哈希连接">哈希连接</h3>
+<h4 id="执行流程-4">执行流程</h4>
+<p><strong>建表阶段（Bulid Phase）</strong></p>
+<p>选择一个表（一般情况下是较小的那个表，以减少建立哈希表的时间和空间），对其中每个元组上的join key采用哈希函数得到哈希值，从而建立一个哈希表。</p>
+<p><strong>探测阶段（Probe Phase）</strong></p>
+<p>对另一个表，扫描它的每一行并计算连接属性的哈希值，与bulid phase建立的哈希表对比，若有落在同一个bucket的则连接成新的表。</p>
+<img src="../../images/simple_hash_join_algorithm.png" style="zoom:40%;" />
+<h3 id="对比">对比</h3>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left"><strong>连接算法</strong></th>
+          <th style="text-align: left"><strong>实现方式</strong></th>
+          <th style="text-align: left"><strong>时间复杂度</strong></th>
+          <th style="text-align: left"><strong>优点</strong></th>
+          <th style="text-align: left"><strong>缺点</strong></th>
+          <th style="text-align: left"><strong>应用场景</strong></th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><strong>简单嵌套连接</strong></td>
+          <td style="text-align: left">左表每条记录扫描右表所有记录</td>
+          <td style="text-align: left"><code>O(n * m)</code></td>
+          <td style="text-align: left">实现简单</td>
+          <td style="text-align: left">效率低</td>
+          <td style="text-align: left">小数据集</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>块嵌套连接</strong></td>
+          <td style="text-align: left">分块加载数据，减少磁盘 I/O</td>
+          <td style="text-align: left"><code>O(n * m)</code></td>
+          <td style="text-align: left">减少磁盘 I/O</td>
+          <td style="text-align: left">效率较低</td>
+          <td style="text-align: left">大数据集且内存有限</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>索引嵌套连接</strong></td>
+          <td style="text-align: left">左表每条记录通过右表索引查找匹配记录</td>
+          <td style="text-align: left"><code>O(n * log(m))</code></td>
+          <td style="text-align: left">利用索引快速查找</td>
+          <td style="text-align: left">依赖索引</td>
+          <td style="text-align: left">右表有索引的场景</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>归并连接</strong></td>
+          <td style="text-align: left">对两个已排序的表进行扫描和匹配</td>
+          <td style="text-align: left"><code>O(n + m)</code></td>
+          <td style="text-align: left">高效，适合已排序的大数据集</td>
+          <td style="text-align: left">依赖排序</td>
+          <td style="text-align: left">已排序的大数据集</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>哈希连接</strong></td>
+          <td style="text-align: left">构建哈希表，扫描探测表并查找匹配记录</td>
+          <td style="text-align: left"><code>O(n + m)</code></td>
+          <td style="text-align: left">效率高，适合大数据集</td>
+          <td style="text-align: left">需要足够内存</td>
+          <td style="text-align: left">大数据集的等值连接，内存充足场景</td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="范式">范式</h2>
+<h3 id="第一范式1nf">第一范式（1NF）</h3>
+<p>要求数据库表的<strong>每一列都是不可分割的原子数据项</strong></p>
+<h3 id="第二范式2nf">第二范式（2NF）</h3>
+<p>在1NF的基础上，<strong>非码属性必须完全依赖于候选码（在1NF基础上消除非主属性对主码的部分函数依赖）</strong></p>
+<p>也就是说不能出现候选码中的部分码能退出非主属性的情况</p>
+<p>第二范式需要确保数据库表中的每一列都和主键相关，而不能只与主键的某一部分相关（主要针对联合主键而言）</p>
+<p>举例说明：</p>
+<img src="../../images/nf_3.webp" style="zoom:0%;" />
+<p>在上图所示的情况中，同一个订单中可能包含不同的产品，因此主键必须是“订单号”和“产品号”联合组成，</p>
+<p>但可以发现，产品数量、产品折扣、产品价格与“订单号”和“产品号”都相关，但是订单金额和订单时间仅与“订单号”相关，与“产品号”无关，</p>
+<p>这样就不满足第二范式的要求，调整如下，需分成两个表：</p>
+<img src="../../images/nf_4.webp" style="zoom:80%;" />
+<img src="../../images/nf_5.webp" style="zoom:80%;" />
+<h3 id="第三范式3nf">第三范式（3NF）</h3>
+<p>在2NF基础上，<strong>任何非主属性不依赖于其它非主属性（在2NF基础上消除传递依赖）</strong></p>
+<p>第三范式需要确保数据表中的每一列数据都和主键直接相关，而不能间接相关</p>
+<p>举例说明：</p>
+<img src="../../images/nf_6.webp" style="zoom:80%;" />
+<p>上表中，所有属性都完全依赖于学号，所以满足第二范式，但是“班主任性别”和“班主任年龄”直接依赖的是“班主任姓名”，</p>
+<p>而不是主键“学号”，所以需做如下调整：</p>
+<img src="../../images/nf_7.webp" style="zoom:80%;" />
+<img src="../../images/nf_8.webp" style="zoom:80%;" />
+<h3 id="bc范式bcnf">BC范式（BCNF）</h3>
+<p>在关系模式中<strong>每一个决定因素都包含候选键</strong>，也就是说，只要属性或属性组A能够决定任何一个属性B，则A的子集中必须有候选键。BCNF范式排除了<strong>任何属性（不光是非主属性，2NF和3NF所限制的都是非主属性）对候选码的传递依赖与部分依赖</strong>。</p>
+<p>举例说明：</p>
+<p>有一个学生导师表，其中包含字段：学生ID，专业，导师，专业GPA，这其中学生ID和专业是联合主键</p>
+<table>
+  <thead>
+      <tr>
+          <th>StudentId（P）</th>
+          <th>Major（P）</th>
+          <th>Advisor</th>
+          <th>MajGPA</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>1</td>
+          <td>人工智能</td>
+          <td>Edward</td>
+          <td>4.0</td>
+      </tr>
+      <tr>
+          <td>2</td>
+          <td>大数据</td>
+          <td>William</td>
+          <td>3.8</td>
+      </tr>
+      <tr>
+          <td>1</td>
+          <td>大数据</td>
+          <td>William</td>
+          <td>3.7</td>
+      </tr>
+      <tr>
+          <td>3</td>
+          <td>大数据</td>
+          <td>Joseph</td>
+          <td>4.0</td>
+      </tr>
+  </tbody>
+</table>
+<p>这个表的设计满足三范式，有主键，不存在主键的部分依赖，不存在非主键的传递依赖。但是这里存在另一个依赖关系，“专业”函数依赖于“导师”，也就是说每个导师只做一个专业方面的导师，只要知道了是哪个导师，我们自然就知道是哪个专业的了。</p>
+<p>所以这个表的部分主键依赖于非主键部分，那么我们可以进行以下的调整，拆分成2个表：</p>
+<p>学生导师表：</p>
+<table>
+  <thead>
+      <tr>
+          <th>StudentId（P）</th>
+          <th>Advisor</th>
+          <th>MajGPA</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>1</td>
+          <td>Edward</td>
+          <td>4.0</td>
+      </tr>
+      <tr>
+          <td>2</td>
+          <td>William</td>
+          <td>3.8</td>
+      </tr>
+      <tr>
+          <td>1</td>
+          <td>William</td>
+          <td>3.7</td>
+      </tr>
+      <tr>
+          <td>3</td>
+          <td>Joseph</td>
+          <td>4.0</td>
+      </tr>
+  </tbody>
+</table>
+<p>导师表：</p>
+<table>
+  <thead>
+      <tr>
+          <th>Advisor（P）</th>
+          <th>Major</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>Edward</td>
+          <td>人工智能</td>
+      </tr>
+      <tr>
+          <td>William</td>
+          <td>大数据</td>
+      </tr>
+      <tr>
+          <td>Joseph</td>
+          <td>大数据</td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="存储">存储</h2>
+<h3 id="lsm树">LSM树</h3>
+<h4 id="lsm-tree">LSM Tree</h4>
+<p>在内存中维护一个Memtable并排序（AVL，红黑树等），当达到某一阈值后写入到磁盘，写入的结构称为SSTable</p>
+<p>SSTable会定期进行压缩compaction，将重复的key以最新value压缩。由于数据量较大，所以通过数据大小对SStable分层</p>
+<img src="../../images/LSM_tree.png" style="zoom:40%;" />
+<p><strong>读：</strong> <strong>先访问内存的Memtable，若不存在则按序访问磁盘的各级SStable读取</strong>，由于SStable有序，可以通过范围判断是否在当前table，然后通过二分查找等方法查找</p>
+<p><strong>写：</strong> 直接增加到Memtable</p>
+<p><strong>优化：</strong> 布隆过滤器，通过哈希方法计算key是否存在，否表示肯定不存在，是表示可能存在</p>
+<p><strong>优点：</strong> 顺序写；写效率高</p>
+<p><strong>缺点：</strong> 读效率过低</p>
+<h2 id="关系型数据库与非关系型数据库">关系型数据库与非关系型数据库</h2>
+<p>按照数据模型来分类的话，主要分为关系型数据库和非关系型数据库</p>
+<ul>
+<li>关系型数据库：基于关系模型组织数据的数据库，如MySQL、Oracle等。</li>
+<li>非关系型数据库：不使用传统表格形式存储数据的数据库，如MongoDB、Redis（内存数据库）等。</li>
+</ul>
+<p>数据库是用于存储、管理和检索数据的系统，<strong>关系型数据库使用结构化查询语言（SQL）来管理数据，适用于需要保证数据一致性和完整性的场景</strong>；<strong>NoSQL数据库则更加灵活，适用于需要处理大量非结构化数据或需要高可伸缩性的场景</strong></p>
+<h2 id="数据库三级模式结构">数据库三级模式结构</h2>
+<p>数据库系统的三级模式结构包括：</p>
+<ol>
+<li><strong>外模式（External Schema）</strong>：描述用户或应用程序看到的数据库视图。</li>
+<li><strong>概念模式（Conceptual Schema）</strong>：描述整个数据库的逻辑结构和数据关系。</li>
+<li><strong>内模式（Internal Schema）</strong>：描述数据库的物理存储结构和存储方式。</li>
+</ol></div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2025年2月14日</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="分享到 X" data-sharer="x" data-url="http://localhost:1313/posts/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%85%AB%E5%85%B6%E4%BB%96/" data-title="数据库（八）其他" data-hashtags="数据库,MySQL"><i class="fab fa-x-twitter" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Threads" data-sharer="threads" data-url="http://localhost:1313/posts/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%85%AB%E5%85%B6%E4%BB%96/" data-title="数据库（八）其他"><i class="fab fa-threads" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Facebook" data-sharer="facebook" data-url="http://localhost:1313/posts/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%85%AB%E5%85%B6%E4%BB%96/" data-hashtag="数据库"><i class="fab fa-facebook-square" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Hacker News" data-sharer="hackernews" data-url="http://localhost:1313/posts/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%85%AB%E5%85%B6%E4%BB%96/" data-title="数据库（八）其他"><i class="fab fa-hacker-news" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Line" data-sharer="line" data-url="http://localhost:1313/posts/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%85%AB%E5%85%B6%E4%BB%96/" data-title="数据库（八）其他"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="http://localhost:1313/posts/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%85%AB%E5%85%B6%E4%BB%96/" data-title="数据库（八）其他"><i class="fab fa-weibo" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Diaspora" data-sharer="diaspora" data-url="http://localhost:1313/posts/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%85%AB%E5%85%B6%E4%BB%96/" data-title="数据库（八）其他" data-description=""><i class="fab fa-diaspora" aria-hidden="true"></i></a><a href="https://t.me/share/url?url=http%3a%2f%2flocalhost%3a1313%2fposts%2f%25E6%2595%25B0%25E6%258D%25AE%25E5%25BA%2593%25E5%2585%25AB%25E5%2585%25B6%25E4%25BB%2596%2f&amp;text=%e6%95%b0%e6%8d%ae%e5%ba%93%ef%bc%88%e5%85%ab%ef%bc%89%e5%85%b6%e4%bb%96" target="_blank" title="分享到 Telegram"><i class="fab fa-telegram" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags" aria-hidden="true"></i>&nbsp;<a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>,&nbsp;<a href="/tags/mysql/">MySQL</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/posts/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%83%E7%BC%93%E5%AD%98%E6%9C%BA%E5%88%B6/" class="prev" rel="prev" title="数据库（七）缓存机制"><i class="fas fa-angle-left" aria-hidden="true"></i>数据库（七）缓存机制</a>
+            <a href="/posts/raft-%E5%88%86%E5%B8%83%E5%BC%8F%E4%B8%80%E8%87%B4%E6%80%A7%E7%AE%97%E6%B3%95%E5%AE%9E%E7%8E%B0%E7%AF%87/" class="next" rel="next" title="RAFT 分布式一致性算法（实现篇）">RAFT 分布式一致性算法（实现篇）<i class="fas fa-angle-right" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.160.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 1.0.0"><i class="far fa-kiss-wink-heart" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright" aria-hidden="true"></i><span itemprop="copyrightYear">2022 - 2026</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">子非鱼</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up" aria-hidden="true"></i>
+            </a>
+        </div>
+
+        <div id="fixed-buttons-hidden"><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/lightgallery/css/lightgallery-bundle.min.css"><link rel="stylesheet" href="/lib/katex/katex.min.css"><script src="/lib/autocomplete/autocomplete.min.js"></script><script src="/lib/lunr/lunr.min.js"></script><script src="/lib/lunr/lunr.stemmer.support.min.js"></script><script src="/lib/lunr/lunr.zh.min.js"></script><script src="/lib/lazysizes/lazysizes.min.js"></script><script src="/lib/lightgallery/lightgallery.min.js"></script><script src="/lib/lightgallery/plugins/thumbnail/lg-thumbnail.min.js"></script><script src="/lib/lightgallery/plugins/zoom/lg-zoom.min.js"></script><script src="/lib/clipboard/clipboard.min.js"></script><script src="/lib/sharer/sharer.min.js"></script><script src="/lib/katex/katex.min.js"></script><script src="/lib/katex/contrib/auto-render.min.js"></script><script src="/lib/katex/contrib/copy-tex.min.js"></script><script src="/lib/katex/contrib/mhchem.min.js"></script><script>window.config={"comment":{},"lightgallery":true,"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"highlightTag":"em","lunrIndexURL":"/index.json","lunrLanguageCode":"zh","lunrSegmentitURL":"/lib/lunr/lunr.segmentit.js","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"lunr"}};</script><script src="/js/theme.js"></script></body>
+</html>

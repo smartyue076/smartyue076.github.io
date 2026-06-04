@@ -1,0 +1,18 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>CNN - 标签 - 子非鱼的技术博客</title>
+        <link>http://localhost:1313/tags/cnn/</link>
+        <description>CNN - 标签 - 子非鱼的技术博客</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Mon, 20 Jan 2025 10:19:16 &#43;0800</lastBuildDate><atom:link href="http://localhost:1313/tags/cnn/" rel="self" type="application/rss+xml" /><item>
+    <title>机器学习基础（二）神经网络</title>
+    <link>http://localhost:1313/posts/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E7%A1%80%E4%BA%8C%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/</link>
+    <pubDate>Mon, 20 Jan 2025 10:19:16 &#43;0800</pubDate>
+    <author>子非鱼</author>
+    <guid>http://localhost:1313/posts/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E7%A1%80%E4%BA%8C%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/</guid>
+    <description><![CDATA[<h2 id="基础">基础</h2>
+<p>竖向堆叠起来的输入特征被称作神经网络的<strong>输入层（the input layer）</strong>。</p>
+<p>神经网络的<strong>隐藏层（a hidden layer）</strong>。“隐藏”的含义是<strong>在训练集中</strong>，这些中间节点的真正数值是无法看到的。</p>
+<p><strong>输出层（the output layer）</strong>负责输出预测值。</p>]]></description>
+</item>
+</channel>
+</rss>

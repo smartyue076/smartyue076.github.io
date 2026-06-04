@@ -1,0 +1,146 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>GDB - 分类 - 子非鱼的技术博客</title>
+        <link>http://localhost:1313/categories/gdb/</link>
+        <description>GDB - 分类 - 子非鱼的技术博客</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Tue, 17 Jan 2023 22:05:26 &#43;0800</lastBuildDate><atom:link href="http://localhost:1313/categories/gdb/" rel="self" type="application/rss+xml" /><item>
+    <title>GDB使用手册</title>
+    <link>http://localhost:1313/posts/gdb%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C/</link>
+    <pubDate>Tue, 17 Jan 2023 22:05:26 &#43;0800</pubDate>
+    <author>子非鱼</author>
+    <guid>http://localhost:1313/posts/gdb%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C/</guid>
+    <description><![CDATA[<p>编译时加上<code>-g</code>选项</p>
+<table>
+  <thead>
+      <tr>
+          <th>命令名称</th>
+          <th>命令缩写</th>
+          <th>命令说明</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>run</td>
+          <td>r</td>
+          <td>运行一个待调试的程序</td>
+      </tr>
+      <tr>
+          <td>continue</td>
+          <td>c</td>
+          <td>让暂停的程序继续运行</td>
+      </tr>
+      <tr>
+          <td>next</td>
+          <td>n</td>
+          <td>运行到下一行</td>
+      </tr>
+      <tr>
+          <td>step</td>
+          <td>s</td>
+          <td>单步执行，遇到函数会进入</td>
+      </tr>
+      <tr>
+          <td>until</td>
+          <td>u</td>
+          <td>运行到指定行停下来</td>
+      </tr>
+      <tr>
+          <td>finish</td>
+          <td>fi</td>
+          <td>结束当前调用函数，回到上一层调用函数处</td>
+      </tr>
+      <tr>
+          <td>return</td>
+          <td>return</td>
+          <td>结束当前调用函数并返回指定值，到上一层函数调用处</td>
+      </tr>
+      <tr>
+          <td>jump</td>
+          <td>j</td>
+          <td>将当前程序执行流跳转到指定行或地址，不运行跳过的代码</td>
+      </tr>
+      <tr>
+          <td>print</td>
+          <td>p</td>
+          <td>打印变量或寄存器值</td>
+      </tr>
+      <tr>
+          <td>backtrace</td>
+          <td>bt</td>
+          <td>查看当前线程的调用堆栈</td>
+      </tr>
+      <tr>
+          <td>frame</td>
+          <td>f</td>
+          <td>切换到当前调用线程的指定堆栈</td>
+      </tr>
+      <tr>
+          <td>thread</td>
+          <td>thread</td>
+          <td>切换到指定线程</td>
+      </tr>
+      <tr>
+          <td>break</td>
+          <td>b</td>
+          <td>添加断点</td>
+      </tr>
+      <tr>
+          <td>tbreak</td>
+          <td>tb</td>
+          <td>添加临时断点</td>
+      </tr>
+      <tr>
+          <td>delete</td>
+          <td>d</td>
+          <td>删除断点</td>
+      </tr>
+      <tr>
+          <td>enable</td>
+          <td>enable</td>
+          <td>启用某个断点</td>
+      </tr>
+      <tr>
+          <td>disable</td>
+          <td>disable</td>
+          <td>禁用某个断点</td>
+      </tr>
+      <tr>
+          <td>watch</td>
+          <td>watch</td>
+          <td>监视某一个变量或内存地址的值是否发生变化</td>
+      </tr>
+      <tr>
+          <td>list</td>
+          <td>l</td>
+          <td>显示源码</td>
+      </tr>
+      <tr>
+          <td>info</td>
+          <td>i</td>
+          <td>查看断点 / 线程等信息</td>
+      </tr>
+      <tr>
+          <td>ptype</td>
+          <td>ptype</td>
+          <td>查看变量类型</td>
+      </tr>
+      <tr>
+          <td>disassemble</td>
+          <td>dis</td>
+          <td>查看汇编代码</td>
+      </tr>
+      <tr>
+          <td>set args</td>
+          <td>set args</td>
+          <td>设置程序启动命令行参数</td>
+      </tr>
+      <tr>
+          <td>show args</td>
+          <td>show args</td>
+          <td>查看设置的命令行参数</td>
+      </tr>
+  </tbody>
+</table>]]></description>
+</item>
+</channel>
+</rss>

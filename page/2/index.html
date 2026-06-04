@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+    <head>
+	<meta name="generator" content="Hugo 0.160.0"><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>子非鱼的技术博客</title><meta name="Description" content="子非鱼的技术博客"><meta property="og:url" content="http://localhost:1313/">
+  <meta property="og:site_name" content="子非鱼的技术博客">
+  <meta property="og:title" content="子非鱼的技术博客">
+  <meta property="og:description" content="子非鱼的技术博客">
+  <meta property="og:locale" content="zh_cn">
+  <meta property="og:type" content="website">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="子非鱼的技术博客">
+  <meta name="twitter:description" content="子非鱼的技术博客">
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site">
+<meta name="referrer" content="no-referrer" /><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://localhost:1313/" /><link rel="alternate" href="/index.xml" type="application/rss+xml" title="子非鱼的技术博客">
+    <link rel="feed" href="/index.xml" type="application/rss+xml" title="子非鱼的技术博客"><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/css/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "WebSite",
+        "url": "http:\/\/localhost:1313\/","inLanguage": "zh-cn","author": {
+                "@type": "Person",
+                "name": "子非鱼"
+            },"description": "子非鱼的技术博客","name": "子非鱼的技术博客"
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script>
+          const query = window.matchMedia('(prefers-color-scheme: dark)');
+          function applyTheme() {
+            let theme = window.localStorage?.getItem('theme') || 'light';
+            let isDark = theme === 'dark' || (theme === 'auto' && query.matches);
+            document.body.setAttribute('theme', isDark? 'dark' : 'light');
+            document.body.setAttribute('cfg-theme', theme);
+          }
+
+          applyTheme();
+          query.addEventListener('change', applyTheme);
+        </script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="子非鱼的技术博客">子非鱼的技术博客</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item active" href="/"> 所有文章 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/about/"> 关于 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust" aria-hidden="true"></i>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="子非鱼的技术博客">子非鱼的技术博客</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/" title="">所有文章</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/about/" title="">关于</a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><div class="search-dropdown desktop">
+        <div id="search-dropdown-desktop"></div>
+    </div>
+    <div class="search-dropdown mobile">
+        <div id="search-dropdown-mobile"></div>
+    </div><main class="main">
+                <div class="container"><div class="page home" data-home="posts"><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
+        <a href="/posts/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%8D%81%E4%B8%AD%E6%96%AD/">操作系统（十）中断</a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle" aria-hidden="true"></i>子非鱼</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2025年1月11日">2025年1月11日</time></span>&nbsp;<span class="post-category">收录于 <a href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/"><i class="far fa-folder" aria-hidden="true"></i>操作系统</a></span></div><div class="content"><h2 id="第七章-中断">第七章 中断</h2>
+<h3 id="中断与异常">中断与异常</h3>
+<img src="../../images/interrupt_1.png" alt="image.png" style="zoom:35%;" />
+<h3 id="中断执行过程">中断执行过程</h3>
+<img src="../../images/interrupt_2.png" alt="image.png" style="zoom:35%;" />
+<h3 id="当通过键盘给当前进程输入参数时的流程io中断">当通过键盘给当前进程输入参数时的流程（IO中断）</h3>
+<p>中断流程</p>
+<ol>
+<li>用户键盘输入</li>
+<li>键盘控制器生成扫描码并触发中断 (IRQ1)</li>
+<li>CPU 暂停当前进程，响应中断</li>
+<li>CPU执行中断处理程序，获取键盘输入</li>
+<li>恢复被中断的任务</li>
+<li>用户进程读取缓冲区输入（系统调用，使用“陷阱”内中断）</li>
+</ol>
+<h3 id="用户如何使用系统其他资源系统调用">用户如何使用系统其他资源（系统调用）</h3>
+<p>用户态的程序只能使用内存中用户段，不能使用内核段。内核态可以访问任何内存数据。</p></div><div class="post-footer">
+        <a href="/posts/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%8D%81%E4%B8%AD%E6%96%AD/">阅读全文</a><div class="post-tags">
+                <i class="fas fa-tags" aria-hidden="true"></i>&nbsp;<a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
+        <a href="/posts/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%9D%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%AE%89%E5%85%A8/">操作系统（九）操作系统安全</a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle" aria-hidden="true"></i>子非鱼</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2025年1月10日">2025年1月10日</time></span>&nbsp;<span class="post-category">收录于 <a href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/"><i class="far fa-folder" aria-hidden="true"></i>操作系统</a></span></div><div class="content"><h2 id="第六章-操作系统安全">第六章 操作系统安全</h2>
+<h3 id="缓冲区溢出攻击">缓冲区溢出攻击</h3>
+<h4 id="原理">原理</h4>
+<p>缓冲区溢出通常发生在程序使用固定大小的内存缓冲区来存储用户输入时，<strong>没有对输入数据的长度进行适当检查</strong>。攻击者利用这一点，<strong>将过大的输入数据注入缓冲区</strong>，导致：</p>
+<ul>
+<li>
+<p><strong>覆盖关键数据</strong>：覆盖函数的返回地址、指针或其他重要变量。</p>
+</li>
+<li>
+<p><strong>注入恶意代码</strong>：将攻击代码注入溢出的内存区域，并操纵程序跳转到攻击代码执行。</p>
+</li>
+</ul></div><div class="post-footer">
+        <a href="/posts/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%9D%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%AE%89%E5%85%A8/">阅读全文</a><div class="post-tags">
+                <i class="fas fa-tags" aria-hidden="true"></i>&nbsp;<a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
+        <a href="/posts/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%85%AB%E6%8C%87%E4%BB%A4%E7%B3%BB%E7%BB%9F%E7%BB%93%E6%9E%84/">操作系统（八）指令系统结构</a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle" aria-hidden="true"></i>子非鱼</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2025年1月10日">2025年1月10日</time></span>&nbsp;<span class="post-category">收录于 <a href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/"><i class="far fa-folder" aria-hidden="true"></i>操作系统</a></span></div><div class="content"><h2 id="第五章-指令系统结构">第五章 指令系统结构</h2>
+<h3 id="指令">指令</h3>
+<h4 id="执行流程">执行流程</h4>
+<ol>
+<li>取指阶段：以PC作为第一个字节的地址，从内存中读出10个字节</li>
+<li>译码阶段：指令字段译码，将操作数的值写到ALU读取的寄存器位置</li>
+<li>执行阶段：ALU根据操作数和操作码计算值</li>
+<li>访存阶段：读写内存位置</li>
+<li>写回阶段：将结果值写入寄存器</li>
+<li>更新PC：更新PC指向下一条指令的地址</li>
+</ol></div><div class="post-footer">
+        <a href="/posts/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%85%AB%E6%8C%87%E4%BB%A4%E7%B3%BB%E7%BB%9F%E7%BB%93%E6%9E%84/">阅读全文</a><div class="post-tags">
+                <i class="fas fa-tags" aria-hidden="true"></i>&nbsp;<a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a>,&nbsp;<a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/">计算机组成原理</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
+        <a href="/posts/%E4%BA%8C%E5%8F%89%E6%A0%91%E7%AE%97%E6%B3%95%E5%9B%9E%E6%BA%AF%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%E8%BF%AD%E4%BB%A3/">二叉树算法（回溯，动态规划，迭代）</a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle" aria-hidden="true"></i>子非鱼</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2025年1月8日">2025年1月8日</time></span>&nbsp;<span class="post-category">收录于 <a href="/categories/%E7%AE%97%E6%B3%95/"><i class="far fa-folder" aria-hidden="true"></i>算法</a></span></div><div class="content"><h2 id="序言">序言</h2>
+<p>二叉树题型的算法主要分为<strong>回溯，动态规划，迭代</strong>三类。从本质上三者都是在遍历算法基础上的修改。<strong>回溯</strong>关心的是在<strong>每个结点的访问过程中如何更新结果</strong>；动态规划关心的是<strong>如何拆解出子问题，不具体分析每个结点的状态，而是通过划分子问题让其通过基本问题递归解决</strong>；迭代主要是指<strong>BFS层序遍历</strong>，适用于与深度（或高度）相关的问题求解</p>
+<h2 id="二叉树基本结构">二叉树基本结构</h2>
+<ol>
+<li>二叉树</li>
+</ol></div><div class="post-footer">
+        <a href="/posts/%E4%BA%8C%E5%8F%89%E6%A0%91%E7%AE%97%E6%B3%95%E5%9B%9E%E6%BA%AF%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%E8%BF%AD%E4%BB%A3/">阅读全文</a><div class="post-tags">
+                <i class="fas fa-tags" aria-hidden="true"></i>&nbsp;<a href="/tags/%E7%AE%97%E6%B3%95/">算法</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
+        <a href="/posts/%E9%80%92%E5%BD%92%E7%AE%97%E6%B3%95%E7%9A%84%E7%90%86%E8%A7%A3/">递归算法的理解</a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle" aria-hidden="true"></i>子非鱼</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2025年1月8日">2025年1月8日</time></span>&nbsp;<span class="post-category">收录于 <a href="/categories/%E7%AE%97%E6%B3%95/"><i class="far fa-folder" aria-hidden="true"></i>算法</a></span></div><div class="content"><h2 id="如何写一个递归算法">如何写一个递归算法</h2>
+<ol>
+<li><strong>确定问题</strong>：给当前的算法一个符合计算机处理流程的解释。例如对于斐波那契数数列求解<code>int fib(int n)</code>，应该翻译成计算数列第n项并返回数列的值</li>
+</ol></div><div class="post-footer">
+        <a href="/posts/%E9%80%92%E5%BD%92%E7%AE%97%E6%B3%95%E7%9A%84%E7%90%86%E8%A7%A3/">阅读全文</a><div class="post-tags">
+                <i class="fas fa-tags" aria-hidden="true"></i>&nbsp;<a href="/tags/%E7%AE%97%E6%B3%95/">算法</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
+        <a href="/posts/%E7%BA%BF%E7%A8%8B%E6%B1%A0%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%9E%E7%8E%B0/">线程池原理与实现</a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle" aria-hidden="true"></i>子非鱼</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2023年6月10日">2023年6月10日</time></span>&nbsp;<span class="post-category">收录于 <a href="/categories/%E7%B3%BB%E7%BB%9F%E6%A1%86%E6%9E%B6/"><i class="far fa-folder" aria-hidden="true"></i>系统框架</a></span></div><div class="content"><blockquote>
+<p>B站讲解视频：<a href="https://www.bilibili.com/video/BV1sk4y1P7UM/?vd_source=c5564ed8491572469d815a8188748293" target="_blank" rel="noopener noreffer ">线程池原理与实现</a></p>
+</blockquote>
+<h2 id="线程池">线程池</h2>
+<h3 id="线程池是什么">线程池是什么</h3>
+<p><strong>线程池（Thread Pool）<strong>是一种基于</strong>池化思想</strong>管理线程的工具，经常出现在多线程服务器中，如MySQL。</p>
+<p><strong>线程过多会带来额外的开销</strong>，其中包括创建销毁线程的开销、调度线程的开销等等，同时也降低了计算机的整体性能。<strong>线程池维护多个线程，等待监督管理者分配可并发执行的任务</strong>。这种做法，一方面避免了处理任务时创建销毁线程开销的代价，另一方面避免了线程数量膨胀导致的过分调度问题，保证了对内核的充分利用。
+<img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="../../images/thread_pool.png"
+        data-srcset="../../images/thread_pool.png, ../../images/thread_pool.png 1.5x, ../../images/thread_pool.png 2x"
+        data-sizes="auto"
+        alt="../../images/thread_pool.png"
+        title="thread_pool" /></p></div><div class="post-footer">
+        <a href="/posts/%E7%BA%BF%E7%A8%8B%E6%B1%A0%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%9E%E7%8E%B0/">阅读全文</a><div class="post-tags">
+                <i class="fas fa-tags" aria-hidden="true"></i>&nbsp;<a href="/tags/%E7%B3%BB%E7%BB%9F%E6%A1%86%E6%9E%B6/">系统框架</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
+        <a href="/posts/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91%E9%9D%A2%E8%AF%95%E9%A2%98%E6%95%B4%E7%90%86/">软件开发面试题整理</a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle" aria-hidden="true"></i>子非鱼</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2023年2月18日">2023年2月18日</time></span>&nbsp;<span class="post-category">收录于 <a href="/categories/%E9%9D%A2%E8%AF%95/"><i class="far fa-folder" aria-hidden="true"></i>面试</a></span></div><div class="content"><h2 id="面试题汇总">面试题汇总</h2>
+<h3 id="c">C++</h3>
+<h4 id="基础知识">基础知识</h4>
+<p><strong>C 和 CPP 区别是什么</strong></p>
+<table>
+  <thead>
+      <tr>
+          <th></th>
+          <th>C</th>
+          <th>C++</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>编程范式</td>
+          <td>面向过程</td>
+          <td>面向对象</td>
+      </tr>
+      <tr>
+          <td>函数重载</td>
+          <td>无</td>
+          <td>有</td>
+      </tr>
+      <tr>
+          <td>引用</td>
+          <td>无</td>
+          <td>有</td>
+      </tr>
+  </tbody>
+</table>
+<p><strong>C++编译过程</strong></p>
+<p>预处理：展开include和define</p></div><div class="post-footer">
+        <a href="/posts/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91%E9%9D%A2%E8%AF%95%E9%A2%98%E6%95%B4%E7%90%86/">阅读全文</a><div class="post-tags">
+                <i class="fas fa-tags" aria-hidden="true"></i>&nbsp;<a href="/tags/c&#43;&#43;/">C&#43;&#43;</a>,&nbsp;<a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a>,&nbsp;<a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a>,&nbsp;<a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/">计算机组成原理</a>,&nbsp;<a href="/tags/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/">面向对象</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
+        <a href="/posts/raft-%E5%88%86%E5%B8%83%E5%BC%8F%E4%B8%80%E8%87%B4%E6%80%A7%E7%AE%97%E6%B3%95%E7%90%86%E8%AE%BA%E7%AF%87/">RAFT 分布式一致性算法（理论篇）</a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle" aria-hidden="true"></i>子非鱼</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2023年2月14日">2023年2月14日</time></span>&nbsp;<span class="post-category">收录于 <a href="/categories/%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F/"><i class="far fa-folder" aria-hidden="true"></i>分布式系统</a></span></div><div class="content"><h2 id="raft分布式共识机制">RAFT分布式共识机制</h2>
+<h3 id="系统机制">系统机制</h3>
+<p>Raft 是一个<strong>管理 replicated log</strong> 的算法</p>
+<p><strong>Raft 实现共识的机制</strong></p>
+<ul>
+<li><strong>领导者选举（Leader Election）</strong>：共同选举出一个 Leader</li>
+<li><strong>日志复制（Log Replication）</strong>：给予这个 Leader 管理 replicated log 的完全职责</li>
+<li><strong>安全（Safety）</strong>：<strong>Leader 接受来自客户端的 log entries</strong>，然后复制给其他节点， 并在安全（不会导致冲突）时，告诉这些节点将这些 entries 应用到它们各自的状态机</li>
+</ul></div><div class="post-footer">
+        <a href="/posts/raft-%E5%88%86%E5%B8%83%E5%BC%8F%E4%B8%80%E8%87%B4%E6%80%A7%E7%AE%97%E6%B3%95%E7%90%86%E8%AE%BA%E7%AF%87/">阅读全文</a><div class="post-tags">
+                <i class="fas fa-tags" aria-hidden="true"></i>&nbsp;<a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F/">分布式系统</a>,&nbsp;<a href="/tags/%E8%AE%BA%E6%96%87%E5%AF%BC%E8%AF%BB/">论文导读</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
+        <a href="/posts/vmwareft/">VMwareFT</a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle" aria-hidden="true"></i>子非鱼</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2023年2月10日">2023年2月10日</time></span>&nbsp;<span class="post-category">收录于 <a href="/categories/%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F/"><i class="far fa-folder" aria-hidden="true"></i>分布式系统</a></span></div><div class="content"><h2 id="chapter3-vmwareft">Chapter3 VMwareFT</h2>
+<h3 id="状态转移和复制状态机">状态转移和复制状态机</h3>
+<p>状态转移（State Transfer）：Primary将自己的完整状态（例如内存中的内容），拷贝发给Backup</p>
+<p>复制状态机（Replicated State Machine）：将来自客户端的操作或其他外部事件，从Primary传到Backup。由于<strong>外部操作比服务的状态要小得多</strong>，所以大多采用该方法，缺点是同步会比较复杂</p>
+<h3 id="架构">架构</h3>
+<p><strong>主虚拟机(Primary VM)简称为主机，Backup VM 简称为备机</strong>。</p>
+<p>VMware FT 需要两台物理服务器，主机与备机保持同步，虚拟机的虚拟磁盘在共享存储上。</p></div><div class="post-footer">
+        <a href="/posts/vmwareft/">阅读全文</a><div class="post-tags">
+                <i class="fas fa-tags" aria-hidden="true"></i>&nbsp;<a href="/tags/%E8%AE%BA%E6%96%87%E5%AF%BC%E8%AF%BB/">论文导读</a>,&nbsp;<a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F/">分布式系统</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
+        <a href="/posts/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B8%83%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E8%B0%83%E7%94%A8%E4%B8%8E%E6%96%87%E4%BB%B6%E5%AD%98%E5%82%A8/">操作系统（七）文件管理（系统调用与文件存储）</a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle" aria-hidden="true"></i>子非鱼</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2023年2月8日">2023年2月8日</time></span>&nbsp;<span class="post-category">收录于 <a href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/"><i class="far fa-folder" aria-hidden="true"></i>操作系统</a></span></div><div class="content"><h2 id="第四章-文件管理二">第四章 文件管理（二）</h2>
+<h3 id="文件系统操作">文件系统操作</h3>
+<h4 id="整体架构">整体架构</h4>
+<p>在文件系统和应用程序间有一层抽象层，称为虚拟文件系统（VFS）</p>
+<ul>
+<li>VFS作为抽象层向应用层提供了统一的文件接口（read，write等）</li>
+<li>VFS实现了一些公共的功能，如Directory Cache和Page Cache等</li>
+<li>规范了接口</li>
+</ul>
+<p>VFS向应用层提供统一接口，具体实现不同文件系统有不同实现，VFS将函数指针指向对应函数</p></div><div class="post-footer">
+        <a href="/posts/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B8%83%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E8%B0%83%E7%94%A8%E4%B8%8E%E6%96%87%E4%BB%B6%E5%AD%98%E5%82%A8/">阅读全文</a><div class="post-tags">
+                <i class="fas fa-tags" aria-hidden="true"></i>&nbsp;<a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
+        <a href="/posts/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%85%AD%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86/">操作系统（六）文件管理</a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle" aria-hidden="true"></i>子非鱼</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2023年1月25日">2023年1月25日</time></span>&nbsp;<span class="post-category">收录于 <a href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/"><i class="far fa-folder" aria-hidden="true"></i>操作系统</a></span></div><div class="content"><h2 id="第四章-文件管理">第四章 文件管理</h2>
+<h3 id="磁盘的工作原理">磁盘的工作原理</h3>
+<h4 id="磁盘读写的过程">磁盘读写的过程</h4>
+<ol>
+<li>磁盘移动，找到要读的<strong>柱面</strong>（cylinder，简称C）</li>
+<li>从柱面选择具体读哪个<strong>磁道</strong>（magnetic head，简称H），选择对应的磁头上电（每次只能有一个磁头上电）</li>
+<li>旋转磁盘，将对应磁道中要读写的那个<strong>扇区</strong>（sector，简称S）转到磁头下方</li>
+<li>开始读写，将扇区中的内容读到内存缓存区中，或者将内存缓存区中的内容写到该扇区中</li>
+</ol></div><div class="post-footer">
+        <a href="/posts/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%85%AD%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86/">阅读全文</a><div class="post-tags">
+                <i class="fas fa-tags" aria-hidden="true"></i>&nbsp;<a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
+        <a href="/posts/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%BA%8C%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86%E8%BF%9B%E7%A8%8B%E5%90%8C%E6%AD%A5%E4%B8%8E%E6%AD%BB%E9%94%81/">操作系统（二）进程管理（进程同步与死锁）</a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle" aria-hidden="true"></i>子非鱼</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2023年1月21日">2023年1月21日</time></span>&nbsp;<span class="post-category">收录于 <a href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/"><i class="far fa-folder" aria-hidden="true"></i>操作系统</a></span></div><div class="content"><h2 id="第二章-进程管理进程同步与死锁">第二章 进程管理（进程同步与死锁）</h2>
+<h3 id="进程同步">进程同步</h3>
+<p>多个进程间可能存在依赖关系，为了保证其按依赖关系执行，操作系统需要通过一种机制保证</p>
+<h4 id="同步问题的解决">同步问题的解决</h4>
+<h5 id="利用信号解决同步问题">利用信号解决同步问题</h5>
+<div class="code-block code-line-numbers" style="counter-reset: code-block 0">
+    <div class="code-header language-c">
+        <span class="code-title"><i class="arrow fas fa-angle-right" aria-hidden="true"></i></span>
+        <span class="ellipses"><i class="fas fa-ellipsis-h" aria-hidden="true"></i></span>
+        <span class="copy" title="复制到剪贴板"><i class="far fa-copy" aria-hidden="true"></i></span>
+    </div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="c1">// counter: the count of item in buffer
+</span></span></span><span class="line"><span class="cl"><span class="c1">// empty: buffer have empty space or not
+</span></span></span><span class="line"><span class="cl"><span class="c1">// full: buffer have item or not
+</span></span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">producer</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">while</span> <span class="p">(</span><span class="nb">true</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">counter</span> <span class="o">==</span> <span class="n">BUFFER_SIZE</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">      <span class="nf">sleep_on</span><span class="p">(</span><span class="n">empty</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">buffer</span><span class="p">[</span><span class="n">in</span><span class="p">]</span> <span class="o">=</span> <span class="n">item</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">in</span> <span class="o">=</span> <span class="p">(</span><span class="n">in</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="n">BUFFER_SIZE</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">counter</span><span class="o">++</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">counter</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">      <span class="nf">wake_up</span><span class="p">(</span><span class="n">full</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">consumer</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">while</span> <span class="p">(</span><span class="nb">true</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">counter</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">      <span class="nf">sleep_on</span><span class="p">(</span><span class="n">full</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">item</span> <span class="o">=</span> <span class="n">buffer</span><span class="p">[</span><span class="n">out</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">    <span class="n">out</span> <span class="o">=</span> <span class="p">(</span><span class="n">out</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="n">BUFFER_SIZE</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">counter</span><span class="o">--</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">counter</span> <span class="o">==</span> <span class="n">BUFFER_SIZE</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">      	<span class="nf">wake_up</span><span class="p">(</span><span class="n">empty</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></div></div>
+<p>问题是上述方法<strong>无法解决多生产者/消费者的情况</strong>，因为只能释放旧的进程，所以需<strong>引入新的变量来记录更多的信息</strong></p>
+<h5 id="将信号扩展为信号量">将信号扩展为信号量</h5>
+<p>信号量若为n（n&lt;0）表示有｜n｜的进程阻塞，大于0表示有n个空闲资源</p></div><div class="post-footer">
+        <a href="/posts/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%BA%8C%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86%E8%BF%9B%E7%A8%8B%E5%90%8C%E6%AD%A5%E4%B8%8E%E6%AD%BB%E9%94%81/">阅读全文</a><div class="post-tags">
+                <i class="fas fa-tags" aria-hidden="true"></i>&nbsp;<a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
+        <a href="/posts/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%9B%9B%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/">操作系统（四）内存管理</a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle" aria-hidden="true"></i>子非鱼</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2023年1月18日">2023年1月18日</time></span>&nbsp;<span class="post-category">收录于 <a href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/"><i class="far fa-folder" aria-hidden="true"></i>操作系统</a></span></div><div class="content"><h2 id="第三章-内存管理">第三章 内存管理</h2>
+<h3 id="程序重定位">程序重定位</h3>
+<p>在编译形成可执行程序时，用到的地址都是从0开始的相对地址，也被称为<strong>逻辑地址</strong>。但被加载到内存后可能使用任意一块空闲地址，所以需要将逻辑地址转化成内存中实际的物理地址，即<strong>重定位</strong>。</p>
+<p>有以下几种解决方法：</p>
+<ol>
+<li>
+<p>编译时重定位：需要在编译时确定哪块内存空间空闲，且在装入前不允许使用（用于执行固定任务的计算机系统，如嵌入式系统）</p>
+</li>
+<li>
+<p>载入时重定位：在程序载入时，根据初始内存地址修改程序里的逻辑地址，但如果进程阻塞换出内存后换入时的地址不一定是之前的地址，造成错误</p>
+</li>
+</ol></div><div class="post-footer">
+        <a href="/posts/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%9B%9B%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/">阅读全文</a><div class="post-tags">
+                <i class="fas fa-tags" aria-hidden="true"></i>&nbsp;<a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
+        <a href="/posts/gdb%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C/">GDB使用手册</a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle" aria-hidden="true"></i>子非鱼</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2023年1月17日">2023年1月17日</time></span>&nbsp;<span class="post-category">收录于 <a href="/categories/gdb/"><i class="far fa-folder" aria-hidden="true"></i>GDB</a></span></div><div class="content"><p>编译时加上<code>-g</code>选项</p>
+<table>
+  <thead>
+      <tr>
+          <th>命令名称</th>
+          <th>命令缩写</th>
+          <th>命令说明</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>run</td>
+          <td>r</td>
+          <td>运行一个待调试的程序</td>
+      </tr>
+      <tr>
+          <td>continue</td>
+          <td>c</td>
+          <td>让暂停的程序继续运行</td>
+      </tr>
+      <tr>
+          <td>next</td>
+          <td>n</td>
+          <td>运行到下一行</td>
+      </tr>
+      <tr>
+          <td>step</td>
+          <td>s</td>
+          <td>单步执行，遇到函数会进入</td>
+      </tr>
+      <tr>
+          <td>until</td>
+          <td>u</td>
+          <td>运行到指定行停下来</td>
+      </tr>
+      <tr>
+          <td>finish</td>
+          <td>fi</td>
+          <td>结束当前调用函数，回到上一层调用函数处</td>
+      </tr>
+      <tr>
+          <td>return</td>
+          <td>return</td>
+          <td>结束当前调用函数并返回指定值，到上一层函数调用处</td>
+      </tr>
+      <tr>
+          <td>jump</td>
+          <td>j</td>
+          <td>将当前程序执行流跳转到指定行或地址，不运行跳过的代码</td>
+      </tr>
+      <tr>
+          <td>print</td>
+          <td>p</td>
+          <td>打印变量或寄存器值</td>
+      </tr>
+      <tr>
+          <td>backtrace</td>
+          <td>bt</td>
+          <td>查看当前线程的调用堆栈</td>
+      </tr>
+      <tr>
+          <td>frame</td>
+          <td>f</td>
+          <td>切换到当前调用线程的指定堆栈</td>
+      </tr>
+      <tr>
+          <td>thread</td>
+          <td>thread</td>
+          <td>切换到指定线程</td>
+      </tr>
+      <tr>
+          <td>break</td>
+          <td>b</td>
+          <td>添加断点</td>
+      </tr>
+      <tr>
+          <td>tbreak</td>
+          <td>tb</td>
+          <td>添加临时断点</td>
+      </tr>
+      <tr>
+          <td>delete</td>
+          <td>d</td>
+          <td>删除断点</td>
+      </tr>
+      <tr>
+          <td>enable</td>
+          <td>enable</td>
+          <td>启用某个断点</td>
+      </tr>
+      <tr>
+          <td>disable</td>
+          <td>disable</td>
+          <td>禁用某个断点</td>
+      </tr>
+      <tr>
+          <td>watch</td>
+          <td>watch</td>
+          <td>监视某一个变量或内存地址的值是否发生变化</td>
+      </tr>
+      <tr>
+          <td>list</td>
+          <td>l</td>
+          <td>显示源码</td>
+      </tr>
+      <tr>
+          <td>info</td>
+          <td>i</td>
+          <td>查看断点 / 线程等信息</td>
+      </tr>
+      <tr>
+          <td>ptype</td>
+          <td>ptype</td>
+          <td>查看变量类型</td>
+      </tr>
+      <tr>
+          <td>disassemble</td>
+          <td>dis</td>
+          <td>查看汇编代码</td>
+      </tr>
+      <tr>
+          <td>set args</td>
+          <td>set args</td>
+          <td>设置程序启动命令行参数</td>
+      </tr>
+      <tr>
+          <td>show args</td>
+          <td>show args</td>
+          <td>查看设置的命令行参数</td>
+      </tr>
+  </tbody>
+</table></div><div class="post-footer">
+        <a href="/posts/gdb%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C/">阅读全文</a><div class="post-tags">
+                <i class="fas fa-tags" aria-hidden="true"></i>&nbsp;<a href="/tags/gdb/">GDB</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
+        <a href="/posts/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B8%80%E7%BB%AA%E8%AE%BA/">操作系统（一）绪论</a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle" aria-hidden="true"></i>子非鱼</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2023年1月11日">2023年1月11日</time></span>&nbsp;<span class="post-category">收录于 <a href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/"><i class="far fa-folder" aria-hidden="true"></i>操作系统</a></span></div><div class="content"><h2 id="第一章-绪论">第一章 绪论</h2>
+<h3 id="计算机体系结构">计算机体系结构</h3>
+<img src="../../images/computer_architecture.png" alt="image.png" style="zoom:20%;" />
+<h3 id="计算机启动后发生了什么">计算机启动后发生了什么</h3>
+<img src="../../images/boot.png" alt="image.png" style="zoom:130%;" />
+<ol>
+<li>
+<p><strong>上电自检</strong></p>
+<p>主板的固件（BIOS 或 UEFI）执行<strong>硬件检测</strong>，检查 CPU、内存、显卡、键盘等设备是否正常</p>
+</li>
+<li>
+<p><strong>加载 BIOS 或 UEFI</strong></p>
+</li>
+</ol></div><div class="post-footer">
+        <a href="/posts/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B8%80%E7%BB%AA%E8%AE%BA/">阅读全文</a><div class="post-tags">
+                <i class="fas fa-tags" aria-hidden="true"></i>&nbsp;<a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
+        <a href="/posts/c-%E9%9D%A2%E8%AF%95%E9%A2%98/">C++面试题</a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle" aria-hidden="true"></i>子非鱼</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2023年1月11日">2023年1月11日</time></span></div><div class="content"><h2 id="c疑惑点">C++疑惑点</h2>
+<h3 id="我的疑问">我的疑问</h3>
+<ol>
+<li>header中防御式声明的目的</li>
+</ol>
+<ul>
+<li>防止两个头文件相互include时的循环include</li>
+<li>防止cpp在include不同头文件时可能产生的重复定义</li>
+</ul>
+<ol start="2">
+<li>inline</li>
+</ol>
+<p>将函数声明为inline可以避免函数调用的开销，空间换时间</p></div><div class="post-footer">
+        <a href="/posts/c-%E9%9D%A2%E8%AF%95%E9%A2%98/">阅读全文</a><div class="post-tags">
+                <i class="fas fa-tags" aria-hidden="true"></i>&nbsp;<a href="/tags/c&#43;&#43;/">C&#43;&#43;</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
+        <a href="/posts/c-stl%E5%9F%BA%E7%A1%80/">C++ STL基础</a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle" aria-hidden="true"></i>子非鱼</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2023年1月11日">2023年1月11日</time></span></div><div class="content"><h2 id="第七章-stl">第七章 STL</h2>
+<h3 id="六大部件">六大部件</h3>
+<img src="../../images/stl_items.PNG" alt="stl_items.png" style="zoom:60%;" />
+<p>分配器：为容器分配内存</p>
+<p>迭代器：算法只能通过迭代器访问容器</p></div><div class="post-footer">
+        <a href="/posts/c-stl%E5%9F%BA%E7%A1%80/">阅读全文</a><div class="post-tags">
+                <i class="fas fa-tags" aria-hidden="true"></i>&nbsp;<a href="/tags/c&#43;&#43;/">C&#43;&#43;</a>,&nbsp;<a href="/tags/stl/">STL</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
+        <a href="/posts/c-%E5%9F%BA%E7%A1%80%E4%B8%83%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86/">C++基础（七）异常处理</a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle" aria-hidden="true"></i>子非鱼</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2023年1月11日">2023年1月11日</time></span>&nbsp;<span class="post-category">收录于 <a href="/categories/c++/"><i class="far fa-folder" aria-hidden="true"></i>C++</a></span></div><div class="content"><h2 id="第六章-异常处理">第六章 异常处理</h2>
+<p>当执行throw时，throw后的语句都不执行，控制权转移到与之对应的catch模块</p>
+<p>退出catch后，catch模块中的局部变量将会销毁</p>
+<p>当异常处理完毕后，异常对象将被销毁</p>
+<div class="code-block code-line-numbers open" style="counter-reset: code-block 0">
+    <div class="code-header language-cpp">
+        <span class="code-title"><i class="arrow fas fa-angle-right" aria-hidden="true"></i></span>
+        <span class="ellipses"><i class="fas fa-ellipsis-h" aria-hidden="true"></i></span>
+        <span class="copy" title="复制到剪贴板"><i class="far fa-copy" aria-hidden="true"></i></span>
+    </div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="k">try</span><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">//...
+</span></span></span><span class="line"><span class="cl"><span class="p">}</span><span class="k">catch</span> <span class="p">(</span><span class="n">exception_a</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">//...
+</span></span></span><span class="line"><span class="cl"><span class="p">}</span><span class="k">catch</span> <span class="p">(</span><span class="n">exception_b</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">//...
+</span></span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></div></div>
+<h3 id="捕捉catch对于每个catch执行下述步骤">捕捉catch（对于每个catch执行下述步骤）</h3>
+<ol>
+<li>判断是否是精确匹配</li>
+<li>派生类向基类转换（仅引用和指针类型）</li>
+<li>（&hellip;）匹配所有</li>
+</ol>
+<p>其中一个被捕捉，跳过下面的catch</p></div><div class="post-footer">
+        <a href="/posts/c-%E5%9F%BA%E7%A1%80%E4%B8%83%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86/">阅读全文</a><div class="post-tags">
+                <i class="fas fa-tags" aria-hidden="true"></i>&nbsp;<a href="/tags/c&#43;&#43;/">C&#43;&#43;</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
+        <a href="/posts/c-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E4%BA%8C%E5%BC%95%E7%94%A8/">C++面向对象（二）引用</a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle" aria-hidden="true"></i>子非鱼</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2023年1月11日">2023年1月11日</time></span>&nbsp;<span class="post-category">收录于 <a href="/categories/c++/"><i class="far fa-folder" aria-hidden="true"></i>C++</a></span></div><div class="content"><h2 id="第五章-面向对象编程二">第五章 面向对象编程（二）</h2>
+<h3 id="引用的其他用法">引用的其他用法</h3>
+<p>引用作为成员变量</p>
+<p>函数返回引用，可以将返回值做左值</p>
+<h3 id="拷贝构造">拷贝构造</h3>
+<p>通过类的其他对象初始化当前对象（有默认拷贝构造方法，成员对成员的拷贝，可能发生对象的嵌套拷贝）</p></div><div class="post-footer">
+        <a href="/posts/c-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E4%BA%8C%E5%BC%95%E7%94%A8/">阅读全文</a><div class="post-tags">
+                <i class="fas fa-tags" aria-hidden="true"></i>&nbsp;<a href="/tags/c&#43;&#43;/">C&#43;&#43;</a>,&nbsp;<a href="/tags/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/">面向对象</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
+        <a href="/posts/c-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E4%B8%80%E5%B0%81%E8%A3%85%E7%BB%A7%E6%89%BF%E5%92%8C%E5%A4%9A%E6%80%81/">C++面向对象（一）封装、继承和多态</a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle" aria-hidden="true"></i>子非鱼</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2023年1月11日">2023年1月11日</time></span>&nbsp;<span class="post-category">收录于 <a href="/categories/c++/"><i class="far fa-folder" aria-hidden="true"></i>C++</a></span></div><div class="content"><h2 id="第五章-面向对象编程">第五章 面向对象编程</h2>
+<p>类不是实体，对象是实体</p>
+<p>成员变量（filed）属于对象</p>
+<p>成员函数（member function）属于类</p>
+<h3 id="big-three构造函数拷贝构造拷贝赋值">Big Three（构造函数，拷贝构造，拷贝赋值）</h3>
+<h4 id="构造函数">构造函数</h4>
+<h5 id="初始化列表">初始化列表</h5>
+<p><strong>列表初始化（initialize list）</strong>仅对成员变量初始化。</p>
+<p>在构造函数里对成员变量初始化则为先初始化（默认）后赋值，故所有成员变量必须要有默认的初始化方法（成员变量包含其他类但该类没有默认构造函数则会报错）。构造函数无法主动调用。</p></div><div class="post-footer">
+        <a href="/posts/c-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E4%B8%80%E5%B0%81%E8%A3%85%E7%BB%A7%E6%89%BF%E5%92%8C%E5%A4%9A%E6%80%81/">阅读全文</a><div class="post-tags">
+                <i class="fas fa-tags" aria-hidden="true"></i>&nbsp;<a href="/tags/c&#43;&#43;/">C&#43;&#43;</a>,&nbsp;<a href="/tags/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/">面向对象</a></div></div>
+</article><ul class="pagination"><li class="page-item ">
+                    <span class="page-link">
+                        <a href="/">1</a>
+                    </span>
+                </li><li class="page-item active">
+                    <span class="page-link">
+                        <a href="/page/2/">2</a>
+                    </span>
+                </li><li class="page-item ">
+                    <span class="page-link">
+                        <a href="/page/3/">3</a>
+                    </span>
+                </li></ul></div></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.160.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 1.0.0"><i class="far fa-kiss-wink-heart" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright" aria-hidden="true"></i><span itemprop="copyrightYear">2022 - 2026</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">子非鱼</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up" aria-hidden="true"></i>
+            </a>
+        </div>
+
+        <div id="fixed-buttons-hidden"><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/lightgallery/css/lightgallery-bundle.min.css"><link rel="stylesheet" href="/lib/katex/katex.min.css"><script src="/lib/autocomplete/autocomplete.min.js"></script><script src="/lib/lunr/lunr.min.js"></script><script src="/lib/lunr/lunr.stemmer.support.min.js"></script><script src="/lib/lunr/lunr.zh.min.js"></script><script src="/lib/lazysizes/lazysizes.min.js"></script><script src="/lib/lightgallery/lightgallery.min.js"></script><script src="/lib/lightgallery/plugins/thumbnail/lg-thumbnail.min.js"></script><script src="/lib/lightgallery/plugins/zoom/lg-zoom.min.js"></script><script src="/lib/clipboard/clipboard.min.js"></script><script src="/lib/sharer/sharer.min.js"></script><script src="/lib/katex/katex.min.js"></script><script src="/lib/katex/contrib/auto-render.min.js"></script><script src="/lib/katex/contrib/copy-tex.min.js"></script><script src="/lib/katex/contrib/mhchem.min.js"></script><script>window.config={"lightgallery":true,"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"highlightTag":"em","lunrIndexURL":"/index.json","lunrLanguageCode":"zh","lunrSegmentitURL":"/lib/lunr/lunr.segmentit.js","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"lunr"}};</script><script src="/js/theme.js"></script></body>
+</html>

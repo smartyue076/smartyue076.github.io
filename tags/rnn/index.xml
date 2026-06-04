@@ -1,0 +1,25 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>RNN - 标签 - 子非鱼的技术博客</title>
+        <link>http://localhost:1313/tags/rnn/</link>
+        <description>RNN - 标签 - 子非鱼的技术博客</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Sun, 26 Jan 2025 14:15:43 &#43;0800</lastBuildDate><atom:link href="http://localhost:1313/tags/rnn/" rel="self" type="application/rss+xml" /><item>
+    <title>机器学习基础（三）循环神经网络</title>
+    <link>http://localhost:1313/posts/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E7%A1%80%E4%B8%89%E5%BE%AA%E7%8E%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/</link>
+    <pubDate>Sun, 26 Jan 2025 14:15:43 &#43;0800</pubDate>
+    <author>子非鱼</author>
+    <guid>http://localhost:1313/posts/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E7%A1%80%E4%B8%89%E5%BE%AA%E7%8E%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/</guid>
+    <description><![CDATA[<h2 id="背景标准神经网络的局限">背景（标准神经网络的局限）</h2>
+<p>对于<strong>序列数据（文本，语音等）</strong>，使用标准神经网络存在以下问题：</p>
+<ul>
+<li>对于不同的示例，<strong>输入和输出可能有不同的长度</strong>，因此输入层和输出层的神经元数量无法固定</li>
+<li>从输入文本的<strong>不同位置学到的同一特征无法共享</strong></li>
+<li>模型中的<strong>参数太多</strong>，计算量太大（如果用基于词汇表的one-hot编码）</li>
+</ul>
+<h2 id="rnn循环神经网络">RNN（循环神经网络）</h2>
+<h3 id="网络结构">网络结构</h3>
+<p>a&lt;n&gt;表示第n时间步最后一层隐藏层的输出，同时也是n+1时间步输入的一部分</p>
+<p>y-hat&lt;n&gt;表示第n时间步的输出（通过与a&lt;n&gt;全连接得到）</p>]]></description>
+</item>
+</channel>
+</rss>

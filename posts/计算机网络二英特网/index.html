@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+    <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>计算机网络（二）英特网 - 子非鱼的技术博客</title><meta name="Description" content="子非鱼的技术博客"><meta property="og:url" content="http://localhost:1313/posts/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%BA%8C%E8%8B%B1%E7%89%B9%E7%BD%91/">
+  <meta property="og:site_name" content="子非鱼的技术博客">
+  <meta property="og:title" content="计算机网络（二）英特网">
+  <meta property="og:description" content="Chapter 1: Internet 基础概念 网络：由节点和边组成的结构
+计算机网络：由主机节点（主机）和数据交换结点（数据的转发，如路由器交换机）构成的网络，边称为数据链路。
+还可分为网络边缘（主机），网络核心（数据交换），接入（连接网络边缘和网络核心）
+P2P（peer）：分布式处理，客户端也可以是服务端">
+  <meta property="og:locale" content="zh_cn">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2023-01-11T18:36:03+08:00">
+    <meta property="article:modified_time" content="2023-01-11T18:36:03+08:00">
+    <meta property="article:tag" content="计算机网络">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="计算机网络（二）英特网">
+  <meta name="twitter:description" content="Chapter 1: Internet 基础概念 网络：由节点和边组成的结构
+计算机网络：由主机节点（主机）和数据交换结点（数据的转发，如路由器交换机）构成的网络，边称为数据链路。
+还可分为网络边缘（主机），网络核心（数据交换），接入（连接网络边缘和网络核心）
+P2P（peer）：分布式处理，客户端也可以是服务端">
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site">
+<meta name="referrer" content="no-referrer" /><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://localhost:1313/posts/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%BA%8C%E8%8B%B1%E7%89%B9%E7%BD%91/" /><link rel="prev" href="http://localhost:1313/posts/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%BA%8C%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E5%A4%9A%E8%BF%9B%E7%A8%8B/" /><link rel="next" href="http://localhost:1313/posts/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%BA%94%E4%BC%A0%E8%BE%93%E5%B1%82/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/css/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "计算机网络（二）英特网",
+        "inLanguage": "zh-cn",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/localhost:1313\/posts\/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%BA%8C%E8%8B%B1%E7%89%B9%E7%BD%91\/"
+        },"genre": "posts","keywords": "计算机网络","wordcount":  1821 ,
+        "url": "http:\/\/localhost:1313\/posts\/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%BA%8C%E8%8B%B1%E7%89%B9%E7%BD%91\/","datePublished": "2023-01-11T18:36:03+08:00","dateModified": "2023-01-11T18:36:03+08:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "子非鱼"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script>
+          const query = window.matchMedia('(prefers-color-scheme: dark)');
+          function applyTheme() {
+            let theme = window.localStorage?.getItem('theme') || 'light';
+            let isDark = theme === 'dark' || (theme === 'auto' && query.matches);
+            document.body.setAttribute('theme', isDark? 'dark' : 'light');
+            document.body.setAttribute('cfg-theme', theme);
+          }
+
+          applyTheme();
+          query.addEventListener('change', applyTheme);
+        </script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="子非鱼的技术博客">子非鱼的技术博客</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/"> 所有文章 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/about/"> 关于 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust" aria-hidden="true"></i>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="子非鱼的技术博客">子非鱼的技术博客</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/" title="">所有文章</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/about/" title="">关于</a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><div class="search-dropdown desktop">
+        <div id="search-dropdown-desktop"></div>
+    </div>
+    <div class="search-dropdown mobile">
+        <div id="search-dropdown-mobile"></div>
+    </div><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">计算机网络（二）英特网</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle" aria-hidden="true"></i>子非鱼</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"><i class="far fa-folder" aria-hidden="true"></i>计算机网络</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt" aria-hidden="true"></i>&nbsp;<time datetime="2023年1月11日">2023年1月11日</time>&nbsp;<i class="fas fa-pencil-alt" aria-hidden="true"></i>&nbsp;约 1821 字&nbsp;
+                <i class="far fa-clock" aria-hidden="true"></i>&nbsp;预计阅读 4 分钟&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#chapter-1-internet">Chapter 1: Internet</a></li>
+    <li><a href="#基础概念">基础概念</a></li>
+    <li><a href="#网络核心">网络核心</a></li>
+    <li><a href="#分组延时">分组延时</a></li>
+    <li><a href="#分组丢失">分组丢失</a></li>
+    <li><a href="#层次结构">层次结构</a></li>
+    <li><a href="#计算机网络层次结构">计算机网络层次结构</a>
+      <ul>
+        <li><a href="#基础划分">基础划分</a></li>
+        <li><a href="#网络osi模型">网络OSI模型</a></li>
+      </ul>
+    </li>
+    <li><a href="#输入网址后发生了什么">输入网址后发生了什么</a></li>
+    <li><a href="#ipv4与ipv6的区别">IPV4与IPV6的区别</a></li>
+    <li><a href="#http-与-https">HTTP 与 HTTPS</a>
+      <ul>
+        <li><a href="#区别">区别</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="chapter-1-internet">Chapter 1: Internet</h2>
+<h2 id="基础概念">基础概念</h2>
+<p><strong>网络</strong>：由节点和边组成的结构</p>
+<p><strong>计算机网络</strong>：由主机节点（主机）和数据交换结点（数据的转发，如路由器交换机）构成的网络，边称为数据链路。</p>
+<p>还可分为网络边缘（主机），网络核心（数据交换），接入（连接网络边缘和网络核心）</p>
+<p><strong>P2P（peer）</strong>：分布式处理，客户端也可以是服务端</p>
+<p><strong>吞吐量</strong>：在源主机和目标主机之间的有效传输速率</p>
+<h2 id="网络核心">网络核心</h2>
+<p><strong>电路交换</strong>：独享资源，保证性能（计算机之间的通信有突发性，使用该方法则浪费的片较多）</p>
+<p><strong>分组交换</strong>：不独占资源，数据分组，存储转发（存在排队延迟和丢失，维护队列，超过长度则丢弃分组）</p>
+<p><strong>网络资源（如带宽）分成片</strong>：时分，频分，波分，码分</p>
+<h2 id="分组延时">分组延时</h2>
+<p><strong>节点处理延时</strong>：检查bit级差错，检查分组首部和决定将分组导向何处</p>
+<p><strong>排队延时</strong>：在输出链路上等待传输的时间</p>
+<p><strong>传输延时</strong>：将分组发送到链路上的时间</p>
+<p><strong>传播延时</strong>：在链路上的传输时间</p>
+<h2 id="分组丢失">分组丢失</h2>
+<p>传输队列满，分组丢弃</p>
+<h2 id="层次结构">层次结构</h2>
+<p><strong>服务（service）</strong>：低层实体向上层实体提供它们之间的通信的能力</p>
+<p><strong>原语（primitive）</strong>：上层使用下层服务的形式</p>
+<p><strong>面向连接的服务</strong>：建立连接，通信，拆除连接（特点：保序）</p>
+<p><strong>无连接的服务</strong>：两个对等层实体在通信前不需要建立连接，不预留资源，不需要通信双方都是活跃（特点：不可靠，可能重复，可能失序）</p>
+<h2 id="计算机网络层次结构">计算机网络层次结构</h2>
+<h3 id="基础划分">基础划分</h3>
+<p><strong>物理层</strong>：将帧转换为物理信号，在物理介质上传输（位）</p>
+<p><strong>数据链路层</strong>：使数据在<strong>相邻节点（同一子网内的主机）</strong>传输（帧）</p>
+<p><strong>网络层</strong>：使数据在<strong>端（主机）到端（主机）</strong>进行传输（分组packet，如果为无连接，称为数据报）</p>
+<p><strong>传输层</strong>：使数据在<strong>进程到进程</strong>进行传输，将网络层不可靠服务处理为可靠服务（报文段）</p>
+<p><strong>应用层</strong>：网络应用（报文）</p>
+<h3 id="网络osi模型">网络OSI模型</h3>
+<p><strong>应用层</strong>：负责给应用程序提供统一的接口</p>
+<p><strong>表示层</strong>：负责把数据转换成兼容另一个系统能识别的格式（HTML解析等）</p>
+<p><strong>会话层</strong>：负责建立、管理和终止表示层实体之间的通信会话（Cookie等）</p>
+<h2 id="输入网址后发生了什么">输入网址后发生了什么</h2>
+<ol>
+<li><strong>解析URL</strong>：确定Web服务器名和文件名</li>
+<li><strong>查询IP地址</strong>：通过DNS服务器</li>
+<li><strong>建立客户端与服务器的连接</strong>：TCP三次握手（若为HTTPS则还有SSL/TLS四次握手）</li>
+<li><strong>客户端发送 HTTP 请求</strong>：获取网址对应资源</li>
+<li><strong>服务器返回 HTTP 请求</strong></li>
+<li><strong>浏览器渲染页面</strong></li>
+</ol>
+<h2 id="ipv4与ipv6的区别">IPV4与IPV6的区别</h2>
+<table>
+  <thead>
+      <tr>
+          <th>特性</th>
+          <th><strong>IPv4</strong></th>
+          <th><strong>IPv6</strong></th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><strong>地址长度</strong></td>
+          <td>32 位（4 字节）</td>
+          <td>128 位（16 字节）</td>
+      </tr>
+      <tr>
+          <td><strong>地址表示</strong></td>
+          <td>点分十进制，如：192.168.0.1</td>
+          <td>十六进制冒号分隔格式，如：2001:0db8:85a3:0000:0000:8a2e:0370:7334</td>
+      </tr>
+      <tr>
+          <td><strong>地址类别</strong></td>
+          <td>公有地址和私有地址（如：192.168.x.x）</td>
+          <td>公有地址（无私有地址概念）</td>
+      </tr>
+      <tr>
+          <td><strong>网络层协议</strong></td>
+          <td>支持 NAT（网络地址转换）</td>
+          <td>不支持 NAT（避免使用 NAT）</td>
+      </tr>
+      <tr>
+          <td><strong>报头大小</strong></td>
+          <td>20 字节（最小）</td>
+          <td>40 字节（固定大小）</td>
+      </tr>
+      <tr>
+          <td><strong>路由效率</strong></td>
+          <td>路由表较大，处理效率较低</td>
+          <td>路由表较小，处理效率更高</td>
+      </tr>
+      <tr>
+          <td><strong>报头字段</strong></td>
+          <td>12 个字段（包含数据包长度、源地址、目的地址等）</td>
+          <td>8 个字段（简化了报头字段，去掉了一些不常用字段）</td>
+      </tr>
+      <tr>
+          <td><strong>协议类型</strong></td>
+          <td>使用 ARP（地址解析协议）来解析 MAC 地址</td>
+          <td>使用 NDP（邻居发现协议）来解析 MAC 地址</td>
+      </tr>
+      <tr>
+          <td><strong>安全性</strong></td>
+          <td>原生不支持安全性，通常需要通过 IPSec 实现</td>
+          <td>原生支持 IPSec，增强了安全性</td>
+      </tr>
+      <tr>
+          <td><strong>广播</strong></td>
+          <td>支持广播（广播会向网络上的所有设备发送数据）</td>
+          <td>不支持广播，使用组播（Multicast）代替广播</td>
+      </tr>
+      <tr>
+          <td><strong>配置方式</strong></td>
+          <td>可以手动配置或使用 DHCP（动态主机配置协议）</td>
+          <td>支持自动配置（无状态地址自动配置）</td>
+      </tr>
+      <tr>
+          <td><strong>性能</strong></td>
+          <td>在网络负载较高时，处理速度较慢</td>
+          <td>更高效，优化了传输过程中的处理速度</td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="http-与-https">HTTP 与 HTTPS</h2>
+<h3 id="区别">区别</h3>
+<ul>
+<li>HTTP 是超文本传输协议，<strong>信息是明文传输</strong>，<strong>存在安全风险</strong>的问题。HTTPS 则解决 HTTP 不安全的缺陷，在 TCP 和 HTTP 网络层之间加入了 <strong>SSL/TLS 安全协议，使得报文能够加密传输</strong>。</li>
+<li>HTTP 连接建立相对简单， TCP 三次握手之后便可进行 HTTP 的报文传输。而 HTTPS 在 TCP 三次握手之后，<strong>还需进行 SSL/TLS 的握手过程，才可进入加密报文传输</strong>。</li>
+<li>两者的默认端口不一样，<strong>HTTP 默认端口号是 80</strong>，<strong>HTTPS 默认端口号是 443</strong>。</li>
+<li>HTTPS 协议<strong>需要向 CA（证书权威机构）申请数字证书</strong>，来保证服务器的身份是可信的。</li>
+</ul>
+<h4 id="https核心数字证书">HTTPS核心（数字证书）</h4>
+<h5 id="背景传统数字签名算法">背景（传统数字签名算法）</h5>
+<p>发送方A<strong>对发送数据计算出哈希值H后通过A的私钥对数字签名加密</strong>后，发送给B。B通过发送数据计算出相同的哈希值H，后<strong>通过A的公钥对数字签名解密得值C</strong>，<strong>比对C与H</strong>是否相等</p>
+<p>但其<strong>局限在于攻击方可以通过伪造一组公私钥</strong>，把公钥发给B，然后自己申明为A发送数字签名。这就需要引入第三方机构数字证书</p>
+<h5 id="数字证书">数字证书</h5>
+<p><strong>通过数字证书把服务器的公钥和CA认证信息绑定</strong>，通过CA公钥认证数字证书的安全性，解密出服务器的公钥</p>
+<img src="https://cdn.xiaolincoding.com/gh/xiaolincoder/ImageHost/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/HTTP/22-%E6%95%B0%E5%AD%97%E8%AF%81%E4%B9%A6%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B.png"  style="zoom:100%;" /></div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2023年1月11日</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="分享到 X" data-sharer="x" data-url="http://localhost:1313/posts/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%BA%8C%E8%8B%B1%E7%89%B9%E7%BD%91/" data-title="计算机网络（二）英特网" data-hashtags="计算机网络"><i class="fab fa-x-twitter" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Threads" data-sharer="threads" data-url="http://localhost:1313/posts/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%BA%8C%E8%8B%B1%E7%89%B9%E7%BD%91/" data-title="计算机网络（二）英特网"><i class="fab fa-threads" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Facebook" data-sharer="facebook" data-url="http://localhost:1313/posts/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%BA%8C%E8%8B%B1%E7%89%B9%E7%BD%91/" data-hashtag="计算机网络"><i class="fab fa-facebook-square" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Hacker News" data-sharer="hackernews" data-url="http://localhost:1313/posts/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%BA%8C%E8%8B%B1%E7%89%B9%E7%BD%91/" data-title="计算机网络（二）英特网"><i class="fab fa-hacker-news" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Line" data-sharer="line" data-url="http://localhost:1313/posts/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%BA%8C%E8%8B%B1%E7%89%B9%E7%BD%91/" data-title="计算机网络（二）英特网"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="http://localhost:1313/posts/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%BA%8C%E8%8B%B1%E7%89%B9%E7%BD%91/" data-title="计算机网络（二）英特网"><i class="fab fa-weibo" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Diaspora" data-sharer="diaspora" data-url="http://localhost:1313/posts/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%BA%8C%E8%8B%B1%E7%89%B9%E7%BD%91/" data-title="计算机网络（二）英特网" data-description=""><i class="fab fa-diaspora" aria-hidden="true"></i></a><a href="https://t.me/share/url?url=http%3a%2f%2flocalhost%3a1313%2fposts%2f%25E8%25AE%25A1%25E7%25AE%2597%25E6%259C%25BA%25E7%25BD%2591%25E7%25BB%259C%25E4%25BA%258C%25E8%258B%25B1%25E7%2589%25B9%25E7%25BD%2591%2f&amp;text=%e8%ae%a1%e7%ae%97%e6%9c%ba%e7%bd%91%e7%bb%9c%ef%bc%88%e4%ba%8c%ef%bc%89%e8%8b%b1%e7%89%b9%e7%bd%91" target="_blank" title="分享到 Telegram"><i class="fab fa-telegram" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags" aria-hidden="true"></i>&nbsp;<a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/posts/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%BA%8C%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E5%A4%9A%E8%BF%9B%E7%A8%8B/" class="prev" rel="prev" title="操作系统（二）进程管理（如何实现多进程）"><i class="fas fa-angle-left" aria-hidden="true"></i>操作系统（二）进程管理（如何实现多进程）</a>
+            <a href="/posts/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%BA%94%E4%BC%A0%E8%BE%93%E5%B1%82/" class="next" rel="next" title="计算机网络（五）传输层">计算机网络（五）传输层<i class="fas fa-angle-right" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.160.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 1.0.0"><i class="far fa-kiss-wink-heart" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright" aria-hidden="true"></i><span itemprop="copyrightYear">2022 - 2026</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">子非鱼</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up" aria-hidden="true"></i>
+            </a>
+        </div>
+
+        <div id="fixed-buttons-hidden"><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/lightgallery/css/lightgallery-bundle.min.css"><link rel="stylesheet" href="/lib/katex/katex.min.css"><script src="/lib/autocomplete/autocomplete.min.js"></script><script src="/lib/lunr/lunr.min.js"></script><script src="/lib/lunr/lunr.stemmer.support.min.js"></script><script src="/lib/lunr/lunr.zh.min.js"></script><script src="/lib/lazysizes/lazysizes.min.js"></script><script src="/lib/lightgallery/lightgallery.min.js"></script><script src="/lib/lightgallery/plugins/thumbnail/lg-thumbnail.min.js"></script><script src="/lib/lightgallery/plugins/zoom/lg-zoom.min.js"></script><script src="/lib/clipboard/clipboard.min.js"></script><script src="/lib/sharer/sharer.min.js"></script><script src="/lib/katex/katex.min.js"></script><script src="/lib/katex/contrib/auto-render.min.js"></script><script src="/lib/katex/contrib/copy-tex.min.js"></script><script src="/lib/katex/contrib/mhchem.min.js"></script><script>window.config={"comment":{},"lightgallery":true,"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"highlightTag":"em","lunrIndexURL":"/index.json","lunrLanguageCode":"zh","lunrSegmentitURL":"/lib/lunr/lunr.segmentit.js","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"lunr"}};</script><script src="/js/theme.js"></script></body>
+</html>

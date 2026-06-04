@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+    <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>数据库（二）索引 - 子非鱼的技术博客</title><meta name="Description" content="子非鱼的技术博客"><meta property="og:url" content="http://localhost:1313/posts/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8C%E7%B4%A2%E5%BC%95/">
+  <meta property="og:site_name" content="子非鱼的技术博客">
+  <meta property="og:title" content="数据库（二）索引">
+  <meta property="og:description" content="索引存储结构 存储结构 使用B&#43;树作为存储结构，非叶子结点存放索引，叶子节点才会存放实际数据（索引&#43;记录）
+为什么使用B&#43;树 B&#43;树与B树的对比如下
+B&#43; 树的非叶子节点不存放实际的记录数据，仅存放索引，因此数据量相同的情况下，相比存储即存索引又存记录的 B 树，B&#43;树的非叶子节点可以存放更多的索引，因此 B&#43; 树可以比 B 树更「矮胖」，查询底层节点的磁盘 I/O次数会更少 B&#43; 树有大量的冗余节点（所有非叶子节点都是冗余索引），这些冗余索引让 B&#43; 树在插入、删除的效率都更高，比如删除根节点的时候，不会像 B 树那样会发生复杂的树的变化 B&#43; 树叶子节点之间用链表连接了起来，有利于范围查询，而 B 树要实现范围查询，因此只能通过树的遍历来完成范围查询，这会涉及多个节点的磁盘 I/O 操作，范围查询效率不如 B&#43; 树。">
+  <meta property="og:locale" content="zh_cn">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-02-03T10:44:48+08:00">
+    <meta property="article:modified_time" content="2025-02-03T10:44:48+08:00">
+    <meta property="article:tag" content="数据库">
+    <meta property="article:tag" content="MySQL">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="数据库（二）索引">
+  <meta name="twitter:description" content="索引存储结构 存储结构 使用B&#43;树作为存储结构，非叶子结点存放索引，叶子节点才会存放实际数据（索引&#43;记录）
+为什么使用B&#43;树 B&#43;树与B树的对比如下
+B&#43; 树的非叶子节点不存放实际的记录数据，仅存放索引，因此数据量相同的情况下，相比存储即存索引又存记录的 B 树，B&#43;树的非叶子节点可以存放更多的索引，因此 B&#43; 树可以比 B 树更「矮胖」，查询底层节点的磁盘 I/O次数会更少 B&#43; 树有大量的冗余节点（所有非叶子节点都是冗余索引），这些冗余索引让 B&#43; 树在插入、删除的效率都更高，比如删除根节点的时候，不会像 B 树那样会发生复杂的树的变化 B&#43; 树叶子节点之间用链表连接了起来，有利于范围查询，而 B 树要实现范围查询，因此只能通过树的遍历来完成范围查询，这会涉及多个节点的磁盘 I/O 操作，范围查询效率不如 B&#43; 树。">
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site">
+<meta name="referrer" content="no-referrer" /><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://localhost:1313/posts/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8C%E7%B4%A2%E5%BC%95/" /><link rel="prev" href="http://localhost:1313/posts/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%80%E7%BB%AA%E8%AE%BA/" /><link rel="next" href="http://localhost:1313/posts/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%89%E4%BA%8B%E5%8A%A1/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/css/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "数据库（二）索引",
+        "inLanguage": "zh-cn",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/localhost:1313\/posts\/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8C%E7%B4%A2%E5%BC%95\/"
+        },"genre": "posts","keywords": "数据库, MySQL","wordcount":  1998 ,
+        "url": "http:\/\/localhost:1313\/posts\/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8C%E7%B4%A2%E5%BC%95\/","datePublished": "2025-02-03T10:44:48+08:00","dateModified": "2025-02-03T10:44:48+08:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "子非鱼"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script>
+          const query = window.matchMedia('(prefers-color-scheme: dark)');
+          function applyTheme() {
+            let theme = window.localStorage?.getItem('theme') || 'light';
+            let isDark = theme === 'dark' || (theme === 'auto' && query.matches);
+            document.body.setAttribute('theme', isDark? 'dark' : 'light');
+            document.body.setAttribute('cfg-theme', theme);
+          }
+
+          applyTheme();
+          query.addEventListener('change', applyTheme);
+        </script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="子非鱼的技术博客">子非鱼的技术博客</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/"> 所有文章 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/about/"> 关于 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust" aria-hidden="true"></i>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="子非鱼的技术博客">子非鱼的技术博客</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/" title="">所有文章</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/about/" title="">关于</a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><div class="search-dropdown desktop">
+        <div id="search-dropdown-desktop"></div>
+    </div>
+    <div class="search-dropdown mobile">
+        <div id="search-dropdown-mobile"></div>
+    </div><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">数据库（二）索引</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle" aria-hidden="true"></i>子非鱼</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/mysql/"><i class="far fa-folder" aria-hidden="true"></i>MySQL</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt" aria-hidden="true"></i>&nbsp;<time datetime="2025年2月3日">2025年2月3日</time>&nbsp;<i class="fas fa-pencil-alt" aria-hidden="true"></i>&nbsp;约 1998 字&nbsp;
+                <i class="far fa-clock" aria-hidden="true"></i>&nbsp;预计阅读 4 分钟&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#索引存储结构">索引存储结构</a>
+      <ul>
+        <li><a href="#存储结构">存储结构</a></li>
+        <li><a href="#为什么使用b树">为什么使用B+树</a></li>
+      </ul>
+    </li>
+    <li><a href="#使用索引时的查询流程">使用索引时的查询流程</a>
+      <ul>
+        <li><a href="#叶子节点存放的是实际数据时聚簇索引">叶子节点存放的是实际数据时（聚簇索引）</a></li>
+        <li><a href="#叶子节点存放的是主键值时二级索引">叶子节点存放的是主键值时（二级索引）</a></li>
+      </ul>
+    </li>
+    <li><a href="#什么时候需要--不需要创建索引">什么时候需要 / 不需要创建索引</a>
+      <ul>
+        <li><a href="#索引的优点和代价">索引的优点和代价</a></li>
+      </ul>
+    </li>
+    <li><a href="#索引失效">索引失效</a></li>
+    <li><a href="#优化索引方法">优化索引方法</a>
+      <ul>
+        <li><a href="#前缀索引优化">前缀索引优化</a></li>
+        <li><a href="#覆盖索引优化">覆盖索引优化</a></li>
+        <li><a href="#防止索引失效">防止索引失效</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="索引存储结构">索引存储结构</h2>
+<h3 id="存储结构">存储结构</h3>
+<p>使用<strong>B+树</strong>作为存储结构，<strong>非叶子结点存放索引</strong>，<strong>叶子节点才会存放实际数据（索引+记录）</strong></p>
+<img src="../../images/db_index_1.webp" style="zoom:70%;" />
+<h3 id="为什么使用b树">为什么使用B+树</h3>
+<p>B+树与B树的对比如下</p>
+<ul>
+<li>B+ 树的非叶子节点<strong>不存放实际的记录数据，仅存放索引</strong>，因此数据量相同的情况下，相比存储即存索引又存记录的 B 树，<strong>B+树的非叶子节点可以存放更多的索引</strong>，因此 B+ 树可以比 B 树更「矮胖」，<strong>查询底层节点的磁盘 I/O次数会更少</strong></li>
+<li>B+ 树<strong>有大量的冗余节点</strong>（所有非叶子节点都是冗余索引），这些冗余索引让 <strong>B+ 树在插入、删除的效率都更高</strong>，比如删除根节点的时候，<strong>不会像 B 树那样会发生复杂的树的变化</strong></li>
+<li><strong>B+ 树叶子节点之间用链表连接了起来，有利于范围查询</strong>，而 B 树要实现范围查询，因此只能通过树的遍历来完成范围查询，这会涉及多个节点的磁盘 I/O 操作，范围查询效率不如 B+ 树。</li>
+</ul>
+<h2 id="使用索引时的查询流程">使用索引时的查询流程</h2>
+<h3 id="叶子节点存放的是实际数据时聚簇索引">叶子节点存放的是实际数据时（聚簇索引）</h3>
+<p>当通过主键指定条件时，<strong>通过主键索引遍历到叶子结点</strong>，<strong>获得主键值和其对应的数据</strong></p>
+<img src="../../images/db_index_1.webp" style="zoom:70%;" />
+<h3 id="叶子节点存放的是主键值时二级索引">叶子节点存放的是主键值时（二级索引）</h3>
+<p>当建立了非主键字段的索引而且是通过该字段指定条件时，<strong>通过二级索引可查到该条件下对应的主键值</strong>。如果查询的字段除了主键外还有其他值，则需要进行<strong>回表操作</strong>（即通过主键值搜索聚簇索引到叶子结点取值）</p>
+<p>所以为了提升效率，<strong>一是在查询时尽量只查索引项包含的字段</strong>，<strong>二是对于常用字段建立二级索引时考虑将会用到的字段一同建立联合索引，避免回表（即减少IO操作）</strong></p>
+<img src="../../images/db_index_2.webp" style="zoom:70%;" />
+<h2 id="什么时候需要--不需要创建索引">什么时候需要 / 不需要创建索引</h2>
+<h3 id="索引的优点和代价">索引的优点和代价</h3>
+<p>索引最大的好处是<strong>提高查询速度</strong>，但是索引也是有缺点的，比如：</p>
+<ul>
+<li>需要<strong>占用物理空间</strong>，数量越大，占用空间越大；</li>
+<li><strong>会降低表的增删改的效率</strong>，因为每次增删改索引，B+ 树为了维护索引有序性，都需要进行动态维护。</li>
+</ul>
+<h4 id="什么时候适用索引">什么时候适用索引？</h4>
+<ul>
+<li>
+<p><strong>经常用于 <code>WHERE</code> 查询条件的字段</strong>，这样能够提高整个表的查询速度，如果查询条件不是一个字段，可以建立联合索引。</p>
+</li>
+<li>
+<p><strong>经常用于 <code>GROUP BY</code> 和 <code>ORDER BY</code> 的字段</strong>，这样在查询的时候就不需要再去做一次排序了，因为我们都已经知道了<strong>建立索引之后在 B+Tree 中的记录都是排序好的</strong>。</p>
+</li>
+</ul>
+<h4 id="什么时候不需要创建索引">什么时候不需要创建索引？</h4>
+<ul>
+<li><strong><code>WHERE</code> 条件，<code>GROUP BY</code>，<code>ORDER BY</code> 里用不到的字段</strong>，索引的价值是快速定位，如果起不到定位的字段通常是不需要创建索引的，因为索引是会占用物理空间的。</li>
+<li><strong>字段中存在大量重复数据</strong>，不需要创建索引，比如性别字段，只有男女，如果数据库表中，男女的记录分布均匀，那么无论搜索哪个值都可能得到一半的数据。在这些情况下，还不如不要索引，因为 MySQL 还有一个查询优化器，查询优化器发现某个值出现在表的数据行中的百分比很高的时候，它一般会忽略索引，进行全表扫描。</li>
+<li><strong>表数据太少的时候</strong>，不需要创建索引；</li>
+<li><strong>经常更新的字段不用创建索引</strong>，比如不要对电商项目的用户余额建立索引，因为索引字段频繁修改，由于要维护 B+Tree的有序性，那么就需要频繁的重建索引，这个过程是会影响数据库性能的。</li>
+</ul>
+<h2 id="索引失效">索引失效</h2>
+<p>索引失效的情况</p>
+<ul>
+<li><strong>使用左或者左右模糊匹配</strong>的时候，也就是 <code>like %xx</code> 或者 <code>like %xx%</code>这两种方式都会造成索引失效；</li>
+<li><strong>联合索引要能正确使用需要遵循最左匹配原则</strong>，也就是按照<strong>最左优先</strong>的方式进行索引的匹配，否则就会导致索引失效。（原因是<strong>建立联合索引是按照字段顺序排序的</strong>，即先按照第一个字段排序，第一个字段相同时按第二个字段排序。所以当<strong>前几个字段没有指定时后面的字段是无序的</strong>）</li>
+<li><strong>在查询条件中对索引列使用函数</strong>，就会导致索引失效。</li>
+<li><strong>在查询条件中对索引列进行表达式计算</strong>，也是无法走索引的。</li>
+<li>MySQL 在遇到字符串和数字比较的时候，会自动把字符串转为数字，然后再进行比较。如果字符串是索引列，而条件语句中的输入参数是数字的话，那么索引列会<strong>发生隐式类型转换</strong>，由于隐式类型转换是通过 CAST 函数实现的，等同于对索引列使用了函数，所以就会导致索引失效。</li>
+<li>在 WHERE 子句中，<strong>如果在 OR 前的条件列是索引列，而在 OR 后的条件列不是索引列</strong>，那么索引会失效。</li>
+</ul>
+<h2 id="优化索引方法">优化索引方法</h2>
+<h3 id="前缀索引优化">前缀索引优化</h3>
+<p><strong>使用某个字段中字符串的前几个字符建立索引</strong>。使用前缀索引是<strong>为了减小索引字段大小</strong>，可以增加一个索引页中存储的索引值，有效提高索引的查询速度。在一些大字符串的字段作为索引时，使用前缀索引可以帮助我们减小索引项的大小。</p>
+<p>在 MySQL 中，创建前缀索引时，<strong>指定索引的前缀长度</strong>。例如，如果有一个 name 字段，并且只对前 10 个字符建立索引，可以这样定义前缀索引</p>
+<div class="code-block code-line-numbers open" style="counter-reset: code-block 0">
+    <div class="code-header language-sql">
+        <span class="code-title"><i class="arrow fas fa-angle-right" aria-hidden="true"></i></span>
+        <span class="ellipses"><i class="fas fa-ellipsis-h" aria-hidden="true"></i></span>
+        <span class="copy" title="复制到剪贴板"><i class="far fa-copy" aria-hidden="true"></i></span>
+    </div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_name_prefix</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">users</span><span class="w"> </span><span class="p">(</span><span class="n">name</span><span class="p">(</span><span class="mi">10</span><span class="p">));</span></span></span></code></pre></div></div>
+<h3 id="覆盖索引优化">覆盖索引优化</h3>
+<p>覆盖索引是指 SQL 中 query 的所有字段，<strong>在索引 B+Tree 的叶子节点上都能找得到的那些索引</strong>，从二级索引中查询得到记录，而不需要通过聚簇索引查询获得，可以<strong>避免回表</strong>的操作</p>
+<p>假设我们只需要查询商品的名称、价格，有什么方式可以避免回表呢？</p>
+<p>我们可以<strong>建立一个联合索引</strong>，即「商品ID、名称、价格」作为一个联合索引。如果索引中存在这些数据，查询将不会再次检索主键索引，从而避免回表。</p>
+<p>所以，使用覆盖索引的好处就是，不需要查询出包含整行记录的所有信息，也就<strong>减少了大量的 I/O 操作</strong>。</p>
+<h3 id="防止索引失效">防止索引失效</h3>
+<p><strong>当因为查询条件写法问题，或者存储引擎认为该字段区分度不高时就会索引失效</strong>，转而进行全表扫描</p></div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2025年2月3日</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="分享到 X" data-sharer="x" data-url="http://localhost:1313/posts/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8C%E7%B4%A2%E5%BC%95/" data-title="数据库（二）索引" data-hashtags="数据库,MySQL"><i class="fab fa-x-twitter" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Threads" data-sharer="threads" data-url="http://localhost:1313/posts/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8C%E7%B4%A2%E5%BC%95/" data-title="数据库（二）索引"><i class="fab fa-threads" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Facebook" data-sharer="facebook" data-url="http://localhost:1313/posts/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8C%E7%B4%A2%E5%BC%95/" data-hashtag="数据库"><i class="fab fa-facebook-square" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Hacker News" data-sharer="hackernews" data-url="http://localhost:1313/posts/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8C%E7%B4%A2%E5%BC%95/" data-title="数据库（二）索引"><i class="fab fa-hacker-news" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Line" data-sharer="line" data-url="http://localhost:1313/posts/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8C%E7%B4%A2%E5%BC%95/" data-title="数据库（二）索引"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="http://localhost:1313/posts/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8C%E7%B4%A2%E5%BC%95/" data-title="数据库（二）索引"><i class="fab fa-weibo" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Diaspora" data-sharer="diaspora" data-url="http://localhost:1313/posts/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8C%E7%B4%A2%E5%BC%95/" data-title="数据库（二）索引" data-description=""><i class="fab fa-diaspora" aria-hidden="true"></i></a><a href="https://t.me/share/url?url=http%3a%2f%2flocalhost%3a1313%2fposts%2f%25E6%2595%25B0%25E6%258D%25AE%25E5%25BA%2593%25E4%25BA%258C%25E7%25B4%25A2%25E5%25BC%2595%2f&amp;text=%e6%95%b0%e6%8d%ae%e5%ba%93%ef%bc%88%e4%ba%8c%ef%bc%89%e7%b4%a2%e5%bc%95" target="_blank" title="分享到 Telegram"><i class="fab fa-telegram" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags" aria-hidden="true"></i>&nbsp;<a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>,&nbsp;<a href="/tags/mysql/">MySQL</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/posts/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%80%E7%BB%AA%E8%AE%BA/" class="prev" rel="prev" title="数据库（一）绪论"><i class="fas fa-angle-left" aria-hidden="true"></i>数据库（一）绪论</a>
+            <a href="/posts/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%89%E4%BA%8B%E5%8A%A1/" class="next" rel="next" title="数据库（三）事务">数据库（三）事务<i class="fas fa-angle-right" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.160.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 1.0.0"><i class="far fa-kiss-wink-heart" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright" aria-hidden="true"></i><span itemprop="copyrightYear">2022 - 2026</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">子非鱼</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up" aria-hidden="true"></i>
+            </a>
+        </div>
+
+        <div id="fixed-buttons-hidden"><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/lightgallery/css/lightgallery-bundle.min.css"><link rel="stylesheet" href="/lib/katex/katex.min.css"><script src="/lib/autocomplete/autocomplete.min.js"></script><script src="/lib/lunr/lunr.min.js"></script><script src="/lib/lunr/lunr.stemmer.support.min.js"></script><script src="/lib/lunr/lunr.zh.min.js"></script><script src="/lib/lazysizes/lazysizes.min.js"></script><script src="/lib/lightgallery/lightgallery.min.js"></script><script src="/lib/lightgallery/plugins/thumbnail/lg-thumbnail.min.js"></script><script src="/lib/lightgallery/plugins/zoom/lg-zoom.min.js"></script><script src="/lib/clipboard/clipboard.min.js"></script><script src="/lib/sharer/sharer.min.js"></script><script src="/lib/katex/katex.min.js"></script><script src="/lib/katex/contrib/auto-render.min.js"></script><script src="/lib/katex/contrib/copy-tex.min.js"></script><script src="/lib/katex/contrib/mhchem.min.js"></script><script>window.config={"comment":{},"lightgallery":true,"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"highlightTag":"em","lunrIndexURL":"/index.json","lunrLanguageCode":"zh","lunrSegmentitURL":"/lib/lunr/lunr.segmentit.js","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"lunr"}};</script><script src="/js/theme.js"></script></body>
+</html>

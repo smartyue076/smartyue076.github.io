@@ -1,0 +1,195 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>C&#43;&#43; - 标签 - 子非鱼的技术博客</title>
+        <link>http://localhost:1313/tags/c&#43;&#43;/</link>
+        <description>C&#43;&#43; - 标签 - 子非鱼的技术博客</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Sat, 18 Feb 2023 19:01:29 &#43;0800</lastBuildDate><atom:link href="http://localhost:1313/tags/c&#43;&#43;/" rel="self" type="application/rss+xml" /><item>
+    <title>软件开发面试题整理</title>
+    <link>http://localhost:1313/posts/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91%E9%9D%A2%E8%AF%95%E9%A2%98%E6%95%B4%E7%90%86/</link>
+    <pubDate>Sat, 18 Feb 2023 19:01:29 &#43;0800</pubDate>
+    <author>子非鱼</author>
+    <guid>http://localhost:1313/posts/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91%E9%9D%A2%E8%AF%95%E9%A2%98%E6%95%B4%E7%90%86/</guid>
+    <description><![CDATA[<h2 id="面试题汇总">面试题汇总</h2>
+<h3 id="c">C++</h3>
+<h4 id="基础知识">基础知识</h4>
+<p><strong>C 和 CPP 区别是什么</strong></p>
+<table>
+  <thead>
+      <tr>
+          <th></th>
+          <th>C</th>
+          <th>C++</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>编程范式</td>
+          <td>面向过程</td>
+          <td>面向对象</td>
+      </tr>
+      <tr>
+          <td>函数重载</td>
+          <td>无</td>
+          <td>有</td>
+      </tr>
+      <tr>
+          <td>引用</td>
+          <td>无</td>
+          <td>有</td>
+      </tr>
+  </tbody>
+</table>
+<p><strong>C++编译过程</strong></p>
+<p>预处理：展开include和define</p>]]></description>
+</item>
+<item>
+    <title>C&#43;&#43;面试题</title>
+    <link>http://localhost:1313/posts/c-%E9%9D%A2%E8%AF%95%E9%A2%98/</link>
+    <pubDate>Wed, 11 Jan 2023 18:42:42 &#43;0800</pubDate>
+    <author>子非鱼</author>
+    <guid>http://localhost:1313/posts/c-%E9%9D%A2%E8%AF%95%E9%A2%98/</guid>
+    <description><![CDATA[<h2 id="c疑惑点">C++疑惑点</h2>
+<h3 id="我的疑问">我的疑问</h3>
+<ol>
+<li>header中防御式声明的目的</li>
+</ol>
+<ul>
+<li>防止两个头文件相互include时的循环include</li>
+<li>防止cpp在include不同头文件时可能产生的重复定义</li>
+</ul>
+<ol start="2">
+<li>inline</li>
+</ol>
+<p>将函数声明为inline可以避免函数调用的开销，空间换时间</p>]]></description>
+</item>
+<item>
+    <title>C&#43;&#43; STL基础</title>
+    <link>http://localhost:1313/posts/c-stl%E5%9F%BA%E7%A1%80/</link>
+    <pubDate>Wed, 11 Jan 2023 18:42:34 &#43;0800</pubDate>
+    <author>子非鱼</author>
+    <guid>http://localhost:1313/posts/c-stl%E5%9F%BA%E7%A1%80/</guid>
+    <description><![CDATA[<h2 id="第七章-stl">第七章 STL</h2>
+<h3 id="六大部件">六大部件</h3>
+
+<p>分配器：为容器分配内存</p>
+<p>迭代器：算法只能通过迭代器访问容器</p>]]></description>
+</item>
+<item>
+    <title>C&#43;&#43;基础（七）异常处理</title>
+    <link>http://localhost:1313/posts/c-%E5%9F%BA%E7%A1%80%E4%B8%83%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86/</link>
+    <pubDate>Wed, 11 Jan 2023 18:42:25 &#43;0800</pubDate>
+    <author>子非鱼</author>
+    <guid>http://localhost:1313/posts/c-%E5%9F%BA%E7%A1%80%E4%B8%83%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86/</guid>
+    <description><![CDATA[<h2 id="第六章-异常处理">第六章 异常处理</h2>
+<p>当执行throw时，throw后的语句都不执行，控制权转移到与之对应的catch模块</p>
+<p>退出catch后，catch模块中的局部变量将会销毁</p>
+<p>当异常处理完毕后，异常对象将被销毁</p>
+<div class="code-block code-line-numbers open" style="counter-reset: code-block 0">
+    <div class="code-header language-cpp">
+        <span class="code-title"><i class="arrow fas fa-angle-right" aria-hidden="true"></i></span>
+        <span class="ellipses"><i class="fas fa-ellipsis-h" aria-hidden="true"></i></span>
+        <span class="copy" title="复制到剪贴板"><i class="far fa-copy" aria-hidden="true"></i></span>
+    </div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="k">try</span><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">//...
+</span></span></span><span class="line"><span class="cl"><span class="p">}</span><span class="k">catch</span> <span class="p">(</span><span class="n">exception_a</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">//...
+</span></span></span><span class="line"><span class="cl"><span class="p">}</span><span class="k">catch</span> <span class="p">(</span><span class="n">exception_b</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">//...
+</span></span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></div></div>
+<h3 id="捕捉catch对于每个catch执行下述步骤">捕捉catch（对于每个catch执行下述步骤）</h3>
+<ol>
+<li>判断是否是精确匹配</li>
+<li>派生类向基类转换（仅引用和指针类型）</li>
+<li>（&hellip;）匹配所有</li>
+</ol>
+<p>其中一个被捕捉，跳过下面的catch</p>]]></description>
+</item>
+<item>
+    <title>C&#43;&#43;面向对象（二）引用</title>
+    <link>http://localhost:1313/posts/c-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E4%BA%8C%E5%BC%95%E7%94%A8/</link>
+    <pubDate>Wed, 11 Jan 2023 18:42:05 &#43;0800</pubDate>
+    <author>子非鱼</author>
+    <guid>http://localhost:1313/posts/c-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E4%BA%8C%E5%BC%95%E7%94%A8/</guid>
+    <description><![CDATA[<h2 id="第五章-面向对象编程二">第五章 面向对象编程（二）</h2>
+<h3 id="引用的其他用法">引用的其他用法</h3>
+<p>引用作为成员变量</p>
+<p>函数返回引用，可以将返回值做左值</p>
+<h3 id="拷贝构造">拷贝构造</h3>
+<p>通过类的其他对象初始化当前对象（有默认拷贝构造方法，成员对成员的拷贝，可能发生对象的嵌套拷贝）</p>]]></description>
+</item>
+<item>
+    <title>C&#43;&#43;面向对象（一）封装、继承和多态</title>
+    <link>http://localhost:1313/posts/c-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E4%B8%80%E5%B0%81%E8%A3%85%E7%BB%A7%E6%89%BF%E5%92%8C%E5%A4%9A%E6%80%81/</link>
+    <pubDate>Wed, 11 Jan 2023 18:41:36 &#43;0800</pubDate>
+    <author>子非鱼</author>
+    <guid>http://localhost:1313/posts/c-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E4%B8%80%E5%B0%81%E8%A3%85%E7%BB%A7%E6%89%BF%E5%92%8C%E5%A4%9A%E6%80%81/</guid>
+    <description><![CDATA[<h2 id="第五章-面向对象编程">第五章 面向对象编程</h2>
+<p>类不是实体，对象是实体</p>
+<p>成员变量（filed）属于对象</p>
+<p>成员函数（member function）属于类</p>
+<h3 id="big-three构造函数拷贝构造拷贝赋值">Big Three（构造函数，拷贝构造，拷贝赋值）</h3>
+<h4 id="构造函数">构造函数</h4>
+<h5 id="初始化列表">初始化列表</h5>
+<p><strong>列表初始化（initialize list）</strong>仅对成员变量初始化。</p>
+<p>在构造函数里对成员变量初始化则为先初始化（默认）后赋值，故所有成员变量必须要有默认的初始化方法（成员变量包含其他类但该类没有默认构造函数则会报错）。构造函数无法主动调用。</p>]]></description>
+</item>
+<item>
+    <title>C&#43;&#43;面向对象（一）运算符重载</title>
+    <link>http://localhost:1313/posts/c-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E4%B8%80%E8%BF%90%E7%AE%97%E7%AC%A6%E9%87%8D%E8%BD%BD/</link>
+    <pubDate>Wed, 11 Jan 2023 18:39:54 &#43;0800</pubDate>
+    <author>子非鱼</author>
+    <guid>http://localhost:1313/posts/c-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E4%B8%80%E8%BF%90%E7%AE%97%E7%AC%A6%E9%87%8D%E8%BD%BD/</guid>
+    <description><![CDATA[<h2 id="第五章-运算符重载">第五章 运算符重载</h2>
+<h3 id="限制条件">限制条件</h3>
+<p>只能重载存在的运算法</p>
+<p>重载运算符必须保留相同操作数数量和优先级</p>
+<h3 id="成员或全局函数">成员或全局函数</h3>
+<p>单目运算符应该做成成员函数</p>
+<p><code>= （） []</code>只能做成成员函数</p>]]></description>
+</item>
+<item>
+    <title>C&#43;&#43;基础（四）inline函数</title>
+    <link>http://localhost:1313/posts/c-%E5%9F%BA%E7%A1%80%E5%9B%9Binline%E5%87%BD%E6%95%B0/</link>
+    <pubDate>Wed, 11 Jan 2023 18:39:34 &#43;0800</pubDate>
+    <author>子非鱼</author>
+    <guid>http://localhost:1313/posts/c-%E5%9F%BA%E7%A1%80%E5%9B%9Binline%E5%87%BD%E6%95%B0/</guid>
+    <description><![CDATA[<h2 id="第五章-函数">第五章 函数</h2>
+<h3 id="inline-函数">inline 函数</h3>
+<p>将函数声明为inline可以避免函数调用的开销，空间换时间</p>
+<p>调用函数步骤：</p>
+<ol>
+<li>返回地址压栈</li>
+<li>函数参数压栈</li>
+<li>计算返回值</li>
+<li>函数部分所有元素出栈，返回值</li>
+</ol>]]></description>
+</item>
+<item>
+    <title>C&#43;&#43;基础（五）static关键字</title>
+    <link>http://localhost:1313/posts/c-%E5%9F%BA%E7%A1%80%E4%BA%94static%E5%85%B3%E9%94%AE%E5%AD%97/</link>
+    <pubDate>Wed, 11 Jan 2023 18:39:27 &#43;0800</pubDate>
+    <author>子非鱼</author>
+    <guid>http://localhost:1313/posts/c-%E5%9F%BA%E7%A1%80%E4%BA%94static%E5%85%B3%E9%94%AE%E5%AD%97/</guid>
+    <description><![CDATA[<h2 id="static关键字">static关键字</h2>
+<h3 id="static全局变量">static全局变量</h3>
+<p>只能在当前文件访问，其他文件不能通过extern访问</p>
+<h3 id="static局部变量">static局部变量</h3>
+<p>定义时创建，程序结束时销毁，修改了生命周期，作用域不变</p>
+<h3 id="static类">static类</h3>
+<p>static对象的构造在main函数前执行，析构在main函数结束后</p>
+<h3 id="static成员变量">static成员变量</h3>
+<p>存在于所有对象且保持一致，可在其他文件访问</p>]]></description>
+</item>
+<item>
+    <title>C&#43;&#43;面向对象（三）模版</title>
+    <link>http://localhost:1313/posts/c-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E4%B8%89%E6%A8%A1%E7%89%88/</link>
+    <pubDate>Tue, 27 Dec 2022 16:23:38 &#43;0800</pubDate>
+    <author>子非鱼</author>
+    <guid>http://localhost:1313/posts/c-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E4%B8%89%E6%A8%A1%E7%89%88/</guid>
+    <description><![CDATA[<h2 id="第五章-模版">第五章 模版</h2>
+<p>模版函数（template function）为声明不是定义，在使用时根据输入类型定义</p>
+<p>使用模版时，不会使用隐式类型转换</p>
+<p>类模版里的每个函数都是函数模版，需要在声明前加上<code>template</code></p>]]></description>
+</item>
+</channel>
+</rss>

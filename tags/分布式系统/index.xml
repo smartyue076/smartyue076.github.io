@@ -1,0 +1,50 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>分布式系统 - 标签 - 子非鱼的技术博客</title>
+        <link>http://localhost:1313/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F/</link>
+        <description>分布式系统 - 标签 - 子非鱼的技术博客</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Mon, 17 Feb 2025 12:42:32 &#43;0800</lastBuildDate><atom:link href="http://localhost:1313/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F/" rel="self" type="application/rss+xml" /><item>
+    <title>RAFT 分布式一致性算法（实现篇）</title>
+    <link>http://localhost:1313/posts/raft-%E5%88%86%E5%B8%83%E5%BC%8F%E4%B8%80%E8%87%B4%E6%80%A7%E7%AE%97%E6%B3%95%E5%AE%9E%E7%8E%B0%E7%AF%87/</link>
+    <pubDate>Mon, 17 Feb 2025 12:42:32 &#43;0800</pubDate>
+    <author>子非鱼</author>
+    <guid>http://localhost:1313/posts/raft-%E5%88%86%E5%B8%83%E5%BC%8F%E4%B8%80%E8%87%B4%E6%80%A7%E7%AE%97%E6%B3%95%E5%AE%9E%E7%8E%B0%E7%AF%87/</guid>
+    <description><![CDATA[<h2 id="状态机切换流程">状态机切换流程</h2>
+
+<h2 id="初始化">初始化</h2>
+<p>初始化流程主要包括<strong>从磁盘中加在持久化配置</strong>，将自己的<strong>状态设为 Follower</strong></p>
+<p>init：从磁盘中加在持久化配置，将自己的状态设为 Follower</p>
+<p>becomeFollower：状态机切换为 Follower，执行 Follower 的处理流程</p>]]></description>
+</item>
+<item>
+    <title>RAFT 分布式一致性算法（理论篇）</title>
+    <link>http://localhost:1313/posts/raft-%E5%88%86%E5%B8%83%E5%BC%8F%E4%B8%80%E8%87%B4%E6%80%A7%E7%AE%97%E6%B3%95%E7%90%86%E8%AE%BA%E7%AF%87/</link>
+    <pubDate>Tue, 14 Feb 2023 20:02:00 &#43;0800</pubDate>
+    <author>子非鱼</author>
+    <guid>http://localhost:1313/posts/raft-%E5%88%86%E5%B8%83%E5%BC%8F%E4%B8%80%E8%87%B4%E6%80%A7%E7%AE%97%E6%B3%95%E7%90%86%E8%AE%BA%E7%AF%87/</guid>
+    <description><![CDATA[<h2 id="raft分布式共识机制">RAFT分布式共识机制</h2>
+<h3 id="系统机制">系统机制</h3>
+<p>Raft 是一个<strong>管理 replicated log</strong> 的算法</p>
+<p><strong>Raft 实现共识的机制</strong></p>
+<ul>
+<li><strong>领导者选举（Leader Election）</strong>：共同选举出一个 Leader</li>
+<li><strong>日志复制（Log Replication）</strong>：给予这个 Leader 管理 replicated log 的完全职责</li>
+<li><strong>安全（Safety）</strong>：<strong>Leader 接受来自客户端的 log entries</strong>，然后复制给其他节点， 并在安全（不会导致冲突）时，告诉这些节点将这些 entries 应用到它们各自的状态机</li>
+</ul>]]></description>
+</item>
+<item>
+    <title>VMwareFT</title>
+    <link>http://localhost:1313/posts/vmwareft/</link>
+    <pubDate>Fri, 10 Feb 2023 12:20:31 &#43;0800</pubDate>
+    <author>子非鱼</author>
+    <guid>http://localhost:1313/posts/vmwareft/</guid>
+    <description><![CDATA[<h2 id="chapter3-vmwareft">Chapter3 VMwareFT</h2>
+<h3 id="状态转移和复制状态机">状态转移和复制状态机</h3>
+<p>状态转移（State Transfer）：Primary将自己的完整状态（例如内存中的内容），拷贝发给Backup</p>
+<p>复制状态机（Replicated State Machine）：将来自客户端的操作或其他外部事件，从Primary传到Backup。由于<strong>外部操作比服务的状态要小得多</strong>，所以大多采用该方法，缺点是同步会比较复杂</p>
+<h3 id="架构">架构</h3>
+<p><strong>主虚拟机(Primary VM)简称为主机，Backup VM 简称为备机</strong>。</p>
+<p>VMware FT 需要两台物理服务器，主机与备机保持同步，虚拟机的虚拟磁盘在共享存储上。</p>]]></description>
+</item>
+</channel>
+</rss>

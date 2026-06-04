@@ -1,0 +1,20 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>设计模式 - 标签 - 子非鱼的技术博客</title>
+        <link>http://localhost:1313/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/</link>
+        <description>设计模式 - 标签 - 子非鱼的技术博客</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Thu, 06 Feb 2025 12:56:12 &#43;0800</lastBuildDate><atom:link href="http://localhost:1313/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="self" type="application/rss+xml" /><item>
+    <title>设计模式</title>
+    <link>http://localhost:1313/posts/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/</link>
+    <pubDate>Thu, 06 Feb 2025 12:56:12 &#43;0800</pubDate>
+    <author>子非鱼</author>
+    <guid>http://localhost:1313/posts/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/</guid>
+    <description><![CDATA[<h2 id="设计原则">设计原则</h2>
+<h3 id="依赖倒置原则dip">依赖倒置原则（DIP）</h3>
+<p>高层模块（稳定）不应该依赖于低层模块（变化），二者都应该依赖 于抽象（稳定）</p>
+<p>抽象（稳定）不应该依赖于实现细节（变化），实现细节应该依赖于 抽象（稳定）</p>
+<h3 id="开放封闭原则ocp">开放封闭原则（OCP）</h3>
+<p>对扩展开放，对更改封闭</p>]]></description>
+</item>
+</channel>
+</rss>

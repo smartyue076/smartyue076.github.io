@@ -1,0 +1,168 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>算法 - 分类 - 子非鱼的技术博客</title>
+        <link>http://localhost:1313/categories/%E7%AE%97%E6%B3%95/</link>
+        <description>算法 - 分类 - 子非鱼的技术博客</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Tue, 11 Mar 2025 12:58:54 &#43;0800</lastBuildDate><atom:link href="http://localhost:1313/categories/%E7%AE%97%E6%B3%95/" rel="self" type="application/rss+xml" /><item>
+    <title>前缀和</title>
+    <link>http://localhost:1313/posts/%E5%89%8D%E7%BC%80%E5%92%8C/</link>
+    <pubDate>Tue, 11 Mar 2025 12:58:54 &#43;0800</pubDate>
+    <author>子非鱼</author>
+    <guid>http://localhost:1313/posts/%E5%89%8D%E7%BC%80%E5%92%8C/</guid>
+    <description><![CDATA[<h2 id="什么问题适合用前缀和">什么问题适合用前缀和</h2>
+<p>适用于快速、频繁地计算一个索引区间内的元素之和</p>
+<h2 id="前缀和算法框架">前缀和算法框架</h2>
+<h3 id="一维">一维</h3>
+<p>每次累加前缀，当前元素指的是0-i的前缀和</p>
+<p>注：从1开始是为了避免边界另外讨论，sum_list大小为原数组大小+1。填充的边界为0</p>]]></description>
+</item>
+<item>
+    <title>滑动窗口</title>
+    <link>http://localhost:1313/posts/%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/</link>
+    <pubDate>Tue, 11 Mar 2025 10:43:54 &#43;0800</pubDate>
+    <author>子非鱼</author>
+    <guid>http://localhost:1313/posts/%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/</guid>
+    <description><![CDATA[<h2 id="什么问题适用滑动窗口">什么问题适用滑动窗口</h2>
+<p>对于连续子序列问题，可以使用滑动窗口。例如按要求得到最长/短的序列</p>
+<h2 id="滑动窗口算法框架">滑动窗口算法框架</h2>
+<div class="code-block code-line-numbers" style="counter-reset: code-block 0">
+    <div class="code-header language-cpp">
+        <span class="code-title"><i class="arrow fas fa-angle-right" aria-hidden="true"></i></span>
+        <span class="ellipses"><i class="fas fa-ellipsis-h" aria-hidden="true"></i></span>
+        <span class="copy" title="复制到剪贴板"><i class="far fa-copy" aria-hidden="true"></i></span>
+    </div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="kt">int</span> <span class="n">low</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">high</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">while</span> <span class="p">(</span><span class="n">high</span> <span class="o">&lt;</span> <span class="n">nums</span><span class="p">.</span><span class="n">size</span><span class="p">())</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 增大窗口
+</span></span></span><span class="line"><span class="cl">    <span class="n">window</span><span class="p">.</span><span class="n">addLast</span><span class="p">(</span><span class="n">nums</span><span class="p">[</span><span class="n">high</span><span class="p">]);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">high</span><span class="o">++</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="k">while</span> <span class="p">(</span><span class="n">window</span> <span class="n">needs</span> <span class="n">shrink</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 缩小窗口
+</span></span></span><span class="line"><span class="cl">        <span class="n">window</span><span class="p">.</span><span class="n">removeFirst</span><span class="p">(</span><span class="n">nums</span><span class="p">[</span><span class="n">low</span><span class="p">]);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">low</span><span class="o">++</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></div></div>
+<p>滑动窗口方法需要考虑两个问题</p>
+<ol>
+<li>何时满足题目条件</li>
+</ol>]]></description>
+</item>
+<item>
+    <title>动态规划</title>
+    <link>http://localhost:1313/posts/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/</link>
+    <pubDate>Tue, 11 Feb 2025 16:21:36 &#43;0800</pubDate>
+    <author>子非鱼</author>
+    <guid>http://localhost:1313/posts/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/</guid>
+    <description><![CDATA[<h2 id="什么问题适合用动态规划最优子结构">什么问题适合用动态规划（最优子结构）</h2>
+<p>符合<strong>最优子结构</strong>的问题适合用动态规划</p>
+<p><strong>最优子结构</strong> 是指一个问题的<strong>最优解可以通过其子问题的最优解构造出来</strong>。换句话说，问题的最优解依赖于子问题的最优解。</p>
+<p>例如要计算年级的最高分，可通过计算每个班级的最高分之后取最值得到</p>
+<h2 id="动态规划算法框架">动态规划算法框架</h2>
+<h3 id="确定状态和选择">确定状态和选择</h3>
+<p>明确当前值需要<strong>通过哪些子结构通过哪些选择得到</strong>，用以<strong>确定dp数组是一维还是二维的</strong></p>]]></description>
+</item>
+<item>
+    <title>图算法（DFS与BFS）</title>
+    <link>http://localhost:1313/posts/%E5%9B%BE%E7%AE%97%E6%B3%95dfs%E4%B8%8Ebfs/</link>
+    <pubDate>Tue, 21 Jan 2025 14:26:46 &#43;0800</pubDate>
+    <author>子非鱼</author>
+    <guid>http://localhost:1313/posts/%E5%9B%BE%E7%AE%97%E6%B3%95dfs%E4%B8%8Ebfs/</guid>
+    <description><![CDATA[<h2 id="图的建立">图的建立</h2>
+<h3 id="邻接表">邻接表</h3>
+<div class="code-block code-line-numbers open" style="counter-reset: code-block 0">
+    <div class="code-header language-cpp">
+        <span class="code-title"><i class="arrow fas fa-angle-right" aria-hidden="true"></i></span>
+        <span class="ellipses"><i class="fas fa-ellipsis-h" aria-hidden="true"></i></span>
+        <span class="copy" title="复制到剪贴板"><i class="far fa-copy" aria-hidden="true"></i></span>
+    </div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="n">vector</span><span class="o">&lt;</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;</span> <span class="n">build_tree_with_table</span><span class="p">(</span><span class="kt">int</span> <span class="n">node_count</span><span class="p">,</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;</span> <span class="n">prerequisites</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">vector</span><span class="o">&lt;</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;</span> <span class="n">graph</span><span class="p">(</span><span class="n">node_count</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;</span><span class="n">prerequisites</span><span class="p">.</span><span class="n">size</span><span class="p">();</span><span class="n">i</span><span class="o">++</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">graph</span><span class="p">[</span><span class="n">prerequisites</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]].</span><span class="n">push_back</span><span class="p">(</span><span class="n">prerequisites</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">]);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">graph</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></div></div>
+<h3 id="邻接矩阵">邻接矩阵</h3>
+<div class="code-block code-line-numbers open" style="counter-reset: code-block 0">
+    <div class="code-header language-cpp">
+        <span class="code-title"><i class="arrow fas fa-angle-right" aria-hidden="true"></i></span>
+        <span class="ellipses"><i class="fas fa-ellipsis-h" aria-hidden="true"></i></span>
+        <span class="copy" title="复制到剪贴板"><i class="far fa-copy" aria-hidden="true"></i></span>
+    </div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="n">vector</span><span class="o">&lt;</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;</span> <span class="n">build_tree_with_martix</span><span class="p">(</span><span class="kt">int</span> <span class="n">node_count</span><span class="p">,</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;</span> <span class="n">prerequisites</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">vector</span><span class="o">&lt;</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;</span> <span class="n">graph</span><span class="p">(</span><span class="n">node_count</span><span class="p">,</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">(</span><span class="n">node_count</span><span class="p">,</span><span class="mi">0</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;</span><span class="n">prerequisites</span><span class="p">.</span><span class="n">size</span><span class="p">();</span><span class="n">i</span><span class="o">++</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">graph</span><span class="p">[</span><span class="n">prerequisites</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]][</span><span class="n">prerequisites</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">]]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">graph</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></div></div>
+<h2 id="图的遍历获取所有路径">图的遍历（获取所有路径）</h2>
+<h3 id="dfs">DFS</h3>
+<p>使用<code>on_path</code><strong>判断当前访问的结点是否在当前访问列表中</strong>，如果在则表示<strong>有环</strong></p>
+<div class="code-block code-line-numbers" style="counter-reset: code-block 0">
+    <div class="code-header language-cpp">
+        <span class="code-title"><i class="arrow fas fa-angle-right" aria-hidden="true"></i></span>
+        <span class="ellipses"><i class="fas fa-ellipsis-h" aria-hidden="true"></i></span>
+        <span class="copy" title="复制到剪贴板"><i class="far fa-copy" aria-hidden="true"></i></span>
+    </div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="n">vector</span><span class="o">&lt;</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;</span> <span class="n">path_lists</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">path</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">vector</span><span class="o">&lt;</span><span class="kt">bool</span><span class="o">&gt;</span> <span class="n">on_path</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">traverse_dfs</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;</span> <span class="n">graph</span><span class="p">,</span><span class="kt">int</span> <span class="n">start</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="p">(</span><span class="n">src</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="o">||</span> <span class="n">src</span> <span class="o">&gt;=</span> <span class="n">graph</span><span class="p">.</span><span class="n">size</span><span class="p">())</span> <span class="k">return</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">on_path</span><span class="p">[</span><span class="n">start</span><span class="p">]</span> <span class="o">==</span> <span class="nb">true</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">path</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">start</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">on_path</span><span class="p">[</span><span class="n">start</span><span class="p">]</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">path_lists</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">path</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;</span><span class="n">graph</span><span class="p">[</span><span class="n">start</span><span class="p">].</span><span class="n">size</span><span class="p">();</span><span class="n">i</span><span class="o">++</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">traverse_dfs</span><span class="p">(</span><span class="n">graph</span><span class="p">,</span> <span class="n">graph</span><span class="p">[</span><span class="n">start</span><span class="p">][</span><span class="n">i</span><span class="p">]);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">path</span><span class="p">.</span><span class="n">pop_back</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">on_path</span><span class="p">[</span><span class="n">start</span><span class="p">]</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></div></div>
+<h2 id="判断图是否有环">判断图是否有环</h2>
+<h3 id="dfs-1">DFS</h3>
+<p>使用图的遍历DFS算法，<code>if (on_path[start] == true)</code>时给<code>has_circle</code>赋True</p>
+<p>另外，使用了<strong>is_visited_list</strong>。假设现在以节点 <code>2</code> 为起点遍历所有可达的路径，最终发现没有环。</p>]]></description>
+</item>
+<item>
+    <title>回溯算法</title>
+    <link>http://localhost:1313/posts/%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95/</link>
+    <pubDate>Sun, 12 Jan 2025 19:20:27 &#43;0800</pubDate>
+    <author>子非鱼</author>
+    <guid>http://localhost:1313/posts/%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95/</guid>
+    <description><![CDATA[<h2 id="回溯框架">回溯框架</h2>
+<h3 id="回溯算法求解时要考虑三个问题">回溯算法求解时要考虑三个问题</h3>
+<ol>
+<li><strong>路径</strong>：已经做出的选择</li>
+<li><strong>选择列表</strong>：当前可以做的选择，即<strong>孩子结点的情况</strong>（<strong>剪枝</strong>做的就是精简孩子结点，避免重复讨论，反映到代码里就是<strong>对于某些情况直接continue调过</strong>）</li>
+<li><strong>结束条件</strong>：何时到达决策树的底层，返回结果</li>
+</ol>
+<p><strong>求解的关键在于画出决策树，并运用合理的剪枝条件。不要跳出此框架自己去想新写法，很容易漏解或者多解</strong></p>]]></description>
+</item>
+<item>
+    <title>二叉树算法（回溯，动态规划，迭代）</title>
+    <link>http://localhost:1313/posts/%E4%BA%8C%E5%8F%89%E6%A0%91%E7%AE%97%E6%B3%95%E5%9B%9E%E6%BA%AF%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%E8%BF%AD%E4%BB%A3/</link>
+    <pubDate>Wed, 08 Jan 2025 20:10:36 &#43;0800</pubDate>
+    <author>子非鱼</author>
+    <guid>http://localhost:1313/posts/%E4%BA%8C%E5%8F%89%E6%A0%91%E7%AE%97%E6%B3%95%E5%9B%9E%E6%BA%AF%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%E8%BF%AD%E4%BB%A3/</guid>
+    <description><![CDATA[<h2 id="序言">序言</h2>
+<p>二叉树题型的算法主要分为<strong>回溯，动态规划，迭代</strong>三类。从本质上三者都是在遍历算法基础上的修改。<strong>回溯</strong>关心的是在<strong>每个结点的访问过程中如何更新结果</strong>；动态规划关心的是<strong>如何拆解出子问题，不具体分析每个结点的状态，而是通过划分子问题让其通过基本问题递归解决</strong>；迭代主要是指<strong>BFS层序遍历</strong>，适用于与深度（或高度）相关的问题求解</p>
+<h2 id="二叉树基本结构">二叉树基本结构</h2>
+<ol>
+<li>二叉树</li>
+</ol>]]></description>
+</item>
+<item>
+    <title>递归算法的理解</title>
+    <link>http://localhost:1313/posts/%E9%80%92%E5%BD%92%E7%AE%97%E6%B3%95%E7%9A%84%E7%90%86%E8%A7%A3/</link>
+    <pubDate>Wed, 08 Jan 2025 14:23:11 &#43;0800</pubDate>
+    <author>子非鱼</author>
+    <guid>http://localhost:1313/posts/%E9%80%92%E5%BD%92%E7%AE%97%E6%B3%95%E7%9A%84%E7%90%86%E8%A7%A3/</guid>
+    <description><![CDATA[<h2 id="如何写一个递归算法">如何写一个递归算法</h2>
+<ol>
+<li><strong>确定问题</strong>：给当前的算法一个符合计算机处理流程的解释。例如对于斐波那契数数列求解<code>int fib(int n)</code>，应该翻译成计算数列第n项并返回数列的值</li>
+</ol>]]></description>
+</item>
+</channel>
+</rss>

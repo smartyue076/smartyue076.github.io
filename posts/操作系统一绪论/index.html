@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+    <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>操作系统（一）绪论 - 子非鱼的技术博客</title><meta name="Description" content="子非鱼的技术博客"><meta property="og:url" content="http://localhost:1313/posts/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B8%80%E7%BB%AA%E8%AE%BA/">
+  <meta property="og:site_name" content="子非鱼的技术博客">
+  <meta property="og:title" content="操作系统（一）绪论">
+  <meta property="og:description" content="第一章 绪论 计算机体系结构 计算机启动后发生了什么 上电自检
+主板的固件（BIOS 或 UEFI）执行硬件检测，检查 CPU、内存、显卡、键盘等设备是否正常
+加载 BIOS 或 UEFI">
+  <meta property="og:locale" content="zh_cn">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2023-01-11T18:45:57+08:00">
+    <meta property="article:modified_time" content="2023-01-11T18:45:57+08:00">
+    <meta property="article:tag" content="操作系统">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="操作系统（一）绪论">
+  <meta name="twitter:description" content="第一章 绪论 计算机体系结构 计算机启动后发生了什么 上电自检
+主板的固件（BIOS 或 UEFI）执行硬件检测，检查 CPU、内存、显卡、键盘等设备是否正常
+加载 BIOS 或 UEFI">
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site">
+<meta name="referrer" content="no-referrer" /><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://localhost:1313/posts/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B8%80%E7%BB%AA%E8%AE%BA/" /><link rel="prev" href="http://localhost:1313/posts/c-%E9%9D%A2%E8%AF%95%E9%A2%98/" /><link rel="next" href="http://localhost:1313/posts/gdb%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/css/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "操作系统（一）绪论",
+        "inLanguage": "zh-cn",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/localhost:1313\/posts\/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B8%80%E7%BB%AA%E8%AE%BA\/"
+        },"genre": "posts","keywords": "操作系统","wordcount":  1438 ,
+        "url": "http:\/\/localhost:1313\/posts\/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B8%80%E7%BB%AA%E8%AE%BA\/","datePublished": "2023-01-11T18:45:57+08:00","dateModified": "2023-01-11T18:45:57+08:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "子非鱼"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script>
+          const query = window.matchMedia('(prefers-color-scheme: dark)');
+          function applyTheme() {
+            let theme = window.localStorage?.getItem('theme') || 'light';
+            let isDark = theme === 'dark' || (theme === 'auto' && query.matches);
+            document.body.setAttribute('theme', isDark? 'dark' : 'light');
+            document.body.setAttribute('cfg-theme', theme);
+          }
+
+          applyTheme();
+          query.addEventListener('change', applyTheme);
+        </script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="子非鱼的技术博客">子非鱼的技术博客</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/"> 所有文章 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/about/"> 关于 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust" aria-hidden="true"></i>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="子非鱼的技术博客">子非鱼的技术博客</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/" title="">所有文章</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/about/" title="">关于</a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><div class="search-dropdown desktop">
+        <div id="search-dropdown-desktop"></div>
+    </div>
+    <div class="search-dropdown mobile">
+        <div id="search-dropdown-mobile"></div>
+    </div><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">操作系统（一）绪论</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle" aria-hidden="true"></i>子非鱼</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/"><i class="far fa-folder" aria-hidden="true"></i>操作系统</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt" aria-hidden="true"></i>&nbsp;<time datetime="2023年1月11日">2023年1月11日</time>&nbsp;<i class="fas fa-pencil-alt" aria-hidden="true"></i>&nbsp;约 1438 字&nbsp;
+                <i class="far fa-clock" aria-hidden="true"></i>&nbsp;预计阅读 3 分钟&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#第一章-绪论">第一章 绪论</a>
+      <ul>
+        <li><a href="#计算机体系结构">计算机体系结构</a></li>
+        <li><a href="#计算机启动后发生了什么">计算机启动后发生了什么</a></li>
+        <li><a href="#程序是如何运行的">程序是如何运行的</a></li>
+        <li><a href="#用户如何使用系统其他资源系统调用">用户如何使用系统其他资源（系统调用）</a></li>
+        <li><a href="#函数库的不同加载方式静态链接和动态链接">函数库的不同加载方式（静态链接和动态链接）</a></li>
+        <li><a href="#如何创建子进程fork">如何创建子进程（fork）</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="第一章-绪论">第一章 绪论</h2>
+<h3 id="计算机体系结构">计算机体系结构</h3>
+<img src="../../images/computer_architecture.png" alt="image.png" style="zoom:20%;" />
+<h3 id="计算机启动后发生了什么">计算机启动后发生了什么</h3>
+<img src="../../images/boot.png" alt="image.png" style="zoom:130%;" />
+<ol>
+<li>
+<p><strong>上电自检</strong></p>
+<p>主板的固件（BIOS 或 UEFI）执行<strong>硬件检测</strong>，检查 CPU、内存、显卡、键盘等设备是否正常</p>
+</li>
+<li>
+<p><strong>加载 BIOS 或 UEFI</strong></p>
+</li>
+</ol>
+<ol>
+<li>
+<p>CPU 开始执行 <code>0xFFFFFFF0</code> 地址处的指令，该地址处是一条 <code>JUMP</code> 指令，这条指令清空了基址寄存器的值，并让指令跳回到 BIOS 开始处（物理地址为 <code>0xF0000</code>，参考上图 <code>0xF0000</code> 处的标识）以执行 BIOS</p>
+<ol start="2">
+<li>
+<p>BIOS 或 UEFI 固件初始化计算机硬件，完成底层配置。</p>
+</li>
+<li>
+<p>确认引导顺序（启动顺序），如硬盘、USB 设备或网络启动。</p>
+</li>
+<li>
+<p>加载引导程序（Bootloader）的第一部分，通常位于启动设备的引导扇区。</p>
+</li>
+</ol>
+</li>
+<li>
+<p><strong>主引导记录（Master Boot Record, MBR）</strong></p>
+<p>BIOS 从指定的启动设备中读取主引导记录</p>
+</li>
+<li>
+<p><strong>启动加载器（Bootloader）</strong></p>
+<p>启动加载器是一个小型程序，负责加载操作系统内核（常用：<strong>GRUB</strong>多操作系统支持，配置灵活；<strong>Windows Boot Manager</strong>用于加载 Windows 操作系统）</p>
+</li>
+<li>
+<p><strong>内核初始化</strong></p>
+<p>操作系统内核接管硬件的控制。执行真正的根文件系统中的 <code>/sbin/init</code> 进程，即系统的 1 号进程。此后，系统的控制权就全权交给 <code>/sbin/init</code> 进程了</p>
+</li>
+<li>
+<p><strong>系统初始化</strong></p>
+<p><code>/sbin/init</code> 进程是系统其它所有进程的父进程，当它接管了系统控制权后，它会根据 <code>/etc/inittab</code> 文件来执行相应的脚本，从而完成一系列的系统初始化操作</p>
+</li>
+<li>
+<p><strong>用户登陆</strong></p>
+</li>
+</ol>
+<h3 id="程序是如何运行的">程序是如何运行的</h3>
+<p>准备阶段：</p>
+<ol>
+<li>通过shell获取可执行程序地址，参数和环境变量</li>
+<li>通过<strong>fork创建子进程</strong></li>
+<li>通过<strong>execve替换当前进程的地址空间，使用加载器将程序加载到内存中</strong></li>
+<li>shell调用wait 或 waitpid 系统调用等待子进程执行结束</li>
+</ol>
+<p>运行阶段：</p>
+<ol>
+<li>读取二进制程序ELF header中的元数据</li>
+<li><strong>从_start段开始运行</strong></li>
+<li>初始化运行时环境（如设置全局变量、构造全局对象）</li>
+<li>准备参数并<strong>调用 main 函数</strong></li>
+</ol>
+<p>结束阶段：</p>
+<ol>
+<li>程序调用exit系统调用退出或异常终止</li>
+</ol>
+<h3 id="用户如何使用系统其他资源系统调用">用户如何使用系统其他资源（系统调用）</h3>
+<p>用户态的程序只能使用内存中用户段，不能使用内核段。内核态可以访问任何内存数据。</p>
+<p>中断是用户态进入内核态的唯一方法</p>
+<p>系统调用的核心：</p>
+<ol>
+<li>用户程序中包含<code>int 0x80</code>指令（中断）的代码</li>
+<li>操作系统写中断处理，获取想调程序的编号(系统调用号)</li>
+<li>操作系统根据编号执行相应代码</li>
+</ol>
+<h3 id="函数库的不同加载方式静态链接和动态链接">函数库的不同加载方式（静态链接和动态链接）</h3>
+<h4 id="静态链接">静态链接</h4>
+<p><strong>在编译时将所有需要的库代码直接打包到可执行文件中</strong></p>
+<img src="../../images/static_linking.png" alt="image.png" style="zoom:20%;" />
+<h4 id="动态链接">动态链接</h4>
+<p><strong>在程序运行时（加载时或执行过程中）将库文件动态加载到内存中</strong>，与程序进行绑定。程序只保存对库的引用，而库本身作为共享资源存储在外部文件中（如 .so 或 .dll）。</p>
+<img src="../../images/dynamic_linking.png" alt="image.png" style="zoom:20%;" />
+<h4 id="对比">对比</h4>
+<table>
+  <thead>
+      <tr>
+          <th>特性</th>
+          <th>静态链接</th>
+          <th>动态链接</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><strong>链接时间</strong></td>
+          <td>编译时</td>
+          <td>程序运行时</td>
+      </tr>
+      <tr>
+          <td><strong>可执行文件大小</strong></td>
+          <td>较大（包含库代码）</td>
+          <td>较小（引用外部库）</td>
+      </tr>
+      <tr>
+          <td><strong>内存占用</strong></td>
+          <td>每个程序独立加载库代码，内存占用多</td>
+          <td>多个程序共享库，节省内存</td>
+      </tr>
+      <tr>
+          <td><strong>运行时效率</strong></td>
+          <td>无需加载外部库，效率高</td>
+          <td>首次加载外部库稍慢</td>
+      </tr>
+      <tr>
+          <td><strong>更新与维护</strong></td>
+          <td>库更新需要重新编译相关程序</td>
+          <td>库更新无需修改程序</td>
+      </tr>
+      <tr>
+          <td><strong>独立性</strong></td>
+          <td>无需依赖外部库</td>
+          <td>依赖外部共享库</td>
+      </tr>
+      <tr>
+          <td><strong>灵活性</strong></td>
+          <td>固定，无法动态更换库</td>
+          <td>灵活，可在运行时加载或替换库</td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="如何创建子进程fork">如何创建子进程（fork）</h3>
+<p><strong>fork 的拷贝特点</strong></p>
+<ol>
+<li><strong>写时复制 (COW)</strong></li>
+</ol>
+<ul>
+<li>fork 的内存部分在最初是浅拷贝形式：</li>
+<li>父子进程共享相同的物理内存页面（例如代码段、数据段、堆、栈）。</li>
+<li>只要父子进程不修改内存，所有页面保持共享。</li>
+<li>当父进程或子进程尝试写入某个页面时，操作系统会触发<strong>页面级复制</strong>：</li>
+<li>把要修改的页面复制到新的内存区域，使父子进程各自持有独立的副本。</li>
+<li>这种机制避免了创建子进程时立即复制所有内存的高昂成本。</li>
+</ul>
+<ol start="2">
+<li><strong>文件描述符</strong>：</li>
+</ol>
+<ul>
+<li>子进程复制父进程的文件描述符表。</li>
+<li>文件描述符指向同一内核文件表项，因此父子进程共享文件偏移量。</li>
+<li>这是一种<strong>浅拷贝</strong>。</li>
+</ul>
+<ol start="3">
+<li><strong>信号处理设置、环境变量、当前工作目录等</strong>：</li>
+</ol>
+<ul>
+<li>这些是简单的值拷贝（深拷贝），因为它们不涉及共享资源。</li>
+</ul></div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2023年1月11日</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="分享到 X" data-sharer="x" data-url="http://localhost:1313/posts/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B8%80%E7%BB%AA%E8%AE%BA/" data-title="操作系统（一）绪论" data-hashtags="操作系统"><i class="fab fa-x-twitter" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Threads" data-sharer="threads" data-url="http://localhost:1313/posts/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B8%80%E7%BB%AA%E8%AE%BA/" data-title="操作系统（一）绪论"><i class="fab fa-threads" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Facebook" data-sharer="facebook" data-url="http://localhost:1313/posts/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B8%80%E7%BB%AA%E8%AE%BA/" data-hashtag="操作系统"><i class="fab fa-facebook-square" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Hacker News" data-sharer="hackernews" data-url="http://localhost:1313/posts/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B8%80%E7%BB%AA%E8%AE%BA/" data-title="操作系统（一）绪论"><i class="fab fa-hacker-news" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Line" data-sharer="line" data-url="http://localhost:1313/posts/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B8%80%E7%BB%AA%E8%AE%BA/" data-title="操作系统（一）绪论"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="http://localhost:1313/posts/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B8%80%E7%BB%AA%E8%AE%BA/" data-title="操作系统（一）绪论"><i class="fab fa-weibo" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Diaspora" data-sharer="diaspora" data-url="http://localhost:1313/posts/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B8%80%E7%BB%AA%E8%AE%BA/" data-title="操作系统（一）绪论" data-description=""><i class="fab fa-diaspora" aria-hidden="true"></i></a><a href="https://t.me/share/url?url=http%3a%2f%2flocalhost%3a1313%2fposts%2f%25E6%2593%258D%25E4%25BD%259C%25E7%25B3%25BB%25E7%25BB%259F%25E4%25B8%2580%25E7%25BB%25AA%25E8%25AE%25BA%2f&amp;text=%e6%93%8d%e4%bd%9c%e7%b3%bb%e7%bb%9f%ef%bc%88%e4%b8%80%ef%bc%89%e7%bb%aa%e8%ae%ba" target="_blank" title="分享到 Telegram"><i class="fab fa-telegram" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags" aria-hidden="true"></i>&nbsp;<a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/posts/c-%E9%9D%A2%E8%AF%95%E9%A2%98/" class="prev" rel="prev" title="C&#43;&#43;面试题"><i class="fas fa-angle-left" aria-hidden="true"></i>C++面试题</a>
+            <a href="/posts/gdb%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C/" class="next" rel="next" title="GDB使用手册">GDB使用手册<i class="fas fa-angle-right" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.160.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 1.0.0"><i class="far fa-kiss-wink-heart" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright" aria-hidden="true"></i><span itemprop="copyrightYear">2022 - 2026</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">子非鱼</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up" aria-hidden="true"></i>
+            </a>
+        </div>
+
+        <div id="fixed-buttons-hidden"><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/lightgallery/css/lightgallery-bundle.min.css"><link rel="stylesheet" href="/lib/katex/katex.min.css"><script src="/lib/autocomplete/autocomplete.min.js"></script><script src="/lib/lunr/lunr.min.js"></script><script src="/lib/lunr/lunr.stemmer.support.min.js"></script><script src="/lib/lunr/lunr.zh.min.js"></script><script src="/lib/lazysizes/lazysizes.min.js"></script><script src="/lib/lightgallery/lightgallery.min.js"></script><script src="/lib/lightgallery/plugins/thumbnail/lg-thumbnail.min.js"></script><script src="/lib/lightgallery/plugins/zoom/lg-zoom.min.js"></script><script src="/lib/clipboard/clipboard.min.js"></script><script src="/lib/sharer/sharer.min.js"></script><script src="/lib/katex/katex.min.js"></script><script src="/lib/katex/contrib/auto-render.min.js"></script><script src="/lib/katex/contrib/copy-tex.min.js"></script><script src="/lib/katex/contrib/mhchem.min.js"></script><script>window.config={"comment":{},"lightgallery":true,"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"highlightTag":"em","lunrIndexURL":"/index.json","lunrLanguageCode":"zh","lunrSegmentitURL":"/lib/lunr/lunr.segmentit.js","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"lunr"}};</script><script src="/js/theme.js"></script></body>
+</html>

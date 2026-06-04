@@ -1,0 +1,22 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>系统框架 - 分类 - 子非鱼的技术博客</title>
+        <link>http://localhost:1313/categories/%E7%B3%BB%E7%BB%9F%E6%A1%86%E6%9E%B6/</link>
+        <description>系统框架 - 分类 - 子非鱼的技术博客</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Sat, 10 Jun 2023 23:07:01 &#43;0800</lastBuildDate><atom:link href="http://localhost:1313/categories/%E7%B3%BB%E7%BB%9F%E6%A1%86%E6%9E%B6/" rel="self" type="application/rss+xml" /><item>
+    <title>线程池原理与实现</title>
+    <link>http://localhost:1313/posts/%E7%BA%BF%E7%A8%8B%E6%B1%A0%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%9E%E7%8E%B0/</link>
+    <pubDate>Sat, 10 Jun 2023 23:07:01 &#43;0800</pubDate>
+    <author>子非鱼</author>
+    <guid>http://localhost:1313/posts/%E7%BA%BF%E7%A8%8B%E6%B1%A0%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%9E%E7%8E%B0/</guid>
+    <description><![CDATA[<blockquote>
+<p>B站讲解视频：<a href="https://www.bilibili.com/video/BV1sk4y1P7UM/?vd_source=c5564ed8491572469d815a8188748293" target="_blank" rel="noopener noreffer ">线程池原理与实现</a></p>
+</blockquote>
+<h2 id="线程池">线程池</h2>
+<h3 id="线程池是什么">线程池是什么</h3>
+<p><strong>线程池（Thread Pool）<strong>是一种基于</strong>池化思想</strong>管理线程的工具，经常出现在多线程服务器中，如MySQL。</p>
+<p><strong>线程过多会带来额外的开销</strong>，其中包括创建销毁线程的开销、调度线程的开销等等，同时也降低了计算机的整体性能。<strong>线程池维护多个线程，等待监督管理者分配可并发执行的任务</strong>。这种做法，一方面避免了处理任务时创建销毁线程开销的代价，另一方面避免了线程数量膨胀导致的过分调度问题，保证了对内核的充分利用。
+</p>]]></description>
+</item>
+</channel>
+</rss>

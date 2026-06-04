@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+    <head>
+	<meta name="generator" content="Hugo 0.160.0"><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>子非鱼的技术博客</title><meta name="Description" content="子非鱼的技术博客"><meta property="og:url" content="http://localhost:1313/">
+  <meta property="og:site_name" content="子非鱼的技术博客">
+  <meta property="og:title" content="子非鱼的技术博客">
+  <meta property="og:description" content="子非鱼的技术博客">
+  <meta property="og:locale" content="zh_cn">
+  <meta property="og:type" content="website">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="子非鱼的技术博客">
+  <meta name="twitter:description" content="子非鱼的技术博客">
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site">
+<meta name="referrer" content="no-referrer" /><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://localhost:1313/" /><link rel="alternate" href="/index.xml" type="application/rss+xml" title="子非鱼的技术博客">
+    <link rel="feed" href="/index.xml" type="application/rss+xml" title="子非鱼的技术博客"><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/css/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "WebSite",
+        "url": "http:\/\/localhost:1313\/","inLanguage": "zh-cn","author": {
+                "@type": "Person",
+                "name": "子非鱼"
+            },"description": "子非鱼的技术博客","name": "子非鱼的技术博客"
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script>
+          const query = window.matchMedia('(prefers-color-scheme: dark)');
+          function applyTheme() {
+            let theme = window.localStorage?.getItem('theme') || 'light';
+            let isDark = theme === 'dark' || (theme === 'auto' && query.matches);
+            document.body.setAttribute('theme', isDark? 'dark' : 'light');
+            document.body.setAttribute('cfg-theme', theme);
+          }
+
+          applyTheme();
+          query.addEventListener('change', applyTheme);
+        </script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="子非鱼的技术博客">子非鱼的技术博客</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item active" href="/"> 所有文章 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/about/"> 关于 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust" aria-hidden="true"></i>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="子非鱼的技术博客">子非鱼的技术博客</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/" title="">所有文章</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/about/" title="">关于</a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><div class="search-dropdown desktop">
+        <div id="search-dropdown-desktop"></div>
+    </div>
+    <div class="search-dropdown mobile">
+        <div id="search-dropdown-mobile"></div>
+    </div><main class="main">
+                <div class="container"><div class="page home" data-home="posts"><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
+        <a href="/posts/c-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E4%B8%80%E8%BF%90%E7%AE%97%E7%AC%A6%E9%87%8D%E8%BD%BD/">C++面向对象（一）运算符重载</a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle" aria-hidden="true"></i>子非鱼</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2023年1月11日">2023年1月11日</time></span></div><div class="content"><h2 id="第五章-运算符重载">第五章 运算符重载</h2>
+<h3 id="限制条件">限制条件</h3>
+<p>只能重载存在的运算法</p>
+<p>重载运算符必须保留相同操作数数量和优先级</p>
+<h3 id="成员或全局函数">成员或全局函数</h3>
+<p>单目运算符应该做成成员函数</p>
+<p><code>= （） []</code>只能做成成员函数</p></div><div class="post-footer">
+        <a href="/posts/c-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E4%B8%80%E8%BF%90%E7%AE%97%E7%AC%A6%E9%87%8D%E8%BD%BD/">阅读全文</a><div class="post-tags">
+                <i class="fas fa-tags" aria-hidden="true"></i>&nbsp;<a href="/tags/c&#43;&#43;/">C&#43;&#43;</a>,&nbsp;<a href="/tags/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/">面向对象</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
+        <a href="/posts/c-%E5%9F%BA%E7%A1%80%E5%9B%9Binline%E5%87%BD%E6%95%B0/">C++基础（四）inline函数</a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle" aria-hidden="true"></i>子非鱼</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2023年1月11日">2023年1月11日</time></span></div><div class="content"><h2 id="第五章-函数">第五章 函数</h2>
+<h3 id="inline-函数">inline 函数</h3>
+<p>将函数声明为inline可以避免函数调用的开销，空间换时间</p>
+<p>调用函数步骤：</p>
+<ol>
+<li>返回地址压栈</li>
+<li>函数参数压栈</li>
+<li>计算返回值</li>
+<li>函数部分所有元素出栈，返回值</li>
+</ol></div><div class="post-footer">
+        <a href="/posts/c-%E5%9F%BA%E7%A1%80%E5%9B%9Binline%E5%87%BD%E6%95%B0/">阅读全文</a><div class="post-tags">
+                <i class="fas fa-tags" aria-hidden="true"></i>&nbsp;<a href="/tags/c&#43;&#43;/">C&#43;&#43;</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
+        <a href="/posts/c-%E5%9F%BA%E7%A1%80%E4%BA%94static%E5%85%B3%E9%94%AE%E5%AD%97/">C++基础（五）static关键字</a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle" aria-hidden="true"></i>子非鱼</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2023年1月11日">2023年1月11日</time></span>&nbsp;<span class="post-category">收录于 <a href="/categories/c++/"><i class="far fa-folder" aria-hidden="true"></i>C++</a></span></div><div class="content"><h2 id="static关键字">static关键字</h2>
+<h3 id="static全局变量">static全局变量</h3>
+<p>只能在当前文件访问，其他文件不能通过extern访问</p>
+<h3 id="static局部变量">static局部变量</h3>
+<p>定义时创建，程序结束时销毁，修改了生命周期，作用域不变</p>
+<h3 id="static类">static类</h3>
+<p>static对象的构造在main函数前执行，析构在main函数结束后</p>
+<h3 id="static成员变量">static成员变量</h3>
+<p>存在于所有对象且保持一致，可在其他文件访问</p></div><div class="post-footer">
+        <a href="/posts/c-%E5%9F%BA%E7%A1%80%E4%BA%94static%E5%85%B3%E9%94%AE%E5%AD%97/">阅读全文</a><div class="post-tags">
+                <i class="fas fa-tags" aria-hidden="true"></i>&nbsp;<a href="/tags/c&#43;&#43;/">C&#43;&#43;</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
+        <a href="/posts/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%B8%80%E7%BB%AA%E8%AE%BA/">计算机网络（一）绪论</a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle" aria-hidden="true"></i>子非鱼</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2023年1月11日">2023年1月11日</time></span>&nbsp;<span class="post-category">收录于 <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"><i class="far fa-folder" aria-hidden="true"></i>计算机网络</a></span></div><div class="content"><h2 id="第零章-绪论">第零章 绪论</h2>
+<p>传输层：进程到进程</p>
+<p>网络层：端到端（end to end），网络设备到网络设备</p>
+<p>数据链路层：点到点（point to point）</p>
+<p>物理层：数字信号与物理信号的转换</p></div><div class="post-footer">
+        <a href="/posts/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%B8%80%E7%BB%AA%E8%AE%BA/">阅读全文</a><div class="post-tags">
+                <i class="fas fa-tags" aria-hidden="true"></i>&nbsp;<a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
+        <a href="/posts/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%9B%9B%E5%BA%94%E7%94%A8%E5%B1%82%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">计算机网络（四）应用层（网络编程）</a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle" aria-hidden="true"></i>子非鱼</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2023年1月11日">2023年1月11日</time></span>&nbsp;<span class="post-category">收录于 <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"><i class="far fa-folder" aria-hidden="true"></i>计算机网络</a></span></div><div class="content"><h2 id="第二章-应用层网络编程">第二章 应用层（网络编程）</h2>
+<h3 id="udp编程">UDP编程</h3>
+<img src="../../images/udpprocess.png" alt="udpprocess" style="zoom:50%;" />
+<p>UdpClient</p>
+<div class="code-block code-line-numbers open" style="counter-reset: code-block 0">
+    <div class="code-header language-python">
+        <span class="code-title"><i class="arrow fas fa-angle-right" aria-hidden="true"></i></span>
+        <span class="ellipses"><i class="fas fa-ellipsis-h" aria-hidden="true"></i></span>
+        <span class="copy" title="复制到剪贴板"><i class="far fa-copy" aria-hidden="true"></i></span>
+    </div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">socket</span> <span class="kn">import</span> <span class="o">*</span>
+</span></span><span class="line"><span class="cl"><span class="n">serverName</span> <span class="o">=</span> <span class="s2">&#34;hostname&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="n">severPort</span> <span class="o">=</span> <span class="mi">12000</span>
+</span></span><span class="line"><span class="cl"><span class="n">clientSocket</span> <span class="o">=</span> <span class="n">socket</span><span class="p">(</span><span class="n">AF_INET</span><span class="p">,</span><span class="n">SOCK_DGRAM</span><span class="p">)</span> <span class="c1"># ipv4,udp</span>
+</span></span><span class="line"><span class="cl"><span class="n">message</span> <span class="o">=</span> <span class="s2">&#34;Hello World&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="n">clientSocket</span><span class="o">.</span><span class="n">sendto</span><span class="p">(</span><span class="n">message</span><span class="o">.</span><span class="n">encode</span><span class="p">(),(</span><span class="n">serverName</span><span class="p">,</span><span class="n">severPort</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="n">modifiedMessage</span><span class="p">,</span><span class="n">serverAddress</span> <span class="o">=</span> <span class="n">clientSocket</span><span class="o">.</span><span class="n">recvfrom</span><span class="p">(</span><span class="mi">2048</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="n">modifiedMessage</span><span class="o">.</span><span class="n">decode</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">clientSocket</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></span></span></code></pre></div></div>
+<p>Udpserver</p></div><div class="post-footer">
+        <a href="/posts/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%9B%9B%E5%BA%94%E7%94%A8%E5%B1%82%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">阅读全文</a><div class="post-tags">
+                <i class="fas fa-tags" aria-hidden="true"></i>&nbsp;<a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
+        <a href="/posts/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%B8%89%E5%BA%94%E7%94%A8%E5%B1%82/">计算机网络（三）应用层</a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle" aria-hidden="true"></i>子非鱼</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2023年1月11日">2023年1月11日</time></span>&nbsp;<span class="post-category">收录于 <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"><i class="far fa-folder" aria-hidden="true"></i>计算机网络</a></span></div><div class="content"><h2 id="chapter-2-应用层">Chapter 2: 应用层</h2>
+<h3 id="应用层协议原理">应用层协议原理</h3>
+<p>传输层向应用层提供的服务为socket API</p>
+<h4 id="socket">socket</h4>
+<p>简化本主机应用层向传输层发送的非有效信息，通过socket代表一组信息</p>
+<p>TCP socket包含源IP，源端口，目标IP，目标端口，连接状态</p>
+<p>UDP socket包含源IP，源端口</p></div><div class="post-footer">
+        <a href="/posts/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%B8%89%E5%BA%94%E7%94%A8%E5%B1%82/">阅读全文</a><div class="post-tags">
+                <i class="fas fa-tags" aria-hidden="true"></i>&nbsp;<a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
+        <a href="/posts/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%BA%94%E4%BC%A0%E8%BE%93%E5%B1%82/">计算机网络（五）传输层</a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle" aria-hidden="true"></i>子非鱼</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2023年1月11日">2023年1月11日</time></span>&nbsp;<span class="post-category">收录于 <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"><i class="far fa-folder" aria-hidden="true"></i>计算机网络</a></span></div><div class="content"><h2 id="第三章-传输层">第三章 传输层</h2>
+<h2 id="概述">概述</h2>
+<p>可靠的、保序的传输：TCP</p>
+<ul>
+<li>多路复用，解复用</li>
+<li>拥塞控制</li>
+<li>流量控制（防止接收方缓存区满造成的分组丢失）</li>
+<li>建立连接</li>
+</ul>
+<p>不可靠、不保序的传输：UDP</p>
+<ul>
+<li>多路复用，解复用</li>
+<li>没有为尽力而为的IP服务添加更多的其他服务</li>
+</ul></div><div class="post-footer">
+        <a href="/posts/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%BA%94%E4%BC%A0%E8%BE%93%E5%B1%82/">阅读全文</a><div class="post-tags">
+                <i class="fas fa-tags" aria-hidden="true"></i>&nbsp;<a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
+        <a href="/posts/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%BA%8C%E8%8B%B1%E7%89%B9%E7%BD%91/">计算机网络（二）英特网</a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle" aria-hidden="true"></i>子非鱼</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2023年1月11日">2023年1月11日</time></span>&nbsp;<span class="post-category">收录于 <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"><i class="far fa-folder" aria-hidden="true"></i>计算机网络</a></span></div><div class="content"><h2 id="chapter-1-internet">Chapter 1: Internet</h2>
+<h2 id="基础概念">基础概念</h2>
+<p><strong>网络</strong>：由节点和边组成的结构</p>
+<p><strong>计算机网络</strong>：由主机节点（主机）和数据交换结点（数据的转发，如路由器交换机）构成的网络，边称为数据链路。</p>
+<p>还可分为网络边缘（主机），网络核心（数据交换），接入（连接网络边缘和网络核心）</p>
+<p><strong>P2P（peer）</strong>：分布式处理，客户端也可以是服务端</p></div><div class="post-footer">
+        <a href="/posts/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%BA%8C%E8%8B%B1%E7%89%B9%E7%BD%91/">阅读全文</a><div class="post-tags">
+                <i class="fas fa-tags" aria-hidden="true"></i>&nbsp;<a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
+        <a href="/posts/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%BA%8C%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E5%A4%9A%E8%BF%9B%E7%A8%8B/">操作系统（二）进程管理（如何实现多进程）</a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle" aria-hidden="true"></i>子非鱼</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2023年1月11日">2023年1月11日</time></span>&nbsp;<span class="post-category">收录于 <a href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/"><i class="far fa-folder" aria-hidden="true"></i>操作系统</a></span></div><div class="content"><h2 id="第二章-进程管理如何实现多进程">第二章 进程管理（如何实现多进程）</h2>
+<h3 id="进程">进程</h3>
+<p>运行中的程序（区别于未运行的静态程序），需要有数据结构保存当前运行的信息（PCB），便于切换不同进程</p>
+<h4 id="进程的状态">进程的状态</h4>
+<img src="../../images/process_state.png" alt="process_state" width=700px />
+<h4 id="进程的切换">进程的切换</h4>
+<p>操作系统切换进程（宏观）</p>
+<p>例子为进程运行到磁盘读写操作后与其他进程的切换</p></div><div class="post-footer">
+        <a href="/posts/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%BA%8C%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E5%A4%9A%E8%BF%9B%E7%A8%8B/">阅读全文</a><div class="post-tags">
+                <i class="fas fa-tags" aria-hidden="true"></i>&nbsp;<a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
+        <a href="/posts/c-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E4%B8%89%E6%A8%A1%E7%89%88/">C++面向对象（三）模版</a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle" aria-hidden="true"></i>子非鱼</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2022年12月27日">2022年12月27日</time></span></div><div class="content"><h2 id="第五章-模版">第五章 模版</h2>
+<p>模版函数（template function）为声明不是定义，在使用时根据输入类型定义</p>
+<p>使用模版时，不会使用隐式类型转换</p>
+<p>类模版里的每个函数都是函数模版，需要在声明前加上<code>template</code></p></div><div class="post-footer">
+        <a href="/posts/c-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E4%B8%89%E6%A8%A1%E7%89%88/">阅读全文</a><div class="post-tags">
+                <i class="fas fa-tags" aria-hidden="true"></i>&nbsp;<a href="/tags/c&#43;&#43;/">C&#43;&#43;</a>,&nbsp;<a href="/tags/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/">面向对象</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
+        <a href="/posts/c-%E5%9F%BA%E7%A1%80%E4%BA%8C%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/">C++基础（二）基本数据类型</a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle" aria-hidden="true"></i>子非鱼</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2022年8月21日">2022年8月21日</time></span>&nbsp;<span class="post-category">收录于 <a href="/categories/c++/"><i class="far fa-folder" aria-hidden="true"></i>C++</a></span></div><div class="content"><h2 id="第二章-c基础基本数据类型">第二章 C++基础——基本数据类型</h2>
+<h3 id="基本内置类型">基本内置类型</h3>
+<h4 id="算术类型">算术类型</h4>
+<table>
+  <thead>
+      <tr>
+          <th>类型</th>
+          <th>含义</th>
+          <th>最小尺寸</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>bool</td>
+          <td>布尔</td>
+          <td>未定义</td>
+      </tr>
+      <tr>
+          <td>char</td>
+          <td>字符</td>
+          <td>8位</td>
+      </tr>
+      <tr>
+          <td>short</td>
+          <td>短整型</td>
+          <td>16位</td>
+      </tr>
+      <tr>
+          <td>int</td>
+          <td>整型</td>
+          <td>16位</td>
+      </tr>
+      <tr>
+          <td>long</td>
+          <td>长整型</td>
+          <td>32位</td>
+      </tr>
+      <tr>
+          <td>long long</td>
+          <td>长整型</td>
+          <td>64位</td>
+      </tr>
+      <tr>
+          <td>float</td>
+          <td>单精度浮点数</td>
+          <td>6位有效数字</td>
+      </tr>
+      <tr>
+          <td>double</td>
+          <td>双精度浮点数</td>
+          <td>10位有效数字</td>
+      </tr>
+      <tr>
+          <td>long double</td>
+          <td>扩展精度浮点数</td>
+          <td>10位有效数字</td>
+      </tr>
+  </tbody>
+</table>
+<h4 id="类型转换">类型转换</h4>
+<ol>
+<li>当一个算术表达式中既有无符号数又有<code>int</code>值时，int会被转换为无符号数</li>
+<li>当从无符号数中减去一个值时，不管这个值是不是无符号数，都必须保证结果不为负（否则为取模后值）</li>
+</ol>
+<h3 id="变量">变量</h3>
+<h4 id="变量声明于定义的关系">变量声明于定义的关系</h4>
+<p>变量<strong>声明（declaration）</strong>定义了变量的类型和名字，<strong>定义（definition）</strong>在声明外还申请存储空间</p>
+<p>如果只想声明，可在变量名前添加关键字<code>extern</code></p></div><div class="post-footer">
+        <a href="/posts/c-%E5%9F%BA%E7%A1%80%E4%BA%8C%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/">阅读全文</a><div class="post-tags">
+                <i class="fas fa-tags" aria-hidden="true"></i>&nbsp;<a href="/tags/c&#43;&#43;/">C&#43;&#43;</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
+        <a href="/posts/c-%E5%9F%BA%E7%A1%80%E5%85%AD%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%90%91%E9%87%8F%E5%92%8C%E6%95%B0%E7%BB%84/">C++基础（六）字符串、向量和数组</a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle" aria-hidden="true"></i>子非鱼</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2022年8月21日">2022年8月21日</time></span>&nbsp;<span class="post-category">收录于 <a href="/categories/c++/"><i class="far fa-folder" aria-hidden="true"></i>C++</a></span></div><div class="content"><h2 id="第三章-字符串向量和数组">第三章 字符串、向量和数组</h2>
+<h3 id="标准库类型string">标准库类型String</h3>
+<p>读写string对象</p>
+<div class="code-block code-line-numbers open" style="counter-reset: code-block 0">
+    <div class="code-header language-cpp">
+        <span class="code-title"><i class="arrow fas fa-angle-right" aria-hidden="true"></i></span>
+        <span class="ellipses"><i class="fas fa-ellipsis-h" aria-hidden="true"></i></span>
+        <span class="copy" title="复制到剪贴板"><i class="far fa-copy" aria-hidden="true"></i></span>
+    </div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="n">string</span> <span class="n">s</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">s</span><span class="p">;</span>   <span class="c1">//from empty to empty
+</span></span></span><span class="line"><span class="cl"><span class="n">getline</span><span class="p">(</span><span class="n">cin</span><span class="p">,</span><span class="n">s</span><span class="p">);</span> <span class="c1">//one line, stop by ENTER
+</span></span></span></code></pre></div></div>
+<p>当把string对象和字符（串）字面值混在一条语句时，必须确保加法运算符（+）两侧的运算对象至少一个是string</p>
+<h3 id="标准库类型vector">标准库类型vector</h3>
+<p>vector是模板而非类型</p></div><div class="post-footer">
+        <a href="/posts/c-%E5%9F%BA%E7%A1%80%E5%85%AD%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%90%91%E9%87%8F%E5%92%8C%E6%95%B0%E7%BB%84/">阅读全文</a><div class="post-tags">
+                <i class="fas fa-tags" aria-hidden="true"></i>&nbsp;<a href="/tags/c&#43;&#43;/">C&#43;&#43;</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
+        <a href="/posts/c-%E5%9F%BA%E7%A1%80%E4%B8%89%E6%8C%87%E9%92%88/">C++基础（三）指针</a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle" aria-hidden="true"></i>子非鱼</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2022年8月21日">2022年8月21日</time></span>&nbsp;<span class="post-category">收录于 <a href="/categories/c++/"><i class="far fa-folder" aria-hidden="true"></i>C++</a></span></div><div class="content"><h2 id="第二章-c基础指针">第二章 C++基础——指针</h2>
+<p>指针是一个变量，其存储的是值的地址，而不是值本身</p>
+<p>使用常规变量时，值是指定的量，而地址是派生量，而指针相反</p>
+<p><em>OOP</em>强调的是在运行阶段（而不是编译阶段）进行决策，提供了灵活性，对于内存管理也更加高效</p>
+<h3 id="初始化指针">初始化指针</h3>
+<div class="code-block code-line-numbers open" style="counter-reset: code-block 0">
+    <div class="code-header language-cpp">
+        <span class="code-title"><i class="arrow fas fa-angle-right" aria-hidden="true"></i></span>
+        <span class="ellipses"><i class="fas fa-ellipsis-h" aria-hidden="true"></i></span>
+        <span class="copy" title="复制到剪贴板"><i class="far fa-copy" aria-hidden="true"></i></span>
+    </div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="kt">int</span><span class="o">*</span> <span class="n">ptr_a</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="kt">double</span><span class="o">*</span> <span class="n">ptr_b</span><span class="p">;</span></span></span></code></pre></div></div>
+<p>初始化时必须指定所指元素类型，因为对所有指针来说其都是代表一个初始地址，但从该初始地址读多少字节则由指针类型判断</p>
+<p>指针也是作为变量存储，只不过其内存空间存的是地址。指针p1,p2有各自的地址&amp;p1,&amp;p2。长度为4B（32位）或8B（64位）。p1,p2表示存储的所指向元素的地址。*p1表示指向元素的值。
+<img src="../../images/1.PNG" alt="image.png" style="zoom:30%;" /></p>
+<h3 id="指针注意事项">指针注意事项</h3>
+<p>在C++中创建指针时，计算机将分配用来存储地址的内存，但不会分配用来存储指针所指向的数据的内存（指向不确定）。另外，<strong>一定要在对指针提取（*）之前，将指针初始化为一个确定的、适当的地址。</strong></p></div><div class="post-footer">
+        <a href="/posts/c-%E5%9F%BA%E7%A1%80%E4%B8%89%E6%8C%87%E9%92%88/">阅读全文</a><div class="post-tags">
+                <i class="fas fa-tags" aria-hidden="true"></i>&nbsp;<a href="/tags/c&#43;&#43;/">C&#43;&#43;</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
+        <a href="/posts/c-%E5%9F%BA%E7%A1%80%E5%9B%9Bconst%E9%99%90%E5%AE%9A%E7%AC%A6/">C++基础（四）const限定符</a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle" aria-hidden="true"></i>子非鱼</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2022年8月21日">2022年8月21日</time></span>&nbsp;<span class="post-category">收录于 <a href="/categories/c++/"><i class="far fa-folder" aria-hidden="true"></i>C++</a></span></div><div class="content"><h2 id="第二章-c基础const限定符">第二章 C++基础——const限定符</h2>
+<h3 id="const限定符">const限定符</h3>
+<p>const对象一经创建后其值不能再改变，所以const对象必须初始化</p>
+<div class="code-block code-line-numbers open" style="counter-reset: code-block 0">
+    <div class="code-header language-cpp">
+        <span class="code-title"><i class="arrow fas fa-angle-right" aria-hidden="true"></i></span>
+        <span class="ellipses"><i class="fas fa-ellipsis-h" aria-hidden="true"></i></span>
+        <span class="copy" title="复制到剪贴板"><i class="far fa-copy" aria-hidden="true"></i></span>
+    </div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="k">const</span> <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span></span></span></code></pre></div></div>
+<p>默认情况下，const对象仅在文件内有效。若需在不同文件使用同一const对象，则const变量不管是声明还是定义都添加extern关键字，这样只需定义一次就可以了</p>
+<div class="code-block code-line-numbers open" style="counter-reset: code-block 0">
+    <div class="code-header language-cpp">
+        <span class="code-title"><i class="arrow fas fa-angle-right" aria-hidden="true"></i></span>
+        <span class="ellipses"><i class="fas fa-ellipsis-h" aria-hidden="true"></i></span>
+        <span class="copy" title="复制到剪贴板"><i class="far fa-copy" aria-hidden="true"></i></span>
+    </div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="k">extern</span> <span class="k">const</span> <span class="kt">int</span> <span class="n">bufSize</span><span class="p">;</span></span></span></code></pre></div></div>
+<h3 id="const的引用">const的引用</h3>
+<p>用于声明引用的const都是底层const，引用本身已默认为顶层const（无法改变指向）</p>
+<p>const型变量只能由const型引用（底层const）</p></div><div class="post-footer">
+        <a href="/posts/c-%E5%9F%BA%E7%A1%80%E5%9B%9Bconst%E9%99%90%E5%AE%9A%E7%AC%A6/">阅读全文</a><div class="post-tags">
+                <i class="fas fa-tags" aria-hidden="true"></i>&nbsp;<a href="/tags/c&#43;&#43;/">C&#43;&#43;</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
+        <a href="/posts/c-%E5%9F%BA%E7%A1%80%E4%BA%94%E8%87%AA%E5%A2%9E%E7%9A%84%E9%97%AE%E9%A2%98/">C++基础（五）自增的问题</a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle" aria-hidden="true"></i>子非鱼</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2022年8月21日">2022年8月21日</time></span></div><div class="content"><h2 id="第四章-表达式">第四章 表达式</h2>
+<p>后置递增运算符的优先级高于解引用运算符，因此<code>*p++</code>等同于<code>*（p++）</code></p>
+<p>将p+1后返回p的初始值</p></div><div class="post-footer">
+        <a href="/posts/c-%E5%9F%BA%E7%A1%80%E4%BA%94%E8%87%AA%E5%A2%9E%E7%9A%84%E9%97%AE%E9%A2%98/">阅读全文</a><div class="post-tags">
+                <i class="fas fa-tags" aria-hidden="true"></i>&nbsp;<a href="/tags/c&#43;&#43;/">C&#43;&#43;</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
+        <a href="/posts/c-%E5%9F%BA%E7%A1%80%E4%B8%80cpp%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B%E5%AE%8F%E4%BB%A5%E5%8F%8A%E5%A4%B4%E6%96%87%E4%BB%B6/">C++基础（一）CPP编译过程、宏以及头文件</a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle" aria-hidden="true"></i>子非鱼</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2022年8月21日">2022年8月21日</time></span>&nbsp;<span class="post-category">收录于 <a href="/categories/c++/"><i class="far fa-folder" aria-hidden="true"></i>C++</a></span></div><div class="content"><h2 id="第一章-开始">第一章 开始</h2>
+<ol>
+<li>
+<p><code>endl</code>将与设备关联的<strong>缓冲区（buffer）</strong>中的内容刷到设备中。在调试时应保证&quot;一直&quot;刷新流。否则若程序崩溃，输出可能还是缓冲区，导致对于程序崩溃位置的错误推断</p>
+</li>
+<li>
+<p>读取数量不定的输入数据可用<code>while (std::in &gt;&gt; value)</code></p>
+<p>当遇到<strong>文件结束符（end-of-file）</strong>，或遇到一个无效输入时，<em>istream</em>对象状态变为无效，使条件为假</p>
+<p>EOF：在Windows中为<code>Ctrl+Z</code>，UNIX为<code>Ctrl+D</code></p>
+</li>
+</ol>
+<h3 id="c编译过程">C++编译过程</h3>
+<ol>
+<li>预处理(Preprocessing)</li>
+</ol></div><div class="post-footer">
+        <a href="/posts/c-%E5%9F%BA%E7%A1%80%E4%B8%80cpp%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B%E5%AE%8F%E4%BB%A5%E5%8F%8A%E5%A4%B4%E6%96%87%E4%BB%B6/">阅读全文</a><div class="post-tags">
+                <i class="fas fa-tags" aria-hidden="true"></i>&nbsp;<a href="/tags/c&#43;&#43;/">C&#43;&#43;</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
+        <a href="/posts/%E5%BC%80%E5%8D%B7%E4%BD%95%E5%BF%85%E6%9C%89%E7%9B%8A/">“开卷”何必“有益”</a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle" aria-hidden="true"></i>子非鱼</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="0001年1月1日">0001年1月1日</time></span>&nbsp;<span class="post-category">收录于 <a href="/categories/%E9%9A%8F%E7%AC%94/"><i class="far fa-folder" aria-hidden="true"></i>随笔</a></span></div><div class="content"><p>有些话小时候听不明白，长大后却会反复想起。</p>
+<p>“以后少读读”就是这样一句话。</p>
+<p>记得小学阅读课上，我在读一本悬疑小说并写到了读后感作业中，结果第二天就被老师批评，并以“开卷有益”这个成语来教导我说，你这种书以后少读读。</p>
+<p>当时，我就觉得老师这种说法一定是错的，但限于那时的表达能力和逻辑能力并不能给出完整的反驳，现写下此文以表述自己的想法。</p></div><div class="post-footer">
+        <a href="/posts/%E5%BC%80%E5%8D%B7%E4%BD%95%E5%BF%85%E6%9C%89%E7%9B%8A/">阅读全文</a><div class="post-tags">
+                <i class="fas fa-tags" aria-hidden="true"></i>&nbsp;<a href="/tags/%E9%9A%8F%E7%AC%94/">随笔</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
+        <a href="/posts/%E4%B8%80%E4%B8%AA%E6%99%AE%E9%80%9A%E4%BA%BA%E7%9A%84%E5%AD%A6%E4%B9%A0%E6%84%9F%E6%82%9F/">一个普通人的学习感悟</a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle" aria-hidden="true"></i>子非鱼</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="0001年1月1日">0001年1月1日</time></span>&nbsp;<span class="post-category">收录于 <a href="/categories/%E9%9A%8F%E7%AC%94/"><i class="far fa-folder" aria-hidden="true"></i>随笔</a></span></div><div class="content"><h2 id="困惑的起点学霸的经验为什么没用">困惑的起点：学霸的经验为什么没用？</h2>
+<p>在上学的时候，老师总会在班会课上让学霸分享经验，但真正按照他们的方法学下来也没什么用，而且他们说的还有很多矛盾，比方说：</p>
+<ul>
+<li><strong>要不要预习？</strong></li>
+<li><strong>学英语要不要去看美剧？</strong></li>
+</ul>
+<p>根本就不知道该听谁的。
+大学毕业后工作了几年，也遇到了很多优秀的人。原本以为在沟通中很难跟上大佬的思路。但接触下来发现他们平时也嘻嘻哈哈的，和普通人没什么两样。但是他们看上去不用费太多精力就能把事情做好。
+我就在想，<strong>该怎么变得和他们一样优秀？怎么样去提高自己的学习能力？</strong>
+每天去上班的路上我都在想这个事情，奇怪的是我好像从来没有思考过这个问题。在上学的时候，我关心的往往是题目，只想着怎么去把题目做对，但从来没有去反思过学习过程有没有问题。在应试教育下，我好像失去了一些思考的能力，每天按部就班得完成老师布置的作业，没有去关注过学习这件事本身。
+就这样，我来来回回思考了一星期，得到的都是些模糊的印象，比如说要定期复习，上课认真听讲。然而这都是些感性认识，并不能成体系得去表达学习过程。这时，我接触到了两本书，<strong>《学习的逻辑》</strong> 和<strong>《认知觉醒》</strong>，看完后让我对它有了不一样的认识。</p>
+<h2 id="核心洞察从模糊感到系统性方法">核心洞察：从模糊感到系统性方法</h2>
+<p>先聊聊视频开头提到的学习经验问题，<strong>为什么学霸的学习经验往往都没有用</strong>。</p>
+<p>这可能是因为他们自己都不清楚自己做对了哪些事，可能课前预习或者看剧学英语也有用，但那并不是学习的本质。就好像在说一个成绩优秀的人每天都会吃一个苹果，并不是说吃苹果就会提高成绩，而是人家本来就优秀，和吃什么水果没有关系。</p>
+<p>在读完两本书后，我能想到的改进方法是要<strong>执行可量化的学习流程</strong>，通过指标来评估学习情况，比方说数学的几何模块每个部分的准确率是多少，有没有达到目标，而不仅仅是掌握得一般这种模糊表达。因为只有定量得了解自己的学习情况，才能对薄弱点进行优化。</p>
+<h2 id="我的学习流程三阶段">我的学习流程三阶段</h2>
+<p>我会把<strong>学习流程分为三个阶段：准备阶段，学习阶段和复盘阶段</strong>。</p>
+<h3 id="1-准备阶段制定目标拆解任务">1. 准备阶段：制定目标，拆解任务</h3>
+<p>这个阶段的核心是<strong>明确方向并规划路径</strong>。</p>
+<ul>
+<li><strong>总目标</strong>：比方说考试总分要考多少。</li>
+<li><strong>核心目标</strong>：之后再细分到每门科目考多少分。</li>
+<li><strong>不同阶段的任务</strong>：
+<ul>
+<li><strong>基础阶段</strong>：任务主要是整体过一下知识点，不需要花太多时间去死磕压轴题。</li>
+<li><strong>强化阶段</strong>：要注重不同章节间的联系，挑选些合适的练习题训练。</li>
+<li><strong>冲刺阶段</strong>：则需要以真题为主了。</li>
+</ul>
+</li>
+</ul></div><div class="post-footer">
+        <a href="/posts/%E4%B8%80%E4%B8%AA%E6%99%AE%E9%80%9A%E4%BA%BA%E7%9A%84%E5%AD%A6%E4%B9%A0%E6%84%9F%E6%82%9F/">阅读全文</a><div class="post-tags">
+                <i class="fas fa-tags" aria-hidden="true"></i>&nbsp;<a href="/tags/%E9%9A%8F%E7%AC%94/">随笔</a></div></div>
+</article><ul class="pagination"><li class="page-item ">
+                    <span class="page-link">
+                        <a href="/">1</a>
+                    </span>
+                </li><li class="page-item ">
+                    <span class="page-link">
+                        <a href="/page/2/">2</a>
+                    </span>
+                </li><li class="page-item active">
+                    <span class="page-link">
+                        <a href="/page/3/">3</a>
+                    </span>
+                </li></ul></div></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.160.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 1.0.0"><i class="far fa-kiss-wink-heart" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright" aria-hidden="true"></i><span itemprop="copyrightYear">2022 - 2026</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">子非鱼</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up" aria-hidden="true"></i>
+            </a>
+        </div>
+
+        <div id="fixed-buttons-hidden"><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/lightgallery/css/lightgallery-bundle.min.css"><link rel="stylesheet" href="/lib/katex/katex.min.css"><script src="/lib/autocomplete/autocomplete.min.js"></script><script src="/lib/lunr/lunr.min.js"></script><script src="/lib/lunr/lunr.stemmer.support.min.js"></script><script src="/lib/lunr/lunr.zh.min.js"></script><script src="/lib/lazysizes/lazysizes.min.js"></script><script src="/lib/lightgallery/lightgallery.min.js"></script><script src="/lib/lightgallery/plugins/thumbnail/lg-thumbnail.min.js"></script><script src="/lib/lightgallery/plugins/zoom/lg-zoom.min.js"></script><script src="/lib/clipboard/clipboard.min.js"></script><script src="/lib/sharer/sharer.min.js"></script><script src="/lib/katex/katex.min.js"></script><script src="/lib/katex/contrib/auto-render.min.js"></script><script src="/lib/katex/contrib/copy-tex.min.js"></script><script src="/lib/katex/contrib/mhchem.min.js"></script><script>window.config={"lightgallery":true,"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"highlightTag":"em","lunrIndexURL":"/index.json","lunrLanguageCode":"zh","lunrSegmentitURL":"/lib/lunr/lunr.segmentit.js","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"lunr"}};</script><script src="/js/theme.js"></script></body>
+</html>
