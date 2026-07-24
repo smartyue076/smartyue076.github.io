@@ -1,0 +1,200 @@
+// Site-specific typography tweaks.
+
+.page {
+  max-width: 1120px;
+}
+
+header {
+  border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+  backdrop-filter: saturate(180%) blur(14px);
+}
+
+[theme=dark] header {
+  border-bottom-color: rgba(248, 250, 252, 0.08);
+}
+
+#header-desktop .header-wrapper {
+  padding-left: 8vw;
+  padding-right: 8vw;
+}
+
+#header-desktop .header-wrapper .menu .menu-item {
+  margin: 0 0.62rem;
+}
+
+#header-desktop .header-wrapper .menu a {
+  font-size: 0.98rem;
+  font-weight: 500;
+}
+
+#header-desktop .header-wrapper .menu a.active {
+  font-weight: 800;
+}
+
+.single .content {
+  font-size: 1rem;
+  line-height: 1.75;
+  letter-spacing: 0;
+}
+
+.single .content p,
+.single .content li {
+  line-height: 1.75;
+}
+
+.single .single-title {
+  font-size: 1.9rem;
+  line-height: 1.35;
+  margin-top: 2rem;
+  margin-bottom: 0.65rem;
+}
+
+.single .post-meta {
+  font-size: 0.9rem;
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+.single .content h2 {
+  font-size: 1.55rem;
+  margin-top: 1.8rem;
+  margin-bottom: 0.65rem;
+}
+
+.single .content h3 {
+  font-size: 1.3rem;
+  margin-top: 1.45rem;
+  margin-bottom: 0.55rem;
+}
+
+.single .content h4 {
+  font-size: 1.15rem;
+  margin-top: 1.2rem;
+  margin-bottom: 0.45rem;
+}
+
+.single .content blockquote {
+  line-height: 1.7;
+  padding: 0.55rem 0.9rem;
+}
+
+.single .content table {
+  font-size: 0.95rem;
+}
+
+.single .content code {
+  border-radius: 4px;
+  padding: 0.08rem 0.38rem;
+  vertical-align: baseline;
+}
+
+.single .content .code-block {
+  margin: 0.8rem 0;
+  line-height: 1.5;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.single .content .code-block .code-header {
+  min-height: 2.2rem;
+  font-size: 0.85rem;
+  letter-spacing: 0;
+}
+
+.single .content .code-block .highlight {
+  overflow-x: auto;
+}
+
+.single .content .code-block pre {
+  padding: 0.75rem 0.9rem;
+}
+
+.single .content .code-block code {
+  line-height: 1.5;
+}
+
+.single .content .code-block.code-line-numbers span.line::before {
+  min-width: 3.5ch;
+  margin-right: 0.85rem;
+}
+
+.toc .toc-title {
+  letter-spacing: 0;
+}
+
+#toc-auto {
+  top: 8.5rem;
+}
+
+#toc-auto .toc-content {
+  line-height: 1.65;
+}
+
+.home .home-profile .home-title {
+  font-size: 1.55rem;
+}
+
+.home[data-home=posts] .summary .single-title {
+  font-size: 1.35rem;
+}
+
+.home .summary .content {
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+.home[data-home=posts] .summary .content {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 15;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.single .content .about-bear {
+  display: block;
+  width: 160px;
+  height: 160px;
+  margin: 1.5rem auto;
+  border: 4px solid #fff;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.16);
+}
+
+[theme=dark] .single .content .about-bear {
+  border-color: #292a2d;
+}
+
+@media only screen and (max-width: 680px) {
+  #header-mobile .header-container .header-wrapper {
+    font-size: 1.05rem;
+  }
+
+  .single .content {
+    font-size: 1rem;
+    line-height: 1.72;
+  }
+
+  .single .single-title {
+    font-size: 1.6rem;
+  }
+
+  .single .content h2 {
+    font-size: 1.38rem;
+  }
+
+  .single .content h3 {
+    font-size: 1.2rem;
+  }
+
+  .single .content .code-block pre {
+    padding: 0.7rem 0.75rem;
+  }
+
+  .single .content .about-bear {
+    width: 128px;
+    height: 128px;
+  }
+
+}

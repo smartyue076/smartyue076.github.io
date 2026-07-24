@@ -1,0 +1,204 @@
+baseURL: "https://smartyue076.github.io/"
+languageCode: "zh-cn"
+languageName: "简体中文"
+title: "子非鱼的技术博客"
+theme: "LoveIt"
+hasCJKLanguage: true
+summaryLength: 90
+
+# 默认内容语言
+defaultContentLanguage: "zh-cn"
+
+# 分页设置
+pagination:
+  pagerSize: 10
+
+# 构建配置
+buildDrafts: false
+buildFuture: false
+buildExpired: false
+
+# URL 设置
+permalinks:
+  posts: "/posts/:slug/"
+
+# Markdown 渲染设置
+markup:
+  goldmark:
+    renderer:
+      unsafe: true
+  highlight:
+    style: "monokai"
+    lineNos: true
+    noClasses: false
+    guessSyntax: true
+
+# 站点参数
+params:
+  title: "子非鱼的技术博客"
+  author:
+    name: "子非鱼"
+    email: ""
+    link: ""
+  description: "子非鱼的技术博客"
+  keywords: ["Hugo", "技术博客", "编程"]
+  DateFormat: "2006年1月2日"
+  dateFormat: "2006年1月2日"
+
+  header:
+    desktopMode: "fixed"
+    mobileMode: "auto"
+    title:
+      name: "子非鱼的技术博客"
+      typeit: false
+
+  # 主题相关
+  ShowReadingTime: true
+  ShowShareButtons: true
+  ShowPostNavLinks: true
+  ShowBreadCrumbs: true
+  ShowCodeCopyButtons: true
+  ShowWordCount: true
+  UseHugoToc: true
+
+  # 首页信息
+  homeInfoParams:
+    Title: "嗨，欢迎来到子非鱼的技术博客"
+    Content: "这里会记录技术学习、项目实践与一些日常思考。"
+
+  fuseOpts:
+    isCaseSensitive: false
+    shouldSort: true
+    location: 0
+    distance: 1000
+    threshold: 0.4
+    minMatchCharLength: 0
+    # limit: 10 # refer: https://www.fusejs.io/api/methods.html#search
+    keys: ["title", "permalink", "summary", "content"]
+
+  defaultTheme: "light"
+  comments: true
+
+  home:
+    rss: 10
+    profile:
+      enable : true
+      # Gravatar 邮箱，用于优先在主页显示的头像
+      gravatarEmail : ""
+      # 主页显示头像的 URL
+      avatarURL : "/images/joke_bear.jpg"
+      # LoveIt 更改 | 0.2.7 主页显示的网站标题 (支持 HTML 格式)
+      title : "子非鱼的技术博客"
+      # 主页显示的网站副标题 (允许 HTML 格式)
+      subtitle : "欢迎你呀，我的朋友～"
+      # 是否为副标题显示打字机动画
+      typeit : true
+      # 是否显示社交账号
+      social : true
+      # LoveIt 新增 | 0.2.0 免责声明 (支持 HTML 格式)
+      disclaimer : ""
+    posts:
+      enable: true
+      paginate: 20
+
+  page:
+    lightgallery: true
+    ruby: true
+    fraction: true
+    fontawesome: true
+    linkToMarkdown: false
+    toc:
+      enable: true
+      keepStatic: false
+      auto: true
+    code:
+      copy: true
+      # 代码块少于 100 行时默认展开，达到 100 行时折叠。
+      maxShownLines: 100
+      render:
+        goat: true
+        mermaid: true
+    math:
+      enable: true
+      copyTex: true
+      mhchem: true
+    share:
+      enable: true
+      Weibo: true
+      Telegram: true
+      HackerNews: true
+    comment:
+      enable: true
+      # giscus comment 评论系统设置 (https://giscus.app/zh-CN)
+      giscus:
+        # 你可以参考官方文档来使用下列配置
+        enable: true
+        repo: "smartyue076/smartyue076.github.io"
+        repoId: "R_kgDOSwm4-g"
+        category: "Announcements"
+        categoryId: "DIC_kwDOSwm4-s4C-e0j"
+        # 为空时自动适配当前主题 i18n 配置
+        lang: ""
+        mapping: "pathname"
+        reactionsEnabled: "1"
+        emitMetadata: "0"
+        inputPosition: "bottom"
+        lazyLoading: false
+        lightTheme: "light"
+        darkTheme: "dark"
+  search:
+    enable : true
+    # 搜索引擎的类型 ["lunr", "algolia"]
+    type : "lunr"
+    # 文章内容最长索引长度
+    contentLength : 4000
+    # 搜索框的占位提示语
+    placeholder : ""
+    # LoveIt 新增 | 0.2.1 最大结果数目
+    maxResultLength : 10
+    # LoveIt 新增 | 0.2.3 结果内容片段长度
+    snippetLength : 50
+    # LoveIt 新增 | 0.2.1 搜索结果中高亮部分的 HTML 标签
+    highlightTag : "em"
+    # LoveIt 新增 | 0.2.4 是否在搜索索引中使用基于 baseURL 的绝对路径
+    absoluteURL : false
+    algolia:
+      appId: ""
+      apiKey: ""
+      indexName: "" 
+  social:
+    enable: true
+    GitHub: "smartyue076"
+
+# 菜单配置
+menu:
+  main:
+    - identifier: home
+      name: 所有文章
+      url: /
+      weight: 1
+
+    - identifier: categories
+      name: 分类
+      url: /categories/
+      weight: 2
+
+    - identifier: about
+      name: 关于
+      url: /about/
+      weight: 6
+
+# 分类和标签
+taxonomies:
+  category: categories
+  tag: tags
+  series: series
+
+outputs:
+  home:
+    - HTML
+    - RSS
+    - JSON # necessary for search
+
+ShowToc: true
+TocOpen: true
