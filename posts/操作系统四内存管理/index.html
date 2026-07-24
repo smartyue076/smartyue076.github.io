@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+    <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>操作系统（四）内存管理 - 子非鱼的技术博客</title><meta name="Description" content="子非鱼的技术博客"><meta property="og:url" content="http://localhost:1313/posts/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%9B%9B%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/">
+  <meta property="og:site_name" content="子非鱼的技术博客">
+  <meta property="og:title" content="操作系统（四）内存管理">
+  <meta property="og:description" content="第三章 内存管理 程序重定位 在编译形成可执行程序时，用到的地址都是从0开始的相对地址，也被称为逻辑地址。但被加载到内存后可能使用任意一块空闲地址，所以需要将逻辑地址转化成内存中实际的物理地址，即重定位。
+有以下几种解决方法：
+编译时重定位：需要在编译时确定哪块内存空间空闲，且在装入前不允许使用（用于执行固定任务的计算机系统，如嵌入式系统）
+载入时重定位：在程序载入时，根据初始内存地址修改程序里的逻辑地址，但如果进程阻塞换出内存后换入时的地址不一定是之前的地址，造成错误">
+  <meta property="og:locale" content="zh_cn">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2023-01-18T16:26:05+08:00">
+    <meta property="article:modified_time" content="2023-01-18T16:26:05+08:00">
+    <meta property="article:tag" content="操作系统">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="操作系统（四）内存管理">
+  <meta name="twitter:description" content="第三章 内存管理 程序重定位 在编译形成可执行程序时，用到的地址都是从0开始的相对地址，也被称为逻辑地址。但被加载到内存后可能使用任意一块空闲地址，所以需要将逻辑地址转化成内存中实际的物理地址，即重定位。
+有以下几种解决方法：
+编译时重定位：需要在编译时确定哪块内存空间空闲，且在装入前不允许使用（用于执行固定任务的计算机系统，如嵌入式系统）
+载入时重定位：在程序载入时，根据初始内存地址修改程序里的逻辑地址，但如果进程阻塞换出内存后换入时的地址不一定是之前的地址，造成错误">
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site">
+<meta name="referrer" content="no-referrer" /><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://localhost:1313/posts/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%9B%9B%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/" /><link rel="prev" href="http://localhost:1313/posts/gdb%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C/" /><link rel="next" href="http://localhost:1313/posts/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%BA%8C%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86%E8%BF%9B%E7%A8%8B%E5%90%8C%E6%AD%A5%E4%B8%8E%E6%AD%BB%E9%94%81/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.2.0/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.2.0/css/all.min.css"></noscript><link rel="preload" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "操作系统（四）内存管理",
+        "inLanguage": "zh-cn",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/localhost:1313\/posts\/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%9B%9B%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86\/"
+        },"genre": "posts","keywords": "操作系统","wordcount":  2121 ,
+        "url": "http:\/\/localhost:1313\/posts\/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%9B%9B%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86\/","datePublished": "2023-01-18T16:26:05+08:00","dateModified": "2023-01-18T16:26:05+08:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "子非鱼"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script>
+          const query = window.matchMedia('(prefers-color-scheme: dark)');
+          function applyTheme() {
+            let theme = window.localStorage?.getItem('theme') || 'light';
+            let isDark = theme === 'dark' || (theme === 'auto' && query.matches);
+            document.body.setAttribute('theme', isDark? 'dark' : 'light');
+            document.body.setAttribute('cfg-theme', theme);
+          }
+
+          applyTheme();
+          query.addEventListener('change', applyTheme);
+        </script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="子非鱼的技术博客">子非鱼的技术博客</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/"> 所有文章 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/about/"> 关于 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust" aria-hidden="true"></i>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="子非鱼的技术博客">子非鱼的技术博客</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/" title="">所有文章</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/about/" title="">关于</a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><div class="search-dropdown desktop">
+        <div id="search-dropdown-desktop"></div>
+    </div>
+    <div class="search-dropdown mobile">
+        <div id="search-dropdown-mobile"></div>
+    </div><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">操作系统（四）内存管理</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle" aria-hidden="true"></i>子非鱼</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/"><i class="far fa-folder" aria-hidden="true"></i>操作系统</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt" aria-hidden="true"></i>&nbsp;<time datetime="2023年1月18日">2023年1月18日</time>&nbsp;<i class="fas fa-pencil-alt" aria-hidden="true"></i>&nbsp;约 2121 字&nbsp;
+                <i class="far fa-clock" aria-hidden="true"></i>&nbsp;预计阅读 5 分钟&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#第三章-内存管理">第三章 内存管理</a>
+      <ul>
+        <li><a href="#程序重定位">程序重定位</a></li>
+        <li><a href="#分段">分段</a></li>
+        <li><a href="#分页">分页</a></li>
+        <li><a href="#段页式内存管理">段页式内存管理</a></li>
+        <li><a href="#页的换入和换出">页的换入和换出</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="第三章-内存管理">第三章 内存管理</h2>
+<h3 id="程序重定位">程序重定位</h3>
+<p>在编译形成可执行程序时，用到的地址都是从0开始的相对地址，也被称为<strong>逻辑地址</strong>。但被加载到内存后可能使用任意一块空闲地址，所以需要将逻辑地址转化成内存中实际的物理地址，即<strong>重定位</strong>。</p>
+<p>有以下几种解决方法：</p>
+<ol>
+<li>
+<p>编译时重定位：需要在编译时确定哪块内存空间空闲，且在装入前不允许使用（用于执行固定任务的计算机系统，如嵌入式系统）</p>
+</li>
+<li>
+<p>载入时重定位：在程序载入时，根据初始内存地址修改程序里的逻辑地址，但如果进程阻塞换出内存后换入时的地址不一定是之前的地址，造成错误</p>
+</li>
+</ol>
+<ol start="3">
+<li>
+<p><strong>运行时重定位（PC机使用）</strong>：在指令执行时才将逻辑地址转化为物理地址，取出指令—修改地址（<strong>存储管理部件MMU</strong>计算）—执行指令</p>
+<p>基地址存在PCB中，在内存基地址修改时更新，在执行时加载到寄存器中使MMU修改地址</p>
+<img src="../../images/mem_base.png" width=700px />
+</li>
+</ol>
+<h3 id="分段">分段</h3>
+<p>程序由若干段组成，每段都有各自的用途</p>
+<ul>
+<li>代码段：程序指令形成的段，只读</li>
+<li>数据段：存放程序使用的数据，可读可写</li>
+<li>栈：实现函数调用，通常只能向下（低地址）增长</li>
+<li>函数库：include的函数库，可有可无</li>
+</ul>
+<img src="../../images/memoryLayoutC.jpg" width=500px />
+<p>由于各个段有不同的语义及限制操作，所以需要进行区分。</p>
+<p>因为程序已经分段，故不需要将其整体放入内存的连续空间，可一段段放入不同的内存空间，提高内存使用效率</p>
+<p>在进行重定位时，访问<strong>段表（局部描述符表LDT，PCB中）</strong>中对应段的基地址给MMU运算得到物理地址</p>
+<img src="../../images/seg_table.png" width=700px />
+<p>分段的缺点是由于段较大，经过多次的申请和释放，很容易产生很多细小的无法分配给其他进程的<strong>内存碎片</strong>，故引入基于物理地址的分页机制（区别于基于逻辑地址分段机制）</p>
+<h3 id="分页">分页</h3>
+<p>分页机制首先将内存分为大小相等的页框（通常为4B），然后再把请求放入内存的数据切成大小相同的页，最后将所有页映射到页框上。<strong>以解决内存碎片问题造成的空间浪费。</strong></p>
+<p><strong>页表存在PCB（内存）中</strong></p>
+<img src="../../images/page_table.png" width=700px />
+<p>在32位机上最大的逻辑地址为2^32，每个页面4K，所以有2^20页，每个页表项需要4B存储，故每个进程需要4MB在存储页表（每个进程都有自己的页表），当进程数多时，需要很大的空间存储页表，但实际上页表只是做了索引保存基地址的作用，没有实际作用，这代价不可接受。</p>
+<p>但是由于程序的<strong>局部性原则</strong>，不需要把程序的所有页加载到内存中，可以去除未被使用的逻辑页，<strong>缩小页表</strong>。</p>
+<p>可是这又引发了其他问题，由于删除了未使用项导致页表无法随机访问，需要通过多次查找页表获取页号对应的页框号。<strong>每次访问页表就是访问内存，效率很低。<strong>所以引入了</strong>多级页表</strong>，且保证<strong>页表项连续</strong>，可以随机访问，减少搜索（访存）次数，另外<strong>只在内存中存需要一级页表对应的页表项</strong>，提升内存利用率。</p>
+<img src="../../images/multi_page.png" width=700px />
+<p>由于程序的<strong>局部性原则</strong>，访问的页集中，所以可以将近期使用的页信息放在<strong>快表（TLB，Cache中）</strong>，减少访存次数。</p>
+<p>TLB内页表项无序。</p>
+<img src="../../images/TLB.png" width=700px />
+<h3 id="段页式内存管理">段页式内存管理</h3>
+<p>从程序员角度，程序分为一个个逻辑段，但分段的缺点是由于段较大，在申请和释放时很容易产生内存碎片</p>
+<p>从内存角度，程序分为一个个小的长度均匀的物理页存放到内存中，优点是提高了内存的利用率，但是有违程序员对于程序的理解</p>
+<p>所以引入<strong>段页式内存管理</strong>方式，先将程序分段，再将程序分页，存储到物理内存上</p>
+<img src="../../images/virtual_add.png" width=500px />
+<p>当<strong>磁盘上的一个程序要放入内存</strong>时，会依次完成如下工作：</p>
+<ol>
+<li>在<strong>虚拟内存分割分区，放入各个“段”</strong>，不是真的放入，而是建立映射关系（fork出的子进程和父进程用不同的虚拟内存）</li>
+<li><strong>建立段表</strong>记录<strong>逻辑地址和虚拟地址的映射</strong>关系</li>
+<li>将<strong>虚拟内存分割成页，放入空闲物理内存</strong></li>
+<li>建立页表记录<strong>逻辑地址和物理地址的映射</strong>关系（fork出的子进程拷贝父进程的映射关系，但如果子进程要修改数据区，则申请新内存页，建立映射关系，内核已将父进程的内存空间设为只读，防止了子进程的修改，所以子进程对于数据区的修改不会影响父进程）</li>
+</ol>
+<img src="../../images/address_translate.png" width=700px />
+<p>虚拟地址对用户透明，用户无法获取物理地址</p>
+<img src="../../images/different_view_of_mem.png" width=700px />
+<h3 id="页的换入和换出">页的换入和换出</h3>
+<p>虚拟内存就是操作系统给进程提供的一个规整的、总长度总为4GB（32位操作系统）的地址空间，但实际的物理内存可能少于4GB，所以虚拟内存不可能全部映射到物理内存上，需要物理内存和磁盘存储的<strong>换入/换出操作</strong>。</p>
+<p>通过虚拟内存和页表<strong>确认页表项</strong>，看其有效位是否为1（0表示在物理内存中，1表示不在），若为0，则需从磁盘<strong>换入</strong>。换入的系统调用（缺页中断）如下。</p>
+<div class="code-block code-line-numbers open" style="counter-reset: code-block 0">
+    <div class="code-header language-c">
+        <span class="code-title"><i class="arrow fas fa-angle-right" aria-hidden="true"></i></span>
+        <span class="ellipses"><i class="fas fa-ellipsis-h" aria-hidden="true"></i></span>
+        <span class="copy" title="复制到剪贴板"><i class="far fa-copy" aria-hidden="true"></i></span>
+    </div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="c1">// Step 0: push variable to stack
+</span></span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">do_no_page</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">error_code</span><span class="p">,</span> <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">address</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">address</span> <span class="o">&amp;=</span> <span class="mh">0xfffff00</span><span class="p">;</span> <span class="c1">// Step 1: get page numuber
+</span></span></span><span class="line"><span class="cl">  <span class="n">page</span> <span class="o">=</span> <span class="nf">get_free_page</span><span class="p">();</span> <span class="c1">// Step2: malloc free page on physical memory
+</span></span></span><span class="line"><span class="cl">  <span class="nf">bread_page</span><span class="p">(</span><span class="n">page</span><span class="p">,</span><span class="n">current</span><span class="o">-&gt;</span><span class="n">executable</span><span class="o">-&gt;</span><span class="n">i_dev</span><span class="p">,</span> <span class="n">nr</span><span class="p">);</span> <span class="c1">//Step3: copy block to physical memory
+</span></span></span><span class="line"><span class="cl">  <span class="nf">put_page</span><span class="p">(</span><span class="n">page</span><span class="p">,</span> <span class="n">address</span><span class="p">);</span> <span class="c1">//Step4: update page table
+</span></span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></div></div>
+<p>如果物理内存满在<code>Step 2</code>直接分配内存会失败，需要选取页面<strong>换出</strong></p>
+<h4 id="页面置换算法">页面置换算法</h4>
+<ol>
+<li>LRU（最近最少使用）</li>
+</ol>
+<p>基于页面栈（数据结构采用链表），搜索新页面是否在栈中，若不在则pop栈底元素，新元素入栈。如果在，则将栈顶元素修改为当前元素，其他元素下移</p>
+<img src="../../images/LRU.png" width=700px />
+<p><strong>操作系统不采用，因为每次页面访问都需要维护页面栈，也就是访存，另外还涉及到指针的修改</strong></p>
+<ol start="2">
+<li>clock算法（SCR算法，second-chance-replacement）</li>
+</ol>
+<p><strong>clock算法是对于LRU的近似，LRU为最近最少使用，clock为最近的上次缺页以来不使用</strong></p>
+<p>页面每次访问时R位置1，缺页时扫描当前线性表</p>
+<ul>
+<li>如果R=1，置为0，不换出给它一次机会</li>
+<li>如果R=0，换出，并将换入页R置为1</li>
+</ul>
+<img src="../../images/clock_algo.png" width=500px />
+<p><strong>存在的问题是实际发生缺页的概率并不大，可能找不出R=0的页，所以引入改近clock算法</strong></p>
+<ol start="3">
+<li>改进的clock算法</li>
+</ol>
+<p>需要一个指针定期扫描所有页并将对应R置0，换出页遇到R=0换出</p>
+<img src="../../images/advanced_clock_algo.png" width=700px /></div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2023年1月18日</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="分享到 X" data-sharer="x" data-url="http://localhost:1313/posts/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%9B%9B%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/" data-title="操作系统（四）内存管理" data-hashtags="操作系统"><i class="fab fa-x-twitter" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Threads" data-sharer="threads" data-url="http://localhost:1313/posts/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%9B%9B%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/" data-title="操作系统（四）内存管理"><i class="fab fa-threads" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Facebook" data-sharer="facebook" data-url="http://localhost:1313/posts/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%9B%9B%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/" data-hashtag="操作系统"><i class="fab fa-facebook-square" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Hacker News" data-sharer="hackernews" data-url="http://localhost:1313/posts/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%9B%9B%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/" data-title="操作系统（四）内存管理"><i class="fab fa-hacker-news" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Line" data-sharer="line" data-url="http://localhost:1313/posts/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%9B%9B%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/" data-title="操作系统（四）内存管理"><i data-svg-src="https://cdn.jsdelivr.net/npm/simple-icons@16.9.0/icons/line.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="http://localhost:1313/posts/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%9B%9B%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/" data-title="操作系统（四）内存管理"><i class="fab fa-weibo" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Diaspora" data-sharer="diaspora" data-url="http://localhost:1313/posts/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%9B%9B%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/" data-title="操作系统（四）内存管理" data-description=""><i class="fab fa-diaspora" aria-hidden="true"></i></a><a href="https://t.me/share/url?url=http%3a%2f%2flocalhost%3a1313%2fposts%2f%25E6%2593%258D%25E4%25BD%259C%25E7%25B3%25BB%25E7%25BB%259F%25E5%259B%259B%25E5%2586%2585%25E5%25AD%2598%25E7%25AE%25A1%25E7%2590%2586%2f&amp;text=%e6%93%8d%e4%bd%9c%e7%b3%bb%e7%bb%9f%ef%bc%88%e5%9b%9b%ef%bc%89%e5%86%85%e5%ad%98%e7%ae%a1%e7%90%86" target="_blank" title="分享到 Telegram"><i class="fab fa-telegram" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags" aria-hidden="true"></i>&nbsp;<a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/posts/gdb%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C/" class="prev" rel="prev" title="GDB使用手册"><i class="fas fa-angle-left" aria-hidden="true"></i>GDB使用手册</a>
+            <a href="/posts/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%BA%8C%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86%E8%BF%9B%E7%A8%8B%E5%90%8C%E6%AD%A5%E4%B8%8E%E6%AD%BB%E9%94%81/" class="next" rel="next" title="操作系统（二）进程管理（进程同步与死锁）">操作系统（二）进程管理（进程同步与死锁）<i class="fas fa-angle-right" aria-hidden="true"></i></a></div>
+</div>
+<div id="comments"><div id="giscus" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://giscus.app">Giscus</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.160.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 1.0.0"><i class="far fa-kiss-wink-heart" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright" aria-hidden="true"></i><span itemprop="copyrightYear">2022 - 2026</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">子非鱼</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up" aria-hidden="true"></i>
+            </a>
+        </div>
+
+        <div id="fixed-buttons-hidden"><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/css/lightgallery-bundle.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/autocomplete.js@0.38.1/dist/autocomplete.min.js"></script><script src="https://cdn.jsdelivr.net/npm/lunr@2.3.9/lunr.min.js"></script><script src="/lib/lunr/lunr.stemmer.support.min.js"></script><script src="/lib/lunr/lunr.zh.min.js"></script><script src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js"></script><script src="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/lightgallery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/plugins/thumbnail/lg-thumbnail.min.js"></script><script src="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/plugins/zoom/lg-zoom.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js"></script><script src="https://cdn.jsdelivr.net/npm/sharer.js@0.5.2/sharer.min.js"></script><script src="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/katex.min.js"></script><script src="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/contrib/auto-render.min.js"></script><script src="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/contrib/copy-tex.min.js"></script><script src="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/contrib/mhchem.min.js"></script><script>window.config={"comment":{"giscus":{"category":"Announcements","categoryId":"DIC_kwDOSwm4-s4C-e0j","darkTheme":"dark","emitMetadata":"0","inputPosition":"bottom","lang":"zh-CN","lazyLoading":false,"lightTheme":"light","mapping":"pathname","reactionsEnabled":"1","repo":"smartyue076/smartyue076.github.io","repoId":"R_kgDOSwm4-g"}},"lightgallery":true,"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"highlightTag":"em","lunrIndexURL":"/index.json","lunrLanguageCode":"zh","lunrSegmentitURL":"/lib/lunr/lunr.segmentit.js","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"lunr"}};</script><script src="/js/theme.js"></script></body>
+</html>

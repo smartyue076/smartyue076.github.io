@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+    <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>设计模式 - 子非鱼的技术博客</title><meta name="Description" content="子非鱼的技术博客"><meta property="og:url" content="http://localhost:1313/posts/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">
+  <meta property="og:site_name" content="子非鱼的技术博客">
+  <meta property="og:title" content="设计模式">
+  <meta property="og:description" content="设计原则 依赖倒置原则（DIP） 高层模块（稳定）不应该依赖于低层模块（变化），二者都应该依赖 于抽象（稳定）
+抽象（稳定）不应该依赖于实现细节（变化），实现细节应该依赖于 抽象（稳定）
+开放封闭原则（OCP） 对扩展开放，对更改封闭">
+  <meta property="og:locale" content="zh_cn">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-02-06T12:56:12+08:00">
+    <meta property="article:modified_time" content="2025-02-06T12:56:12+08:00">
+    <meta property="article:tag" content="设计模式">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="设计模式">
+  <meta name="twitter:description" content="设计原则 依赖倒置原则（DIP） 高层模块（稳定）不应该依赖于低层模块（变化），二者都应该依赖 于抽象（稳定）
+抽象（稳定）不应该依赖于实现细节（变化），实现细节应该依赖于 抽象（稳定）
+开放封闭原则（OCP） 对扩展开放，对更改封闭">
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site">
+<meta name="referrer" content="no-referrer" /><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://localhost:1313/posts/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" /><link rel="prev" href="http://localhost:1313/posts/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%89%E4%BA%8B%E5%8A%A1/" /><link rel="next" href="http://localhost:1313/posts/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%94mysql%E4%B8%AD%E7%9A%84%E9%94%81/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.2.0/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.2.0/css/all.min.css"></noscript><link rel="preload" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "设计模式",
+        "inLanguage": "zh-cn",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/localhost:1313\/posts\/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F\/"
+        },"genre": "posts","keywords": "设计模式","wordcount":  2121 ,
+        "url": "http:\/\/localhost:1313\/posts\/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F\/","datePublished": "2025-02-06T12:56:12+08:00","dateModified": "2025-02-06T12:56:12+08:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "子非鱼"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script>
+          const query = window.matchMedia('(prefers-color-scheme: dark)');
+          function applyTheme() {
+            let theme = window.localStorage?.getItem('theme') || 'light';
+            let isDark = theme === 'dark' || (theme === 'auto' && query.matches);
+            document.body.setAttribute('theme', isDark? 'dark' : 'light');
+            document.body.setAttribute('cfg-theme', theme);
+          }
+
+          applyTheme();
+          query.addEventListener('change', applyTheme);
+        </script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="子非鱼的技术博客">子非鱼的技术博客</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/"> 所有文章 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/about/"> 关于 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust" aria-hidden="true"></i>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="子非鱼的技术博客">子非鱼的技术博客</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/" title="">所有文章</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/about/" title="">关于</a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><div class="search-dropdown desktop">
+        <div id="search-dropdown-desktop"></div>
+    </div>
+    <div class="search-dropdown mobile">
+        <div id="search-dropdown-mobile"></div>
+    </div><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">设计模式</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle" aria-hidden="true"></i>子非鱼</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"><i class="far fa-folder" aria-hidden="true"></i>设计模式</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt" aria-hidden="true"></i>&nbsp;<time datetime="2025年2月6日">2025年2月6日</time>&nbsp;<i class="fas fa-pencil-alt" aria-hidden="true"></i>&nbsp;约 2121 字&nbsp;
+                <i class="far fa-clock" aria-hidden="true"></i>&nbsp;预计阅读 5 分钟&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#设计原则">设计原则</a>
+      <ul>
+        <li><a href="#依赖倒置原则dip">依赖倒置原则（DIP）</a></li>
+        <li><a href="#开放封闭原则ocp">开放封闭原则（OCP）</a></li>
+      </ul>
+    </li>
+    <li><a href="#模版方法template-method">模版方法（Template Method）</a>
+      <ul>
+        <li><a href="#模式动机">模式动机</a></li>
+        <li><a href="#模式定义">模式定义</a></li>
+        <li><a href="#实现方法">实现方法</a></li>
+      </ul>
+    </li>
+    <li><a href="#单例模式singleton-pattern">单例模式（Singleton Pattern）</a>
+      <ul>
+        <li><a href="#模式动机-1">模式动机</a></li>
+        <li><a href="#模式定义-1">模式定义</a></li>
+        <li><a href="#实现方法-1">实现方法</a></li>
+        <li><a href="#具体例子推荐的实现">具体例子（推荐的实现）</a></li>
+      </ul>
+    </li>
+    <li><a href="#工厂方法factory-method">工厂方法（Factory Method）</a>
+      <ul>
+        <li><a href="#模式动机-2">模式动机</a></li>
+        <li><a href="#模式定义-2">模式定义</a></li>
+        <li><a href="#实现方法-2">实现方法</a></li>
+        <li><a href="#具体例子">具体例子</a></li>
+      </ul>
+    </li>
+    <li><a href="#观察者模式observer-pattern">观察者模式（Observer Pattern）</a>
+      <ul>
+        <li><a href="#模式动机-3">模式动机</a></li>
+        <li><a href="#模式定义-3">模式定义</a></li>
+        <li><a href="#实现方法-3">实现方法</a></li>
+        <li><a href="#具体例子-1">具体例子</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="设计原则">设计原则</h2>
+<h3 id="依赖倒置原则dip">依赖倒置原则（DIP）</h3>
+<p>高层模块（稳定）不应该依赖于低层模块（变化），二者都应该依赖 于抽象（稳定）</p>
+<p>抽象（稳定）不应该依赖于实现细节（变化），实现细节应该依赖于 抽象（稳定）</p>
+<h3 id="开放封闭原则ocp">开放封闭原则（OCP）</h3>
+<p>对扩展开放，对更改封闭</p>
+<p>类模块应该是可扩展的，但是不可修改</p>
+<h2 id="模版方法template-method">模版方法（Template Method）</h2>
+<h3 id="模式动机">模式动机</h3>
+<p>一些功能在底层开发模块时不知具体实现，而需要在高层模块实现</p>
+<h3 id="模式定义">模式定义</h3>
+<p>定义一个操作中的算法的骨架（稳定），而将一些步骤延迟 （变化）到子类中。Template Method使得子类可以不改变 （复用）一个算法的结构即可重定义（override 重写）该算法的某些特定步骤</p>
+<h3 id="实现方法">实现方法</h3>
+<p>由高层模块实现具体方法，其继承自包含该方法的基类。低层模块调用该基类upcast后的函数来执行</p>
+<h2 id="单例模式singleton-pattern">单例模式（Singleton Pattern）</h2>
+<h3 id="模式动机-1">模式动机</h3>
+<p>基于性能和软件正确性方面的考量，某些类只允许创建一次</p>
+<h3 id="模式定义-1">模式定义</h3>
+<p>保证一个类仅有一个实例，并提供一个该实例的全局访问点</p>
+<h3 id="实现方法-1">实现方法</h3>
+<p>第一次调用创建新对象，当创建了该对象后再次调用则返回已创建的对象</p>
+<h3 id="具体例子推荐的实现">具体例子（推荐的实现）</h3>
+<div class="code-block code-line-numbers" style="counter-reset: code-block 0">
+    <div class="code-header language-cpp">
+        <span class="code-title"><i class="arrow fas fa-angle-right" aria-hidden="true"></i></span>
+        <span class="ellipses"><i class="fas fa-ellipsis-h" aria-hidden="true"></i></span>
+        <span class="copy" title="复制到剪贴板"><i class="far fa-copy" aria-hidden="true"></i></span>
+    </div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="c1">// Singleton.cpp
+</span></span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">Singleton</span><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">private</span><span class="o">:</span>
+</span></span><span class="line"><span class="cl">  <span class="n">Singleton</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">  <span class="n">Singleton</span><span class="p">(</span><span class="k">const</span> <span class="n">Singleton</span><span class="o">&amp;</span> <span class="n">other</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">  <span class="k">public</span><span class="o">:</span>
+</span></span><span class="line"><span class="cl">  <span class="n">Singleton</span><span class="o">*</span>  <span class="n">instance</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">static</span> <span class="n">Singleton</span><span class="o">*</span> <span class="nf">getInstance</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">instance</span> <span class="o">==</span> <span class="k">nullptr</span><span class="p">)</span> <span class="p">{</span> <span class="c1">// 双重检查锁定（线程安全）
+</span></span></span><span class="line"><span class="cl">      <span class="n">std</span><span class="o">::</span><span class="n">lock_guard</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">mutex</span><span class="o">&gt;</span> <span class="n">lock</span><span class="p">(</span><span class="n">mtx</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">      <span class="k">if</span> <span class="p">(</span><span class="n">instance</span> <span class="o">==</span> <span class="k">nullptr</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">instance</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Singleton</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">instance</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span></span></span></code></pre></div></div>
+<h2 id="工厂方法factory-method">工厂方法（Factory Method）</h2>
+<h3 id="模式动机-2">模式动机</h3>
+<p>在创建对象的时候不确定其具体类型，无法通过new来创建对象</p>
+<h3 id="模式定义-2">模式定义</h3>
+<p>定义一个用于创建对象的接口，让子类决定实例化哪一个类。工厂方法使得一个类的实例化延迟（目的：解耦， 手段：虚函数）到子类</p>
+<h3 id="实现方法-2">实现方法</h3>
+<p>定义工厂类用于创建对象。创建一个工厂基类，不同的具体工厂类继承该基类。在低层模块创建对象时调用基类指针upcast之后的具体工厂的具体类创建方法。将不稳定隔离在上层，由上层传递具体工厂的对象给下层</p>
+<h3 id="具体例子">具体例子</h3>
+<h4 id="不好的实现">不好的实现</h4>
+<div class="code-block code-line-numbers" style="counter-reset: code-block 0">
+    <div class="code-header language-cpp">
+        <span class="code-title"><i class="arrow fas fa-angle-right" aria-hidden="true"></i></span>
+        <span class="ellipses"><i class="fas fa-ellipsis-h" aria-hidden="true"></i></span>
+        <span class="copy" title="复制到剪贴板"><i class="far fa-copy" aria-hidden="true"></i></span>
+    </div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="c1">// MainForm.cpp
+</span></span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">MainForm</span> <span class="o">:</span> <span class="k">public</span> <span class="n">Form</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">TextBox</span><span class="o">*</span> <span class="n">txtFilePath</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">TextBox</span><span class="o">*</span> <span class="n">txtFileNumber</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">ProgressBar</span><span class="o">*</span> <span class="n">progressBar</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="k">public</span><span class="o">:</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">void</span> <span class="n">Button1_Click</span><span class="p">(){</span>     
+</span></span><span class="line"><span class="cl">    <span class="n">ISplitter</span> <span class="o">*</span> <span class="n">splitter</span> <span class="o">=</span> <span class="k">new</span> <span class="n">BinarySplitter</span><span class="p">();</span><span class="c1">//依赖具体类
+</span></span></span><span class="line"><span class="cl">    <span class="n">splitter</span><span class="o">-&gt;</span><span class="n">split</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span></span></span></code></pre></div></div>
+<h4 id="推荐的实现">推荐的实现</h4>
+<div class="code-block code-line-numbers" style="counter-reset: code-block 0">
+    <div class="code-header language-cpp">
+        <span class="code-title"><i class="arrow fas fa-angle-right" aria-hidden="true"></i></span>
+        <span class="ellipses"><i class="fas fa-ellipsis-h" aria-hidden="true"></i></span>
+        <span class="copy" title="复制到剪贴板"><i class="far fa-copy" aria-hidden="true"></i></span>
+    </div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="c1">// MainForm.cpp
+</span></span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">MainForm</span> <span class="o">:</span> <span class="k">public</span> <span class="n">Form</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">SplitterFactory</span><span class="o">*</span>  <span class="n">factory</span><span class="p">;</span><span class="c1">//工厂
+</span></span></span><span class="line"><span class="cl">  <span class="k">public</span><span class="o">:</span>
+</span></span><span class="line"><span class="cl">  <span class="n">MainForm</span><span class="p">(</span><span class="n">SplitterFactory</span><span class="o">*</span>  <span class="n">factory</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">    <span class="k">this</span><span class="o">-&gt;</span><span class="n">factory</span><span class="o">=</span><span class="n">factory</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="kt">void</span> <span class="nf">Button1_Click</span><span class="p">(){</span>
+</span></span><span class="line"><span class="cl">    <span class="n">ISplitter</span> <span class="o">*</span> <span class="n">splitter</span> <span class="o">=</span> <span class="n">factory</span><span class="o">-&gt;</span><span class="n">CreateSplitter</span><span class="p">();</span> <span class="c1">//多态new
+</span></span></span><span class="line"><span class="cl">    <span class="n">splitter</span><span class="o">-&gt;</span><span class="n">split</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// Factory.cpp
+</span></span></span><span class="line"><span class="cl"><span class="c1">//工厂基类
+</span></span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">SplitterFactory</span><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">public</span><span class="o">:</span>
+</span></span><span class="line"><span class="cl">  <span class="k">virtual</span> <span class="n">ISplitter</span><span class="o">*</span> <span class="n">CreateSplitter</span><span class="p">()</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">virtual</span> <span class="o">~</span><span class="n">SplitterFactory</span><span class="p">(){}</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">//具体工厂
+</span></span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">BinarySplitterFactory</span><span class="o">:</span> <span class="k">public</span> <span class="n">SplitterFactory</span><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">public</span><span class="o">:</span>
+</span></span><span class="line"><span class="cl">  <span class="k">virtual</span> <span class="n">ISplitter</span><span class="o">*</span> <span class="n">CreateSplitter</span><span class="p">(){</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="k">new</span> <span class="nf">BinarySplitter</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">TxtSplitterFactory</span><span class="o">:</span> <span class="k">public</span> <span class="n">SplitterFactory</span><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">public</span><span class="o">:</span>
+</span></span><span class="line"><span class="cl">  <span class="k">virtual</span> <span class="n">ISplitter</span><span class="o">*</span> <span class="n">CreateSplitter</span><span class="p">(){</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="k">new</span> <span class="nf">TxtSplitter</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span></span></span></code></pre></div></div>
+<h2 id="观察者模式observer-pattern">观察者模式（Observer Pattern）</h2>
+<h3 id="模式动机-3">模式动机</h3>
+<p>建立一种对象与对象之间的依赖关系，一个对象发生改变时将自动通知其他对象，其他对象将相应做出反应</p>
+<h3 id="模式定义-3">模式定义</h3>
+<p>定义对象间的一种一对多依赖关系，使得每当一个对象状态发生改变时，其相关依赖对象皆得到通知并被自动更新</p>
+<h3 id="实现方法-3">实现方法</h3>
+<p>由订阅者实现具体的通知反应方法，其继承自通知基类。发布者在发送通知时调用该基类upcast后的函数来执行通知流程</p>
+<h3 id="具体例子-1">具体例子</h3>
+<p>实现一个文件切分的<strong>进度条通知机制</strong></p>
+<h4 id="不好的实现-1">不好的实现</h4>
+<p>在本实现中，由切分器实现具体的通知方法。存在的问题是切分器应该是较为稳定的模块，如果跟换了进度通知方法（例如控制台输出等）则<strong>需要修改<code>split</code>方法</strong></p>
+<p>该实现<strong>违反了依赖倒置原则（高层模块(稳定)不应该依赖于低层模块(变化)，二者都应该依赖 于抽象(稳定)）</strong></p>
+<p>由于切分器是较为稳定的模块（稳定），而UI界面才是与进度展示方式相绑定模块（不稳定）。该法<strong>将不稳定的通知实现绑定在了稳定的切分器模块</strong>，所以不是一个好的实现</p>
+<div class="code-block code-line-numbers" style="counter-reset: code-block 0">
+    <div class="code-header language-cpp">
+        <span class="code-title"><i class="arrow fas fa-angle-right" aria-hidden="true"></i></span>
+        <span class="ellipses"><i class="fas fa-ellipsis-h" aria-hidden="true"></i></span>
+        <span class="copy" title="复制到剪贴板"><i class="far fa-copy" aria-hidden="true"></i></span>
+    </div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="c1">// FileSplitter.cpp（切分器）
+</span></span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">FileSplitter</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="n">string</span> <span class="n">m_filePath</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="kt">int</span> <span class="n">m_fileNumber</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="n">ProgressBar</span><span class="o">*</span> <span class="n">m_progressBar</span><span class="p">;</span>   <span class="c1">//!!!违反了依赖倒置原则,具体通知控件
+</span></span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">public</span><span class="o">:</span>
+</span></span><span class="line"><span class="cl">	<span class="n">FileSplitter</span><span class="p">(</span><span class="k">const</span> <span class="n">string</span><span class="o">&amp;</span> <span class="n">filePath</span><span class="p">,</span> <span class="kt">int</span> <span class="n">fileNumber</span><span class="p">,</span> <span class="n">ProgressBar</span><span class="o">*</span> <span class="n">progressBar</span><span class="p">)</span> <span class="o">:</span>
+</span></span><span class="line"><span class="cl">		<span class="n">m_filePath</span><span class="p">(</span><span class="n">filePath</span><span class="p">),</span> 
+</span></span><span class="line"><span class="cl">		<span class="n">m_fileNumber</span><span class="p">(</span><span class="n">fileNumber</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">		<span class="n">m_progressBar</span><span class="p">(</span><span class="n">progressBar</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">	<span class="kt">void</span> <span class="nf">split</span><span class="p">(){</span>
+</span></span><span class="line"><span class="cl">		<span class="c1">//1.读取大文件
+</span></span></span><span class="line"><span class="cl">		<span class="c1">//2.分批次向小文件中写入
+</span></span></span><span class="line"><span class="cl">		<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">m_fileNumber</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">			<span class="c1">//...
+</span></span></span><span class="line"><span class="cl">			<span class="kt">float</span> <span class="n">progressValue</span> <span class="o">=</span> <span class="n">m_fileNumber</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">			<span class="n">progressValue</span> <span class="o">=</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="n">progressValue</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">			<span class="n">m_progressBar</span><span class="o">-&gt;</span><span class="n">setValue</span><span class="p">(</span><span class="n">progressValue</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">		<span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// MainForm.cpp（UI界面）
+</span></span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">MainForm</span> <span class="o">:</span> <span class="k">public</span> <span class="n">Form</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="n">TextBox</span><span class="o">*</span> <span class="n">txtFilePath</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="n">TextBox</span><span class="o">*</span> <span class="n">txtFileNumber</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="n">ProgressBar</span><span class="o">*</span> <span class="n">progressBar</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">public</span><span class="o">:</span>
+</span></span><span class="line"><span class="cl">	<span class="kt">void</span> <span class="n">Button1_Click</span><span class="p">(){</span>
+</span></span><span class="line"><span class="cl">		<span class="n">string</span> <span class="n">filePath</span> <span class="o">=</span> <span class="n">txtFilePath</span><span class="o">-&gt;</span><span class="n">getText</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">		<span class="kt">int</span> <span class="n">number</span> <span class="o">=</span> <span class="n">atoi</span><span class="p">(</span><span class="n">txtFileNumber</span><span class="o">-&gt;</span><span class="n">getText</span><span class="p">().</span><span class="n">c_str</span><span class="p">());</span>
+</span></span><span class="line"><span class="cl">		<span class="n">FileSplitter</span> <span class="nf">splitter</span><span class="p">(</span><span class="n">filePath</span><span class="p">,</span> <span class="n">number</span><span class="p">,</span> <span class="n">progressBar</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">		<span class="n">splitter</span><span class="p">.</span><span class="n">split</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span></span></span></code></pre></div></div>
+<h4 id="推荐的实现-1">推荐的实现</h4>
+<div class="code-block code-line-numbers" style="counter-reset: code-block 0">
+    <div class="code-header language-cpp">
+        <span class="code-title"><i class="arrow fas fa-angle-right" aria-hidden="true"></i></span>
+        <span class="ellipses"><i class="fas fa-ellipsis-h" aria-hidden="true"></i></span>
+        <span class="copy" title="复制到剪贴板"><i class="far fa-copy" aria-hidden="true"></i></span>
+    </div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="c1">// FileSplitter.cpp（切分器）
+</span></span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">IProgress</span><span class="p">{</span>    <span class="c1">// 抽象的通知机制，由界面自己实现通知展示方法
+</span></span></span><span class="line"><span class="cl"><span class="k">public</span><span class="o">:</span>
+</span></span><span class="line"><span class="cl">	<span class="k">virtual</span> <span class="kt">void</span> <span class="n">DoProgress</span><span class="p">(</span><span class="kt">float</span> <span class="n">value</span><span class="p">)</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="k">virtual</span> <span class="o">~</span><span class="n">IProgress</span><span class="p">(){}</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">FileSplitter</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="n">string</span> <span class="n">m_filePath</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="kt">int</span> <span class="n">m_fileNumber</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="n">List</span><span class="o">&lt;</span><span class="n">IProgress</span><span class="o">*&gt;</span>  <span class="n">m_iprogressList</span><span class="p">;</span> <span class="c1">// 抽象通知机制，支持多个观察者
+</span></span></span><span class="line"><span class="cl"><span class="k">public</span><span class="o">:</span>
+</span></span><span class="line"><span class="cl">	<span class="n">FileSplitter</span><span class="p">(</span><span class="k">const</span> <span class="n">string</span><span class="o">&amp;</span> <span class="n">filePath</span><span class="p">,</span> <span class="kt">int</span> <span class="n">fileNumber</span><span class="p">)</span> <span class="o">:</span>
+</span></span><span class="line"><span class="cl">		<span class="n">m_filePath</span><span class="p">(</span><span class="n">filePath</span><span class="p">),</span> 
+</span></span><span class="line"><span class="cl">		<span class="n">m_fileNumber</span><span class="p">(</span><span class="n">fileNumber</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="kt">void</span> <span class="nf">split</span><span class="p">(){</span>
+</span></span><span class="line"><span class="cl">		<span class="c1">//1.读取大文件
+</span></span></span><span class="line"><span class="cl">		<span class="c1">//2.分批次向小文件中写入
+</span></span></span><span class="line"><span class="cl">		<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">m_fileNumber</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">			<span class="c1">//...
+</span></span></span><span class="line"><span class="cl">			<span class="kt">float</span> <span class="n">progressValue</span> <span class="o">=</span> <span class="n">m_fileNumber</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">			<span class="n">progressValue</span> <span class="o">=</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="n">progressValue</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">			<span class="n">onProgress</span><span class="p">(</span><span class="n">progressValue</span><span class="p">);</span><span class="c1">//发送通知
+</span></span></span><span class="line"><span class="cl">		<span class="p">}</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="kt">void</span> <span class="nf">addIProgress</span><span class="p">(</span><span class="n">IProgress</span><span class="o">*</span> <span class="n">iprogress</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">		<span class="n">m_iprogressList</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">iprogress</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="kt">void</span> <span class="nf">removeIProgress</span><span class="p">(</span><span class="n">IProgress</span><span class="o">*</span> <span class="n">iprogress</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">		<span class="n">m_iprogressList</span><span class="p">.</span><span class="n">remove</span><span class="p">(</span><span class="n">iprogress</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">protected</span><span class="o">:</span>
+</span></span><span class="line"><span class="cl">	<span class="k">virtual</span> <span class="kt">void</span> <span class="n">onProgress</span><span class="p">(</span><span class="kt">float</span> <span class="n">value</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">		<span class="n">List</span><span class="o">&lt;</span><span class="n">IProgress</span><span class="o">*&gt;::</span><span class="n">iterator</span> <span class="n">itor</span><span class="o">=</span><span class="n">m_iprogressList</span><span class="p">.</span><span class="n">begin</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">		<span class="k">while</span> <span class="p">(</span><span class="n">itor</span> <span class="o">!=</span> <span class="n">m_iprogressList</span><span class="p">.</span><span class="n">end</span><span class="p">()</span> <span class="p">)</span>
+</span></span><span class="line"><span class="cl">			<span class="p">(</span><span class="o">*</span><span class="n">itor</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">DoProgress</span><span class="p">(</span><span class="n">value</span><span class="p">);</span> <span class="c1">//更新进度条
+</span></span></span><span class="line"><span class="cl">			<span class="n">itor</span><span class="o">++</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">		<span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// MainForm.cpp（UI界面）
+</span></span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">MainForm</span> <span class="o">:</span> <span class="k">public</span> <span class="n">Form</span><span class="p">,</span> <span class="k">public</span> <span class="n">IProgress</span><span class="c1">//继承IProgress 接口
+</span></span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="n">TextBox</span><span class="o">*</span> <span class="n">txtFilePath</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="n">TextBox</span><span class="o">*</span> <span class="n">txtFileNumber</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="n">ProgressBar</span><span class="o">*</span> <span class="n">progressBar</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">public</span><span class="o">:</span>
+</span></span><span class="line"><span class="cl">	<span class="kt">void</span> <span class="n">Button1_Click</span><span class="p">(){</span>
+</span></span><span class="line"><span class="cl">		<span class="n">string</span> <span class="n">filePath</span> <span class="o">=</span> <span class="n">txtFilePath</span><span class="o">-&gt;</span><span class="n">getText</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">		<span class="kt">int</span> <span class="n">number</span> <span class="o">=</span> <span class="n">atoi</span><span class="p">(</span><span class="n">txtFileNumber</span><span class="o">-&gt;</span><span class="n">getText</span><span class="p">().</span><span class="n">c_str</span><span class="p">());</span>
+</span></span><span class="line"><span class="cl">		<span class="n">ConsoleNotifier</span> <span class="n">cn</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">		<span class="n">FileSplitter</span> <span class="nf">splitter</span><span class="p">(</span><span class="n">filePath</span><span class="p">,</span> <span class="n">number</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">		<span class="n">splitter</span><span class="p">.</span><span class="n">addIProgress</span><span class="p">(</span><span class="k">this</span><span class="p">);</span> <span class="c1">//订阅通知
+</span></span></span><span class="line"><span class="cl">		<span class="n">splitter</span><span class="p">.</span><span class="n">addIProgress</span><span class="p">(</span><span class="o">&amp;</span><span class="n">cn</span><span class="p">)</span><span class="err">；</span> <span class="c1">//订阅通知
+</span></span></span><span class="line"><span class="cl">		<span class="n">splitter</span><span class="p">.</span><span class="n">split</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">		<span class="n">splitter</span><span class="p">.</span><span class="n">removeIProgress</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="k">virtual</span> <span class="kt">void</span> <span class="nf">DoProgress</span><span class="p">(</span><span class="kt">float</span> <span class="n">value</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">		<span class="n">progressBar</span><span class="o">-&gt;</span><span class="n">setValue</span><span class="p">(</span><span class="n">value</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">ConsoleNotifier</span> <span class="o">:</span> <span class="k">public</span> <span class="n">IProgress</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl"><span class="k">public</span><span class="o">:</span>
+</span></span><span class="line"><span class="cl">	<span class="k">virtual</span> <span class="kt">void</span> <span class="n">DoProgress</span><span class="p">(</span><span class="kt">float</span> <span class="n">value</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">		<span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;.&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span></span></span></code></pre></div></div>
+<h4 id="观察者模式-vs-发布订阅模式publishsubscribe-pattern">观察者模式 VS 发布订阅模式（Publish–Subscribe pattern）</h4>
+<p><strong>发布订阅模式（架构模式）</strong>中，<strong>发布者并不知道订阅者的存在，只是把消息发送给broker</strong>。订阅者通过订阅相关的topic获取消息。如下图所示；而在<strong>观察者模式（设计模式）</strong>中，<strong>发布者会通知订阅者</strong>，只不过具体的通知操作由订阅者自己实现</p>
+<img src="../../images/publish_subscribe.avif" style="zoom:100%;" />
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left"><strong>特性</strong></th>
+          <th style="text-align: left"><strong>观察者模式</strong></th>
+          <th style="text-align: left"><strong>发布-订阅模式</strong></th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><strong>耦合度</strong></td>
+          <td style="text-align: left">被观察者和观察者之间耦合度较高</td>
+          <td style="text-align: left">发布者和订阅者之间完全解耦</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>通信方式</strong></td>
+          <td style="text-align: left">直接通信（被观察者调用观察者的方法）</td>
+          <td style="text-align: left">间接通信（通过消息代理）</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>灵活性</strong></td>
+          <td style="text-align: left">适合固定的、一对多的依赖关系</td>
+          <td style="text-align: left">适合动态的、多对多的消息传递</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>复杂性</strong></td>
+          <td style="text-align: left">实现简单</td>
+          <td style="text-align: left">实现复杂，需要引入消息代理</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>适用场景</strong></td>
+          <td style="text-align: left">对象状态变化需要通知其他对象</td>
+          <td style="text-align: left">需要高度解耦的分布式系统或事件驱动系统</td>
+      </tr>
+  </tbody>
+</table></div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2025年2月6日</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="分享到 X" data-sharer="x" data-url="http://localhost:1313/posts/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" data-title="设计模式" data-hashtags="设计模式"><i class="fab fa-x-twitter" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Threads" data-sharer="threads" data-url="http://localhost:1313/posts/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" data-title="设计模式"><i class="fab fa-threads" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Facebook" data-sharer="facebook" data-url="http://localhost:1313/posts/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" data-hashtag="设计模式"><i class="fab fa-facebook-square" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Hacker News" data-sharer="hackernews" data-url="http://localhost:1313/posts/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" data-title="设计模式"><i class="fab fa-hacker-news" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Line" data-sharer="line" data-url="http://localhost:1313/posts/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" data-title="设计模式"><i data-svg-src="https://cdn.jsdelivr.net/npm/simple-icons@16.9.0/icons/line.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="http://localhost:1313/posts/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" data-title="设计模式"><i class="fab fa-weibo" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Diaspora" data-sharer="diaspora" data-url="http://localhost:1313/posts/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" data-title="设计模式" data-description=""><i class="fab fa-diaspora" aria-hidden="true"></i></a><a href="https://t.me/share/url?url=http%3a%2f%2flocalhost%3a1313%2fposts%2f%25E8%25AE%25BE%25E8%25AE%25A1%25E6%25A8%25A1%25E5%25BC%258F%2f&amp;text=%e8%ae%be%e8%ae%a1%e6%a8%a1%e5%bc%8f" target="_blank" title="分享到 Telegram"><i class="fab fa-telegram" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags" aria-hidden="true"></i>&nbsp;<a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/posts/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%89%E4%BA%8B%E5%8A%A1/" class="prev" rel="prev" title="数据库（三）事务"><i class="fas fa-angle-left" aria-hidden="true"></i>数据库（三）事务</a>
+            <a href="/posts/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%94mysql%E4%B8%AD%E7%9A%84%E9%94%81/" class="next" rel="next" title="数据库（五）MySQL中的锁">数据库（五）MySQL中的锁<i class="fas fa-angle-right" aria-hidden="true"></i></a></div>
+</div>
+<div id="comments"><div id="giscus" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://giscus.app">Giscus</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.160.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 1.0.0"><i class="far fa-kiss-wink-heart" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright" aria-hidden="true"></i><span itemprop="copyrightYear">2022 - 2026</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">子非鱼</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up" aria-hidden="true"></i>
+            </a>
+        </div>
+
+        <div id="fixed-buttons-hidden"><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/css/lightgallery-bundle.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/autocomplete.js@0.38.1/dist/autocomplete.min.js"></script><script src="https://cdn.jsdelivr.net/npm/lunr@2.3.9/lunr.min.js"></script><script src="/lib/lunr/lunr.stemmer.support.min.js"></script><script src="/lib/lunr/lunr.zh.min.js"></script><script src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js"></script><script src="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/lightgallery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/plugins/thumbnail/lg-thumbnail.min.js"></script><script src="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/plugins/zoom/lg-zoom.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js"></script><script src="https://cdn.jsdelivr.net/npm/sharer.js@0.5.2/sharer.min.js"></script><script src="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/katex.min.js"></script><script src="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/contrib/auto-render.min.js"></script><script src="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/contrib/copy-tex.min.js"></script><script src="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/contrib/mhchem.min.js"></script><script>window.config={"comment":{"giscus":{"category":"Announcements","categoryId":"DIC_kwDOSwm4-s4C-e0j","darkTheme":"dark","emitMetadata":"0","inputPosition":"bottom","lang":"zh-CN","lazyLoading":false,"lightTheme":"light","mapping":"pathname","reactionsEnabled":"1","repo":"smartyue076/smartyue076.github.io","repoId":"R_kgDOSwm4-g"}},"lightgallery":true,"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"highlightTag":"em","lunrIndexURL":"/index.json","lunrLanguageCode":"zh","lunrSegmentitURL":"/lib/lunr/lunr.segmentit.js","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"lunr"}};</script><script src="/js/theme.js"></script></body>
+</html>

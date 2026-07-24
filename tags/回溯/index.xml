@@ -1,0 +1,22 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>回溯 - 标签 - 子非鱼的技术博客</title>
+        <link>http://localhost:1313/tags/%E5%9B%9E%E6%BA%AF/</link>
+        <description>回溯 - 标签 - 子非鱼的技术博客</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Sun, 12 Jan 2025 19:20:27 &#43;0800</lastBuildDate><atom:link href="http://localhost:1313/tags/%E5%9B%9E%E6%BA%AF/" rel="self" type="application/rss+xml" /><item>
+    <title>回溯算法</title>
+    <link>http://localhost:1313/posts/%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95/</link>
+    <pubDate>Sun, 12 Jan 2025 19:20:27 &#43;0800</pubDate>
+    <author>子非鱼</author>
+    <guid>http://localhost:1313/posts/%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95/</guid>
+    <description><![CDATA[<h2 id="回溯框架">回溯框架</h2>
+<h3 id="回溯算法求解时要考虑三个问题">回溯算法求解时要考虑三个问题</h3>
+<ol>
+<li><strong>路径</strong>：已经做出的选择</li>
+<li><strong>选择列表</strong>：当前可以做的选择，即<strong>孩子结点的情况</strong>（<strong>剪枝</strong>做的就是精简孩子结点，避免重复讨论，反映到代码里就是<strong>对于某些情况直接continue调过</strong>）</li>
+<li><strong>结束条件</strong>：何时到达决策树的底层，返回结果</li>
+</ol>
+<p><strong>求解的关键在于画出决策树，并运用合理的剪枝条件。不要跳出此框架自己去想新写法，很容易漏解或者多解</strong></p>]]></description>
+</item>
+</channel>
+</rss>

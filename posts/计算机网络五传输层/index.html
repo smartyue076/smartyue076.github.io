@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+    <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>计算机网络（五）传输层 - 子非鱼的技术博客</title><meta name="Description" content="子非鱼的技术博客"><meta property="og:url" content="http://localhost:1313/posts/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%BA%94%E4%BC%A0%E8%BE%93%E5%B1%82/">
+  <meta property="og:site_name" content="子非鱼的技术博客">
+  <meta property="og:title" content="计算机网络（五）传输层">
+  <meta property="og:description" content="第三章 传输层 概述 可靠的、保序的传输：TCP
+多路复用，解复用 拥塞控制 流量控制（防止接收方缓存区满造成的分组丢失） 建立连接 不可靠、不保序的传输：UDP
+多路复用，解复用 没有为尽力而为的IP服务添加更多的其他服务">
+  <meta property="og:locale" content="zh_cn">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2023-01-11T18:36:37+08:00">
+    <meta property="article:modified_time" content="2023-01-11T18:36:37+08:00">
+    <meta property="article:tag" content="计算机网络">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="计算机网络（五）传输层">
+  <meta name="twitter:description" content="第三章 传输层 概述 可靠的、保序的传输：TCP
+多路复用，解复用 拥塞控制 流量控制（防止接收方缓存区满造成的分组丢失） 建立连接 不可靠、不保序的传输：UDP
+多路复用，解复用 没有为尽力而为的IP服务添加更多的其他服务">
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site">
+<meta name="referrer" content="no-referrer" /><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://localhost:1313/posts/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%BA%94%E4%BC%A0%E8%BE%93%E5%B1%82/" /><link rel="prev" href="http://localhost:1313/posts/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%BA%8C%E8%8B%B1%E7%89%B9%E7%BD%91/" /><link rel="next" href="http://localhost:1313/posts/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%B8%89%E5%BA%94%E7%94%A8%E5%B1%82/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.2.0/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.2.0/css/all.min.css"></noscript><link rel="preload" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "计算机网络（五）传输层",
+        "inLanguage": "zh-cn",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/localhost:1313\/posts\/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%BA%94%E4%BC%A0%E8%BE%93%E5%B1%82\/"
+        },"genre": "posts","keywords": "计算机网络","wordcount":  3434 ,
+        "url": "http:\/\/localhost:1313\/posts\/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%BA%94%E4%BC%A0%E8%BE%93%E5%B1%82\/","datePublished": "2023-01-11T18:36:37+08:00","dateModified": "2023-01-11T18:36:37+08:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "子非鱼"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script>
+          const query = window.matchMedia('(prefers-color-scheme: dark)');
+          function applyTheme() {
+            let theme = window.localStorage?.getItem('theme') || 'light';
+            let isDark = theme === 'dark' || (theme === 'auto' && query.matches);
+            document.body.setAttribute('theme', isDark? 'dark' : 'light');
+            document.body.setAttribute('cfg-theme', theme);
+          }
+
+          applyTheme();
+          query.addEventListener('change', applyTheme);
+        </script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="子非鱼的技术博客">子非鱼的技术博客</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/"> 所有文章 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/about/"> 关于 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust" aria-hidden="true"></i>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="子非鱼的技术博客">子非鱼的技术博客</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/" title="">所有文章</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/about/" title="">关于</a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><div class="search-dropdown desktop">
+        <div id="search-dropdown-desktop"></div>
+    </div>
+    <div class="search-dropdown mobile">
+        <div id="search-dropdown-mobile"></div>
+    </div><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">计算机网络（五）传输层</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle" aria-hidden="true"></i>子非鱼</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"><i class="far fa-folder" aria-hidden="true"></i>计算机网络</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt" aria-hidden="true"></i>&nbsp;<time datetime="2023年1月11日">2023年1月11日</time>&nbsp;<i class="fas fa-pencil-alt" aria-hidden="true"></i>&nbsp;约 3434 字&nbsp;
+                <i class="far fa-clock" aria-hidden="true"></i>&nbsp;预计阅读 7 分钟&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#第三章-传输层">第三章 传输层</a></li>
+    <li><a href="#概述">概述</a></li>
+    <li><a href="#可靠数据传输原理">可靠数据传输原理</a>
+      <ul>
+        <li><a href="#rdt协议递进关系">RDT协议（递进关系）</a></li>
+      </ul>
+    </li>
+    <li><a href="#面向连接的tcp协议">面向连接的TCP协议</a>
+      <ul>
+        <li><a href="#连接建立与释放">连接建立与释放</a></li>
+        <li><a href="#面向无连接的udp">面向无连接的UDP</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="第三章-传输层">第三章 传输层</h2>
+<h2 id="概述">概述</h2>
+<p>可靠的、保序的传输：TCP</p>
+<ul>
+<li>多路复用，解复用</li>
+<li>拥塞控制</li>
+<li>流量控制（防止接收方缓存区满造成的分组丢失）</li>
+<li>建立连接</li>
+</ul>
+<p>不可靠、不保序的传输：UDP</p>
+<ul>
+<li>多路复用，解复用</li>
+<li>没有为尽力而为的IP服务添加更多的其他服务</li>
+</ul>
+<p>都不提供的服务：</p>
+<ul>
+<li>延时保证</li>
+<li>带宽保证</li>
+</ul>
+<h2 id="可靠数据传输原理">可靠数据传输原理</h2>
+<h3 id="rdt协议递进关系">RDT协议（递进关系）</h3>
+<ol>
+<li>
+<p>rdt1.0：不提供反馈信息（假设所有数据包都正确从发送端传送到接收端）</p>
+</li>
+<li>
+<p>rdt2.0：<strong>停止等待协议</strong>，引入差错检验，接收方反馈，重传机制。接收方在检验后向发送方返回ACK（正确）/NCK（错误），这里的重传是对于NCK的重传，没有考虑对于丢失处理的超时重传（假设所有反馈消息都能正确送到发送端，没有消息分组的丢弃）</p>
+</li>
+<li>
+<p>rdt2.1：ACK/NCK对于接受到的消息编号，由于为停止等待协议，发送方若未收到消息的确认则不发下个消息，所以只需要一个位表示序号0/1</p>
+</li>
+<li>
+<p>rdt2.2：通过对于上个消息序号的确认替代对于本次消息的NCK（基于rdt2.1的小升级）</p>
+</li>
+<li>
+<p>rdt3.0：引入超时重传机制，可能在接收端会出现冗余分组，但rdt2.2已可以应对（应对消息分组的丢失，但由于为停止等待，网络利用率很低）</p>
+</li>
+</ol>
+<h4 id="回退n步gbn协议">回退N步（GBN）协议</h4>
+<p>基于发送方的<strong>滑动窗口</strong>实现，允许发送方发送多个分组而不需要等待确认，但它也受限于流水线中未取人的分组书不能超过最大允许数N（<strong>流量控制</strong>，防止因接收方缓存空间不足引发的包丢弃）。</p>
+<p>接收方只按序接收分组（假设为k），一次交付给上层一个分组，对于所有大于k的分组丢弃，即只维护一个待接收分组序号的变量</p>
+<p>发送方采取<strong>累计确认</strong>，即对于k的ACK确保小于等于k的分组已被接受</p>
+<p>缺点：接收方丢弃正确但失序的分组，存在<strong>冗余重传</strong>的问题</p>
+<h5 id="选择重传sr协议">选择重传（SR）协议</h5>
+<p>发送方只对于超时或者错误的分组重传，通过接收方维护一个滑动窗口实现</p>
+<p>对于发送方的冗余分组，发送方必须给出该分组的ACK，否则发送方滑动窗口始终无法前进</p>
+<p>对于SR协议，窗口长度必须小于等于序号空间大小的一半</p>
+<h4 id="可靠数据传输的机制">可靠数据传输的机制</h4>
+<img src="../../images/reliable_2.png" alt="socket" style="zoom:100%;" />
+<img src="../../images/reliable_1.png" alt="socket" style="zoom:100%;" />
+<h2 id="面向连接的tcp协议">面向连接的TCP协议</h2>
+<h3 id="连接建立与释放">连接建立与释放</h3>
+<h4 id="tcp建立连接三次握手">TCP建立连接（三次握手）</h4>
+<h5 id="流程">流程</h5>
+<p><strong>序号（SYN）</strong>：当前分组编号</p>
+<p><strong>确认号（ACK）</strong>：希望收到的下个分组的序号</p>
+<p>对于三次握手协议，<strong>客户端在第二次握手后分配资源，服务端在第三次握手后分配资源</strong></p>
+<img src="../../images/tcp_three_hands.png" alt="socket" style="zoom:40%;" />
+<h5 id="tcp为什么需要三次握手二次为什么不行">TCP为什么需要三次握手，二次为什么不行？</h5>
+<p><strong>结论：三次握手才可以阻止重复历史连接的初始化，减少双方不必要的资源开销</strong></p>
+<p>正常来说两次握手可以建立连接，在第一次握手后服务端分配资源，第二次握手后客户端分配资源。</p>
+<p>但是<strong>在网络忙碌的情况下，客户端发送的第一次握手请求A可能很长时间才到服务端</strong>，此时客户端认为请求已丢失，重发了一个不同SYN号的请求。那么在到达服务端后，<strong>服务端会为该请求和历史请求各分配相应的资源造成资源浪费</strong>，此时服务端返回的是旧序号，要等待客户端收到后发现问题再返回RST连接中止报文后，服务端才会回收资源。（如下图所示）</p>
+<p>而通过三次握手，在第二次握手后客户端检查确认号（ACK）是否为自己的ISN号（第一次握手发出）+1。若<strong>相等则认为是当前的连接请求，客户端分配资源，再发送第三次握手，服务端建立连接</strong>。若<strong>不等则认为是历史连接，客户端发送RST给服务端来终止连接</strong></p>
+<img src="../../images/tcp_two_hands.png" alt="tcp_two_hands" style="zoom:50%;" />
+<p>如果为三次握手，对于历史连接的处理如下图所示</p>
+<img src="../../images/three_hands_good.png" alt="three_hands_good" style="zoom:50%;" />
+<h4 id="tcp释放连接四次挥手">TCP释放连接（四次挥手）</h4>
+<h5 id="流程-1">流程</h5>
+<ol>
+<li>
+<p><strong>客户端发送FIN</strong>：表示客户端已经没有要发送的报文，发出终止请求，但<strong>还可以接受服务端的报文</strong></p>
+</li>
+<li>
+<p><strong>服务端返回ACK</strong>：表示服务端已收到客户端的终止请求</p>
+</li>
+<li>
+<p><strong>服务端发送FIN</strong>：表示服务端已经没有要发送的报文，发出终止请求<strong>（第二三次挥手期间服务端还能发送多次报文）</strong></p>
+</li>
+<li>
+<p><strong>客户端返回ACK</strong>：表示该对话已成功结束</p>
+<p><strong>服务端在收到客户端的ACK后关闭连接</strong></p>
+<p><strong>而客户端需要在发送ACK后等待2MSL（2*报文最大生存时间）后才释放连接</strong></p>
+</li>
+</ol>
+<img src="../../images/tcp_four_close.png" alt="tcp_four_close" style="zoom:50%;" />
+<h5 id="为什么客户端要等待2msl才释放连接">为什么客户端要等待2MSL才释放连接</h5>
+<ol>
+<li><strong>防止历史连接中的数据，被后面相同四元组（相同的客户端/服务端的IP/Port）的连接错误的接收</strong>（即历史连接被当作当前连接传输的报文）</li>
+<li><strong>客户端留出时间处理重传，使得服务端连接可以正常释放</strong>。考虑在第四次挥手时报文丢失或超时，服务端重传FIN，此时客户端可以重传ACK（2MSL = 报文超时(1MSL) + 服务端发FIN(1MSL)）</li>
+</ol>
+<p><strong>情况一（防止历史连接数据影响）</strong></p>
+<img src="../../images/tcp_release_2.webp" alt="tcp_four_close" style="zoom:50%;" />
+<p><strong>情况二（客户端留出时间处理重传）</strong></p>
+<img src="../../images/tcp_release_3.webp" alt="tcp_four_close" style="zoom:50%;" />
+<h5 id="是否可以仅三次挥手">是否可以仅三次挥手</h5>
+<p>可以。如果服务端没有额外信息要发，可以合并服务端的第二三次挥手</p>
+<h4 id="流量控制调整发送方速率防止接收方缓存被填满">流量控制（调整发送方速率防止接收方缓存被填满）</h4>
+<h5 id="流程-2">流程</h5>
+<p>TCP的流量控制基于<strong>滑动窗口</strong>实现，<strong>发送方通过接收方返回的窗口大小和已被接收方确认收到的数据为参考调整发送速率</strong></p>
+<p>滑动窗口的实现实际上是操作系统开辟的一个缓存空间，<strong>发送方主机在等到确认应答返回之前，必须在缓冲区中保留已发送的数据</strong>。如果按期收到确认应答，此时数据就可以从缓存区清除。</p>
+<p><strong>发送方的窗口</strong>如下图所示，<strong>在接收到接收方对某一序列号的确认后才移动</strong>（该确认为累计确认，即ACK为36时表示前面的报文到36都收到，无需等待32，35等ACK）</p>
+<img src="../../images/slid_window.webp" style="zoom:50%;" />
+<p><strong>接收方的窗口</strong>如下图所示，<strong>当收到数据后向前移动</strong>，如果对某一连续数据中几个没收到则卡在最先没收到的报文序列号，对发送方发送该序号的报文请求</p>
+<img src="../../images/slid_window_2.webp" style="zoom:50%;" />
+<h4 id="拥塞控制调整发送方速率防止网络资源被填满">拥塞控制（调整发送方速率防止网络资源被填满）</h4>
+<h5 id="概念">概念</h5>
+<p><strong>拥塞窗口（cwnd）<strong>是发送方维护的一个的状态变量，它会根据</strong>网络的拥塞程度动态变化的</strong></p>
+<h5 id="流程-3">流程</h5>
+<ol>
+<li><strong>慢启动</strong>：初始时由于<strong>不确定网络资源状态</strong>，所以<strong>从较小的初始值开始</strong>。每次接受到接收端返回的ACK<strong>指数增大发送数据包个数</strong>，直到<code>cwnd &gt;=ssthresh</code></li>
+<li><strong>拥塞避免</strong>：当<code>cwnd &gt;=ssthresh</code>时，此时拥塞窗口<strong>线性增长</strong></li>
+<li><strong>若出现超时重传（策略为慢启动）</strong>：此时认为网络已处于比较拥挤的情况，从初始值开始慢启动</li>
+<li><strong>若出现对三个相同序号的ACK确认（策略为快恢复）</strong>：此时认为网络情况不算差，尽快重传处理对某包的多次确认</li>
+</ol>
+<p><strong>对于超时重传的拥塞控制机制（严重）</strong></p>
+<img src="../../images/tcp_timeout.png" alt="tcp_timeout" style="zoom:50%;" />
+<p><strong>对三个相同序号的ACK确认的拥塞控制机制（不严重）</strong></p>
+<img src="../../images/tcp_three_ack.png" alt="tcp_three_ack" style="zoom:50%;" />
+<p>快速恢复算法过程中，为什么收到新的数据后，cwnd 设置回了 ssthresh ？</p>
+<ol>
+<li>在快速恢复的过程中，首先 ssthresh = cwnd/2，然后 cwnd = ssthresh + 3，表示网络可能出现了阻塞，所以需要减小 cwnd 以避免，加 3 代表快速重传时已经确认接收到了 3 个重复的数据包；</li>
+<li>随后继续重传丢失的数据包，如果再收到重复的 ACK，那么 cwnd 增加 1。加 1 代表每个收到的重复的 ACK 包，都已经离开了网络。这个过程的目的是尽快将丢失的数据包发给目标。</li>
+<li>如果收到新数据的 ACK 后，把 cwnd 设置为第一步中的 ssthresh 的值，恢复过程结束。</li>
+</ol>
+<p><strong>首先，快速恢复是拥塞发生后慢启动的优化，其首要目的仍然是降低 cwnd 来减缓拥塞，所以必然会出现 cwnd 从大到小的改变。</strong></p>
+<p><strong>其次，过程2（cwnd逐渐加1）的存在是为了尽快将丢失的数据包发给目标，从而解决拥塞的根本问题（三次相同的 ACK 导致的快速重传），所以这一过程中 cwnd 反而是逐渐增大的。</strong></p>
+<h3 id="面向无连接的udp">面向无连接的UDP</h3>
+<h4 id="概念-1">概念</h4>
+<p>UDP只在IP数据报服务的基础上增加了少量的功能</p>
+<ol>
+<li><strong>复用</strong>：发送方可以通过不同的源端口或相同端口将数据包发送给接收方。多个应用可以共享同一个端口进行数据发送</li>
+<li><strong>分用</strong>：接收端根据数据包的目标端口号来决定将数据包分发给哪个应用程序。每个应用程序通过特定的端口来接收数据</li>
+<li><strong>差错检测</strong></li>
+</ol>
+<h4 id="tcp与udp的差别">TCP与UDP的差别</h4>
+<table>
+  <thead>
+      <tr>
+          <th>特性</th>
+          <th>TCP (Transmission Control Protocol)</th>
+          <th>UDP (User Datagram Protocol)</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><strong>连接性</strong></td>
+          <td>面向连接，需要在传输前建立连接（通过三次握手）</td>
+          <td>无连接，直接发送数据，无需建立连接</td>
+      </tr>
+      <tr>
+          <td><strong>可靠性</strong></td>
+          <td>提供可靠的数据传输，保证数据按顺序到达，无丢失</td>
+          <td>不保证可靠性，数据包可能丢失，乱序或重复（UDP可靠性需要由应用层保证）</td>
+      </tr>
+      <tr>
+          <td><strong>数据传输方式</strong></td>
+          <td>字节流传输，数据按顺序流动</td>
+          <td>数据报传输，每个数据包是独立的</td>
+      </tr>
+      <tr>
+          <td><strong>流量控制</strong></td>
+          <td>支持流量控制，避免网络拥塞</td>
+          <td>不支持流量控制</td>
+      </tr>
+      <tr>
+          <td><strong>拥塞控制</strong></td>
+          <td>支持拥塞控制，自动调整数据传输速率</td>
+          <td>不支持拥塞控制</td>
+      </tr>
+      <tr>
+          <td><strong>顺序性</strong></td>
+          <td>保证数据包顺序，按发送顺序接收数据</td>
+          <td>不保证顺序，数据包可能乱序</td>
+      </tr>
+      <tr>
+          <td><strong>头部大小</strong></td>
+          <td>20字节（最小）</td>
+          <td>8字节</td>
+      </tr>
+      <tr>
+          <td><strong>传输速度</strong></td>
+          <td>由于拥塞控制、可靠性等机制，传输速度较慢</td>
+          <td>由于简单的协议头和无连接特性，传输速度较快</td>
+      </tr>
+      <tr>
+          <td><strong>错误检测</strong></td>
+          <td>提供校验和，错误检测并会<strong>重传</strong>丢失的数据</td>
+          <td>提供校验和，若出现错误则<strong>丢弃</strong>不重传</td>
+      </tr>
+      <tr>
+          <td><strong>应用场景</strong></td>
+          <td>适用于需要高可靠性、高顺序性的数据传输，如HTTP、FTP、Telnet等</td>
+          <td>适用于实时性要求高、不太关心丢包的应用，如视频流、DNS查询、游戏等</td>
+      </tr>
+      <tr>
+          <td><strong>使用的协议</strong></td>
+          <td>用于大部分应用层协议，如HTTP、SMTP、FTP等</td>
+          <td>用于实时应用、VoIP、DNS等</td>
+      </tr>
+      <tr>
+          <td><strong>流量管理</strong></td>
+          <td>是面向字节流，适合处理大规模的网络应用</td>
+          <td>面向数据报，适合小数据量的应用</td>
+      </tr>
+      <tr>
+          <td><strong>头部结构</strong></td>
+          <td>包含更多控制信息（如序列号、确认号、窗口大小等）</td>
+          <td>头部结构简单，仅包含源端口、目标端口、长度等</td>
+      </tr>
+  </tbody>
+</table></div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2023年1月11日</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="分享到 X" data-sharer="x" data-url="http://localhost:1313/posts/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%BA%94%E4%BC%A0%E8%BE%93%E5%B1%82/" data-title="计算机网络（五）传输层" data-hashtags="计算机网络"><i class="fab fa-x-twitter" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Threads" data-sharer="threads" data-url="http://localhost:1313/posts/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%BA%94%E4%BC%A0%E8%BE%93%E5%B1%82/" data-title="计算机网络（五）传输层"><i class="fab fa-threads" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Facebook" data-sharer="facebook" data-url="http://localhost:1313/posts/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%BA%94%E4%BC%A0%E8%BE%93%E5%B1%82/" data-hashtag="计算机网络"><i class="fab fa-facebook-square" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Hacker News" data-sharer="hackernews" data-url="http://localhost:1313/posts/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%BA%94%E4%BC%A0%E8%BE%93%E5%B1%82/" data-title="计算机网络（五）传输层"><i class="fab fa-hacker-news" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Line" data-sharer="line" data-url="http://localhost:1313/posts/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%BA%94%E4%BC%A0%E8%BE%93%E5%B1%82/" data-title="计算机网络（五）传输层"><i data-svg-src="https://cdn.jsdelivr.net/npm/simple-icons@16.9.0/icons/line.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="http://localhost:1313/posts/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%BA%94%E4%BC%A0%E8%BE%93%E5%B1%82/" data-title="计算机网络（五）传输层"><i class="fab fa-weibo" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Diaspora" data-sharer="diaspora" data-url="http://localhost:1313/posts/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%BA%94%E4%BC%A0%E8%BE%93%E5%B1%82/" data-title="计算机网络（五）传输层" data-description=""><i class="fab fa-diaspora" aria-hidden="true"></i></a><a href="https://t.me/share/url?url=http%3a%2f%2flocalhost%3a1313%2fposts%2f%25E8%25AE%25A1%25E7%25AE%2597%25E6%259C%25BA%25E7%25BD%2591%25E7%25BB%259C%25E4%25BA%2594%25E4%25BC%25A0%25E8%25BE%2593%25E5%25B1%2582%2f&amp;text=%e8%ae%a1%e7%ae%97%e6%9c%ba%e7%bd%91%e7%bb%9c%ef%bc%88%e4%ba%94%ef%bc%89%e4%bc%a0%e8%be%93%e5%b1%82" target="_blank" title="分享到 Telegram"><i class="fab fa-telegram" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags" aria-hidden="true"></i>&nbsp;<a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/posts/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%BA%8C%E8%8B%B1%E7%89%B9%E7%BD%91/" class="prev" rel="prev" title="计算机网络（二）英特网"><i class="fas fa-angle-left" aria-hidden="true"></i>计算机网络（二）英特网</a>
+            <a href="/posts/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%B8%89%E5%BA%94%E7%94%A8%E5%B1%82/" class="next" rel="next" title="计算机网络（三）应用层">计算机网络（三）应用层<i class="fas fa-angle-right" aria-hidden="true"></i></a></div>
+</div>
+<div id="comments"><div id="giscus" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://giscus.app">Giscus</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.160.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 1.0.0"><i class="far fa-kiss-wink-heart" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright" aria-hidden="true"></i><span itemprop="copyrightYear">2022 - 2026</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">子非鱼</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up" aria-hidden="true"></i>
+            </a>
+        </div>
+
+        <div id="fixed-buttons-hidden"><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/css/lightgallery-bundle.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/autocomplete.js@0.38.1/dist/autocomplete.min.js"></script><script src="https://cdn.jsdelivr.net/npm/lunr@2.3.9/lunr.min.js"></script><script src="/lib/lunr/lunr.stemmer.support.min.js"></script><script src="/lib/lunr/lunr.zh.min.js"></script><script src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js"></script><script src="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/lightgallery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/plugins/thumbnail/lg-thumbnail.min.js"></script><script src="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/plugins/zoom/lg-zoom.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js"></script><script src="https://cdn.jsdelivr.net/npm/sharer.js@0.5.2/sharer.min.js"></script><script src="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/katex.min.js"></script><script src="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/contrib/auto-render.min.js"></script><script src="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/contrib/copy-tex.min.js"></script><script src="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/contrib/mhchem.min.js"></script><script>window.config={"comment":{"giscus":{"category":"Announcements","categoryId":"DIC_kwDOSwm4-s4C-e0j","darkTheme":"dark","emitMetadata":"0","inputPosition":"bottom","lang":"zh-CN","lazyLoading":false,"lightTheme":"light","mapping":"pathname","reactionsEnabled":"1","repo":"smartyue076/smartyue076.github.io","repoId":"R_kgDOSwm4-g"}},"lightgallery":true,"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"highlightTag":"em","lunrIndexURL":"/index.json","lunrLanguageCode":"zh","lunrSegmentitURL":"/lib/lunr/lunr.segmentit.js","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"lunr"}};</script><script src="/js/theme.js"></script></body>
+</html>

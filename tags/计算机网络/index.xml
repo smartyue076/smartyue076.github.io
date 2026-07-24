@@ -1,0 +1,132 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>计算机网络 - 标签 - 子非鱼的技术博客</title>
+        <link>http://localhost:1313/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/</link>
+        <description>计算机网络 - 标签 - 子非鱼的技术博客</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Sat, 18 Feb 2023 19:01:29 &#43;0800</lastBuildDate><atom:link href="http://localhost:1313/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" rel="self" type="application/rss+xml" /><item>
+    <title>软件开发面试题整理</title>
+    <link>http://localhost:1313/posts/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91%E9%9D%A2%E8%AF%95%E9%A2%98%E6%95%B4%E7%90%86/</link>
+    <pubDate>Sat, 18 Feb 2023 19:01:29 &#43;0800</pubDate>
+    <author>子非鱼</author>
+    <guid>http://localhost:1313/posts/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91%E9%9D%A2%E8%AF%95%E9%A2%98%E6%95%B4%E7%90%86/</guid>
+    <description><![CDATA[<h2 id="面试题汇总">面试题汇总</h2>
+<h3 id="c">C++</h3>
+<h4 id="基础知识">基础知识</h4>
+<p><strong>C 和 CPP 区别是什么</strong></p>
+<table>
+  <thead>
+      <tr>
+          <th></th>
+          <th>C</th>
+          <th>C++</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>编程范式</td>
+          <td>面向过程</td>
+          <td>面向对象</td>
+      </tr>
+      <tr>
+          <td>函数重载</td>
+          <td>无</td>
+          <td>有</td>
+      </tr>
+      <tr>
+          <td>引用</td>
+          <td>无</td>
+          <td>有</td>
+      </tr>
+  </tbody>
+</table>
+<p><strong>C++编译过程</strong></p>
+<p>预处理：展开include和define</p>]]></description>
+</item>
+<item>
+    <title>计算机网络（一）绪论</title>
+    <link>http://localhost:1313/posts/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%B8%80%E7%BB%AA%E8%AE%BA/</link>
+    <pubDate>Wed, 11 Jan 2023 18:37:44 &#43;0800</pubDate>
+    <author>子非鱼</author>
+    <guid>http://localhost:1313/posts/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%B8%80%E7%BB%AA%E8%AE%BA/</guid>
+    <description><![CDATA[<h2 id="第零章-绪论">第零章 绪论</h2>
+<p>传输层：进程到进程</p>
+<p>网络层：端到端（end to end），网络设备到网络设备</p>
+<p>数据链路层：点到点（point to point）</p>
+<p>物理层：数字信号与物理信号的转换</p>]]></description>
+</item>
+<item>
+    <title>计算机网络（四）应用层（网络编程）</title>
+    <link>http://localhost:1313/posts/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%9B%9B%E5%BA%94%E7%94%A8%E5%B1%82%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/</link>
+    <pubDate>Wed, 11 Jan 2023 18:37:36 &#43;0800</pubDate>
+    <author>子非鱼</author>
+    <guid>http://localhost:1313/posts/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%9B%9B%E5%BA%94%E7%94%A8%E5%B1%82%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/</guid>
+    <description><![CDATA[<h2 id="第二章-应用层网络编程">第二章 应用层（网络编程）</h2>
+<h3 id="udp编程">UDP编程</h3>
+
+<p>UdpClient</p>
+<div class="code-block code-line-numbers open" style="counter-reset: code-block 0">
+    <div class="code-header language-python">
+        <span class="code-title"><i class="arrow fas fa-angle-right" aria-hidden="true"></i></span>
+        <span class="ellipses"><i class="fas fa-ellipsis-h" aria-hidden="true"></i></span>
+        <span class="copy" title="复制到剪贴板"><i class="far fa-copy" aria-hidden="true"></i></span>
+    </div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">socket</span> <span class="kn">import</span> <span class="o">*</span>
+</span></span><span class="line"><span class="cl"><span class="n">serverName</span> <span class="o">=</span> <span class="s2">&#34;hostname&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="n">severPort</span> <span class="o">=</span> <span class="mi">12000</span>
+</span></span><span class="line"><span class="cl"><span class="n">clientSocket</span> <span class="o">=</span> <span class="n">socket</span><span class="p">(</span><span class="n">AF_INET</span><span class="p">,</span><span class="n">SOCK_DGRAM</span><span class="p">)</span> <span class="c1"># ipv4,udp</span>
+</span></span><span class="line"><span class="cl"><span class="n">message</span> <span class="o">=</span> <span class="s2">&#34;Hello World&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="n">clientSocket</span><span class="o">.</span><span class="n">sendto</span><span class="p">(</span><span class="n">message</span><span class="o">.</span><span class="n">encode</span><span class="p">(),(</span><span class="n">serverName</span><span class="p">,</span><span class="n">severPort</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="n">modifiedMessage</span><span class="p">,</span><span class="n">serverAddress</span> <span class="o">=</span> <span class="n">clientSocket</span><span class="o">.</span><span class="n">recvfrom</span><span class="p">(</span><span class="mi">2048</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="n">modifiedMessage</span><span class="o">.</span><span class="n">decode</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">clientSocket</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></span></span></code></pre></div></div>
+<p>Udpserver</p>]]></description>
+</item>
+<item>
+    <title>计算机网络（三）应用层</title>
+    <link>http://localhost:1313/posts/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%B8%89%E5%BA%94%E7%94%A8%E5%B1%82/</link>
+    <pubDate>Wed, 11 Jan 2023 18:36:57 &#43;0800</pubDate>
+    <author>子非鱼</author>
+    <guid>http://localhost:1313/posts/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%B8%89%E5%BA%94%E7%94%A8%E5%B1%82/</guid>
+    <description><![CDATA[<h2 id="chapter-2-应用层">Chapter 2: 应用层</h2>
+<h3 id="应用层协议原理">应用层协议原理</h3>
+<p>传输层向应用层提供的服务为socket API</p>
+<h4 id="socket">socket</h4>
+<p>简化本主机应用层向传输层发送的非有效信息，通过socket代表一组信息</p>
+<p>TCP socket包含源IP，源端口，目标IP，目标端口，连接状态</p>
+<p>UDP socket包含源IP，源端口</p>]]></description>
+</item>
+<item>
+    <title>计算机网络（五）传输层</title>
+    <link>http://localhost:1313/posts/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%BA%94%E4%BC%A0%E8%BE%93%E5%B1%82/</link>
+    <pubDate>Wed, 11 Jan 2023 18:36:37 &#43;0800</pubDate>
+    <author>子非鱼</author>
+    <guid>http://localhost:1313/posts/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%BA%94%E4%BC%A0%E8%BE%93%E5%B1%82/</guid>
+    <description><![CDATA[<h2 id="第三章-传输层">第三章 传输层</h2>
+<h2 id="概述">概述</h2>
+<p>可靠的、保序的传输：TCP</p>
+<ul>
+<li>多路复用，解复用</li>
+<li>拥塞控制</li>
+<li>流量控制（防止接收方缓存区满造成的分组丢失）</li>
+<li>建立连接</li>
+</ul>
+<p>不可靠、不保序的传输：UDP</p>
+<ul>
+<li>多路复用，解复用</li>
+<li>没有为尽力而为的IP服务添加更多的其他服务</li>
+</ul>]]></description>
+</item>
+<item>
+    <title>计算机网络（二）英特网</title>
+    <link>http://localhost:1313/posts/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%BA%8C%E8%8B%B1%E7%89%B9%E7%BD%91/</link>
+    <pubDate>Wed, 11 Jan 2023 18:36:03 &#43;0800</pubDate>
+    <author>子非鱼</author>
+    <guid>http://localhost:1313/posts/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%BA%8C%E8%8B%B1%E7%89%B9%E7%BD%91/</guid>
+    <description><![CDATA[<h2 id="chapter-1-internet">Chapter 1: Internet</h2>
+<h2 id="基础概念">基础概念</h2>
+<p><strong>网络</strong>：由节点和边组成的结构</p>
+<p><strong>计算机网络</strong>：由主机节点（主机）和数据交换结点（数据的转发，如路由器交换机）构成的网络，边称为数据链路。</p>
+<p>还可分为网络边缘（主机），网络核心（数据交换），接入（连接网络边缘和网络核心）</p>
+<p><strong>P2P（peer）</strong>：分布式处理，客户端也可以是服务端</p>]]></description>
+</item>
+</channel>
+</rss>

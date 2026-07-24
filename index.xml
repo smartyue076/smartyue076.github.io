@@ -1,0 +1,176 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>子非鱼的技术博客</title>
+        <link>http://localhost:1313/</link>
+        <description>子非鱼的技术博客</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Wed, 03 Jun 2026 00:00:00 &#43;0000</lastBuildDate>
+            <atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
+        <item>
+    <title>前缀和</title>
+    <link>http://localhost:1313/posts/%E5%89%8D%E7%BC%80%E5%92%8C/</link>
+    <pubDate>Tue, 11 Mar 2025 12:58:54 &#43;0800</pubDate>
+    <author>子非鱼</author>
+    <guid>http://localhost:1313/posts/%E5%89%8D%E7%BC%80%E5%92%8C/</guid>
+    <description><![CDATA[<h2 id="什么问题适合用前缀和">什么问题适合用前缀和</h2>
+<p>适用于快速、频繁地计算一个索引区间内的元素之和</p>
+<h2 id="前缀和算法框架">前缀和算法框架</h2>
+<h3 id="一维">一维</h3>
+<p>每次累加前缀，当前元素指的是0-i的前缀和</p>
+<p>注：从1开始是为了避免边界另外讨论，sum_list大小为原数组大小+1。填充的边界为0</p>]]></description>
+</item>
+<item>
+    <title>滑动窗口</title>
+    <link>http://localhost:1313/posts/%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/</link>
+    <pubDate>Tue, 11 Mar 2025 10:43:54 &#43;0800</pubDate>
+    <author>子非鱼</author>
+    <guid>http://localhost:1313/posts/%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/</guid>
+    <description><![CDATA[<h2 id="什么问题适用滑动窗口">什么问题适用滑动窗口</h2>
+<p>对于连续子序列问题，可以使用滑动窗口。例如按要求得到最长/短的序列</p>
+<h2 id="滑动窗口算法框架">滑动窗口算法框架</h2>
+<div class="code-block code-line-numbers" style="counter-reset: code-block 0">
+    <div class="code-header language-cpp">
+        <span class="code-title"><i class="arrow fas fa-angle-right" aria-hidden="true"></i></span>
+        <span class="ellipses"><i class="fas fa-ellipsis-h" aria-hidden="true"></i></span>
+        <span class="copy" title="复制到剪贴板"><i class="far fa-copy" aria-hidden="true"></i></span>
+    </div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="kt">int</span> <span class="n">low</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">high</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">while</span> <span class="p">(</span><span class="n">high</span> <span class="o">&lt;</span> <span class="n">nums</span><span class="p">.</span><span class="n">size</span><span class="p">())</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 增大窗口
+</span></span></span><span class="line"><span class="cl">    <span class="n">window</span><span class="p">.</span><span class="n">addLast</span><span class="p">(</span><span class="n">nums</span><span class="p">[</span><span class="n">high</span><span class="p">]);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">high</span><span class="o">++</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="k">while</span> <span class="p">(</span><span class="n">window</span> <span class="n">needs</span> <span class="n">shrink</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 缩小窗口
+</span></span></span><span class="line"><span class="cl">        <span class="n">window</span><span class="p">.</span><span class="n">removeFirst</span><span class="p">(</span><span class="n">nums</span><span class="p">[</span><span class="n">low</span><span class="p">]);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">low</span><span class="o">++</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></div></div>
+<p>滑动窗口方法需要考虑两个问题</p>
+<ol>
+<li>何时满足题目条件</li>
+</ol>]]></description>
+</item>
+<item>
+    <title>机器学习基础（四）自然语言处理</title>
+    <link>http://localhost:1313/posts/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E7%A1%80%E5%9B%9B%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/</link>
+    <pubDate>Wed, 26 Feb 2025 10:47:26 &#43;0800</pubDate>
+    <author>子非鱼</author>
+    <guid>http://localhost:1313/posts/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E7%A1%80%E5%9B%9B%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/</guid>
+    <description><![CDATA[<h2 id="词嵌入word-embedding">词嵌入（word embedding）</h2>
+<p>通过 <strong>one-hot 编码</strong>来表示单词有两个缺陷：</p>
+<ol>
+<li><strong>词维度过高</strong>，使得模型更加复杂，训练成本高</li>
+<li><strong>词与词之间无法表示关联</strong>（其余弦相似度为0）</li>
+</ol>
+<p>所以基于此提出了词嵌入技术。将一个维数为所有词的数量的高维空间（one-hot 形式表示的词）“嵌入”到一个维数低得多的连续向量空间中，每个单词或词组被映射为实数域上的向量</p>
+<h2 id="word2vec词嵌入的训练方法">word2vec（词嵌入的训练方法）</h2>
+<p>word2vec 是训练词嵌入的训练方法，其<strong>输入为 one-hot 编码</strong>，通过一个隐藏层输出单词（CBOW）或者上下文（Skip-gram）的<strong>one-hot 编码</strong>。其模型结构为 y=softmax(wx+b)</p>]]></description>
+</item>
+<item>
+    <title>RAFT 分布式一致性算法（实现篇）</title>
+    <link>http://localhost:1313/posts/raft-%E5%88%86%E5%B8%83%E5%BC%8F%E4%B8%80%E8%87%B4%E6%80%A7%E7%AE%97%E6%B3%95%E5%AE%9E%E7%8E%B0%E7%AF%87/</link>
+    <pubDate>Mon, 17 Feb 2025 12:42:32 &#43;0800</pubDate>
+    <author>子非鱼</author>
+    <guid>http://localhost:1313/posts/raft-%E5%88%86%E5%B8%83%E5%BC%8F%E4%B8%80%E8%87%B4%E6%80%A7%E7%AE%97%E6%B3%95%E5%AE%9E%E7%8E%B0%E7%AF%87/</guid>
+    <description><![CDATA[<h2 id="状态机切换流程">状态机切换流程</h2>
+
+<h2 id="初始化">初始化</h2>
+<p>初始化流程主要包括<strong>从磁盘中加在持久化配置</strong>，将自己的<strong>状态设为 Follower</strong></p>
+<p>init：从磁盘中加在持久化配置，将自己的状态设为 Follower</p>
+<p>becomeFollower：状态机切换为 Follower，执行 Follower 的处理流程</p>]]></description>
+</item>
+<item>
+    <title>数据库（八）其他</title>
+    <link>http://localhost:1313/posts/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%85%AB%E5%85%B6%E4%BB%96/</link>
+    <pubDate>Fri, 14 Feb 2025 14:46:31 &#43;0800</pubDate>
+    <author>子非鱼</author>
+    <guid>http://localhost:1313/posts/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%85%AB%E5%85%B6%E4%BB%96/</guid>
+    <description><![CDATA[<h2 id="视图view">视图（view）</h2>
+<h3 id="概念">概念</h3>
+<p>在MySQL中，视图是一种虚拟表，它是由一个或多个基本表的行或列组成的。<strong>视图并不实际存储数据，而是根据定义的 select 语句动态生成结果集</strong>。视图可以简化复杂的查询操作，提高查询效率，同时也可以保护数据的安全性，隐藏敏感数据。</p>
+<h3 id="执行过程">执行过程</h3>
+<p>执行过程类似于 select 语句，流程如下</p>
+<ol>
+<li><strong>视图展开（预处理器）</strong>：将视图名转化为 select 语句</li>
+<li><strong>查询优化（优化器）</strong>：选择使用索引或者连接算法优化查询效率</li>
+<li><strong>执行查询（执行器，存储引擎）</strong>：生成优化后的执行计划后，数据库的 存储引擎会根据这个计划执行查询。执行过程中，MySQL 会从底层表中读取数据，并按需执行连接、过滤、排序等操作，最终返回查询结果</li>
+</ol>]]></description>
+</item>
+<item>
+    <title>数据库（七）缓存机制</title>
+    <link>http://localhost:1313/posts/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%83%E7%BC%93%E5%AD%98%E6%9C%BA%E5%88%B6/</link>
+    <pubDate>Thu, 13 Feb 2025 09:41:47 &#43;0800</pubDate>
+    <author>子非鱼</author>
+    <guid>http://localhost:1313/posts/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%83%E7%BC%93%E5%AD%98%E6%9C%BA%E5%88%B6/</guid>
+    <description><![CDATA[<h2 id="为什么要有缓存机制">为什么要有缓存机制</h2>
+<p><strong>MySQL 的数据是存储在磁盘里的</strong>，但每次访问磁盘开销过大。为此，Innodb 存储引擎设计了一个<strong>缓冲池（Buffer Pool）</strong>，当数据从磁盘中取出后，缓存到Buffer Pool中，下次查询同样的数据的时候，直接从内存中读取，来提高数据库的读写性能。</p>
+
+<p>除了数据的读取保存在缓存中，对数据的修改也不是立即写入磁盘，而是先写到缓存后择机刷盘。所以 Buffer Pool 中包含脏数据（数据页中）和 undo 页</p>]]></description>
+</item>
+<item>
+    <title>数据库（六）故障恢复</title>
+    <link>http://localhost:1313/posts/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%85%AD%E6%95%85%E9%9A%9C%E6%81%A2%E5%A4%8D/</link>
+    <pubDate>Wed, 12 Feb 2025 11:06:29 &#43;0800</pubDate>
+    <author>子非鱼</author>
+    <guid>http://localhost:1313/posts/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%85%AD%E6%95%85%E9%9A%9C%E6%81%A2%E5%A4%8D/</guid>
+    <description><![CDATA[<h2 id="数据库运行期间会发生哪些故障问题">数据库运行期间会发生哪些故障（问题）</h2>
+<h3 id="事务故障">事务故障</h3>
+<p>事务故障指<strong>事务未运行到既定的终点</strong>（没有commit或显式的rollback），例如对于支付系统若付款失败则<strong>需要回滚</strong>支付的操作，确保事务的一致性</p>
+<h3 id="系统故障">系统故障</h3>
+<p>系统故障指<strong>需要即时重启系统而造成的数据库故障</strong>，现象是<strong>修改内存中的修改未写到磁盘，写入磁盘的数据未必是完成的事务</strong></p>
+<h3 id="介质故障">介质故障</h3>
+<p>介质故障指<strong>磁盘损坏造成的故障</strong>，需要<strong>全量迁移数据库数据</strong></p>]]></description>
+</item>
+<item>
+    <title>动态规划</title>
+    <link>http://localhost:1313/posts/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/</link>
+    <pubDate>Tue, 11 Feb 2025 16:21:36 &#43;0800</pubDate>
+    <author>子非鱼</author>
+    <guid>http://localhost:1313/posts/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/</guid>
+    <description><![CDATA[<h2 id="什么问题适合用动态规划最优子结构">什么问题适合用动态规划（最优子结构）</h2>
+<p>符合<strong>最优子结构</strong>的问题适合用动态规划</p>
+<p><strong>最优子结构</strong> 是指一个问题的<strong>最优解可以通过其子问题的最优解构造出来</strong>。换句话说，问题的最优解依赖于子问题的最优解。</p>
+<p>例如要计算年级的最高分，可通过计算每个班级的最高分之后取最值得到</p>
+<h2 id="动态规划算法框架">动态规划算法框架</h2>
+<h3 id="确定状态和选择">确定状态和选择</h3>
+<p>明确当前值需要<strong>通过哪些子结构通过哪些选择得到</strong>，用以<strong>确定dp数组是一维还是二维的</strong></p>]]></description>
+</item>
+<item>
+    <title>数据库（四）锁理论</title>
+    <link>http://localhost:1313/posts/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%9B%9B%E9%94%81%E7%90%86%E8%AE%BA/</link>
+    <pubDate>Tue, 11 Feb 2025 09:41:26 &#43;0800</pubDate>
+    <author>子非鱼</author>
+    <guid>http://localhost:1313/posts/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%9B%9B%E9%94%81%E7%90%86%E8%AE%BA/</guid>
+    <description><![CDATA[<h2 id="事务并发带来的问题">事务并发带来的问题</h2>
+<ul>
+<li><strong>丢失修改（lost update）</strong>：<strong>事务 1 与事务 2 从数据库中读入同一数据并修改</strong>，事务 2 的提交结果破坏了事务 1 提交的结果， 导致事务 1 的修改被丢失。(W-W)</li>
+<li><strong>读 “脏” 数据（dirty read）</strong>：<strong>事务 1 修改某一数据</strong>，并将其写回磁盘，<strong>事务 2 读取同一数据后，事务 1 由于某种原因被撤消</strong>，这时事务 1 已修改过的数据恢复原值，<strong>事务 2 读到的数据就与数据库中的数据不一致</strong>，是不正确的数据，又称为 “脏” 数据。（W-R）</li>
+<li><strong>不可重复读（non-repeatable read）</strong>：<strong>事务 1 读取数据后，事务 2 执行更新操作</strong>，使事务 1 无法再现前一次读取结果。(R-W)</li>
+</ul>
+<h2 id="并发不一致性的解决办法封锁协议">并发不一致性的解决办法（封锁协议）</h2>
+<ul>
+<li>
+<p><strong>一级封锁协议</strong></p>
+<p>事务 T 在修改数据 W 之前必须先对其加 X 锁，直到<strong>事务结束</strong>才释放（读不加锁）</p>
+<p><strong>一级封锁协议可防止 丢失修改</strong></p>
+</li>
+</ul>]]></description>
+</item>
+<item>
+    <title>数据库（五）MySQL中的锁</title>
+    <link>http://localhost:1313/posts/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%94mysql%E4%B8%AD%E7%9A%84%E9%94%81/</link>
+    <pubDate>Sat, 08 Feb 2025 18:37:04 &#43;0800</pubDate>
+    <author>子非鱼</author>
+    <guid>http://localhost:1313/posts/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%94mysql%E4%B8%AD%E7%9A%84%E9%94%81/</guid>
+    <description><![CDATA[<h2 id="事务并发时遇到的问题">事务并发时遇到的问题</h2>
+<h3 id="数据完整性方面不同事务对同一行的读写写写操作">数据完整性方面（不同事务对同一行的读写/写写操作）</h3>
+<h4 id="问题">问题</h4>
+<p>不同事务对于同一范围内的数据进行增/删/改时需要锁确保在事务提交前只有一个事务能操作该数据</p>
+<h4 id="解决方法">解决方法</h4>
+<p>对于要修改的数据加<strong>锁（lock）</strong></p>
+<h3 id="查询结果方法幻读现象">查询结果方法（幻读现象）</h3>
+<h4 id="问题-1">问题</h4>
+<p>在当前读（区别于使用MVCC中ReadView的快照读）的场景下，在事务内不同时间对同一查询条件得到的查询结果不同</p>]]></description>
+</item>
+</channel>
+</rss>

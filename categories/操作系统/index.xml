@@ -1,0 +1,227 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>操作系统 - 分类 - 子非鱼的技术博客</title>
+        <link>http://localhost:1313/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/</link>
+        <description>操作系统 - 分类 - 子非鱼的技术博客</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Sat, 11 Jan 2025 15:31:45 &#43;0800</lastBuildDate><atom:link href="http://localhost:1313/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" rel="self" type="application/rss+xml" /><item>
+    <title>操作系统（十一）IO</title>
+    <link>http://localhost:1313/posts/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%8D%81%E4%B8%80io/</link>
+    <pubDate>Sat, 11 Jan 2025 15:31:45 &#43;0800</pubDate>
+    <author>子非鱼</author>
+    <guid>http://localhost:1313/posts/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%8D%81%E4%B8%80io/</guid>
+    <description><![CDATA[<h2 id="第八章-io">第八章 IO</h2>
+<h3 id="传统io">传统IO</h3>
+<h4 id="传统io过程">传统IO过程</h4>
+<ol>
+<li>CPU发起IO请求，每次只能请求一个字</li>
+<li>磁盘数据写入缓冲区后，通过IO中断通知CPU</li>
+<li>CPU将缓冲区数据通过寄存器写入内核缓冲区（内存中）</li>
+<li>CPU将内核缓冲区（内存中）的数据拷贝到用户缓冲区（内存中）</li>
+</ol>
+<h5 id="缺点">缺点</h5>
+<ol>
+<li>CPU效率低下：CPU需要频繁得处理IO请求</li>
+<li>传输效率低下：数据先从磁盘缓冲区拷贝到寄存器后才到拷贝到内存</li>
+</ol>]]></description>
+</item>
+<item>
+    <title>操作系统（十）中断</title>
+    <link>http://localhost:1313/posts/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%8D%81%E4%B8%AD%E6%96%AD/</link>
+    <pubDate>Sat, 11 Jan 2025 15:21:04 &#43;0800</pubDate>
+    <author>子非鱼</author>
+    <guid>http://localhost:1313/posts/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%8D%81%E4%B8%AD%E6%96%AD/</guid>
+    <description><![CDATA[<h2 id="第七章-中断">第七章 中断</h2>
+<h3 id="中断与异常">中断与异常</h3>
+
+<h3 id="中断执行过程">中断执行过程</h3>
+
+<h3 id="当通过键盘给当前进程输入参数时的流程io中断">当通过键盘给当前进程输入参数时的流程（IO中断）</h3>
+<p>中断流程</p>
+<ol>
+<li>用户键盘输入</li>
+<li>键盘控制器生成扫描码并触发中断 (IRQ1)</li>
+<li>CPU 暂停当前进程，响应中断</li>
+<li>CPU执行中断处理程序，获取键盘输入</li>
+<li>恢复被中断的任务</li>
+<li>用户进程读取缓冲区输入（系统调用，使用“陷阱”内中断）</li>
+</ol>
+<h3 id="用户如何使用系统其他资源系统调用">用户如何使用系统其他资源（系统调用）</h3>
+<p>用户态的程序只能使用内存中用户段，不能使用内核段。内核态可以访问任何内存数据。</p>]]></description>
+</item>
+<item>
+    <title>操作系统（九）操作系统安全</title>
+    <link>http://localhost:1313/posts/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%9D%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%AE%89%E5%85%A8/</link>
+    <pubDate>Fri, 10 Jan 2025 16:26:40 &#43;0800</pubDate>
+    <author>子非鱼</author>
+    <guid>http://localhost:1313/posts/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%9D%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%AE%89%E5%85%A8/</guid>
+    <description><![CDATA[<h2 id="第六章-操作系统安全">第六章 操作系统安全</h2>
+<h3 id="缓冲区溢出攻击">缓冲区溢出攻击</h3>
+<h4 id="原理">原理</h4>
+<p>缓冲区溢出通常发生在程序使用固定大小的内存缓冲区来存储用户输入时，<strong>没有对输入数据的长度进行适当检查</strong>。攻击者利用这一点，<strong>将过大的输入数据注入缓冲区</strong>，导致：</p>
+<ul>
+<li>
+<p><strong>覆盖关键数据</strong>：覆盖函数的返回地址、指针或其他重要变量。</p>
+</li>
+<li>
+<p><strong>注入恶意代码</strong>：将攻击代码注入溢出的内存区域，并操纵程序跳转到攻击代码执行。</p>
+</li>
+</ul>]]></description>
+</item>
+<item>
+    <title>操作系统（八）指令系统结构</title>
+    <link>http://localhost:1313/posts/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%85%AB%E6%8C%87%E4%BB%A4%E7%B3%BB%E7%BB%9F%E7%BB%93%E6%9E%84/</link>
+    <pubDate>Fri, 10 Jan 2025 16:22:44 &#43;0800</pubDate>
+    <author>子非鱼</author>
+    <guid>http://localhost:1313/posts/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%85%AB%E6%8C%87%E4%BB%A4%E7%B3%BB%E7%BB%9F%E7%BB%93%E6%9E%84/</guid>
+    <description><![CDATA[<h2 id="第五章-指令系统结构">第五章 指令系统结构</h2>
+<h3 id="指令">指令</h3>
+<h4 id="执行流程">执行流程</h4>
+<ol>
+<li>取指阶段：以PC作为第一个字节的地址，从内存中读出10个字节</li>
+<li>译码阶段：指令字段译码，将操作数的值写到ALU读取的寄存器位置</li>
+<li>执行阶段：ALU根据操作数和操作码计算值</li>
+<li>访存阶段：读写内存位置</li>
+<li>写回阶段：将结果值写入寄存器</li>
+<li>更新PC：更新PC指向下一条指令的地址</li>
+</ol>]]></description>
+</item>
+<item>
+    <title>操作系统（七）文件管理（系统调用与文件存储）</title>
+    <link>http://localhost:1313/posts/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B8%83%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E8%B0%83%E7%94%A8%E4%B8%8E%E6%96%87%E4%BB%B6%E5%AD%98%E5%82%A8/</link>
+    <pubDate>Wed, 08 Feb 2023 16:22:37 &#43;0800</pubDate>
+    <author>子非鱼</author>
+    <guid>http://localhost:1313/posts/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B8%83%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E8%B0%83%E7%94%A8%E4%B8%8E%E6%96%87%E4%BB%B6%E5%AD%98%E5%82%A8/</guid>
+    <description><![CDATA[<h2 id="第四章-文件管理二">第四章 文件管理（二）</h2>
+<h3 id="文件系统操作">文件系统操作</h3>
+<h4 id="整体架构">整体架构</h4>
+<p>在文件系统和应用程序间有一层抽象层，称为虚拟文件系统（VFS）</p>
+<ul>
+<li>VFS作为抽象层向应用层提供了统一的文件接口（read，write等）</li>
+<li>VFS实现了一些公共的功能，如Directory Cache和Page Cache等</li>
+<li>规范了接口</li>
+</ul>
+<p>VFS向应用层提供统一接口，具体实现不同文件系统有不同实现，VFS将函数指针指向对应函数</p>]]></description>
+</item>
+<item>
+    <title>操作系统（六）文件管理</title>
+    <link>http://localhost:1313/posts/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%85%AD%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86/</link>
+    <pubDate>Wed, 25 Jan 2023 11:44:37 &#43;0800</pubDate>
+    <author>子非鱼</author>
+    <guid>http://localhost:1313/posts/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%85%AD%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86/</guid>
+    <description><![CDATA[<h2 id="第四章-文件管理">第四章 文件管理</h2>
+<h3 id="磁盘的工作原理">磁盘的工作原理</h3>
+<h4 id="磁盘读写的过程">磁盘读写的过程</h4>
+<ol>
+<li>磁盘移动，找到要读的<strong>柱面</strong>（cylinder，简称C）</li>
+<li>从柱面选择具体读哪个<strong>磁道</strong>（magnetic head，简称H），选择对应的磁头上电（每次只能有一个磁头上电）</li>
+<li>旋转磁盘，将对应磁道中要读写的那个<strong>扇区</strong>（sector，简称S）转到磁头下方</li>
+<li>开始读写，将扇区中的内容读到内存缓存区中，或者将内存缓存区中的内容写到该扇区中</li>
+</ol>]]></description>
+</item>
+<item>
+    <title>操作系统（二）进程管理（进程同步与死锁）</title>
+    <link>http://localhost:1313/posts/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%BA%8C%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86%E8%BF%9B%E7%A8%8B%E5%90%8C%E6%AD%A5%E4%B8%8E%E6%AD%BB%E9%94%81/</link>
+    <pubDate>Sat, 21 Jan 2023 18:35:38 &#43;0800</pubDate>
+    <author>子非鱼</author>
+    <guid>http://localhost:1313/posts/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%BA%8C%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86%E8%BF%9B%E7%A8%8B%E5%90%8C%E6%AD%A5%E4%B8%8E%E6%AD%BB%E9%94%81/</guid>
+    <description><![CDATA[<h2 id="第二章-进程管理进程同步与死锁">第二章 进程管理（进程同步与死锁）</h2>
+<h3 id="进程同步">进程同步</h3>
+<p>多个进程间可能存在依赖关系，为了保证其按依赖关系执行，操作系统需要通过一种机制保证</p>
+<h4 id="同步问题的解决">同步问题的解决</h4>
+<h5 id="利用信号解决同步问题">利用信号解决同步问题</h5>
+<div class="code-block code-line-numbers open" style="counter-reset: code-block 0">
+    <div class="code-header language-c">
+        <span class="code-title"><i class="arrow fas fa-angle-right" aria-hidden="true"></i></span>
+        <span class="ellipses"><i class="fas fa-ellipsis-h" aria-hidden="true"></i></span>
+        <span class="copy" title="复制到剪贴板"><i class="far fa-copy" aria-hidden="true"></i></span>
+    </div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="c1">// counter: the count of item in buffer
+</span></span></span><span class="line"><span class="cl"><span class="c1">// empty: buffer have empty space or not
+</span></span></span><span class="line"><span class="cl"><span class="c1">// full: buffer have item or not
+</span></span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">producer</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">while</span> <span class="p">(</span><span class="nb">true</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">counter</span> <span class="o">==</span> <span class="n">BUFFER_SIZE</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">      <span class="nf">sleep_on</span><span class="p">(</span><span class="n">empty</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">buffer</span><span class="p">[</span><span class="n">in</span><span class="p">]</span> <span class="o">=</span> <span class="n">item</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">in</span> <span class="o">=</span> <span class="p">(</span><span class="n">in</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="n">BUFFER_SIZE</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">counter</span><span class="o">++</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">counter</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">      <span class="nf">wake_up</span><span class="p">(</span><span class="n">full</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">consumer</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">while</span> <span class="p">(</span><span class="nb">true</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">counter</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">      <span class="nf">sleep_on</span><span class="p">(</span><span class="n">full</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">item</span> <span class="o">=</span> <span class="n">buffer</span><span class="p">[</span><span class="n">out</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">    <span class="n">out</span> <span class="o">=</span> <span class="p">(</span><span class="n">out</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="n">BUFFER_SIZE</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">counter</span><span class="o">--</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">counter</span> <span class="o">==</span> <span class="n">BUFFER_SIZE</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">      	<span class="nf">wake_up</span><span class="p">(</span><span class="n">empty</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></div></div>
+<p>问题是上述方法<strong>无法解决多生产者/消费者的情况</strong>，因为只能释放旧的进程，所以需<strong>引入新的变量来记录更多的信息</strong></p>
+<h5 id="将信号扩展为信号量">将信号扩展为信号量</h5>
+<p>信号量若为n（n&lt;0）表示有｜n｜的进程阻塞，大于0表示有n个空闲资源</p>]]></description>
+</item>
+<item>
+    <title>操作系统（四）内存管理</title>
+    <link>http://localhost:1313/posts/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%9B%9B%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/</link>
+    <pubDate>Wed, 18 Jan 2023 16:26:05 &#43;0800</pubDate>
+    <author>子非鱼</author>
+    <guid>http://localhost:1313/posts/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%9B%9B%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/</guid>
+    <description><![CDATA[<h2 id="第三章-内存管理">第三章 内存管理</h2>
+<h3 id="程序重定位">程序重定位</h3>
+<p>在编译形成可执行程序时，用到的地址都是从0开始的相对地址，也被称为<strong>逻辑地址</strong>。但被加载到内存后可能使用任意一块空闲地址，所以需要将逻辑地址转化成内存中实际的物理地址，即<strong>重定位</strong>。</p>
+<p>有以下几种解决方法：</p>
+<ol>
+<li>
+<p>编译时重定位：需要在编译时确定哪块内存空间空闲，且在装入前不允许使用（用于执行固定任务的计算机系统，如嵌入式系统）</p>
+</li>
+<li>
+<p>载入时重定位：在程序载入时，根据初始内存地址修改程序里的逻辑地址，但如果进程阻塞换出内存后换入时的地址不一定是之前的地址，造成错误</p>
+</li>
+</ol>]]></description>
+</item>
+<item>
+    <title>操作系统（一）绪论</title>
+    <link>http://localhost:1313/posts/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B8%80%E7%BB%AA%E8%AE%BA/</link>
+    <pubDate>Wed, 11 Jan 2023 18:45:57 &#43;0800</pubDate>
+    <author>子非鱼</author>
+    <guid>http://localhost:1313/posts/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B8%80%E7%BB%AA%E8%AE%BA/</guid>
+    <description><![CDATA[<h2 id="第一章-绪论">第一章 绪论</h2>
+<h3 id="计算机体系结构">计算机体系结构</h3>
+
+<h3 id="计算机启动后发生了什么">计算机启动后发生了什么</h3>
+
+<ol>
+<li>
+<p><strong>上电自检</strong></p>
+<p>主板的固件（BIOS 或 UEFI）执行<strong>硬件检测</strong>，检查 CPU、内存、显卡、键盘等设备是否正常</p>
+</li>
+<li>
+<p><strong>加载 BIOS 或 UEFI</strong></p>
+</li>
+</ol>]]></description>
+</item>
+<item>
+    <title>操作系统（二）进程管理（如何实现多进程）</title>
+    <link>http://localhost:1313/posts/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%BA%8C%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E5%A4%9A%E8%BF%9B%E7%A8%8B/</link>
+    <pubDate>Wed, 11 Jan 2023 11:19:09 &#43;0800</pubDate>
+    <author>子非鱼</author>
+    <guid>http://localhost:1313/posts/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%BA%8C%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E5%A4%9A%E8%BF%9B%E7%A8%8B/</guid>
+    <description><![CDATA[<h2 id="第二章-进程管理如何实现多进程">第二章 进程管理（如何实现多进程）</h2>
+<h3 id="进程">进程</h3>
+<p>运行中的程序（区别于未运行的静态程序），需要有数据结构保存当前运行的信息（PCB），便于切换不同进程</p>
+<h4 id="进程的状态">进程的状态</h4>
+
+<h4 id="进程的切换">进程的切换</h4>
+<p>操作系统切换进程（宏观）</p>
+<p>例子为进程运行到磁盘读写操作后与其他进程的切换</p>]]></description>
+</item>
+</channel>
+</rss>

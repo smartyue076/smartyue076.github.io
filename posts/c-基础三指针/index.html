@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+    <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>C&#43;&#43;基础（三）指针 - 子非鱼的技术博客</title><meta name="Description" content="子非鱼的技术博客"><meta property="og:url" content="http://localhost:1313/posts/c-%E5%9F%BA%E7%A1%80%E4%B8%89%E6%8C%87%E9%92%88/">
+  <meta property="og:site_name" content="子非鱼的技术博客">
+  <meta property="og:title" content="C&#43;&#43;基础（三）指针">
+  <meta property="og:description" content="第二章 C&#43;&#43;基础——指针 指针是一个变量，其存储的是值的地址，而不是值本身
+使用常规变量时，值是指定的量，而地址是派生量，而指针相反
+OOP强调的是在运行阶段（而不是编译阶段）进行决策，提供了灵活性，对于内存管理也更加高效
+初始化指针 int* ptr_a; double* ptr_b; 初始化时必须指定所指元素类型，因为对所有指针来说其都是代表一个初始地址，但从该初始地址读多少字节则由指针类型判断
+指针也是作为变量存储，只不过其内存空间存的是地址。指针p1,p2有各自的地址&amp;p1,&amp;p2。长度为4B（32位）或8B（64位）。p1,p2表示存储的所指向元素的地址。*p1表示指向元素的值。 指针注意事项 在C&#43;&#43;中创建指针时，计算机将分配用来存储地址的内存，但不会分配用来存储指针所指向的数据的内存（指向不确定）。另外，一定要在对指针提取（*）之前，将指针初始化为一个确定的、适当的地址。">
+  <meta property="og:locale" content="zh_cn">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2022-08-21T16:13:49+08:00">
+    <meta property="article:modified_time" content="2022-08-21T16:13:49+08:00">
+    <meta property="article:tag" content="C&#43;&#43;">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="C&#43;&#43;基础（三）指针">
+  <meta name="twitter:description" content="第二章 C&#43;&#43;基础——指针 指针是一个变量，其存储的是值的地址，而不是值本身
+使用常规变量时，值是指定的量，而地址是派生量，而指针相反
+OOP强调的是在运行阶段（而不是编译阶段）进行决策，提供了灵活性，对于内存管理也更加高效
+初始化指针 int* ptr_a; double* ptr_b; 初始化时必须指定所指元素类型，因为对所有指针来说其都是代表一个初始地址，但从该初始地址读多少字节则由指针类型判断
+指针也是作为变量存储，只不过其内存空间存的是地址。指针p1,p2有各自的地址&amp;p1,&amp;p2。长度为4B（32位）或8B（64位）。p1,p2表示存储的所指向元素的地址。*p1表示指向元素的值。 指针注意事项 在C&#43;&#43;中创建指针时，计算机将分配用来存储地址的内存，但不会分配用来存储指针所指向的数据的内存（指向不确定）。另外，一定要在对指针提取（*）之前，将指针初始化为一个确定的、适当的地址。">
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site">
+<meta name="referrer" content="no-referrer" /><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://localhost:1313/posts/c-%E5%9F%BA%E7%A1%80%E4%B8%89%E6%8C%87%E9%92%88/" /><link rel="prev" href="http://localhost:1313/posts/c-%E5%9F%BA%E7%A1%80%E5%9B%9Bconst%E9%99%90%E5%AE%9A%E7%AC%A6/" /><link rel="next" href="http://localhost:1313/posts/c-%E5%9F%BA%E7%A1%80%E5%85%AD%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%90%91%E9%87%8F%E5%92%8C%E6%95%B0%E7%BB%84/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.2.0/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.2.0/css/all.min.css"></noscript><link rel="preload" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "C++基础（三）指针",
+        "inLanguage": "zh-cn",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/localhost:1313\/posts\/c-%E5%9F%BA%E7%A1%80%E4%B8%89%E6%8C%87%E9%92%88\/"
+        },"genre": "posts","keywords": "C\u002b\u002b","wordcount":  1309 ,
+        "url": "http:\/\/localhost:1313\/posts\/c-%E5%9F%BA%E7%A1%80%E4%B8%89%E6%8C%87%E9%92%88\/","datePublished": "2022-08-21T16:13:49+08:00","dateModified": "2022-08-21T16:13:49+08:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "子非鱼"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script>
+          const query = window.matchMedia('(prefers-color-scheme: dark)');
+          function applyTheme() {
+            let theme = window.localStorage?.getItem('theme') || 'light';
+            let isDark = theme === 'dark' || (theme === 'auto' && query.matches);
+            document.body.setAttribute('theme', isDark? 'dark' : 'light');
+            document.body.setAttribute('cfg-theme', theme);
+          }
+
+          applyTheme();
+          query.addEventListener('change', applyTheme);
+        </script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="子非鱼的技术博客">子非鱼的技术博客</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/"> 所有文章 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/about/"> 关于 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust" aria-hidden="true"></i>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="子非鱼的技术博客">子非鱼的技术博客</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/" title="">所有文章</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/about/" title="">关于</a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><div class="search-dropdown desktop">
+        <div id="search-dropdown-desktop"></div>
+    </div>
+    <div class="search-dropdown mobile">
+        <div id="search-dropdown-mobile"></div>
+    </div><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">C++基础（三）指针</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle" aria-hidden="true"></i>子非鱼</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/c++/"><i class="far fa-folder" aria-hidden="true"></i>C++</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt" aria-hidden="true"></i>&nbsp;<time datetime="2022年8月21日">2022年8月21日</time>&nbsp;<i class="fas fa-pencil-alt" aria-hidden="true"></i>&nbsp;约 1309 字&nbsp;
+                <i class="far fa-clock" aria-hidden="true"></i>&nbsp;预计阅读 3 分钟&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#第二章-c基础指针">第二章 C++基础——指针</a>
+      <ul>
+        <li><a href="#初始化指针">初始化指针</a></li>
+        <li><a href="#指针注意事项">指针注意事项</a></li>
+        <li><a href="#指针和数组">指针和数组</a></li>
+        <li><a href="#自由存储空间">自由存储空间</a></li>
+        <li><a href="#复杂表达式">复杂表达式</a></li>
+        <li><a href="#引用">引用</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="第二章-c基础指针">第二章 C++基础——指针</h2>
+<p>指针是一个变量，其存储的是值的地址，而不是值本身</p>
+<p>使用常规变量时，值是指定的量，而地址是派生量，而指针相反</p>
+<p><em>OOP</em>强调的是在运行阶段（而不是编译阶段）进行决策，提供了灵活性，对于内存管理也更加高效</p>
+<h3 id="初始化指针">初始化指针</h3>
+<div class="code-block code-line-numbers open" style="counter-reset: code-block 0">
+    <div class="code-header language-cpp">
+        <span class="code-title"><i class="arrow fas fa-angle-right" aria-hidden="true"></i></span>
+        <span class="ellipses"><i class="fas fa-ellipsis-h" aria-hidden="true"></i></span>
+        <span class="copy" title="复制到剪贴板"><i class="far fa-copy" aria-hidden="true"></i></span>
+    </div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="kt">int</span><span class="o">*</span> <span class="n">ptr_a</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="kt">double</span><span class="o">*</span> <span class="n">ptr_b</span><span class="p">;</span></span></span></code></pre></div></div>
+<p>初始化时必须指定所指元素类型，因为对所有指针来说其都是代表一个初始地址，但从该初始地址读多少字节则由指针类型判断</p>
+<p>指针也是作为变量存储，只不过其内存空间存的是地址。指针p1,p2有各自的地址&amp;p1,&amp;p2。长度为4B（32位）或8B（64位）。p1,p2表示存储的所指向元素的地址。*p1表示指向元素的值。
+<img src="../../images/1.PNG" alt="image.png" style="zoom:30%;" /></p>
+<h3 id="指针注意事项">指针注意事项</h3>
+<p>在C++中创建指针时，计算机将分配用来存储地址的内存，但不会分配用来存储指针所指向的数据的内存（指向不确定）。另外，<strong>一定要在对指针提取（*）之前，将指针初始化为一个确定的、适当的地址。</strong></p>
+<p>一个未指向任何对象的指针，其地址值为0。有时称之为<code>null指针</code>。任何指针都可以被初始化或令其值为0。</p>
+<p>指针不是整型，虽然计算机通常把地址当作整数处理。</p>
+<div class="code-block code-line-numbers open" style="counter-reset: code-block 0">
+    <div class="code-header language-cpp">
+        <span class="code-title"><i class="arrow fas fa-angle-right" aria-hidden="true"></i></span>
+        <span class="ellipses"><i class="fas fa-ellipsis-h" aria-hidden="true"></i></span>
+        <span class="copy" title="复制到剪贴板"><i class="far fa-copy" aria-hidden="true"></i></span>
+    </div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="kt">int</span><span class="o">*</span> <span class="n">pt</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">pt</span> <span class="o">=</span> <span class="mh">0xB80000000</span><span class="p">;</span> <span class="c1">//invalid, type mismatch
+</span></span></span><span class="line"><span class="cl"><span class="n">pt</span> <span class="o">=</span> <span class="p">(</span><span class="kt">int</span><span class="o">*</span><span class="p">)</span><span class="mh">0xB80000000</span><span class="p">;</span> <span class="c1">//valid, type match
+</span></span></span></code></pre></div></div>
+<h3 id="指针和数组">指针和数组</h3>
+<p>可以修改指针的值，但数组名是常量不能修改</p>
+<p>指针变量加1后，其增加的值等于指向的类型占用的字节数</p>
+<p>将一个指针减去另一个指针，获得两个指针的差（必须类型相同，差为地址实际差/变量类型长度），仅在都指向同一数组时有意义</p>
+<p>对数组应用sizeof得到的是数组的长度，而对指针应用sizeof得到的是指针的长度</p>
+<h4 id="数组指针与指针数组">数组指针与指针数组</h4>
+<p>tell和&amp;tell数值相同，但tell指向数组第一个元素，tell+1将地址值加2。&amp;tell指向整个数组，&amp;tell+1将地址值加2*10=20</p>
+<div class="code-block code-line-numbers open" style="counter-reset: code-block 0">
+    <div class="code-header language-cpp">
+        <span class="code-title"><i class="arrow fas fa-angle-right" aria-hidden="true"></i></span>
+        <span class="ellipses"><i class="fas fa-ellipsis-h" aria-hidden="true"></i></span>
+        <span class="copy" title="复制到剪贴板"><i class="far fa-copy" aria-hidden="true"></i></span>
+    </div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="kt">short</span> <span class="n">tell</span><span class="p">[</span><span class="mi">10</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl"><span class="n">cout</span><span class="o">&lt;&lt;</span> <span class="n">tell</span> <span class="o">&lt;&lt;</span><span class="n">endl</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">cout</span><span class="o">&lt;&lt;</span> <span class="o">&amp;</span><span class="n">tell</span> <span class="o">&lt;&lt;</span><span class="n">endl</span><span class="p">;</span></span></span></code></pre></div></div>
+<p>数组指针指向整个数组，初始化为</p>
+<div class="code-block code-line-numbers open" style="counter-reset: code-block 0">
+    <div class="code-header language-cpp">
+        <span class="code-title"><i class="arrow fas fa-angle-right" aria-hidden="true"></i></span>
+        <span class="ellipses"><i class="fas fa-ellipsis-h" aria-hidden="true"></i></span>
+        <span class="copy" title="复制到剪贴板"><i class="far fa-copy" aria-hidden="true"></i></span>
+    </div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="kt">short</span> <span class="p">(</span><span class="o">*</span><span class="n">pas</span><span class="p">)[</span><span class="mi">10</span><span class="p">]</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">tell</span><span class="p">;</span></span></span></code></pre></div></div>
+<p>指针数组为多个指针变量组成的数组，初始化为</p>
+<div class="code-block code-line-numbers open" style="counter-reset: code-block 0">
+    <div class="code-header language-cpp">
+        <span class="code-title"><i class="arrow fas fa-angle-right" aria-hidden="true"></i></span>
+        <span class="ellipses"><i class="fas fa-ellipsis-h" aria-hidden="true"></i></span>
+        <span class="copy" title="复制到剪贴板"><i class="far fa-copy" aria-hidden="true"></i></span>
+    </div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="kt">short</span> <span class="o">*</span><span class="n">pas</span><span class="p">[</span><span class="mi">10</span><span class="p">];</span></span></span></code></pre></div></div>
+<h3 id="自由存储空间">自由存储空间</h3>
+<h4 id="使用new来分配内存">使用new来分配内存</h4>
+<div class="code-block code-line-numbers open" style="counter-reset: code-block 0">
+    <div class="code-header language-cpp">
+        <span class="code-title"><i class="arrow fas fa-angle-right" aria-hidden="true"></i></span>
+        <span class="ellipses"><i class="fas fa-ellipsis-h" aria-hidden="true"></i></span>
+        <span class="copy" title="复制到剪贴板"><i class="far fa-copy" aria-hidden="true"></i></span>
+    </div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="c1">//typeName * pointer_name = new typeName
+</span></span></span><span class="line"><span class="cl"><span class="kt">int</span><span class="o">*</span> <span class="n">pn</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">int</span><span class="p">;</span></span></span></code></pre></div></div>
+<p><code>new</code>运算符根据类型来确定需要多少字节的内存，找到这样的内存并返回</p>
+<p><code>typeName*</code>指声明什么类型的指针，左右两侧的类型必须相同，否则因为读取的块大小不同而访问错误</p>
+<p><strong>变量存储在栈（stack）的内存区域中，new从堆（heap）或自由存储（free store）的内存区域分配内存</strong></p>
+<h4 id="使用delete释放内存">使用delete释放内存</h4>
+<div class="code-block code-line-numbers open" style="counter-reset: code-block 0">
+    <div class="code-header language-cpp">
+        <span class="code-title"><i class="arrow fas fa-angle-right" aria-hidden="true"></i></span>
+        <span class="ellipses"><i class="fas fa-ellipsis-h" aria-hidden="true"></i></span>
+        <span class="copy" title="复制到剪贴板"><i class="far fa-copy" aria-hidden="true"></i></span>
+    </div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="kt">int</span><span class="o">*</span> <span class="n">ps</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">int</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">delete</span> <span class="n">ps</span><span class="p">;</span></span></span></code></pre></div></div>
+<p>这将删除<em>ps</em>所指向的内存，但不会删除<em>ps</em>本身，ps还可指向其他内存空间</p>
+<p>需要注意的是：</p>
+<ul>
+<li>不要使用<code>delete</code>来释放不是<code>new</code>分配的内存</li>
+<li>不要使用<code>delete</code>释放同一个内存两次</li>
+<li>对空指针(<em>null pointer</em>)使用<code>delete</code>是安全的</li>
+</ul>
+<h4 id="使用new创建动态数组">使用new创建动态数组</h4>
+<div class="code-block code-line-numbers open" style="counter-reset: code-block 0">
+    <div class="code-header language-cpp">
+        <span class="code-title"><i class="arrow fas fa-angle-right" aria-hidden="true"></i></span>
+        <span class="ellipses"><i class="fas fa-ellipsis-h" aria-hidden="true"></i></span>
+        <span class="copy" title="复制到剪贴板"><i class="far fa-copy" aria-hidden="true"></i></span>
+    </div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="kt">int</span><span class="o">*</span> <span class="n">psome</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">int</span> <span class="p">[</span><span class="mi">10</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl"><span class="k">delete</span> <span class="p">[]</span> <span class="n">psome</span><span class="p">;</span></span></span></code></pre></div></div>
+<p>数组直接通过<code>psome[num]</code>访问</p>
+<p>需要注意的是：</p>
+<ul>
+<li>如果使用<code>new [] </code>为数组分配内存，则需要通过<code>delete []</code>来释放</li>
+<li>如果使用<code>new</code>为一个实体分配内存，则应使用<code>delete</code>来释放</li>
+</ul>
+<h3 id="复杂表达式">复杂表达式</h3>
+<p>对于复杂表达式应从右往左读</p>
+<p><code>int *&amp;r = p</code></p>
+<p>表示r首先是对p的引用，其次r是一个int*型的引用</p>
+<h3 id="引用">引用</h3>
+<p>定义时必须初始化</p>
+<p>不能改变绑定的指向（内部通过顶层const实现，type * const p）</p>
+<div class="code-block code-line-numbers open" style="counter-reset: code-block 0">
+    <div class="code-header language-cpp">
+        <span class="code-title"><i class="arrow fas fa-angle-right" aria-hidden="true"></i></span>
+        <span class="ellipses"><i class="fas fa-ellipsis-h" aria-hidden="true"></i></span>
+        <span class="copy" title="复制到剪贴板"><i class="far fa-copy" aria-hidden="true"></i></span>
+    </div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="kt">int</span> <span class="n">a</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="o">&amp;</span><span class="n">b</span> <span class="o">=</span> <span class="n">a</span><span class="p">;</span> <span class="c1">//(pointer to b) equal to (pointer to a)
+</span></span></span></code></pre></div></div>
+<p>引用间不能赋值</p>
+<p>没有引用的引用，没有指针的引用，可以有引用的指针</p>
+<div class="code-block code-line-numbers open" style="counter-reset: code-block 0">
+    <div class="code-header language-cpp">
+        <span class="code-title"><i class="arrow fas fa-angle-right" aria-hidden="true"></i></span>
+        <span class="ellipses"><i class="fas fa-ellipsis-h" aria-hidden="true"></i></span>
+        <span class="copy" title="复制到剪贴板"><i class="far fa-copy" aria-hidden="true"></i></span>
+    </div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="kt">int</span> <span class="o">&amp;*</span> <span class="n">p</span><span class="p">;</span> <span class="c1">//illegal
+</span></span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">f</span><span class="p">(</span><span class="kt">int</span> <span class="o">*&amp;</span> <span class="n">p</span><span class="p">);</span> <span class="c1">//ok
+</span></span></span></code></pre></div></div></div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2022年8月21日</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="分享到 X" data-sharer="x" data-url="http://localhost:1313/posts/c-%E5%9F%BA%E7%A1%80%E4%B8%89%E6%8C%87%E9%92%88/" data-title="C&#43;&#43;基础（三）指针" data-hashtags="C&#43;&#43;"><i class="fab fa-x-twitter" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Threads" data-sharer="threads" data-url="http://localhost:1313/posts/c-%E5%9F%BA%E7%A1%80%E4%B8%89%E6%8C%87%E9%92%88/" data-title="C&#43;&#43;基础（三）指针"><i class="fab fa-threads" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Facebook" data-sharer="facebook" data-url="http://localhost:1313/posts/c-%E5%9F%BA%E7%A1%80%E4%B8%89%E6%8C%87%E9%92%88/" data-hashtag="C&#43;&#43;"><i class="fab fa-facebook-square" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Hacker News" data-sharer="hackernews" data-url="http://localhost:1313/posts/c-%E5%9F%BA%E7%A1%80%E4%B8%89%E6%8C%87%E9%92%88/" data-title="C&#43;&#43;基础（三）指针"><i class="fab fa-hacker-news" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Line" data-sharer="line" data-url="http://localhost:1313/posts/c-%E5%9F%BA%E7%A1%80%E4%B8%89%E6%8C%87%E9%92%88/" data-title="C&#43;&#43;基础（三）指针"><i data-svg-src="https://cdn.jsdelivr.net/npm/simple-icons@16.9.0/icons/line.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="http://localhost:1313/posts/c-%E5%9F%BA%E7%A1%80%E4%B8%89%E6%8C%87%E9%92%88/" data-title="C&#43;&#43;基础（三）指针"><i class="fab fa-weibo" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Diaspora" data-sharer="diaspora" data-url="http://localhost:1313/posts/c-%E5%9F%BA%E7%A1%80%E4%B8%89%E6%8C%87%E9%92%88/" data-title="C&#43;&#43;基础（三）指针" data-description=""><i class="fab fa-diaspora" aria-hidden="true"></i></a><a href="https://t.me/share/url?url=http%3a%2f%2flocalhost%3a1313%2fposts%2fc-%25E5%259F%25BA%25E7%25A1%2580%25E4%25B8%2589%25E6%258C%2587%25E9%2592%2588%2f&amp;text=C%2b%2b%e5%9f%ba%e7%a1%80%ef%bc%88%e4%b8%89%ef%bc%89%e6%8c%87%e9%92%88" target="_blank" title="分享到 Telegram"><i class="fab fa-telegram" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags" aria-hidden="true"></i>&nbsp;<a href="/tags/c&#43;&#43;/">C&#43;&#43;</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/posts/c-%E5%9F%BA%E7%A1%80%E5%9B%9Bconst%E9%99%90%E5%AE%9A%E7%AC%A6/" class="prev" rel="prev" title="C&#43;&#43;基础（四）const限定符"><i class="fas fa-angle-left" aria-hidden="true"></i>C++基础（四）const限定符</a>
+            <a href="/posts/c-%E5%9F%BA%E7%A1%80%E5%85%AD%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%90%91%E9%87%8F%E5%92%8C%E6%95%B0%E7%BB%84/" class="next" rel="next" title="C&#43;&#43;基础（六）字符串、向量和数组">C++基础（六）字符串、向量和数组<i class="fas fa-angle-right" aria-hidden="true"></i></a></div>
+</div>
+<div id="comments"><div id="giscus" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://giscus.app">Giscus</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.160.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 1.0.0"><i class="far fa-kiss-wink-heart" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright" aria-hidden="true"></i><span itemprop="copyrightYear">2022 - 2026</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">子非鱼</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up" aria-hidden="true"></i>
+            </a>
+        </div>
+
+        <div id="fixed-buttons-hidden"><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/css/lightgallery-bundle.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/autocomplete.js@0.38.1/dist/autocomplete.min.js"></script><script src="https://cdn.jsdelivr.net/npm/lunr@2.3.9/lunr.min.js"></script><script src="/lib/lunr/lunr.stemmer.support.min.js"></script><script src="/lib/lunr/lunr.zh.min.js"></script><script src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js"></script><script src="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/lightgallery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/plugins/thumbnail/lg-thumbnail.min.js"></script><script src="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/plugins/zoom/lg-zoom.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js"></script><script src="https://cdn.jsdelivr.net/npm/sharer.js@0.5.2/sharer.min.js"></script><script src="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/katex.min.js"></script><script src="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/contrib/auto-render.min.js"></script><script src="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/contrib/copy-tex.min.js"></script><script src="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/contrib/mhchem.min.js"></script><script>window.config={"comment":{"giscus":{"category":"Announcements","categoryId":"DIC_kwDOSwm4-s4C-e0j","darkTheme":"dark","emitMetadata":"0","inputPosition":"bottom","lang":"zh-CN","lazyLoading":false,"lightTheme":"light","mapping":"pathname","reactionsEnabled":"1","repo":"smartyue076/smartyue076.github.io","repoId":"R_kgDOSwm4-g"}},"lightgallery":true,"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"highlightTag":"em","lunrIndexURL":"/index.json","lunrLanguageCode":"zh","lunrSegmentitURL":"/lib/lunr/lunr.segmentit.js","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"lunr"}};</script><script src="/js/theme.js"></script></body>
+</html>

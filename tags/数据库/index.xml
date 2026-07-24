@@ -1,0 +1,136 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>数据库 - 标签 - 子非鱼的技术博客</title>
+        <link>http://localhost:1313/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/</link>
+        <description>数据库 - 标签 - 子非鱼的技术博客</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Fri, 14 Feb 2025 14:46:31 &#43;0800</lastBuildDate><atom:link href="http://localhost:1313/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="self" type="application/rss+xml" /><item>
+    <title>数据库（八）其他</title>
+    <link>http://localhost:1313/posts/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%85%AB%E5%85%B6%E4%BB%96/</link>
+    <pubDate>Fri, 14 Feb 2025 14:46:31 &#43;0800</pubDate>
+    <author>子非鱼</author>
+    <guid>http://localhost:1313/posts/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%85%AB%E5%85%B6%E4%BB%96/</guid>
+    <description><![CDATA[<h2 id="视图view">视图（view）</h2>
+<h3 id="概念">概念</h3>
+<p>在MySQL中，视图是一种虚拟表，它是由一个或多个基本表的行或列组成的。<strong>视图并不实际存储数据，而是根据定义的 select 语句动态生成结果集</strong>。视图可以简化复杂的查询操作，提高查询效率，同时也可以保护数据的安全性，隐藏敏感数据。</p>
+<h3 id="执行过程">执行过程</h3>
+<p>执行过程类似于 select 语句，流程如下</p>
+<ol>
+<li><strong>视图展开（预处理器）</strong>：将视图名转化为 select 语句</li>
+<li><strong>查询优化（优化器）</strong>：选择使用索引或者连接算法优化查询效率</li>
+<li><strong>执行查询（执行器，存储引擎）</strong>：生成优化后的执行计划后，数据库的 存储引擎会根据这个计划执行查询。执行过程中，MySQL 会从底层表中读取数据，并按需执行连接、过滤、排序等操作，最终返回查询结果</li>
+</ol>]]></description>
+</item>
+<item>
+    <title>数据库（七）缓存机制</title>
+    <link>http://localhost:1313/posts/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%83%E7%BC%93%E5%AD%98%E6%9C%BA%E5%88%B6/</link>
+    <pubDate>Thu, 13 Feb 2025 09:41:47 &#43;0800</pubDate>
+    <author>子非鱼</author>
+    <guid>http://localhost:1313/posts/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%83%E7%BC%93%E5%AD%98%E6%9C%BA%E5%88%B6/</guid>
+    <description><![CDATA[<h2 id="为什么要有缓存机制">为什么要有缓存机制</h2>
+<p><strong>MySQL 的数据是存储在磁盘里的</strong>，但每次访问磁盘开销过大。为此，Innodb 存储引擎设计了一个<strong>缓冲池（Buffer Pool）</strong>，当数据从磁盘中取出后，缓存到Buffer Pool中，下次查询同样的数据的时候，直接从内存中读取，来提高数据库的读写性能。</p>
+
+<p>除了数据的读取保存在缓存中，对数据的修改也不是立即写入磁盘，而是先写到缓存后择机刷盘。所以 Buffer Pool 中包含脏数据（数据页中）和 undo 页</p>]]></description>
+</item>
+<item>
+    <title>数据库（六）故障恢复</title>
+    <link>http://localhost:1313/posts/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%85%AD%E6%95%85%E9%9A%9C%E6%81%A2%E5%A4%8D/</link>
+    <pubDate>Wed, 12 Feb 2025 11:06:29 &#43;0800</pubDate>
+    <author>子非鱼</author>
+    <guid>http://localhost:1313/posts/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%85%AD%E6%95%85%E9%9A%9C%E6%81%A2%E5%A4%8D/</guid>
+    <description><![CDATA[<h2 id="数据库运行期间会发生哪些故障问题">数据库运行期间会发生哪些故障（问题）</h2>
+<h3 id="事务故障">事务故障</h3>
+<p>事务故障指<strong>事务未运行到既定的终点</strong>（没有commit或显式的rollback），例如对于支付系统若付款失败则<strong>需要回滚</strong>支付的操作，确保事务的一致性</p>
+<h3 id="系统故障">系统故障</h3>
+<p>系统故障指<strong>需要即时重启系统而造成的数据库故障</strong>，现象是<strong>修改内存中的修改未写到磁盘，写入磁盘的数据未必是完成的事务</strong></p>
+<h3 id="介质故障">介质故障</h3>
+<p>介质故障指<strong>磁盘损坏造成的故障</strong>，需要<strong>全量迁移数据库数据</strong></p>]]></description>
+</item>
+<item>
+    <title>数据库（四）锁理论</title>
+    <link>http://localhost:1313/posts/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%9B%9B%E9%94%81%E7%90%86%E8%AE%BA/</link>
+    <pubDate>Tue, 11 Feb 2025 09:41:26 &#43;0800</pubDate>
+    <author>子非鱼</author>
+    <guid>http://localhost:1313/posts/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%9B%9B%E9%94%81%E7%90%86%E8%AE%BA/</guid>
+    <description><![CDATA[<h2 id="事务并发带来的问题">事务并发带来的问题</h2>
+<ul>
+<li><strong>丢失修改（lost update）</strong>：<strong>事务 1 与事务 2 从数据库中读入同一数据并修改</strong>，事务 2 的提交结果破坏了事务 1 提交的结果， 导致事务 1 的修改被丢失。(W-W)</li>
+<li><strong>读 “脏” 数据（dirty read）</strong>：<strong>事务 1 修改某一数据</strong>，并将其写回磁盘，<strong>事务 2 读取同一数据后，事务 1 由于某种原因被撤消</strong>，这时事务 1 已修改过的数据恢复原值，<strong>事务 2 读到的数据就与数据库中的数据不一致</strong>，是不正确的数据，又称为 “脏” 数据。（W-R）</li>
+<li><strong>不可重复读（non-repeatable read）</strong>：<strong>事务 1 读取数据后，事务 2 执行更新操作</strong>，使事务 1 无法再现前一次读取结果。(R-W)</li>
+</ul>
+<h2 id="并发不一致性的解决办法封锁协议">并发不一致性的解决办法（封锁协议）</h2>
+<ul>
+<li>
+<p><strong>一级封锁协议</strong></p>
+<p>事务 T 在修改数据 W 之前必须先对其加 X 锁，直到<strong>事务结束</strong>才释放（读不加锁）</p>
+<p><strong>一级封锁协议可防止 丢失修改</strong></p>
+</li>
+</ul>]]></description>
+</item>
+<item>
+    <title>数据库（五）MySQL中的锁</title>
+    <link>http://localhost:1313/posts/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%94mysql%E4%B8%AD%E7%9A%84%E9%94%81/</link>
+    <pubDate>Sat, 08 Feb 2025 18:37:04 &#43;0800</pubDate>
+    <author>子非鱼</author>
+    <guid>http://localhost:1313/posts/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%94mysql%E4%B8%AD%E7%9A%84%E9%94%81/</guid>
+    <description><![CDATA[<h2 id="事务并发时遇到的问题">事务并发时遇到的问题</h2>
+<h3 id="数据完整性方面不同事务对同一行的读写写写操作">数据完整性方面（不同事务对同一行的读写/写写操作）</h3>
+<h4 id="问题">问题</h4>
+<p>不同事务对于同一范围内的数据进行增/删/改时需要锁确保在事务提交前只有一个事务能操作该数据</p>
+<h4 id="解决方法">解决方法</h4>
+<p>对于要修改的数据加<strong>锁（lock）</strong></p>
+<h3 id="查询结果方法幻读现象">查询结果方法（幻读现象）</h3>
+<h4 id="问题-1">问题</h4>
+<p>在当前读（区别于使用MVCC中ReadView的快照读）的场景下，在事务内不同时间对同一查询条件得到的查询结果不同</p>]]></description>
+</item>
+<item>
+    <title>数据库（三）事务</title>
+    <link>http://localhost:1313/posts/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%89%E4%BA%8B%E5%8A%A1/</link>
+    <pubDate>Thu, 06 Feb 2025 10:05:56 &#43;0800</pubDate>
+    <author>子非鱼</author>
+    <guid>http://localhost:1313/posts/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%89%E4%BA%8B%E5%8A%A1/</guid>
+    <description><![CDATA[<h2 id="数据库需要解决的问题背景">数据库需要解决的问题（背景）</h2>
+<p>在转账场景中，A向B转账100元。转账过程需要保证的是要么转账成功，要么转账失败恢复到原始值<strong>（原子性 Atomicity）</strong>；转账前后A与B账号的存款总数不变<strong>（一致性 Consistency）</strong>；转账过程中A与B的其他转账操作不影响当前转账<strong>（隔离性 Isolation）</strong>；转账成功则不可撤回<strong>（持久性 Durability）</strong>。所以引入<strong>事务（Transaction）</strong>的概念</p>
+<h2 id="事务解决方案">事务（解决方案）</h2>
+<h3 id="特性acid">特性（ACID）</h3>
+<ol>
+<li><strong>原子性（Atomicity）</strong>：一个事务中的所有操作，要么全部完成，要么全部不完成，不会结束在中间某个环节，而且事务在执行过程中发生错误，会被回滚到事务开始前的状态，就像这个事务从来没有执行过一样</li>
+<li><strong>一致性（Consistency）</strong>：是指事务操作前和操作后，数据满足完整性约束，数据库保持一致性状态</li>
+<li><strong>隔离性（Isolation）</strong>：数据库允许多个并发事务同时对其数据进行读写和修改的能力，隔离性可以防止多个事务并发执行时由于交叉执行而导致数据的不一致</li>
+<li><strong>持久性（Durability）</strong>：事务处理结束后，对数据的修改就是永久的，即便系统故障也不会丢失</li>
+</ol>]]></description>
+</item>
+<item>
+    <title>数据库（二）索引</title>
+    <link>http://localhost:1313/posts/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8C%E7%B4%A2%E5%BC%95/</link>
+    <pubDate>Mon, 03 Feb 2025 10:44:48 &#43;0800</pubDate>
+    <author>子非鱼</author>
+    <guid>http://localhost:1313/posts/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8C%E7%B4%A2%E5%BC%95/</guid>
+    <description><![CDATA[<h2 id="索引存储结构">索引存储结构</h2>
+<h3 id="存储结构">存储结构</h3>
+<p>使用<strong>B+树</strong>作为存储结构，<strong>非叶子结点存放索引</strong>，<strong>叶子节点才会存放实际数据（索引+记录）</strong></p>
+
+<h3 id="为什么使用b树">为什么使用B+树</h3>
+<p>B+树与B树的对比如下</p>
+<ul>
+<li>B+ 树的非叶子节点<strong>不存放实际的记录数据，仅存放索引</strong>，因此数据量相同的情况下，相比存储即存索引又存记录的 B 树，<strong>B+树的非叶子节点可以存放更多的索引</strong>，因此 B+ 树可以比 B 树更「矮胖」，<strong>查询底层节点的磁盘 I/O次数会更少</strong></li>
+<li>B+ 树<strong>有大量的冗余节点</strong>（所有非叶子节点都是冗余索引），这些冗余索引让 <strong>B+ 树在插入、删除的效率都更高</strong>，比如删除根节点的时候，<strong>不会像 B 树那样会发生复杂的树的变化</strong></li>
+<li><strong>B+ 树叶子节点之间用链表连接了起来，有利于范围查询</strong>，而 B 树要实现范围查询，因此只能通过树的遍历来完成范围查询，这会涉及多个节点的磁盘 I/O 操作，范围查询效率不如 B+ 树。</li>
+</ul>]]></description>
+</item>
+<item>
+    <title>数据库（一）绪论</title>
+    <link>http://localhost:1313/posts/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%80%E7%BB%AA%E8%AE%BA/</link>
+    <pubDate>Mon, 03 Feb 2025 09:52:01 &#43;0800</pubDate>
+    <author>子非鱼</author>
+    <guid>http://localhost:1313/posts/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%80%E7%BB%AA%E8%AE%BA/</guid>
+    <description><![CDATA[<h2 id="执行select的过程">执行select的过程</h2>
+
+<h3 id="连接器">连接器</h3>
+<p>客户端通过<strong>TCP三次握手</strong>与数据库建立连接</p>
+<h3 id="查询缓存">查询缓存</h3>
+<p>如果 SQL 是<strong>查询语句（select 语句）</strong>，MySQL 就会先去<strong>查询缓存</strong>（ Query Cache ）里查找缓存数据，看看之前有没有执行过这一条命令，这个查询缓存是以 <strong>key-value 形式保存在内存中</strong>的，key 为 SQL 查询语句，value 为 SQL 语句查询的结果。</p>
+<h3 id="解析sql">解析SQL</h3>
+<p>解析器完成<strong>词法分析</strong>（根据输入的字符串识别出关键字）和<strong>语法分析</strong>（判断语句语法）</p>]]></description>
+</item>
+</channel>
+</rss>

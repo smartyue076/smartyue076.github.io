@@ -1,0 +1,251 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>C&#43;&#43; - 分类 - 子非鱼的技术博客</title>
+        <link>http://localhost:1313/categories/c&#43;&#43;/</link>
+        <description>C&#43;&#43; - 分类 - 子非鱼的技术博客</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Wed, 11 Jan 2023 18:42:25 &#43;0800</lastBuildDate><atom:link href="http://localhost:1313/categories/c&#43;&#43;/" rel="self" type="application/rss+xml" /><item>
+    <title>C&#43;&#43;基础（七）异常处理</title>
+    <link>http://localhost:1313/posts/c-%E5%9F%BA%E7%A1%80%E4%B8%83%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86/</link>
+    <pubDate>Wed, 11 Jan 2023 18:42:25 &#43;0800</pubDate>
+    <author>子非鱼</author>
+    <guid>http://localhost:1313/posts/c-%E5%9F%BA%E7%A1%80%E4%B8%83%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86/</guid>
+    <description><![CDATA[<h2 id="第六章-异常处理">第六章 异常处理</h2>
+<p>当执行throw时，throw后的语句都不执行，控制权转移到与之对应的catch模块</p>
+<p>退出catch后，catch模块中的局部变量将会销毁</p>
+<p>当异常处理完毕后，异常对象将被销毁</p>
+<div class="code-block code-line-numbers open" style="counter-reset: code-block 0">
+    <div class="code-header language-cpp">
+        <span class="code-title"><i class="arrow fas fa-angle-right" aria-hidden="true"></i></span>
+        <span class="ellipses"><i class="fas fa-ellipsis-h" aria-hidden="true"></i></span>
+        <span class="copy" title="复制到剪贴板"><i class="far fa-copy" aria-hidden="true"></i></span>
+    </div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="k">try</span><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">//...
+</span></span></span><span class="line"><span class="cl"><span class="p">}</span><span class="k">catch</span> <span class="p">(</span><span class="n">exception_a</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">//...
+</span></span></span><span class="line"><span class="cl"><span class="p">}</span><span class="k">catch</span> <span class="p">(</span><span class="n">exception_b</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">//...
+</span></span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></div></div>
+<h3 id="捕捉catch对于每个catch执行下述步骤">捕捉catch（对于每个catch执行下述步骤）</h3>
+<ol>
+<li>判断是否是精确匹配</li>
+<li>派生类向基类转换（仅引用和指针类型）</li>
+<li>（&hellip;）匹配所有</li>
+</ol>
+<p>其中一个被捕捉，跳过下面的catch</p>]]></description>
+</item>
+<item>
+    <title>C&#43;&#43;面向对象（二）引用</title>
+    <link>http://localhost:1313/posts/c-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E4%BA%8C%E5%BC%95%E7%94%A8/</link>
+    <pubDate>Wed, 11 Jan 2023 18:42:05 &#43;0800</pubDate>
+    <author>子非鱼</author>
+    <guid>http://localhost:1313/posts/c-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E4%BA%8C%E5%BC%95%E7%94%A8/</guid>
+    <description><![CDATA[<h2 id="第五章-面向对象编程二">第五章 面向对象编程（二）</h2>
+<h3 id="引用的其他用法">引用的其他用法</h3>
+<p>引用作为成员变量</p>
+<p>函数返回引用，可以将返回值做左值</p>
+<h3 id="拷贝构造">拷贝构造</h3>
+<p>通过类的其他对象初始化当前对象（有默认拷贝构造方法，成员对成员的拷贝，可能发生对象的嵌套拷贝）</p>]]></description>
+</item>
+<item>
+    <title>C&#43;&#43;面向对象（一）封装、继承和多态</title>
+    <link>http://localhost:1313/posts/c-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E4%B8%80%E5%B0%81%E8%A3%85%E7%BB%A7%E6%89%BF%E5%92%8C%E5%A4%9A%E6%80%81/</link>
+    <pubDate>Wed, 11 Jan 2023 18:41:36 &#43;0800</pubDate>
+    <author>子非鱼</author>
+    <guid>http://localhost:1313/posts/c-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E4%B8%80%E5%B0%81%E8%A3%85%E7%BB%A7%E6%89%BF%E5%92%8C%E5%A4%9A%E6%80%81/</guid>
+    <description><![CDATA[<h2 id="第五章-面向对象编程">第五章 面向对象编程</h2>
+<p>类不是实体，对象是实体</p>
+<p>成员变量（filed）属于对象</p>
+<p>成员函数（member function）属于类</p>
+<h3 id="big-three构造函数拷贝构造拷贝赋值">Big Three（构造函数，拷贝构造，拷贝赋值）</h3>
+<h4 id="构造函数">构造函数</h4>
+<h5 id="初始化列表">初始化列表</h5>
+<p><strong>列表初始化（initialize list）</strong>仅对成员变量初始化。</p>
+<p>在构造函数里对成员变量初始化则为先初始化（默认）后赋值，故所有成员变量必须要有默认的初始化方法（成员变量包含其他类但该类没有默认构造函数则会报错）。构造函数无法主动调用。</p>]]></description>
+</item>
+<item>
+    <title>C&#43;&#43;基础（五）static关键字</title>
+    <link>http://localhost:1313/posts/c-%E5%9F%BA%E7%A1%80%E4%BA%94static%E5%85%B3%E9%94%AE%E5%AD%97/</link>
+    <pubDate>Wed, 11 Jan 2023 18:39:27 &#43;0800</pubDate>
+    <author>子非鱼</author>
+    <guid>http://localhost:1313/posts/c-%E5%9F%BA%E7%A1%80%E4%BA%94static%E5%85%B3%E9%94%AE%E5%AD%97/</guid>
+    <description><![CDATA[<h2 id="static关键字">static关键字</h2>
+<h3 id="static全局变量">static全局变量</h3>
+<p>只能在当前文件访问，其他文件不能通过extern访问</p>
+<h3 id="static局部变量">static局部变量</h3>
+<p>定义时创建，程序结束时销毁，修改了生命周期，作用域不变</p>
+<h3 id="static类">static类</h3>
+<p>static对象的构造在main函数前执行，析构在main函数结束后</p>
+<h3 id="static成员变量">static成员变量</h3>
+<p>存在于所有对象且保持一致，可在其他文件访问</p>]]></description>
+</item>
+<item>
+    <title>C&#43;&#43;基础（二）基本数据类型</title>
+    <link>http://localhost:1313/posts/c-%E5%9F%BA%E7%A1%80%E4%BA%8C%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/</link>
+    <pubDate>Sun, 21 Aug 2022 16:13:49 &#43;0800</pubDate>
+    <author>子非鱼</author>
+    <guid>http://localhost:1313/posts/c-%E5%9F%BA%E7%A1%80%E4%BA%8C%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/</guid>
+    <description><![CDATA[<h2 id="第二章-c基础基本数据类型">第二章 C++基础——基本数据类型</h2>
+<h3 id="基本内置类型">基本内置类型</h3>
+<h4 id="算术类型">算术类型</h4>
+<table>
+  <thead>
+      <tr>
+          <th>类型</th>
+          <th>含义</th>
+          <th>最小尺寸</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>bool</td>
+          <td>布尔</td>
+          <td>未定义</td>
+      </tr>
+      <tr>
+          <td>char</td>
+          <td>字符</td>
+          <td>8位</td>
+      </tr>
+      <tr>
+          <td>short</td>
+          <td>短整型</td>
+          <td>16位</td>
+      </tr>
+      <tr>
+          <td>int</td>
+          <td>整型</td>
+          <td>16位</td>
+      </tr>
+      <tr>
+          <td>long</td>
+          <td>长整型</td>
+          <td>32位</td>
+      </tr>
+      <tr>
+          <td>long long</td>
+          <td>长整型</td>
+          <td>64位</td>
+      </tr>
+      <tr>
+          <td>float</td>
+          <td>单精度浮点数</td>
+          <td>6位有效数字</td>
+      </tr>
+      <tr>
+          <td>double</td>
+          <td>双精度浮点数</td>
+          <td>10位有效数字</td>
+      </tr>
+      <tr>
+          <td>long double</td>
+          <td>扩展精度浮点数</td>
+          <td>10位有效数字</td>
+      </tr>
+  </tbody>
+</table>
+<h4 id="类型转换">类型转换</h4>
+<ol>
+<li>当一个算术表达式中既有无符号数又有<code>int</code>值时，int会被转换为无符号数</li>
+<li>当从无符号数中减去一个值时，不管这个值是不是无符号数，都必须保证结果不为负（否则为取模后值）</li>
+</ol>
+<h3 id="变量">变量</h3>
+<h4 id="变量声明于定义的关系">变量声明于定义的关系</h4>
+<p>变量<strong>声明（declaration）</strong>定义了变量的类型和名字，<strong>定义（definition）</strong>在声明外还申请存储空间</p>
+<p>如果只想声明，可在变量名前添加关键字<code>extern</code></p>]]></description>
+</item>
+<item>
+    <title>C&#43;&#43;基础（六）字符串、向量和数组</title>
+    <link>http://localhost:1313/posts/c-%E5%9F%BA%E7%A1%80%E5%85%AD%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%90%91%E9%87%8F%E5%92%8C%E6%95%B0%E7%BB%84/</link>
+    <pubDate>Sun, 21 Aug 2022 16:13:49 &#43;0800</pubDate>
+    <author>子非鱼</author>
+    <guid>http://localhost:1313/posts/c-%E5%9F%BA%E7%A1%80%E5%85%AD%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%90%91%E9%87%8F%E5%92%8C%E6%95%B0%E7%BB%84/</guid>
+    <description><![CDATA[<h2 id="第三章-字符串向量和数组">第三章 字符串、向量和数组</h2>
+<h3 id="标准库类型string">标准库类型String</h3>
+<p>读写string对象</p>
+<div class="code-block code-line-numbers open" style="counter-reset: code-block 0">
+    <div class="code-header language-cpp">
+        <span class="code-title"><i class="arrow fas fa-angle-right" aria-hidden="true"></i></span>
+        <span class="ellipses"><i class="fas fa-ellipsis-h" aria-hidden="true"></i></span>
+        <span class="copy" title="复制到剪贴板"><i class="far fa-copy" aria-hidden="true"></i></span>
+    </div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="n">string</span> <span class="n">s</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">s</span><span class="p">;</span>   <span class="c1">//from empty to empty
+</span></span></span><span class="line"><span class="cl"><span class="n">getline</span><span class="p">(</span><span class="n">cin</span><span class="p">,</span><span class="n">s</span><span class="p">);</span> <span class="c1">//one line, stop by ENTER
+</span></span></span></code></pre></div></div>
+<p>当把string对象和字符（串）字面值混在一条语句时，必须确保加法运算符（+）两侧的运算对象至少一个是string</p>
+<h3 id="标准库类型vector">标准库类型vector</h3>
+<p>vector是模板而非类型</p>]]></description>
+</item>
+<item>
+    <title>C&#43;&#43;基础（三）指针</title>
+    <link>http://localhost:1313/posts/c-%E5%9F%BA%E7%A1%80%E4%B8%89%E6%8C%87%E9%92%88/</link>
+    <pubDate>Sun, 21 Aug 2022 16:13:49 &#43;0800</pubDate>
+    <author>子非鱼</author>
+    <guid>http://localhost:1313/posts/c-%E5%9F%BA%E7%A1%80%E4%B8%89%E6%8C%87%E9%92%88/</guid>
+    <description><![CDATA[<h2 id="第二章-c基础指针">第二章 C++基础——指针</h2>
+<p>指针是一个变量，其存储的是值的地址，而不是值本身</p>
+<p>使用常规变量时，值是指定的量，而地址是派生量，而指针相反</p>
+<p><em>OOP</em>强调的是在运行阶段（而不是编译阶段）进行决策，提供了灵活性，对于内存管理也更加高效</p>
+<h3 id="初始化指针">初始化指针</h3>
+<div class="code-block code-line-numbers open" style="counter-reset: code-block 0">
+    <div class="code-header language-cpp">
+        <span class="code-title"><i class="arrow fas fa-angle-right" aria-hidden="true"></i></span>
+        <span class="ellipses"><i class="fas fa-ellipsis-h" aria-hidden="true"></i></span>
+        <span class="copy" title="复制到剪贴板"><i class="far fa-copy" aria-hidden="true"></i></span>
+    </div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="kt">int</span><span class="o">*</span> <span class="n">ptr_a</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="kt">double</span><span class="o">*</span> <span class="n">ptr_b</span><span class="p">;</span></span></span></code></pre></div></div>
+<p>初始化时必须指定所指元素类型，因为对所有指针来说其都是代表一个初始地址，但从该初始地址读多少字节则由指针类型判断</p>
+<p>指针也是作为变量存储，只不过其内存空间存的是地址。指针p1,p2有各自的地址&amp;p1,&amp;p2。长度为4B（32位）或8B（64位）。p1,p2表示存储的所指向元素的地址。*p1表示指向元素的值。
+</p>
+<h3 id="指针注意事项">指针注意事项</h3>
+<p>在C++中创建指针时，计算机将分配用来存储地址的内存，但不会分配用来存储指针所指向的数据的内存（指向不确定）。另外，<strong>一定要在对指针提取（*）之前，将指针初始化为一个确定的、适当的地址。</strong></p>]]></description>
+</item>
+<item>
+    <title>C&#43;&#43;基础（四）const限定符</title>
+    <link>http://localhost:1313/posts/c-%E5%9F%BA%E7%A1%80%E5%9B%9Bconst%E9%99%90%E5%AE%9A%E7%AC%A6/</link>
+    <pubDate>Sun, 21 Aug 2022 16:13:49 &#43;0800</pubDate>
+    <author>子非鱼</author>
+    <guid>http://localhost:1313/posts/c-%E5%9F%BA%E7%A1%80%E5%9B%9Bconst%E9%99%90%E5%AE%9A%E7%AC%A6/</guid>
+    <description><![CDATA[<h2 id="第二章-c基础const限定符">第二章 C++基础——const限定符</h2>
+<h3 id="const限定符">const限定符</h3>
+<p>const对象一经创建后其值不能再改变，所以const对象必须初始化</p>
+<div class="code-block code-line-numbers open" style="counter-reset: code-block 0">
+    <div class="code-header language-cpp">
+        <span class="code-title"><i class="arrow fas fa-angle-right" aria-hidden="true"></i></span>
+        <span class="ellipses"><i class="fas fa-ellipsis-h" aria-hidden="true"></i></span>
+        <span class="copy" title="复制到剪贴板"><i class="far fa-copy" aria-hidden="true"></i></span>
+    </div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="k">const</span> <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span></span></span></code></pre></div></div>
+<p>默认情况下，const对象仅在文件内有效。若需在不同文件使用同一const对象，则const变量不管是声明还是定义都添加extern关键字，这样只需定义一次就可以了</p>
+<div class="code-block code-line-numbers open" style="counter-reset: code-block 0">
+    <div class="code-header language-cpp">
+        <span class="code-title"><i class="arrow fas fa-angle-right" aria-hidden="true"></i></span>
+        <span class="ellipses"><i class="fas fa-ellipsis-h" aria-hidden="true"></i></span>
+        <span class="copy" title="复制到剪贴板"><i class="far fa-copy" aria-hidden="true"></i></span>
+    </div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="k">extern</span> <span class="k">const</span> <span class="kt">int</span> <span class="n">bufSize</span><span class="p">;</span></span></span></code></pre></div></div>
+<h3 id="const的引用">const的引用</h3>
+<p>用于声明引用的const都是底层const，引用本身已默认为顶层const（无法改变指向）</p>
+<p>const型变量只能由const型引用（底层const）</p>]]></description>
+</item>
+<item>
+    <title>C&#43;&#43;基础（一）CPP编译过程、宏以及头文件</title>
+    <link>http://localhost:1313/posts/c-%E5%9F%BA%E7%A1%80%E4%B8%80cpp%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B%E5%AE%8F%E4%BB%A5%E5%8F%8A%E5%A4%B4%E6%96%87%E4%BB%B6/</link>
+    <pubDate>Sun, 21 Aug 2022 16:13:49 &#43;0800</pubDate>
+    <author>子非鱼</author>
+    <guid>http://localhost:1313/posts/c-%E5%9F%BA%E7%A1%80%E4%B8%80cpp%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B%E5%AE%8F%E4%BB%A5%E5%8F%8A%E5%A4%B4%E6%96%87%E4%BB%B6/</guid>
+    <description><![CDATA[<h2 id="第一章-开始">第一章 开始</h2>
+<ol>
+<li>
+<p><code>endl</code>将与设备关联的<strong>缓冲区（buffer）</strong>中的内容刷到设备中。在调试时应保证&quot;一直&quot;刷新流。否则若程序崩溃，输出可能还是缓冲区，导致对于程序崩溃位置的错误推断</p>
+</li>
+<li>
+<p>读取数量不定的输入数据可用<code>while (std::in &gt;&gt; value)</code></p>
+<p>当遇到<strong>文件结束符（end-of-file）</strong>，或遇到一个无效输入时，<em>istream</em>对象状态变为无效，使条件为假</p>
+<p>EOF：在Windows中为<code>Ctrl+Z</code>，UNIX为<code>Ctrl+D</code></p>
+</li>
+</ol>
+<h3 id="c编译过程">C++编译过程</h3>
+<ol>
+<li>预处理(Preprocessing)</li>
+</ol>]]></description>
+</item>
+</channel>
+</rss>

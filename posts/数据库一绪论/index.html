@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+    <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>数据库（一）绪论 - 子非鱼的技术博客</title><meta name="Description" content="子非鱼的技术博客"><meta property="og:url" content="http://localhost:1313/posts/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%80%E7%BB%AA%E8%AE%BA/">
+  <meta property="og:site_name" content="子非鱼的技术博客">
+  <meta property="og:title" content="数据库（一）绪论">
+  <meta property="og:description" content="执行select的过程 连接器 客户端通过TCP三次握手与数据库建立连接
+查询缓存 如果 SQL 是查询语句（select 语句），MySQL 就会先去查询缓存（ Query Cache ）里查找缓存数据，看看之前有没有执行过这一条命令，这个查询缓存是以 key-value 形式保存在内存中的，key 为 SQL 查询语句，value 为 SQL 语句查询的结果。
+解析SQL 解析器完成词法分析（根据输入的字符串识别出关键字）和语法分析（判断语句语法）">
+  <meta property="og:locale" content="zh_cn">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-02-03T09:52:01+08:00">
+    <meta property="article:modified_time" content="2025-02-03T09:52:01+08:00">
+    <meta property="article:tag" content="数据库">
+    <meta property="article:tag" content="MySQL">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="数据库（一）绪论">
+  <meta name="twitter:description" content="执行select的过程 连接器 客户端通过TCP三次握手与数据库建立连接
+查询缓存 如果 SQL 是查询语句（select 语句），MySQL 就会先去查询缓存（ Query Cache ）里查找缓存数据，看看之前有没有执行过这一条命令，这个查询缓存是以 key-value 形式保存在内存中的，key 为 SQL 查询语句，value 为 SQL 语句查询的结果。
+解析SQL 解析器完成词法分析（根据输入的字符串识别出关键字）和语法分析（判断语句语法）">
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site">
+<meta name="referrer" content="no-referrer" /><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://localhost:1313/posts/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%80%E7%BB%AA%E8%AE%BA/" /><link rel="prev" href="http://localhost:1313/posts/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E7%A1%80%E4%B8%89%E5%BE%AA%E7%8E%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/" /><link rel="next" href="http://localhost:1313/posts/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8C%E7%B4%A2%E5%BC%95/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.2.0/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.2.0/css/all.min.css"></noscript><link rel="preload" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "数据库（一）绪论",
+        "inLanguage": "zh-cn",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/localhost:1313\/posts\/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%80%E7%BB%AA%E8%AE%BA\/"
+        },"genre": "posts","keywords": "数据库, MySQL","wordcount":  1079 ,
+        "url": "http:\/\/localhost:1313\/posts\/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%80%E7%BB%AA%E8%AE%BA\/","datePublished": "2025-02-03T09:52:01+08:00","dateModified": "2025-02-03T09:52:01+08:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "子非鱼"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script>
+          const query = window.matchMedia('(prefers-color-scheme: dark)');
+          function applyTheme() {
+            let theme = window.localStorage?.getItem('theme') || 'light';
+            let isDark = theme === 'dark' || (theme === 'auto' && query.matches);
+            document.body.setAttribute('theme', isDark? 'dark' : 'light');
+            document.body.setAttribute('cfg-theme', theme);
+          }
+
+          applyTheme();
+          query.addEventListener('change', applyTheme);
+        </script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="子非鱼的技术博客">子非鱼的技术博客</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/"> 所有文章 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/about/"> 关于 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust" aria-hidden="true"></i>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="子非鱼的技术博客">子非鱼的技术博客</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/" title="">所有文章</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/about/" title="">关于</a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><div class="search-dropdown desktop">
+        <div id="search-dropdown-desktop"></div>
+    </div>
+    <div class="search-dropdown mobile">
+        <div id="search-dropdown-mobile"></div>
+    </div><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">数据库（一）绪论</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle" aria-hidden="true"></i>子非鱼</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/mysql/"><i class="far fa-folder" aria-hidden="true"></i>MySQL</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt" aria-hidden="true"></i>&nbsp;<time datetime="2025年2月3日">2025年2月3日</time>&nbsp;<i class="fas fa-pencil-alt" aria-hidden="true"></i>&nbsp;约 1079 字&nbsp;
+                <i class="far fa-clock" aria-hidden="true"></i>&nbsp;预计阅读 3 分钟&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#执行select的过程">执行select的过程</a>
+      <ul>
+        <li><a href="#连接器">连接器</a></li>
+        <li><a href="#查询缓存">查询缓存</a></li>
+        <li><a href="#解析sql">解析SQL</a></li>
+        <li><a href="#执行sql">执行SQL</a></li>
+      </ul>
+    </li>
+    <li><a href="#mysql-一行记录是的存储结构">MySQL 一行记录是的存储结构</a>
+      <ul>
+        <li><a href="#数据库文件的存储目录">数据库文件的存储目录</a></li>
+        <li><a href="#表空间文件ibd的存储结构">表空间文件（.ibd）的存储结构</a></li>
+        <li><a href="#innodb-行格式compact-为例">InnoDB 行格式（COMPACT 为例）</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="执行select的过程">执行select的过程</h2>
+<img src="../../images/mysql查询流程.webp" style="zoom:60%;" />
+<h3 id="连接器">连接器</h3>
+<p>客户端通过<strong>TCP三次握手</strong>与数据库建立连接</p>
+<h3 id="查询缓存">查询缓存</h3>
+<p>如果 SQL 是<strong>查询语句（select 语句）</strong>，MySQL 就会先去<strong>查询缓存</strong>（ Query Cache ）里查找缓存数据，看看之前有没有执行过这一条命令，这个查询缓存是以 <strong>key-value 形式保存在内存中</strong>的，key 为 SQL 查询语句，value 为 SQL 语句查询的结果。</p>
+<h3 id="解析sql">解析SQL</h3>
+<p>解析器完成<strong>词法分析</strong>（根据输入的字符串识别出关键字）和<strong>语法分析</strong>（判断语句语法）</p>
+<h3 id="执行sql">执行SQL</h3>
+<h4 id="预处理器">预处理器</h4>
+<ul>
+<li>
+<p>检查 SQL 查询语句中的表或者字段是否存在</p>
+</li>
+<li>
+<p>将 <code>select *</code> 中的 <code>*</code> 符号，扩展为表上的所有列</p>
+</li>
+</ul>
+<h4 id="优化器">优化器</h4>
+<p><strong>优化器主要负责将 SQL 查询语句的执行方案确定下来</strong>，比如在表里面有多个索引的时候，优化器会基于查询成本的考虑，来决定选择使用哪个索引。</p>
+<p>例如对于联合索引<code>（a,b,c）</code>若查询为<code>where b=1 and a=2</code>时会将<code>a=2</code>提前作为索引查询</p>
+<h4 id="执行器">执行器</h4>
+<p>执行器根据执行计划<strong>执行 SQL 查询语句</strong>，<strong>从存储引擎读取记录，返回给客户端</strong></p>
+<h2 id="mysql-一行记录是的存储结构">MySQL 一行记录是的存储结构</h2>
+<h3 id="数据库文件的存储目录">数据库文件的存储目录</h3>
+<div class="code-block code-line-numbers open" style="counter-reset: code-block 0">
+    <div class="code-header language-shell">
+        <span class="code-title"><i class="arrow fas fa-angle-right" aria-hidden="true"></i></span>
+        <span class="ellipses"><i class="fas fa-ellipsis-h" aria-hidden="true"></i></span>
+        <span class="copy" title="复制到剪贴板"><i class="far fa-copy" aria-hidden="true"></i></span>
+    </div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="o">[</span>root@xiaolin ~<span class="o">]</span><span class="c1">#ls /var/lib/mysql/my_test</span>
+</span></span><span class="line"><span class="cl">db.opt  <span class="c1"># 默认字符集和字符校验规则</span>
+</span></span><span class="line"><span class="cl">t_order.frm  <span class="c1"># 表结构</span>
+</span></span><span class="line"><span class="cl">t_order.ibd	 <span class="c1"># 表数据</span></span></span></code></pre></div></div>
+<h3 id="表空间文件ibd的存储结构">表空间文件（.ibd）的存储结构</h3>
+<p><strong>表空间由段（segment）、区（extent）、页（page）、行（row）组成</strong>，InnoDB存储引擎的逻辑存储结构大致如下图</p>
+<img src="../../images/表空间结构.webp" style="zoom:60%;" />
+<h4 id="行row">行（row）</h4>
+<p>数据库表中的记录都是按行（row）进行存放的</p>
+<h4 id="页page">页（page）</h4>
+<p>记录是按照行来存储的，但是数据库的读取并不以「行」为单位，否则一次读取（也就是一次 I/O 操作）只能处理一行数据，效率会非常低。因此，<strong>InnoDB 的数据是按「页」为单位来读写的</strong>。<strong>默认每个页的大小为 16KB</strong>，也就是最多能保证 16KB 的连续存储空间。</p>
+<p>页的类型有很多，常见的有<strong>数据页、undo 日志页、溢出页等等</strong>。数据表中的行记录是用「数据页」来管理的</p>
+<h4 id="区extent">区（extent）</h4>
+<p>InnoDB 存储引擎是用 B+ 树来组织数据的</p>
+<p>B+ 树<strong>中每层都是通过双向链表连接的</strong>，如果是以页为单位来分配存储空间，那么链表中相邻的<strong>两个页之间的物理位置并不是连续的</strong>，可能离得非常远，那么磁盘查询时就会有大量的随机I/O，随机 I/O 是非常慢的。</p>
+<p>在表中数据量大的时候，<strong>为某个索引分配空间的时候就不再按照页为单位分配了，而是按照区（extent）为单位分配</strong>。每个区的大小为 1MB，对于 16KB 的页来说，连续的 64 个页会被划为一个区，这样就使得<strong>链表中相邻的页的物理位置也相邻</strong>，就能使用顺序 I/O 了。</p>
+<h4 id="段segment">段（segment）</h4>
+<p>表空间是由各个段（segment）组成的，段是由多个区（extent）组成的。段一般分为数据段、索引段和回滚段等。</p>
+<ul>
+<li>索引段：存放 B + 树的非叶子节点的区的集合</li>
+<li>数据段：存放 B + 树的叶子节点的区的集合</li>
+<li>回滚段：存放的是回滚数据的区的集合</li>
+</ul>
+<h3 id="innodb-行格式compact-为例">InnoDB 行格式（COMPACT 为例）</h3>
+<img src="../../images/compact.webp" style="zoom:60%;" /></div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2025年2月3日</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="分享到 X" data-sharer="x" data-url="http://localhost:1313/posts/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%80%E7%BB%AA%E8%AE%BA/" data-title="数据库（一）绪论" data-hashtags="数据库,MySQL"><i class="fab fa-x-twitter" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Threads" data-sharer="threads" data-url="http://localhost:1313/posts/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%80%E7%BB%AA%E8%AE%BA/" data-title="数据库（一）绪论"><i class="fab fa-threads" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Facebook" data-sharer="facebook" data-url="http://localhost:1313/posts/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%80%E7%BB%AA%E8%AE%BA/" data-hashtag="数据库"><i class="fab fa-facebook-square" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Hacker News" data-sharer="hackernews" data-url="http://localhost:1313/posts/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%80%E7%BB%AA%E8%AE%BA/" data-title="数据库（一）绪论"><i class="fab fa-hacker-news" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Line" data-sharer="line" data-url="http://localhost:1313/posts/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%80%E7%BB%AA%E8%AE%BA/" data-title="数据库（一）绪论"><i data-svg-src="https://cdn.jsdelivr.net/npm/simple-icons@16.9.0/icons/line.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="http://localhost:1313/posts/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%80%E7%BB%AA%E8%AE%BA/" data-title="数据库（一）绪论"><i class="fab fa-weibo" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Diaspora" data-sharer="diaspora" data-url="http://localhost:1313/posts/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%80%E7%BB%AA%E8%AE%BA/" data-title="数据库（一）绪论" data-description=""><i class="fab fa-diaspora" aria-hidden="true"></i></a><a href="https://t.me/share/url?url=http%3a%2f%2flocalhost%3a1313%2fposts%2f%25E6%2595%25B0%25E6%258D%25AE%25E5%25BA%2593%25E4%25B8%2580%25E7%25BB%25AA%25E8%25AE%25BA%2f&amp;text=%e6%95%b0%e6%8d%ae%e5%ba%93%ef%bc%88%e4%b8%80%ef%bc%89%e7%bb%aa%e8%ae%ba" target="_blank" title="分享到 Telegram"><i class="fab fa-telegram" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags" aria-hidden="true"></i>&nbsp;<a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>,&nbsp;<a href="/tags/mysql/">MySQL</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/posts/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E7%A1%80%E4%B8%89%E5%BE%AA%E7%8E%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/" class="prev" rel="prev" title="机器学习基础（三）循环神经网络"><i class="fas fa-angle-left" aria-hidden="true"></i>机器学习基础（三）循环神经网络</a>
+            <a href="/posts/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8C%E7%B4%A2%E5%BC%95/" class="next" rel="next" title="数据库（二）索引">数据库（二）索引<i class="fas fa-angle-right" aria-hidden="true"></i></a></div>
+</div>
+<div id="comments"><div id="giscus" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://giscus.app">Giscus</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.160.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 1.0.0"><i class="far fa-kiss-wink-heart" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright" aria-hidden="true"></i><span itemprop="copyrightYear">2022 - 2026</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">子非鱼</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up" aria-hidden="true"></i>
+            </a>
+        </div>
+
+        <div id="fixed-buttons-hidden"><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/css/lightgallery-bundle.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/autocomplete.js@0.38.1/dist/autocomplete.min.js"></script><script src="https://cdn.jsdelivr.net/npm/lunr@2.3.9/lunr.min.js"></script><script src="/lib/lunr/lunr.stemmer.support.min.js"></script><script src="/lib/lunr/lunr.zh.min.js"></script><script src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js"></script><script src="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/lightgallery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/plugins/thumbnail/lg-thumbnail.min.js"></script><script src="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/plugins/zoom/lg-zoom.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js"></script><script src="https://cdn.jsdelivr.net/npm/sharer.js@0.5.2/sharer.min.js"></script><script src="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/katex.min.js"></script><script src="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/contrib/auto-render.min.js"></script><script src="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/contrib/copy-tex.min.js"></script><script src="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/contrib/mhchem.min.js"></script><script>window.config={"comment":{"giscus":{"category":"Announcements","categoryId":"DIC_kwDOSwm4-s4C-e0j","darkTheme":"dark","emitMetadata":"0","inputPosition":"bottom","lang":"zh-CN","lazyLoading":false,"lightTheme":"light","mapping":"pathname","reactionsEnabled":"1","repo":"smartyue076/smartyue076.github.io","repoId":"R_kgDOSwm4-g"}},"lightgallery":true,"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"highlightTag":"em","lunrIndexURL":"/index.json","lunrLanguageCode":"zh","lunrSegmentitURL":"/lib/lunr/lunr.segmentit.js","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"lunr"}};</script><script src="/js/theme.js"></script></body>
+</html>

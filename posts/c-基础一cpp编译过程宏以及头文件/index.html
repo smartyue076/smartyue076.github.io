@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+    <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>C&#43;&#43;基础（一）CPP编译过程、宏以及头文件 - 子非鱼的技术博客</title><meta name="Description" content="子非鱼的技术博客"><meta property="og:url" content="http://localhost:1313/posts/c-%E5%9F%BA%E7%A1%80%E4%B8%80cpp%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B%E5%AE%8F%E4%BB%A5%E5%8F%8A%E5%A4%B4%E6%96%87%E4%BB%B6/">
+  <meta property="og:site_name" content="子非鱼的技术博客">
+  <meta property="og:title" content="C&#43;&#43;基础（一）CPP编译过程、宏以及头文件">
+  <meta property="og:description" content="第一章 开始 endl将与设备关联的缓冲区（buffer）中的内容刷到设备中。在调试时应保证&#34;一直&#34;刷新流。否则若程序崩溃，输出可能还是缓冲区，导致对于程序崩溃位置的错误推断
+读取数量不定的输入数据可用while (std::in &gt;&gt; value)
+当遇到文件结束符（end-of-file），或遇到一个无效输入时，istream对象状态变为无效，使条件为假
+EOF：在Windows中为Ctrl&#43;Z，UNIX为Ctrl&#43;D
+C&#43;&#43;编译过程 预处理(Preprocessing)">
+  <meta property="og:locale" content="zh_cn">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2022-08-21T16:13:49+08:00">
+    <meta property="article:modified_time" content="2022-08-21T16:13:49+08:00">
+    <meta property="article:tag" content="C&#43;&#43;">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="C&#43;&#43;基础（一）CPP编译过程、宏以及头文件">
+  <meta name="twitter:description" content="第一章 开始 endl将与设备关联的缓冲区（buffer）中的内容刷到设备中。在调试时应保证&#34;一直&#34;刷新流。否则若程序崩溃，输出可能还是缓冲区，导致对于程序崩溃位置的错误推断
+读取数量不定的输入数据可用while (std::in &gt;&gt; value)
+当遇到文件结束符（end-of-file），或遇到一个无效输入时，istream对象状态变为无效，使条件为假
+EOF：在Windows中为Ctrl&#43;Z，UNIX为Ctrl&#43;D
+C&#43;&#43;编译过程 预处理(Preprocessing)">
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site">
+<meta name="referrer" content="no-referrer" /><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://localhost:1313/posts/c-%E5%9F%BA%E7%A1%80%E4%B8%80cpp%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B%E5%AE%8F%E4%BB%A5%E5%8F%8A%E5%A4%B4%E6%96%87%E4%BB%B6/" /><link rel="prev" href="http://localhost:1313/posts/%E5%BC%80%E5%8D%B7%E4%BD%95%E5%BF%85%E6%9C%89%E7%9B%8A/" /><link rel="next" href="http://localhost:1313/posts/c-%E5%9F%BA%E7%A1%80%E4%BA%94%E8%87%AA%E5%A2%9E%E7%9A%84%E9%97%AE%E9%A2%98/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.2.0/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.2.0/css/all.min.css"></noscript><link rel="preload" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "C++基础（一）CPP编译过程、宏以及头文件",
+        "inLanguage": "zh-cn",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/localhost:1313\/posts\/c-%E5%9F%BA%E7%A1%80%E4%B8%80cpp%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B%E5%AE%8F%E4%BB%A5%E5%8F%8A%E5%A4%B4%E6%96%87%E4%BB%B6\/"
+        },"genre": "posts","keywords": "C\u002b\u002b","wordcount":  834 ,
+        "url": "http:\/\/localhost:1313\/posts\/c-%E5%9F%BA%E7%A1%80%E4%B8%80cpp%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B%E5%AE%8F%E4%BB%A5%E5%8F%8A%E5%A4%B4%E6%96%87%E4%BB%B6\/","datePublished": "2022-08-21T16:13:49+08:00","dateModified": "2022-08-21T16:13:49+08:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "子非鱼"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script>
+          const query = window.matchMedia('(prefers-color-scheme: dark)');
+          function applyTheme() {
+            let theme = window.localStorage?.getItem('theme') || 'light';
+            let isDark = theme === 'dark' || (theme === 'auto' && query.matches);
+            document.body.setAttribute('theme', isDark? 'dark' : 'light');
+            document.body.setAttribute('cfg-theme', theme);
+          }
+
+          applyTheme();
+          query.addEventListener('change', applyTheme);
+        </script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="子非鱼的技术博客">子非鱼的技术博客</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/"> 所有文章 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/about/"> 关于 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust" aria-hidden="true"></i>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="子非鱼的技术博客">子非鱼的技术博客</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/" title="">所有文章</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/about/" title="">关于</a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><div class="search-dropdown desktop">
+        <div id="search-dropdown-desktop"></div>
+    </div>
+    <div class="search-dropdown mobile">
+        <div id="search-dropdown-mobile"></div>
+    </div><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">C++基础（一）CPP编译过程、宏以及头文件</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle" aria-hidden="true"></i>子非鱼</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/c++/"><i class="far fa-folder" aria-hidden="true"></i>C++</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt" aria-hidden="true"></i>&nbsp;<time datetime="2022年8月21日">2022年8月21日</time>&nbsp;<i class="fas fa-pencil-alt" aria-hidden="true"></i>&nbsp;约 834 字&nbsp;
+                <i class="far fa-clock" aria-hidden="true"></i>&nbsp;预计阅读 2 分钟&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#第一章-开始">第一章 开始</a>
+      <ul>
+        <li><a href="#c编译过程">C++编译过程</a></li>
+        <li><a href="#宏">宏</a></li>
+        <li><a href="#头文件">头文件</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="第一章-开始">第一章 开始</h2>
+<ol>
+<li>
+<p><code>endl</code>将与设备关联的<strong>缓冲区（buffer）</strong>中的内容刷到设备中。在调试时应保证&quot;一直&quot;刷新流。否则若程序崩溃，输出可能还是缓冲区，导致对于程序崩溃位置的错误推断</p>
+</li>
+<li>
+<p>读取数量不定的输入数据可用<code>while (std::in &gt;&gt; value)</code></p>
+<p>当遇到<strong>文件结束符（end-of-file）</strong>，或遇到一个无效输入时，<em>istream</em>对象状态变为无效，使条件为假</p>
+<p>EOF：在Windows中为<code>Ctrl+Z</code>，UNIX为<code>Ctrl+D</code></p>
+</li>
+</ol>
+<h3 id="c编译过程">C++编译过程</h3>
+<ol>
+<li>预处理(Preprocessing)</li>
+</ol>
+<p>将所有的#include<strong>头文件以及宏定义替换成其真正的内容</strong>，预处理之后得到的仍然是文本文件，但文件体积会大很多。gcc的预处理是<strong>预处理器cpp来完成的</strong>。（include只做文本插入，在include的位置将头文件展开）</p>
+<ol start="2">
+<li>
+<p>编译(Compilation)</p>
+<p>这里的编译不是指程序从源文件到二进制程序的全部过程，而是指将经过预处理之后的程序转换成特定<strong>汇编代码(assembly code)</strong>的过程。</p>
+<p>一个cpp文件是一个编译单元。</p>
+</li>
+<li>
+<p>汇编(Assemble)</p>
+<p>汇编过程将上一步的汇编代码转换成<strong>机器码(machine code)</strong>，这一步产生的文件叫做目标文件，是二进制格式。</p>
+<p><strong>这一步会为每一个源文件产生一个目标文件</strong>。</p>
+</li>
+<li>
+<p>链接(Linking)</p>
+<p>链接过程将<strong>多个目标文以及所需的库文件(.so等)链接</strong>成最终的<strong>可执行文件</strong>(executable file)</p>
+</li>
+</ol>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="../../images/compiler.png"
+        data-srcset="../../images/compiler.png, ../../images/compiler.png 1.5x, ../../images/compiler.png 2x"
+        data-sizes="auto"
+        alt="../../images/compiler.png"
+        title="compiler" /></p>
+<h3 id="宏">宏</h3>
+<p>预处理阶段将宏所写内容替换</p>
+<p>宏没有类型检查</p>
+<p>在宏外加括号防止运算符优先级错误</p>
+<p>在宏后不需要加分号（非C++语句）</p>
+<h3 id="头文件">头文件</h3>
+<p>把函数原型放到头文件中，在需要调用这个函数的源代码文件中include到这个头文件，能让编译器在编译时知道函数的原型，以确保函数类型的统一</p>
+<p>头文件里存放声明（extren变量，函数原型，类或结构体的定义），cpp文件里存放定义</p>
+<img src="../../images/header and cpp.png" width=500px/>
+<p>头文件的标准格式</p>
+<p>用宏定义防止：</p>
+<ol>
+<li>两个头文件相互include时的循环include</li>
+<li>cpp在include不同头文件时可能产生的重复定义（class不能重复定义）</li>
+</ol>
+<div class="code-block code-line-numbers open" style="counter-reset: code-block 0">
+    <div class="code-header language-cpp">
+        <span class="code-title"><i class="arrow fas fa-angle-right" aria-hidden="true"></i></span>
+        <span class="ellipses"><i class="fas fa-ellipsis-h" aria-hidden="true"></i></span>
+        <span class="copy" title="复制到剪贴板"><i class="far fa-copy" aria-hidden="true"></i></span>
+    </div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="cp"># ifndef _MY_H_
+</span></span></span><span class="line"><span class="cl"><span class="cp"># define _MY_H_
+</span></span></span><span class="line"><span class="cl"><span class="cp"># endif</span></span></span></code></pre></div></div></div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2022年8月21日</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="分享到 X" data-sharer="x" data-url="http://localhost:1313/posts/c-%E5%9F%BA%E7%A1%80%E4%B8%80cpp%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B%E5%AE%8F%E4%BB%A5%E5%8F%8A%E5%A4%B4%E6%96%87%E4%BB%B6/" data-title="C&#43;&#43;基础（一）CPP编译过程、宏以及头文件" data-hashtags="C&#43;&#43;"><i class="fab fa-x-twitter" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Threads" data-sharer="threads" data-url="http://localhost:1313/posts/c-%E5%9F%BA%E7%A1%80%E4%B8%80cpp%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B%E5%AE%8F%E4%BB%A5%E5%8F%8A%E5%A4%B4%E6%96%87%E4%BB%B6/" data-title="C&#43;&#43;基础（一）CPP编译过程、宏以及头文件"><i class="fab fa-threads" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Facebook" data-sharer="facebook" data-url="http://localhost:1313/posts/c-%E5%9F%BA%E7%A1%80%E4%B8%80cpp%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B%E5%AE%8F%E4%BB%A5%E5%8F%8A%E5%A4%B4%E6%96%87%E4%BB%B6/" data-hashtag="C&#43;&#43;"><i class="fab fa-facebook-square" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Hacker News" data-sharer="hackernews" data-url="http://localhost:1313/posts/c-%E5%9F%BA%E7%A1%80%E4%B8%80cpp%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B%E5%AE%8F%E4%BB%A5%E5%8F%8A%E5%A4%B4%E6%96%87%E4%BB%B6/" data-title="C&#43;&#43;基础（一）CPP编译过程、宏以及头文件"><i class="fab fa-hacker-news" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Line" data-sharer="line" data-url="http://localhost:1313/posts/c-%E5%9F%BA%E7%A1%80%E4%B8%80cpp%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B%E5%AE%8F%E4%BB%A5%E5%8F%8A%E5%A4%B4%E6%96%87%E4%BB%B6/" data-title="C&#43;&#43;基础（一）CPP编译过程、宏以及头文件"><i data-svg-src="https://cdn.jsdelivr.net/npm/simple-icons@16.9.0/icons/line.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="http://localhost:1313/posts/c-%E5%9F%BA%E7%A1%80%E4%B8%80cpp%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B%E5%AE%8F%E4%BB%A5%E5%8F%8A%E5%A4%B4%E6%96%87%E4%BB%B6/" data-title="C&#43;&#43;基础（一）CPP编译过程、宏以及头文件"><i class="fab fa-weibo" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Diaspora" data-sharer="diaspora" data-url="http://localhost:1313/posts/c-%E5%9F%BA%E7%A1%80%E4%B8%80cpp%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B%E5%AE%8F%E4%BB%A5%E5%8F%8A%E5%A4%B4%E6%96%87%E4%BB%B6/" data-title="C&#43;&#43;基础（一）CPP编译过程、宏以及头文件" data-description=""><i class="fab fa-diaspora" aria-hidden="true"></i></a><a href="https://t.me/share/url?url=http%3a%2f%2flocalhost%3a1313%2fposts%2fc-%25E5%259F%25BA%25E7%25A1%2580%25E4%25B8%2580cpp%25E7%25BC%2596%25E8%25AF%2591%25E8%25BF%2587%25E7%25A8%258B%25E5%25AE%258F%25E4%25BB%25A5%25E5%258F%258A%25E5%25A4%25B4%25E6%2596%2587%25E4%25BB%25B6%2f&amp;text=C%2b%2b%e5%9f%ba%e7%a1%80%ef%bc%88%e4%b8%80%ef%bc%89CPP%e7%bc%96%e8%af%91%e8%bf%87%e7%a8%8b%e3%80%81%e5%ae%8f%e4%bb%a5%e5%8f%8a%e5%a4%b4%e6%96%87%e4%bb%b6" target="_blank" title="分享到 Telegram"><i class="fab fa-telegram" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags" aria-hidden="true"></i>&nbsp;<a href="/tags/c&#43;&#43;/">C&#43;&#43;</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/posts/%E5%BC%80%E5%8D%B7%E4%BD%95%E5%BF%85%E6%9C%89%E7%9B%8A/" class="prev" rel="prev" title="“开卷”何必“有益”"><i class="fas fa-angle-left" aria-hidden="true"></i>“开卷”何必“有益”</a>
+            <a href="/posts/c-%E5%9F%BA%E7%A1%80%E4%BA%94%E8%87%AA%E5%A2%9E%E7%9A%84%E9%97%AE%E9%A2%98/" class="next" rel="next" title="C&#43;&#43;基础（五）自增的问题">C++基础（五）自增的问题<i class="fas fa-angle-right" aria-hidden="true"></i></a></div>
+</div>
+<div id="comments"><div id="giscus" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://giscus.app">Giscus</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.160.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 1.0.0"><i class="far fa-kiss-wink-heart" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright" aria-hidden="true"></i><span itemprop="copyrightYear">2022 - 2026</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">子非鱼</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up" aria-hidden="true"></i>
+            </a>
+        </div>
+
+        <div id="fixed-buttons-hidden"><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/css/lightgallery-bundle.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/autocomplete.js@0.38.1/dist/autocomplete.min.js"></script><script src="https://cdn.jsdelivr.net/npm/lunr@2.3.9/lunr.min.js"></script><script src="/lib/lunr/lunr.stemmer.support.min.js"></script><script src="/lib/lunr/lunr.zh.min.js"></script><script src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js"></script><script src="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/lightgallery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/plugins/thumbnail/lg-thumbnail.min.js"></script><script src="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/plugins/zoom/lg-zoom.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js"></script><script src="https://cdn.jsdelivr.net/npm/sharer.js@0.5.2/sharer.min.js"></script><script src="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/katex.min.js"></script><script src="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/contrib/auto-render.min.js"></script><script src="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/contrib/copy-tex.min.js"></script><script src="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/contrib/mhchem.min.js"></script><script>window.config={"comment":{"giscus":{"category":"Announcements","categoryId":"DIC_kwDOSwm4-s4C-e0j","darkTheme":"dark","emitMetadata":"0","inputPosition":"bottom","lang":"zh-CN","lazyLoading":false,"lightTheme":"light","mapping":"pathname","reactionsEnabled":"1","repo":"smartyue076/smartyue076.github.io","repoId":"R_kgDOSwm4-g"}},"lightgallery":true,"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"highlightTag":"em","lunrIndexURL":"/index.json","lunrLanguageCode":"zh","lunrSegmentitURL":"/lib/lunr/lunr.segmentit.js","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"lunr"}};</script><script src="/js/theme.js"></script></body>
+</html>
